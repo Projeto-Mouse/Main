@@ -1,9 +1,9 @@
 name: Verificador de Formatação (C++, C#, GDScript)
 
-# Dispara em todo push e pull request para qualquer branch
 on: [push, pull_request]
 
 jobs:
+  # Job 1: Verificador de GDScript
   check_gdscript:
     name: Verificar Formatação GDScript
     runs-on: ubuntu-latest
@@ -11,13 +11,26 @@ jobs:
       - name: 1. Baixar o código (Checkout)
         uses: actions/checkout@v4
         
-      - name: 2. Instalar e Rodar gdformat
+      - name: 2. Verificar se existem arquivos GDScript
+        id: find_gd_files
+        run: |
+          # Procura por arquivos .gd. Se encontrar, define files_found=true
+          if find . -type f -name "*.gd" | read; then
+            echo "files_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum arquivo .gd encontrado. Pulando."
+            echo "files_found=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: 3. Instalar e Rodar gdformat (se houver arquivos)
+        # Esta etapa só roda se a etapa 'find_gd_files' definiu files_found como 'true'
+        if: steps.find_gd_files.outputs.files_found == 'true'
         run: |
           pip install gdformat
-          # O '--check' falha se o código estiver mal formatado
-          # O '--line-length 120' segue sua regra geral 
+          echo "Arquivos .gd encontrados. Verificando formatação..."
           gdformat --check . --line-length 120
 
+  # Job 2: Verificador de C#
   check_csharp:
     name: Verificar Formatação C# (.NET)
     runs-on: ubuntu-latest
@@ -25,14 +38,33 @@ jobs:
       - name: 1. Baixar o código (Checkout)
         uses: actions/checkout@v4
         
-      - name: 2. Setup .NET SDK
+      - name: 2. Verificar se existem arquivos C#
+        id: find_cs_files
+        run: |
+          # Procura por arquivos de projeto/solução. Se encontrar, define files_found=true
+          if find . -maxdepth 5 -type f \( -name "*.csproj" -o -name "*.sln" \) | read; then
+            echo "files_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum arquivo .csproj ou .sln encontrado. Pulando."
+            echo "files_found=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: 3. Setup .NET SDK (se houver arquivos)
+        if: steps.find_cs_files.outputs.files_found == 'true'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x' 
           
-      - name: 3. Verificar formatação C#
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+      - name: 4. Verificar formatação C# (se houver arquivos)
+        if: steps.find_cs_files.outputs.files_found == 'true'
+        run: |
+          echo "Arquivos .csproj/.sln encontrados. Verificando formatação..."
+          # Encontra o primeiro .sln ou .csproj para usar como workspace
+          workspace_file=$(find . -maxdepth 5 -type f \( -name "*.sln" -o -name "*.csproj" \) -print -quit)
+          echo "Verificando workspace: $workspace_file"
+          dotnet format "$workspace_file" --verify-no-changes --verbosity diagnostic
 
+  # Job 3: Verificador de C++
   check_cpp:
     name: Verificar Formatação C++
     runs-on: ubuntu-latest
@@ -40,10 +72,22 @@ jobs:
       - name: 1. Baixar o código (Checkout)
         uses: actions/checkout@v4
         
-      - name: 2. Rodar clang-format-lint
+      - name: 2. Verificar se existem arquivos C++
+        id: find_cpp_files
+        run: |
+          # Procura por arquivos .h ou .cpp. Se encontrar, define files_found=true
+          if find . -type f \( -name "*.h" -o -name "*.cpp" \) | read; then
+            echo "files_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum arquivo .h ou .cpp encontrado. Pulando."
+            echo "files_found=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: 3. Rodar clang-format-lint (se houver arquivos)
+        if: steps.find_cpp_files.outputs.files_found == 'true'
         uses: DoozyX/clang-format-lint-action@v0.17
         with:
-          source: '.' 
-          extensions: 'h,cpp' 
+          source: '.'
+          extensions: 'h,cpp'
           clangFormatVersion: 17
           style: 'file'
