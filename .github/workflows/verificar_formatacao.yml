@@ -1,0 +1,49 @@
+name: Verificador de Formatação (C++, C#, GDScript)
+
+# Dispara em todo push e pull request para qualquer branch
+on: [push, pull_request]
+
+jobs:
+  check_gdscript:
+    name: Verificar Formatação GDScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+        
+      - name: 2. Instalar e Rodar gdformat
+        run: |
+          pip install gdformat
+          # O '--check' falha se o código estiver mal formatado
+          # O '--line-length 120' segue sua regra geral 
+          gdformat --check . --line-length 120
+
+  check_csharp:
+    name: Verificar Formatação C# (.NET)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+        
+      - name: 2. Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x' 
+          
+      - name: 3. Verificar formatação C#
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
+  check_cpp:
+    name: Verificar Formatação C++
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+        
+      - name: 2. Rodar clang-format-lint
+        uses: DoozyX/clang-format-lint-action@v0.17
+        with:
+          source: '.' 
+          extensions: 'h,cpp' 
+          clangFormatVersion: 17
+          style: 'file'
