@@ -1,0 +1,10 @@
+Language: Cpp
+BasedOnStyle: LLVM
+# Regra Geral: 2 espaços de indentação 
+IndentWidth: 2
+UseTab: Never
+# Regra Geral: Limite de linha 
+ColumnLimit: 120
+AccessModifierOffset: -4
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: None
