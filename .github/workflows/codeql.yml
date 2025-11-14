@@ -3,14 +3,10 @@ name: Verificação de Segurança (CodeQL)
 on:
   push:
     branches: [ main, staging ]
-    
   pull_request:
     branches: [ main, staging ]
-    
-  # Aciona também mensalmente (para descobrir vulnerabilidades em código antigo)
   schedule:
-    # '0 2 1 * *' = "às 2:00 da manhã do dia 1 de cada mês"
-    - cron: '0 2 1 * *'
+    - cron: '0 2 1 * *' # "às 2:00 da manhã do dia 1 de cada mês"
 
 jobs:
   analyze:
@@ -18,37 +14,58 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      security-events: write # Necessário para o CodeQL enviar os resultados
+      security-events: write
       actions: read
       contents: read
 
     strategy:
       fail-fast: false
       matrix:
-        language: ['cpp', 'csharp', 'gdscript']
+        language: ['cpp', 'csharp']
 
     steps:
       - name: 1. Baixar o código (Checkout)
         uses: actions/checkout@v4
 
-      # 2. Inicializa o CodeQL
+      - name: 2. Verificar se existem arquivos relevantes
+        id: find_files
+        run: |
+          if [[ "${{ matrix.language }}" == "cpp" ]]; then
+            # Procura por arquivos C++
+            if find . -maxdepth 5 -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.c" -o -name "*.hpp" \) | read; then
+              echo "files_found=true" >> $GITHUB_OUTPUT
+            fi
+          elif [[ "${{ matrix.language }}" == "csharp" ]]; then
+            # Procura por arquivos C#
+            if find . -maxdepth 5 -type f \( -name "*.csproj" -o -name "*.sln" \) | read; then
+              echo "files_found=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+        shell: bash
+
+      # 3. Inicializa o CodeQL (apenas se arquivos existirem)
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        if: steps.find_files.outputs.files_found == 'true'
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
-
-      # 3. (Apenas C#) Configura o .NET SDK
+          
       - name: Setup .NET SDK
-        if: matrix.language == 'csharp'
+        if: matrix.language == 'csharp' && steps.find_files.outputs.files_found == 'true'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x' 
 
-      # 4. Constrói o código (para C++ e C#)
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+        if: steps.find_files.outputs.files_found == 'true'
+        uses: github/codeql-action/autobuild@v4
 
-      # 5. Executa a Análise do CodeQL
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        if: steps.find_files.outputs.files_found == 'true'
+        uses: github/codeql-action/analyze@v4
+      
+      # Etapa de log para clareza
+      - name: Pular se nenhum arquivo foi encontrado
+        if: steps.find_files.outputs.files_found != 'true'
+        run: echo "Nenhum arquivo ${{ matrix.language }} encontrado. Pulando análise."
