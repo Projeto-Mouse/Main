@@ -1,0 +1,71 @@
+name: Verificação de Segurança (CodeQL)
+
+on:
+  push:
+    branches: [ main, staging ]
+  pull_request:
+    branches: [ main, staging ]
+  schedule:
+    - cron: '0 2 1 * *' # "às 2:00 da manhã do dia 1 de cada mês"
+
+jobs:
+  analyze:
+    name: Análise do CodeQL
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['cpp', 'csharp']
+
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 2. Verificar se existem arquivos relevantes
+        id: find_files
+        run: |
+          if [[ "${{ matrix.language }}" == "cpp" ]]; then
+            # Procura por arquivos C++
+            if find . -maxdepth 5 -type f \( -name "*.cpp" -o -name "*.h" -o -name "*.c" -o -name "*.hpp" \) | read; then
+              echo "files_found=true" >> $GITHUB_OUTPUT
+            fi
+          elif [[ "${{ matrix.language }}" == "csharp" ]]; then
+            # Procura por arquivos C#
+            if find . -maxdepth 5 -type f \( -name "*.csproj" -o -name "*.sln" \) | read; then
+              echo "files_found=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+        shell: bash
+
+      # 3. Inicializa o CodeQL (apenas se arquivos existirem)
+      - name: Initialize CodeQL
+        if: steps.find_files.outputs.files_found == 'true'
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: +security-and-quality
+          
+      - name: Setup .NET SDK
+        if: matrix.language == 'csharp' && steps.find_files.outputs.files_found == 'true'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x' 
+
+      - name: Autobuild
+        if: steps.find_files.outputs.files_found == 'true'
+        uses: github/codeql-action/autobuild@v4
+
+      - name: Perform CodeQL Analysis
+        if: steps.find_files.outputs.files_found == 'true'
+        uses: github/codeql-action/analyze@v4
+      
+      # Etapa de log para clareza
+      - name: Pular se nenhum arquivo foi encontrado
+        if: steps.find_files.outputs.files_found != 'true'
+        run: echo "Nenhum arquivo ${{ matrix.language }} encontrado. Pulando análise."
