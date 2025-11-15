@@ -1,0 +1,31 @@
+name: Atribuidor Aleatório de Revisores
+
+on:
+  # Aciona quando um PR é aberto ou marcado como "Pronto para Revisão"
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  assign-reviewer:
+    # Nome do Job atualizado para clareza
+    name: Atribuir Revisor (Code Owner)
+    runs-on: ubuntu-latest
+    
+    permissions:
+      pull-requests: write
+
+    steps:
+      # Nome do Step atualizado para clareza
+      - name: Atribuir 1 revisor aleatório (Code Owner)
+        uses: hkusu/review-assign-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        
+          use-code-owners: true
+
+          team-reviewers: |
+            reviewers
+
+          num-reviewers: 1
+          
+          assign-author: false

@@ -1,0 +1,119 @@
+name: Verificador de Formatação (C++, C#, GDScript)
+
+on:
+  # Roda em pushes DIRETOS para main ou staging
+  push:
+    branches:
+      - main
+      - staging
+  
+  # Roda em PRs que miram main ou staging
+  pull_request:
+    branches:
+      - main
+      - staging
+jobs:
+  # Job 1: Verificador de GDScript
+  check_gdscript:
+    name: Verificar Formatação GDScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+          
+      - name: 2. Verificar se existem arquivos GDScript
+        id: find_gd_files
+        run: |
+          if find . -type f -name "*.gd" | read; then
+            echo "files_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum arquivo .gd encontrado. Pulando."
+            echo "files_found=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: 3. Instalar Ferramentas (gdformat e gdlint)
+        if: steps.find_gd_files.outputs.files_found == 'true'
+        run: |
+          pip install gdformat gdlint
+          
+      - name: 4. Rodar Formatador (gdformat - 4 espaços)
+        if: steps.find_gd_files.outputs.files_found == 'true'
+        run: |
+          echo "Verificando formatação (indentação/espaços) com gdformat..."
+          if ! gdformat --check . --line-length 120; then
+            echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat). Verifique se o padrão de 4 ESPAÇOS e limite de 120 caracteres está sendo seguido."
+            exit 1
+          fi
+          
+      - name: 5. Rodar Linter (gdlint - Nomenclatura)
+        if: steps.find_gd_files.outputs.files_found == 'true'
+        run: |
+          echo "Verificando convenções de nomenclatura (nomes de arquivos/classes/funções) com gdlint..."
+          if ! gdlint . ; then
+            echo "::error file=.gdlintrc,line=1::Falha nas convenções de nomenclatura GDScript (gdlint). Verifique se nomes de arquivos, classes (PascalCase), funções e variáveis (snake_case) seguem o padrão."
+            exit 1
+          fi
+
+# Job 2: Verificador de C#
+  check_csharp:
+    name: Verificar Formatação C# (.NET)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+      - name: 2. Verificar se existem arquivos C#
+        id: find_cs_files
+        run: |
+          if find . -maxdepth 5 -type f \( -name "*.csproj" -o -name "*.sln" \) | read; then
+            echo "files_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum arquivo .csproj ou .sln encontrado. Pulando."
+            echo "files_found=false" >> $GITHUB_OUTPUT
+          fi
+      - name: 3. Setup .NET SDK (se houver arquivos)
+        if: steps.find_cs_files.outputs.files_found == 'true'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x' 
+      - name: 4. Verificar formatação C# (se houver arquivos)
+        if: steps.find_cs_files.outputs.files_found == 'true'
+        run: |
+          echo "Arquivos .csproj/.sln encontrados. Verificando formatação..."
+          workspace_file=$(find . -maxdepth 5 -type f \( -name "*.sln" -o -name "*.csproj" \) -print -quit)
+          echo "Verificando workspace: $workspace_file"
+          if ! dotnet format "$workspace_file" --verify-no-changes --verbosity diagnostic; then
+            echo "::error file=.editorconfig,line=1::Falha na formatação C#. Verifique se as regras do .editorconfig (2 ESPAÇOS, PascalCase, camelCase, _prefix) estão sendo seguidas."
+            exit 1
+          fi
+
+# Job 3: Verificador de C++
+  check_cpp:
+    name: Verificar Formatação C++
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Baixar o código (Checkout)
+        uses: actions/checkout@v4
+      - name: 2. Verificar se existem arquivos C++
+        id: find_cpp_files
+        run: |
+          if find . -type f \( -name "*.h" -o -name "*.cpp" \) | read; then
+            echo "files_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum arquivo .h ou .cpp encontrado. Pulando."
+            echo "files_found=false" >> $GITHUB_OUTPUT
+          fi
+      - name: 3. Rodar clang-format-lint (se houver arquivos)
+        if: steps.find_cpp_files.outputs.files_found == 'true'
+        id: clang_lint
+        uses: DoozyX/clang-format-lint-action@v0.17
+        with:
+          source: '.'
+          extensions: 'h,cpp'
+          clangFormatVersion: 17
+          style: 'file'
+        continue-on-error: true
+      - name: 4. Verificar falha do clang-format
+        if: steps.find_cpp_files.outputs.files_found == 'true' && steps.clang_lint.outcome == 'failure'
+        run: |
+          echo "::error file=.clang-format,line=1::Falha na formatação C++. Verifique se as regras do .clang-format (2 ESPAÇOS, limite de 120) e as convenções de nomenclatura (PascalCase, camel_Case like, snake_case) estão sendo seguidas."
+          exit 1

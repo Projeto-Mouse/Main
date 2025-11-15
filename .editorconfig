@@ -1,0 +1,45 @@
+root = true
+
+[*]
+# Padrão de 2 espaços (para C++, C#)
+indent_style = space
+indent_size = 2
+tab_width = 2
+# Limite de linha
+max_line_length = 120
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+
+# === REGRAS DO GDSCRIPT ===
+[*.gd]
+# Sobrescreve o padrão para 4 espaços
+indent_size = 4
+tab_width = 4
+
+# === REGRAS DE NOMENCLATURA C# ===
+[*.cs]
+# Classes e Métodos: PascalCase
+dotnet_naming_rule.class_method_style.symbols = classes, methods, interfaces, enums, structs, delegates
+dotnet_naming_rule.class_method_style.style = pascal_case
+dotnet_naming_rule.class_method_style.severity = error
+
+# Variáveis Locais e Parâmetros: camelCase
+dotnet_naming_rule.local_variable_style.symbols = local_variables, parameters
+dotnet_naming_rule.local_variable_style.style = camel_case
+dotnet_naming_rule.local_variable_style.severity = error
+
+# Campos Privados: _camelCase
+dotnet_naming_rule.private_field_style.symbols = private_fields
+dotnet_naming_rule.private_field_style.style = camel_case
+dotnet_naming_rule.private_field_style.prefix = _
+dotnet_naming_rule.private_field_style.severity = error
+
+# Constantes: PascalCase
+dotnet_naming_rule.constant_style.symbols = constants
+dotnet_naming_rule.constant_style.style = pascal_case
+dotnet_naming_rule.constant_style.severity = error
+
+# Regras de Espaçamento e Chaves
+csharp_new_line_before_open_brace = all
+csharp_preserve_single_line_blocks = true

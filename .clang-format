@@ -1,0 +1,25 @@
+IndentWidth: 2
+UseTab: Never
+TabWidth: 2
+ColumnLimit: 120
+
+# Estilo Base: LLVM
+Style: LLVM
+
+# Posição da chave
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  AfterControlStatement: true
+  AfterClass: true
+  AfterNamespace: true
+  AfterEnum: true
+  AfterStruct: true
+  BeforeCatch: true
+  BeforeElse: true
+  Indent: true
+
+# Outras configurações
+SortIncludes: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
