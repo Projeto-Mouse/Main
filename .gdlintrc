@@ -1,0 +1,27 @@
+[gdlint]
+; Define o limite de linha (baseado no PDF )
+max-line-length = 120
+
+; --- Regras de Nomenclatura (baseado no PDF) ---
+
+; Força classes a serem PascalCase (ex: class_name MinhaClasse) 
+class-name-in-pascal-case = true
+
+; Força funções/métodos a serem snake_case (ex: func minha_funcao) 
+function-name-in-snake-case = true
+
+; Força parâmetros de função a serem snake_case
+function-param-in-snake-case = true
+
+; Força variáveis a serem snake_case (ex: var minha_var) 
+variable-in-snake-case = true
+
+; --- Regras de Nomenclatura de Arquivo ---
+
+; Força que arquivos contendo 'class_name' tenham o mesmo nome em PascalCase
+; (ex: "MinhaClasse.gd" deve conter "class_name MinhaClasse") [cite: 101]
+filename-matches-class-name = true
+
+; Desabilita a regra que força *todos* os arquivos a serem snake_case,
+; para permitir arquivos de classe em PascalCase.
+filename-in-snake-case = false
