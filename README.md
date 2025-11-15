@@ -159,7 +159,7 @@ For Godot to load C++ modules, you need a C++ compiler installed.
 ### 2.1. Creating the Base Folder
 To maintain organization, create a main folder for all your projects.
 
-``bash
+```bash
 # Example on Windows
 cd C:\
 mkdir Projects
@@ -167,10 +167,11 @@ cd Projects
 mkdir Project-Mouse
 cd Project-Mouse
 ```
+
 ### 2.2. Cloning the Repository
 Use git clone to download the Main repository to your Project-Mouse folder.
 
-``bash
+```bash
 git clone [https://github.com/Project-Mouse/Main](https://github.com/Project-Mouse/Main)
 ```
 
@@ -196,11 +197,8 @@ git pull origin main
 We use a pattern based on your work ticket (Jira, Trello, etc.).
 
 | Work Type | Naming Pattern |
-
 |---------|-----------|
-
 | New Task / Feature | `PMDT-[TicketNumber]/short-description` |
-
 | Bug Fix | `BRDT-[TicketNumber]/short-description` |
 
 Examples of how to create a branch:
@@ -289,7 +287,7 @@ Para que Godot cargue módulos de C++, necesitas tener instalado un compilador d
 ### 2.1. Creación de la carpeta base
 Para mantener la organización, crea una carpeta principal para todos tus proyectos.
 
-``bash
+```bash
 # Ejemplo en Windows
 cd C:\
 mkdir Projects
@@ -301,7 +299,7 @@ cd Project-Mouse
 ### 2.2. Clonación del repositorio
 Usa `git clone` para descargar el repositorio principal a tu carpeta Project-Mouse.
 
-``bash
+```bash
 git clone [https://github.com/Project-Mouse/Main](https://github.com/Project-Mouse/Main)
 
 ```
@@ -329,11 +327,8 @@ git pull origin main
 Utilizamos un patrón basado en su ticket de trabajo (Jira, Trello, etc.).
 
 | Tipo de trabajo | Patrón de nomenclatura |
-
 |---------|-----------|
-
 | Nueva tarea/funcionalidad | `PMDT-[Número de ticket]/descripción-breve` |
-
 | Corrección de error | `BRDT-[Número de ticket]/descripción-breve` |
 
 Ejemplos de cómo crear una rama:
