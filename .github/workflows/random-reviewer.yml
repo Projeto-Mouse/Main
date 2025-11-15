@@ -20,10 +20,12 @@ jobs:
         uses: hkusu/review-assign-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          
-          
+        
           use-code-owners: true
-          
+
+          team-reviewers: |
+            reviewers
+
           num-reviewers: 1
           
           assign-author: false
