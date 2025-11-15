@@ -1,10 +1,25 @@
-Language: Cpp
-BasedOnStyle: LLVM
-# Regra Geral: 2 espaços de indentação 
 IndentWidth: 2
 UseTab: Never
-# Regra Geral: Limite de linha 
+TabWidth: 2
 ColumnLimit: 120
-AccessModifierOffset: -4
-BreakBeforeBraces: Attach
-AllowShortFunctionsOnASingleLine: None
+
+# Estilo Base: LLVM
+Style: LLVM
+
+# Posição da chave
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  AfterControlStatement: true
+  AfterClass: true
+  AfterNamespace: true
+  AfterEnum: true
+  AfterStruct: true
+  BeforeCatch: true
+  BeforeElse: true
+  Indent: true
+
+# Outras configurações
+SortIncludes: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
