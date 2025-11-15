@@ -1,0 +1,29 @@
+name: Atribuidor Aleatório de Revisores
+
+on:
+  # Aciona quando um PR é aberto ou marcado como "Pronto para Revisão"
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  assign-reviewer:
+    name: Atribuir Revisores da Equipe
+    runs-on: ubuntu-latest
+    
+    # Permissão para escrever no Pull Request (adicionar o revisor)
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Atribuir 2 revisores aleatórios da equipe
+        uses: hkusu/review-assign-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+          team-reviewers: |
+            reviewers
+            
+          num-reviewers: 2
+          
+          # Impede que o autor do PR seja sorteado (mesmo se estiver na equipe)
+          assign-author: false
