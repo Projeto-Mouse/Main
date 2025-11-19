@@ -1,0 +1,136 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqbxne3nspjaf"]
+
+[ext_resource type="Script" path="res://Menu Principal/menu_principal.gd" id="1_nrbdf"]
+[ext_resource type="Texture2D" uid="uid://bx8xsbi60ptkm" path="res://Imagens de Backgorund menu/play load.png" id="2_7f04a"]
+[ext_resource type="PackedScene" uid="uid://cop1g3lxprhax" path="res://Menu Principal/Menu de Opcoes/menu_de_opcoes.tscn" id="3_andfb"]
+[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="3_prxhe"]
+[ext_resource type="AudioStream" uid="uid://dosksibfsjg3j" path="res://Musicas menu/Main Menu.wav" id="4_7v4h1"]
+
+[node name="Menu_Principal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nrbdf")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_7f04a")
+expand_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Separador2" type="Control" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="pagar_Button" type="Button" parent="MarginContainer/VBoxContainer2/HBoxContainer2"]
+show_behind_parent = true
+clip_children = 2
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.489622, 0.489622, 0.489622, 1)
+theme_override_fonts/font = ExtResource("3_prxhe")
+theme_override_font_sizes/font_size = 32
+text = "nos pague uma breja
+"
+flat = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="jogar_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+clip_children = 2
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("3_prxhe")
+theme_override_font_sizes/font_size = 48
+text = "jogar"
+flat = true
+
+[node name="carregar_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.489622, 0.489622, 0.489622, 1)
+theme_override_fonts/font = ExtResource("3_prxhe")
+theme_override_font_sizes/font_size = 48
+text = "carregar"
+flat = true
+
+[node name="opcao_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("3_prxhe")
+theme_override_font_sizes/font_size = 48
+text = "opções
+"
+flat = true
+
+[node name="sair_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+show_behind_parent = true
+custom_minimum_size = Vector2(120, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("3_prxhe")
+theme_override_font_sizes/font_size = 48
+text = "sair
+"
+flat = true
+
+[node name="Separador" type="Control" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="menu_de_opcoes" parent="." instance=ExtResource("3_andfb")]
+visible = false
+layout_mode = 1
+
+[node name="main_menu_musica" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7v4h1")
+autoplay = true
+bus = &"Musica do menu"
