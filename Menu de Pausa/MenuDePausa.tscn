@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgf0ufiabknqv"]
+
+[ext_resource type="Script" uid="uid://dw6x71pnxlcyt" path="res://Menu de Pausa/MenuDePausa.gd" id="1_2mjnd"]
+[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="2_j0jh3"]
+[ext_resource type="PackedScene" uid="uid://cop1g3lxprhax" path="res://Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn" id="3_me27e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wwkh8"]
+
+[node name="MenuDePausa" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2mjnd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wwkh8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="voltar_ao_jogo" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_j0jh3")
+theme_override_font_sizes/font_size = 36
+text = "Jogar"
+
+[node name="opcoes_in_game" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_j0jh3")
+theme_override_font_sizes/font_size = 36
+text = "Opcoes"
+
+[node name="salvar" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_j0jh3")
+theme_override_font_sizes/font_size = 36
+text = "Salvar"
+
+[node name="sair_do_jogo" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_j0jh3")
+theme_override_font_sizes/font_size = 36
+text = "Sair"
+
+[node name="MenuDeOpcoes" parent="." instance=ExtResource("3_me27e")]
+visible = false
+layout_mode = 1
+
+[connection signal="sair_das_opcoes" from="MenuDeOpcoes" to="." method="_on_menu_de_opcoes_sair_das_opcoes"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0vuo2ehrwvbs"]
+
+[ext_resource type="Script" path="res://Menu Principal/Menu de Opcoes/OpcaoDeResolucaoButton.gd" id="1_bt5wt"]
+[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="2_gy65r"]
+
+[node name="opcao_resolucao_button" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bt5wt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 160
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(248, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gy65r")
+theme_override_font_sizes/font_size = 24
+text = "Resolução da tela"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_gy65r")

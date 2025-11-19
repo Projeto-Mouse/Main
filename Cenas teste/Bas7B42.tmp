@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://dcu5g444ijhdj"]
+
+[ext_resource type="Script" path="res://Cenas teste/jogador_script.gd" id="1_jubwn"]
+[ext_resource type="Script" path="res://Cenas teste/base_teste_3d.gd" id="1_q5c1t"]
+[ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menu de Pausa/menu_de_pause.tscn" id="3_ck8ql"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ku42y"]
+size = Vector3(5, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jwi8j"]
+size = Vector3(5, 0.5, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_evrk6"]
+radius = 0.1
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hfh5a"]
+radius = 0.1
+height = 0.5
+
+[node name="cena1" type="Node3D"]
+script = ExtResource("1_q5c1t")
+
+[node name="Chao" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.054019, -1.7361)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.174825)
+shape = SubResource("BoxShape3D_ku42y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Chao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010165, -0.00200897, 0.171418)
+mesh = SubResource("BoxMesh_jwi8j")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
+
+[node name="Jogador" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)
+script = ExtResource("1_jubwn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Jogador"]
+shape = SubResource("CapsuleShape3D_evrk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Jogador"]
+mesh = SubResource("CapsuleMesh_hfh5a")
+
+[node name="pivo_Camera" type="Node3D" parent="Jogador"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79922, -0.561286, 1.53023)
+
+[node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.980553, -0.196254, 0, 0.196254, 0.980553, -1.78463, 0.608128, 0.0670158)
+fov = 89.5799
+
+[node name="menu_de_pause" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_ck8ql")]
+visible = false
