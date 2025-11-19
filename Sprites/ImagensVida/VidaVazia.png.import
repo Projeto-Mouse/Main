@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bx8xsbi60ptkm"
-path="res://.godot/imported/play load.png-19cdcce22eb9edfe1c3f98693bb25900.ctex"
+uid="uid://8l4tx81ru43s"
+path="res://.godot/imported/VidaVazia.png-c4ecbc071530769dbaf77de0aa42af7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Imagens de Backgorund menu/play load.png"
-dest_files=["res://.godot/imported/play load.png-19cdcce22eb9edfe1c3f98693bb25900.ctex"]
+source_file="res://Sprites/ImagensVida/VidaVazia.png"
+dest_files=["res://.godot/imported/VidaVazia.png-c4ecbc071530769dbaf77de0aa42af7f.ctex"]
 
 [params]
 
