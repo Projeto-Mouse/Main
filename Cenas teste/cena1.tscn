@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://dcu5g444ijhdj"]
+
+[ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas teste/cena1.gd" id="1_jsoku"]
+[ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Cenas teste/Jogador.gd" id="2_ftip3"]
+[ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]
+[ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://ImagensVida/VidaCheia.png" id="3_rlofj"]
+[ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://ImagensVida/VidaMeia.png" id="4_4yqau"]
+[ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://ImagensVida/VidaVazia.png" id="5_mt6og"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ku42y"]
+size = Vector3(5, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jwi8j"]
+size = Vector3(5, 0.5, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_evrk6"]
+radius = 0.1
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hfh5a"]
+radius = 0.1
+height = 0.5
+
+[node name="cena1" type="Node3D"]
+script = ExtResource("1_jsoku")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BarraVida" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_03pyc")
+player = NodePath("../../Jogador")
+sprite_vida_cheia = ExtResource("3_rlofj")
+sprite_vida_meio = ExtResource("4_4yqau")
+sprite_vida_vazia = ExtResource("5_mt6og")
+
+[node name="Chao" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.054019, -1.7361)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chao"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.174825)
+shape = SubResource("BoxShape3D_ku42y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Chao"]
+transform = Transform3D(1, 0, 0, 0, 0.999364, -0.035667, 0, 0.035667, 0.999364, -0.010165, -0.00200897, 0.171418)
+mesh = SubResource("BoxMesh_jwi8j")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
+
+[node name="Jogador" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)
+script = ExtResource("2_ftip3")
+velocidade = 3.0
+gravidade = -10.0
+forca_pulo = 3.5
+nome = "Ratinho"
+vida_max = 10.0
+vida_atual = 10.0
+dano = 1.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Jogador"]
+shape = SubResource("CapsuleShape3D_evrk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Jogador"]
+mesh = SubResource("CapsuleMesh_hfh5a")
+
+[node name="pivo_Camera" type="Node3D" parent="Jogador"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79922, -0.561286, 1.53023)
+
+[node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.980553, -0.196254, 0, 0.196254, 0.980553, -1.78463, 0.608128, 0.0670158)
+fov = 89.5799
+
+[node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
+visible = false
