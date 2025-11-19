@@ -1,109 +1,209 @@
 name: Verificador de Formatação (C++, C#, GDScript)
 
 on:
-  # Roda em pushes DIRETOS para main ou staging
   push:
     branches:
       - main
       - staging
-  
-  # Roda em PRs que miram main ou staging
   pull_request:
     branches:
       - main
       - staging
+
 jobs:
-  # Job 1: Verificador de GDScript
   check_gdscript:
     name: Verificar Formatação GDScript
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Baixar o código (Checkout)
+      - name: 1. Baixar o código
         uses: actions/checkout@v4
-          
-      - name: 2. Verificar se existem arquivos GDScript
-        id: find_gd_files
+
+      - name: 2. Filtrar arquivos GDScript alterados
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: shell  # Gera a lista de arquivos automaticamente
+          filters: |
+            gd:
+              - '**/*.gd'
+
+      - name: 3. Verificar existência dos arquivos
+        id: check_files
+        if: steps.filter.outputs.gd == 'true'
         run: |
-          if find . -type f -name "*.gd" | read; then
-            echo "files_found=true" >> $GITHUB_OUTPUT
+          # Filtra arquivos que foram deletados (a lista do dorny pode incluir deletados)
+          EXISTING_FILES=""
+          for FILE in ${{ steps.filter.outputs.gd_files }}; do
+            if [ -f "$FILE" ]; then
+              EXISTING_FILES="$EXISTING_FILES $FILE"
+            fi
+          done
+
+          if [ -z "$EXISTING_FILES" ]; then
+            echo "Arquivos foram detectados no diff, mas todos foram deletados."
+            echo "has_files=false" >> $GITHUB_OUTPUT
           else
-            echo "Nenhum arquivo .gd encontrado. Pulando."
-            echo "files_found=false" >> $GITHUB_OUTPUT
+            echo "Arquivos válidos encontrados."
+            echo "has_files=true" >> $GITHUB_OUTPUT
+            # Passa a lista limpa para os próximos passos (usando delimitador EOF para segurança)
+            echo "files<<EOF" >> $GITHUB_OUTPUT
+            echo "$EXISTING_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
-          
-      - name: 3. Instalar Ferramentas (gdformat e gdlint)
-        if: steps.find_gd_files.outputs.files_found == 'true'
+
+      - name: 4. Rodar Formatador (gdformat)
+        # Só roda se o filtro achou arquivos E se eles ainda existem
+        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
+        id: gdformat_check
         run: |
-          pip install gdformat gdlint
-          
-      - name: 4. Rodar Formatador (gdformat - 4 espaços)
-        if: steps.find_gd_files.outputs.files_found == 'true'
-        run: |
-          echo "Verificando formatação (indentação/espaços) com gdformat..."
-          if ! gdformat --check . --line-length 120; then
-            echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat). Verifique se o padrão de 4 ESPAÇOS e limite de 120 caracteres está sendo seguido."
-            exit 1
+          ERROR_FLAG=0
+          FILES="${{ steps.check_files.outputs.files }}"
+          echo "Verificando formatação com gdformat..."
+
+          if ! OUTPUT=$(gdformat --check $FILES --line-length 120 2>&1); then
+            echo "$OUTPUT"
+            # Anotações de erro
+            echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
+              FILE_PATH=$(echo "$line" | awk '{print $1}')
+              echo "::error file=$FILE_PATH::Falha no gdformat. Arquivo precisa ser reformatado."
+            done
+            echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat)."
+            ERROR_FLAG=1
           fi
-          
-      - name: 5. Rodar Linter (gdlint - Nomenclatura)
-        if: steps.find_gd_files.outputs.files_found == 'true'
+          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
+
+      - name: 5. Rodar Linter (gdlint)
+        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
+        id: gdlint_check
         run: |
-          echo "Verificando convenções de nomenclatura (nomes de arquivos/classes/funções) com gdlint..."
-          if ! gdlint . ; then
-            echo "::error file=.gdlintrc,line=1::Falha nas convenções de nomenclatura GDScript (gdlint). Verifique se nomes de arquivos, classes (PascalCase), funções e variáveis (snake_case) seguem o padrão."
+          ERROR_FLAG=${{ steps.gdformat_check.outputs.error_flag }}
+          FILES="${{ steps.check_files.outputs.files }}"
+          echo "Verificando nomenclatura com gdlint..."
+
+          if ! OUTPUT=$(gdlint $FILES 2>&1); then
+            echo "$OUTPUT"
+            # Anotações de erro
+            echo "$OUTPUT" | grep -E '(.+):([0-9]+):[0-9]+:' | while IFS= read -r line; do
+              FILE_PATH=$(echo "$line" | cut -d ':' -f 1)
+              LINE_NUMBER=$(echo "$line" | cut -d ':' -f 2)
+              MESSAGE=$(echo "$line" | cut -d ':' -f 4-)
+              echo "::error file=$FILE_PATH,line=$LINE_NUMBER::$MESSAGE"
+            done
+            echo "::error file=.gdlintrc,line=1::Falha nas convenções de nomenclatura (gdlint)."
+            ERROR_FLAG=1
+          fi
+          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
+
+      - name: 6. Resultado Final (GDScript)
+        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
+        run: |
+          if [ ${{ steps.gdlint_check.outputs.error_flag }} -eq 1 ]; then
+            echo "Erros encontrados. Falhando Job."
             exit 1
           fi
 
-# Job 2: Verificador de C#
   check_csharp:
     name: Verificar Formatação C# (.NET)
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Baixar o código (Checkout)
+      - name: 1. Baixar o código
         uses: actions/checkout@v4
-      - name: 2. Verificar se existem arquivos C#
-        id: find_cs_files
-        run: |
-          if find . -maxdepth 5 -type f \( -name "*.csproj" -o -name "*.sln" \) | read; then
-            echo "files_found=true" >> $GITHUB_OUTPUT
-          else
-            echo "Nenhum arquivo .csproj ou .sln encontrado. Pulando."
-            echo "files_found=false" >> $GITHUB_OUTPUT
-          fi
-      - name: 3. Setup .NET SDK (se houver arquivos)
-        if: steps.find_cs_files.outputs.files_found == 'true'
+
+      - name: 2. Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x' 
-      - name: 4. Verificar formatação C# (se houver arquivos)
-        if: steps.find_cs_files.outputs.files_found == 'true'
+          dotnet-version: '6.0.x'
+
+      - name: 3. Filtrar arquivos C# alterados
+        uses: dorny/paths-filter@v3
+        id: filter_cs
+        with:
+          list-files: shell
+          filters: |
+            cs:
+              - '**/[^.][^/]*.(cs|csproj|sln)'
+
+      - name: 4. Verificar existência dos arquivos
+        id: check_cs_files
+        if: steps.filter_cs.outputs.cs == 'true'
         run: |
-          echo "Arquivos .csproj/.sln encontrados. Verificando formatação..."
-          workspace_file=$(find . -maxdepth 5 -type f \( -name "*.sln" -o -name "*.csproj" \) -print -quit)
-          echo "Verificando workspace: $workspace_file"
-          if ! dotnet format "$workspace_file" --verify-no-changes --verbosity diagnostic; then
-            echo "::error file=.editorconfig,line=1::Falha na formatação C#. Verifique se as regras do .editorconfig (2 ESPAÇOS, PascalCase, camelCase, _prefix) estão sendo seguidas."
+          EXISTING_FILES=""
+          for FILE in ${{ steps.filter_cs.outputs.cs_files }}; do
+            if [ -f "$FILE" ]; then
+              EXISTING_FILES="$EXISTING_FILES $FILE"
+            fi
+          done
+
+          if [ -z "$EXISTING_FILES" ]; then
+            echo "Nenhum arquivo C# válido restante (todos deletados?)."
+            echo "has_files=false" >> $GITHUB_OUTPUT
+          else
+            echo "Arquivos C# encontrados para verificação."
+            echo "has_files=true" >> $GITHUB_OUTPUT
+            echo "files<<EOF" >> $GITHUB_OUTPUT
+            echo "$EXISTING_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 5. Verificar formatação C# (dotnet format)
+        if: steps.filter_cs.outputs.cs == 'true' && steps.check_cs_files.outputs.has_files == 'true'
+        id: dotnet_check
+        run: |
+          ERROR_FLAG=0
+          FILES="${{ steps.check_cs_files.outputs.files }}"
+          
+          # Encontra a Solution ou Projeto
+          WORKSPACE=$(find . -maxdepth 5 -type f \( -name "*.sln" -o -name "*.csproj" \) -print -quit)
+
+          if [ -z "$WORKSPACE" ]; then
+              echo "::warning::Nenhum arquivo .sln ou .csproj encontrado. Pulando."
+              echo "error_flag=0" >> $GITHUB_OUTPUT
+              exit 0
+          fi
+
+          echo "Usando workspace: $WORKSPACE"
+          # --include faz o dotnet format olhar APENAS para os arquivos alterados, evitando checks desnecessários
+          if ! OUTPUT=$(dotnet format "$WORKSPACE" --include $FILES --verify-no-changes --verbosity diagnostic 2>&1); then
+            echo "$OUTPUT"
+            echo "$OUTPUT" | grep -E 'Formatted file | Would fix: ' | while IFS= read -r line; do
+              FILE_PATH=$(echo "$line" | awk '{print $NF}' | sed 's/.$//')
+              if [[ "$FILE_PATH" != "" ]]; then
+                  echo "::error file=$FILE_PATH::Falha no dotnet format. Arquivo precisa de formatação."
+              fi
+            done
+            echo "::error file=.editorconfig,line=1::Falha na formatação C#."
+            ERROR_FLAG=1
+          fi
+          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
+
+      - name: 6. Resultado Final (C#)
+        if: steps.filter_cs.outputs.cs == 'true' && steps.check_cs_files.outputs.has_files == 'true'
+        run: |
+          if [ ${{ steps.dotnet_check.outputs.error_flag }} -eq 1 ]; then
+            echo "Erros de formatação C# encontrados. Falhando Job."
             exit 1
           fi
 
-# Job 3: Verificador de C++
   check_cpp:
     name: Verificar Formatação C++
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Baixar o código (Checkout)
+      - name: 1. Baixar o código
         uses: actions/checkout@v4
-      - name: 2. Verificar se existem arquivos C++
-        id: find_cpp_files
-        run: |
-          if find . -type f \( -name "*.h" -o -name "*.cpp" \) | read; then
-            echo "files_found=true" >> $GITHUB_OUTPUT
-          else
-            echo "Nenhum arquivo .h ou .cpp encontrado. Pulando."
-            echo "files_found=false" >> $GITHUB_OUTPUT
-          fi
-      - name: 3. Rodar clang-format-lint (se houver arquivos)
-        if: steps.find_cpp_files.outputs.files_found == 'true'
+
+      - name: 2. Filtrar arquivos C++ alterados
+        uses: dorny/paths-filter@v3
+        id: filter_cpp
+        with:
+          list-files: shell
+          filters: |
+            cpp:
+              - '**/*.h'
+              - '**/*.cpp'
+
+      - name: 3. Rodar clang-format-lint
+        # O Job roda se o filtro for verdadeiro. Se for falso, pula tudo e dá Success (Verde).
+        if: steps.filter_cpp.outputs.cpp == 'true'
         id: clang_lint
         uses: DoozyX/clang-format-lint-action@v0.17
         with:
@@ -111,9 +211,12 @@ jobs:
           extensions: 'h,cpp'
           clangFormatVersion: 17
           style: 'file'
+          # Usa a lista de arquivos gerada automaticamente pelo filtro
+          files-to-lint: ${{ steps.filter_cpp.outputs.cpp_files }}
         continue-on-error: true
-      - name: 4. Verificar falha do clang-format
-        if: steps.find_cpp_files.outputs.files_found == 'true' && steps.clang_lint.outcome == 'failure'
+
+      - name: 4. Resultado Final (C++)
+        if: steps.filter_cpp.outputs.cpp == 'true' && steps.clang_lint.outcome == 'failure'
         run: |
-          echo "::error file=.clang-format,line=1::Falha na formatação C++. Verifique se as regras do .clang-format (2 ESPAÇOS, limite de 120) e as convenções de nomenclatura (PascalCase, camel_Case like, snake_case) estão sendo seguidas."
+          echo "::error file=.clang-format,line=1::Falha na formatação C++. Verifique as anotações."
           exit 1
