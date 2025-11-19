@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bow1hk0v3rl3w"
-path="res://.godot/imported/VidaMeia.png-5a23b5dbaf287b3f78a37e7480c6bd28.ctex"
+path="res://.godot/imported/VidaMeia.png-ad5e800f0c3c43539da42dc55db8a18f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ImagensVida/VidaMeia.png"
-dest_files=["res://.godot/imported/VidaMeia.png-5a23b5dbaf287b3f78a37e7480c6bd28.ctex"]
+source_file="res://Sprites/ImagensVida/VidaMeia.png"
+dest_files=["res://.godot/imported/VidaMeia.png-ad5e800f0c3c43539da42dc55db8a18f.ctex"]
 
 [params]
 

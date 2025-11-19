@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://oy2i3gawr2bq"
-path="res://.godot/imported/VidaCheia.png-a049bf803f3d4e9698bcab691f729149.ctex"
+path="res://.godot/imported/VidaCheia.png-2fc5de0376335c9d69b73874a5c53298.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ImagensVida/VidaCheia.png"
-dest_files=["res://.godot/imported/VidaCheia.png-a049bf803f3d4e9698bcab691f729149.ctex"]
+source_file="res://Sprites/ImagensVida/VidaCheia.png"
+dest_files=["res://.godot/imported/VidaCheia.png-2fc5de0376335c9d69b73874a5c53298.ctex"]
 
 [params]
 
