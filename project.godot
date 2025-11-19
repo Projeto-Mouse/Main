@@ -17,7 +17,7 @@ config/icon="res://Menu Principal/icon.svg"
 
 [audio]
 
-buses/default_bus_layout="res://Musicas/Menu/default_bus_layout.tres"
+buses/default_bus_layout="res://Sons/Musicas/Menu/default_bus_layout.tres"
 
 [display]
 
