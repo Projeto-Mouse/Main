@@ -34,22 +34,21 @@ jobs:
         id: set_gd_files
         if: steps.filter.outputs.gd == 'true'
         run: |
-          # Lista os arquivos GDScript alterados para uso nos próximos passos
+          # Pega a lista de arquivos .gd alterados (Adicionados, Copiados, Modificados, Renomeados, Tipos Alterados)
           GD_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} --diff-filter=ACMRT | grep '\.gd$')
           if [ -z "$GD_FILES" ]; then
             echo "Nenhum arquivo .gd alterado."
             echo "files_found=false" >> $GITHUB_OUTPUT
           else
-            echo "Arquivos GDScript alterados encontrados. ($GD_FILES)"
+            echo "Arquivos GDScript alterados encontrados."
             echo "files_found=true" >> $GITHUB_OUTPUT
-            # Exporta a lista de arquivos para as próximas etapas
+            # Exporta a lista de arquivos para os passos seguintes
             echo "gd_files<<EOF" >> $GITHUB_OUTPUT
             echo "$GD_FILES" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
           fi
           
       - name: 4. Rodar Formatador (gdformat - 4 espaços)
-        # Usa a variável de saída do passo anterior
         if: steps.set_gd_files.outputs.files_found == 'true'
         id: gdformat_check
         run: |
@@ -57,9 +56,9 @@ jobs:
           GD_FILES="${{ steps.set_gd_files.outputs.gd_files }}"
           echo "Verificando formatação (indentação/espaços) com gdformat nos arquivos alterados..."
           
-          # Executa gdformat APENAS nos arquivos listados
           if ! OUTPUT=$(gdformat --check $GD_FILES --line-length 120 2>&1); then
             echo "$OUTPUT"
+            # Cria anotações para arquivos não formatados
             echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
               FILE_PATH=$(echo "$line" | awk '{print $1}')
               echo "::error file=$FILE_PATH::Falha no gdformat. Arquivo precisa ser reformatado."
@@ -78,9 +77,9 @@ jobs:
           GD_FILES="${{ steps.set_gd_files.outputs.gd_files }}"
           echo "Verificando convenções de nomenclatura (nomes de arquivos/classes/funções) com gdlint nos arquivos alterados..."
           
-          # Executa gdlint APENAS nos arquivos listados
           if ! OUTPUT=$(gdlint $GD_FILES 2>&1); then
             echo "$OUTPUT"
+            # Cria anotações para erros de linting
             echo "$OUTPUT" | grep -E '(.+):([0-9]+):[0-9]+:' | while IFS= read -r line; do
               FILE_PATH=$(echo "$line" | cut -d ':' -f 1)
               LINE_NUMBER=$(echo "$line" | cut -d ':' -f 2)
@@ -96,6 +95,7 @@ jobs:
       - name: 6. Finalizar e Reportar Erros (GDScript)
         if: steps.set_gd_files.outputs.files_found == 'true'
         run: |
+          # O job falha APENAS no final, após encontrar todos os erros
           if [ ${{ steps.gdlint_check.outputs.error_flag }} -eq 1 ]; then
             echo "Erros de formatação/linting GDScript encontrados. Encerrando Job."
             exit 1
@@ -110,29 +110,29 @@ jobs:
     steps:
       - name: 1. Baixar o código (Checkout)
         uses: actions/checkout@v4
-        
-      - name: 2. Filtrar arquivos C# alterados
+      
+      - name: 2. Setup .NET SDK 🚀
+        # Garante que o dotnet format esteja disponível e configurado corretamente.
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.x' 
+          
+      - name: 3. Filtrar arquivos C# alterados
         uses: dorny/paths-filter@v3
         id: filter_cs
         with:
           filters: |
             cs:
-              # Filtra por arquivos .cs, .csproj ou .sln
               - '**/[^.][^/]*.(cs|csproj|sln)'
         
-      - name: 3. Definir Variáveis de Arquivos (se existirem)
-        id: set_cs_files
+      - name: 4. Definir Variáveis de Arquivos (se existirem)
         if: steps.filter_cs.outputs.cs == 'true'
+        id: set_cs_files
         run: |
-          # Verifica se algum arquivo .cs, .csproj ou .sln foi alterado
-          if [ -n "$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} --diff-filter=ACMRT | grep -E '\.(cs|csproj|sln)$')" ]; then
-            echo "files_found=true" >> $GITHUB_OUTPUT
-          else
-            echo "Nenhum arquivo C# relevante alterado. Pulando."
-            echo "files_found=false" >> $GITHUB_OUTPUT
-          fi
+          # A variável files_found é agora setada diretamente pelo filtro (true/false)
+          echo "files_found=true" >> $GITHUB_OUTPUT
           
-      - name: 4. Verificar formatação C# (se houver arquivos)
+      - name: 5. Verificar formatação C# (se houver arquivos)
         if: steps.set_cs_files.outputs.files_found == 'true'
         id: dotnet_format_check
         run: |
@@ -145,18 +145,18 @@ jobs:
           if [ -z "$workspace_file" ]; then
               echo "::warning::Não foi possível encontrar arquivo .sln ou .csproj. Pulando verificação C#."
               echo "error_flag=0" >> $GITHUB_OUTPUT
-              exit 0 # Sai sem falhar
+              exit 0 
           fi
           
           echo "Verificando workspace: $workspace_file"
 
           if ! OUTPUT=$(dotnet format "$workspace_file" --verify-no-changes --verbosity diagnostic 2>&1); then
             echo "$OUTPUT"
-            # Cria anotações para arquivos não formatados (apenas o arquivo, sem linha)
+            # Cria anotações para arquivos não formatados
             echo "$OUTPUT" | grep -E 'Formatted file | Would fix: ' | while IFS= read -r line; do
               FILE_PATH=$(echo "$line" | awk '{print $NF}' | sed 's/.$//')
               if [[ "$FILE_PATH" != "" ]]; then
-                  echo "::error file=$FILE_PATH::Falha no dotnet format. Arquivo precisa de formatação."
+                  echo "::error file=$FILE_PATH::Falha no dotnet format. Arquivo precisa de formatação (sem linha exata)."
               fi
             done
             
@@ -166,9 +166,10 @@ jobs:
           
           echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
           
-      - name: 5. Finalizar e Reportar Erros (C#)
+      - name: 6. Finalizar e Reportar Erros (C#)
         if: steps.set_cs_files.outputs.files_found == 'true'
         run: |
+          # O job falha APENAS no final, após encontrar todos os erros
           if [ ${{ steps.dotnet_format_check.outputs.error_flag }} -eq 1 ]; then
             echo "Erros de formatação C# encontrados. Encerrando Job."
             exit 1
@@ -196,20 +197,19 @@ jobs:
       - name: 3. Rodar clang-format-lint (se houver arquivos)
         if: steps.filter_cpp.outputs.cpp == 'true'
         id: clang_lint
-        # A ação é configurada para rodar apenas nos arquivos alterados via 'paths-filter'
         uses: DoozyX/clang-format-lint-action@v0.17
         with:
           source: '.'
           extensions: 'h,cpp'
           clangFormatVersion: 17
           style: 'file'
-          # Adiciona o filtro de arquivos alterados (necessário para PRs)
-          files-to-lint: ${{ steps.filter_cpp.outputs.cpp_paths }}
-        continue-on-error: true
+          # Usa a saída do filtro para rodar apenas nos arquivos alterados
+          files-to-lint: ${{ steps.filter_cpp.outputs.cpp_paths }} 
+        continue-on-error: true # Permite que a ação encontre todos os erros antes de sinalizar a falha
         
       - name: 4. Verificar falha do clang-format
         if: steps.filter_cpp.outputs.cpp == 'true' && steps.clang_lint.outcome == 'failure'
         run: |
-          # Se a ação falhou (outcome == 'failure'), significa que encontrou erros.
+          # O job falha APENAS no final, após a ação ter criado todas as anotações
           echo "::error file=.clang-format,line=1::Falha na formatação C++. Verifique as anotações detalhadas (arquivo e linha) criadas pela ação clang-format-lint-action."
           exit 1
