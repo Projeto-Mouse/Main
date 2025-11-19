@@ -1,9 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgowu41xi5sbe"]
-
-[ext_resource type="Script" path="res://Menu Principal/Menu de Opcoes/label.gd" id="1_y3oao"]
-
-[sub_resource type="SystemFont" id="SystemFont_s0hlb"]
-font_names = PackedStringArray("Poor Richard")
+[gd_scene format=3 uid="uid://cgowu41xi5sbe"]
 
 [node name="OpcaoDeDisplayButton" type="Control"]
 layout_mode = 3
@@ -18,14 +13,6 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/separation = 160
-
-[node name="Label" type="Label" parent="HBoxContainer"]
-custom_minimum_size = Vector2(264, 0)
-layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_s0hlb")
-theme_override_font_sizes/font_size = 32
-text = "Resolução da tela"
-script = ExtResource("1_y3oao")
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
