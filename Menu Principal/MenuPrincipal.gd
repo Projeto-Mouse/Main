@@ -11,7 +11,7 @@ extends Control
 @onready var sair_button = $MarginContainer/HBoxContainer/VBoxContainer/sair_Button as Button
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var video_player = $VideoMenu
-@onready var musica_menu = preload("res://Musicas/Menu/Main Menu.wav")
+@onready var musica_menu = preload("res://Sons/Musicas/Menu/Main Menu.wav")
 @onready var controlador_musica = $ControladorMusica
 
 # Leva o jogador para o começo do jogo, deve ser modificada posteriormente para levar ao jogo atual
