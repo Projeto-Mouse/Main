@@ -387,7 +387,7 @@ Natureza do Projeto e Direitos Reservados
 
 Apesar de o código-fonte deste projeto de jogo ser Open Source, o conteúdo criativo, as ideias apresentadas, o design e a propriedade intelectual subjacente não são de domínio público. Todos os direitos sobre o conteúdo criativo e intelectual estão estritamente reservados aos donos do projeto e à equipe de desenvolvimento. Não é permitido copiar as ideias, conceitos ou utilizá-los de maneira lucrativa ou comercial sem autorização expressa.
 
-Apoio e Financiamento:
+Apoio e Financiamento
 
 O projeto tem como objetivo principal ser gratuito para a comunidade. No entanto, a organização aceita e agradece qualquer apoio financeiro para garantir a sustentabilidade e o desenvolvimento contínuo. Detalhes sobre como realizar este apoio serão disponibilizados em breve.
 
@@ -398,7 +398,7 @@ O projeto tem como objetivo principal ser gratuito para a comunidade. No entanto
 
 Although the source code for this game project is Open Source, the creative content, presented ideas, design, and underlying intellectual property are not in the public domain. All rights to the creative and intellectual content are strictly reserved for the project owners and the development team. It is not permitted to copy the ideas, concepts, or use them for profitable or commercial purposes without express authorization.
 
-Support and Funding:
+Support and Funding
 
 The project's primary goal is to be free for the community. However, the organization accepts and appreciates any financial support to ensure sustainability and continuous development. Details on how to provide this support will be made available soon.
 
@@ -409,7 +409,7 @@ The project's primary goal is to be free for the community. However, the organiz
 
 Aunque el código fuente de este proyecto de juego es Open Source, el contenido creativo, las ideas presentadas, el diseño y la propiedad intelectual subyacente no son de dominio público. Todos los derechos sobre el contenido creativo e intelectual están estrictamente reservados para los dueños del proyecto y el equipo de desarrollo. No está permitido copiar las ideas, conceptos o utilizarlos con fines lucrativos o comerciales sin autorización expresa.
 
-Apoyo y Financiación:
+Apoyo y Financiación
 
 El objetivo principal del proyecto es ser gratuito para la comunidad. No obstante, la organización acepta y agradece cualquier apoyo financiero para garantizar la sostenibilidad y el desarrollo continuo. Los detalles sobre cómo realizar esta financiación se pondrán a disposición pronto.
 
