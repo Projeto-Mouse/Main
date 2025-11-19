@@ -414,4 +414,3 @@ Apoyo y Financiación:
 El objetivo principal del proyecto es ser gratuito para la comunidad. No obstante, la organización acepta y agradece cualquier apoyo financiero para garantizar la sostenibilidad y el desarrollo continuo. Los detalles sobre cómo realizar esta financiación se pondrán a disposición pronto.
 
 </details>
-
