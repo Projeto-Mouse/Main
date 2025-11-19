@@ -32,29 +32,55 @@ jobs:
             echo "files_found=false" >> $GITHUB_OUTPUT
           fi
           
-      # ETAPA 3 (INSTALAÇÃO) REMOVIDA:
-      # - name: 3. Instalar Ferramentas (gdformat e gdlint)
-      #   if: steps.find_gd_files.outputs.files_found == 'true'
-      #   run: |
-      #     pip install gdformat gdlint
-          
       - name: 3. Rodar Formatador (gdformat - 4 espaços)
         if: steps.find_gd_files.outputs.files_found == 'true'
+        id: gdformat_check
         run: |
+          ERROR_FLAG=0
           echo "Verificando formatação (indentação/espaços) com gdformat..."
-          # ATENÇÃO: gdformat deve estar pré-instalado no ambiente.
-          if ! gdformat --check . --line-length 120; then
-            echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat). Verifique se o padrão de 4 ESPAÇOS e limite de 120 caracteres está sendo seguido."
-            exit 1
+          
+          if ! OUTPUT=$(gdformat --check . --line-length 120 2>&1); then
+            echo "$OUTPUT"
+            # Cria anotações para arquivos não formatados
+            echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
+              FILE_PATH=$(echo "$line" | awk '{print $1}')
+              echo "::error file=$FILE_PATH::Falha no gdformat. Arquivo precisa ser reformatado."
+            done
+            echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat). Verifique os arquivos acima."
+            ERROR_FLAG=1
           fi
+          
+          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
           
       - name: 4. Rodar Linter (gdlint - Nomenclatura)
         if: steps.find_gd_files.outputs.files_found == 'true'
+        id: gdlint_check
         run: |
+          ERROR_FLAG=${{ steps.gdformat_check.outputs.error_flag }}
           echo "Verificando convenções de nomenclatura (nomes de arquivos/classes/funções) com gdlint..."
-          # ATENÇÃO: gdlint deve estar pré-instalado no ambiente.
-          if ! gdlint . ; then
-            echo "::error file=.gdlintrc,line=1::Falha nas convenções de nomenclatura GDScript (gdlint). Verifique se nomes de arquivos, classes (PascalCase), funções e variáveis (snake_case) seguem o padrão."
+          
+          if ! OUTPUT=$(gdlint . 2>&1); then
+            echo "$OUTPUT"
+            # Cria anotações para erros de linting
+            echo "$OUTPUT" | grep -E '(.+):([0-9]+):[0-9]+:' | while IFS= read -r line; do
+              FILE_PATH=$(echo "$line" | cut -d ':' -f 1)
+              LINE_NUMBER=$(echo "$line" | cut -d ':' -f 2)
+              MESSAGE=$(echo "$line" | cut -d ':' -f 4-)
+              echo "::error file=$FILE_PATH,line=$LINE_NUMBER::$MESSAGE"
+            done
+            # Mensagem de falha para garantir o registro
+            echo "::error file=.gdlintrc,line=1::Falha nas convenções de nomenclatura GDScript (gdlint). Verifique as anotações detalhadas acima."
+            ERROR_FLAG=1
+          fi
+          
+          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
+
+      - name: 5. Finalizar e Reportar Erros (GDScript)
+        if: steps.find_gd_files.outputs.files_found == 'true'
+        run: |
+          # Se o gdformat ou gdlint falharam, encerra com erro
+          if [ ${{ steps.gdlint_check.outputs.error_flag }} -eq 1 ]; then
+            echo "Erros de formatação/linting GDScript encontrados. Encerrando Job."
             exit 1
           fi
 
@@ -78,23 +104,40 @@ jobs:
             echo "files_found=false" >> $GITHUB_OUTPUT
           fi
           
-      # ETAPA 3 (SETUP .NET SDK) REMOVIDA:
-      # - name: 3. Setup .NET SDK (se houver arquivos)
-      #   if: steps.find_cs_files.outputs.files_found == 'true'
-      #   uses: actions/setup-dotnet@v4
-      #   with:
-      #     dotnet-version: '6.0.x' 
-      
       - name: 3. Verificar formatação C# (se houver arquivos)
         if: steps.find_cs_files.outputs.files_found == 'true'
+        id: dotnet_format_check
         run: |
+          ERROR_FLAG=0
           echo "Arquivos .csproj/.sln encontrados. Verificando formatação..."
           workspace_file=$(find . -maxdepth 5 -type f \( -name "*.sln" -o -name "*.csproj" \) -print -quit)
           echo "Verificando workspace: $workspace_file"
-          # ATENÇÃO: dotnet format (requer .NET SDK) deve estar pré-instalado no ambiente.
-          if ! dotnet format "$workspace_file" --verify-no-changes --verbosity diagnostic; then
-            echo "::error file=.editorconfig,line=1::Falha na formatação C#. Verifique se as regras do .editorconfig (2 ESPAÇOS, PascalCase, camelCase, _prefix) estão sendo seguidas."
+
+          if ! OUTPUT=$(dotnet format "$workspace_file" --verify-no-changes --verbosity diagnostic 2>&1); then
+            echo "$OUTPUT"
+            # Cria anotações para arquivos não formatados (apenas o arquivo, sem linha)
+            echo "$OUTPUT" | grep -E 'Formatted file | Would fix: ' | while IFS= read -r line; do
+              FILE_PATH=$(echo "$line" | awk '{print $NF}' | sed 's/.$//')
+              if [[ "$FILE_PATH" != "" ]]; then
+                  echo "::error file=$FILE_PATH::Falha no dotnet format. Arquivo precisa de formatação."
+              fi
+            done
+            
+            # Mensagem de falha final
+            echo "::error file=.editorconfig,line=1::Falha na formatação C#. Os arquivos não formatados estão listados nas anotações acima."
+            ERROR_FLAG=1
+          fi
+          
+          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
+          
+      - name: 4. Finalizar e Reportar Erros (C#)
+        if: steps.find_cs_files.outputs.files_found == 'true'
+        run: |
+          # Se o dotnet format falhou, encerra com erro
+          if [ ${{ steps.dotnet_format_check.outputs.error_flag }} -eq 1 ]; then
+            echo "Erros de formatação C# encontrados. Encerrando Job."
             exit 1
+
           fi
 
 ---
@@ -120,17 +163,19 @@ jobs:
       - name: 3. Rodar clang-format-lint (se houver arquivos)
         if: steps.find_cpp_files.outputs.files_found == 'true'
         id: clang_lint
-        # ESTA AÇÃO JÁ INCLUI A INSTALAÇÃO DO clang-format, mas mantive a ação por ser a ferramenta de checagem.
+        # Essa Ação já tem o comportamento de encontrar todos os erros antes de sinalizar a falha.
         uses: DoozyX/clang-format-lint-action@v0.17
         with:
           source: '.'
           extensions: 'h,cpp'
           clangFormatVersion: 17
           style: 'file'
-        continue-on-error: true
+        continue-on-error: true # Continua a rodar mesmo se encontrar erros
         
       - name: 4. Verificar falha do clang-format
         if: steps.find_cpp_files.outputs.files_found == 'true' && steps.clang_lint.outcome == 'failure'
         run: |
-          echo "::error file=.clang-format,line=1::Falha na formatação C++. Verifique se as regras do .clang-format (2 ESPAÇOS, limite de 120) e as convenções de nomenclatura (PascalCase, camel_Case like, snake_case) estão sendo seguidas."
+          # Se a ação falhou (outcome == 'failure'), significa que encontrou erros.
+          # Força o job a falhar neste ponto, após todas as anotações terem sido criadas.
+          echo "::error file=.clang-format,line=1::Falha na formatação C++. Verifique as anotações detalhadas (arquivo e linha) criadas pela ação clang-format-lint-action."
           exit 1
