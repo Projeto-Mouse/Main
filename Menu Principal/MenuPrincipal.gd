@@ -19,7 +19,6 @@ extends Control
 @onready var começar_jogo = preload("res://Cenas teste/cena1.tscn") as PackedScene
 
 func _ready():
-	TranslationServer.set_locale("pt_BR") # Inicia o jogo em pt br
 	video_player.play()
 	controlador_musica.tocar_musica(musica_menu, true)
 	segurar_conectores_signals()

@@ -1,16 +1,11 @@
+class_name SelecaoLinguagem
 extends MarginContainer
 
-func _ready() -> void:
-	pass 
-
-func _process(delta: float) -> void:
-	pass
-
 func _on_portugues_pressed() -> void:
-	TranslationServer.set_locale("pt_BR")
+	ControladorLingua.set_linguagem("pt_BR")
 
 func _on_inglês_pressed() -> void:
-	TranslationServer.set_locale("en_US")
+	ControladorLingua.set_linguagem("en_US")
 
 func _on_espanhol_pressed() -> void:
-	TranslationServer.set_locale("es_ES")
+	ControladorLingua.set_linguagem("es_ES")

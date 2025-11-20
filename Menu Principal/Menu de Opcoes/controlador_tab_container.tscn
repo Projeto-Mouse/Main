@@ -28,10 +28,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 tab_alignment = 1
-current_tab = 4
+current_tab = 0
 
 [node name="Som" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 metadata/_tab_index = 0
@@ -235,6 +234,7 @@ theme_override_fonts/font = ExtResource("1_ijckx")
 text = "acessibilidade"
 
 [node name="Linguagens" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 metadata/_tab_index = 4
