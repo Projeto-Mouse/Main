@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Nos pague uma breja\n"
+msgstr "Invítanos una cerveza\n"
+
+#: Menu Principal/MenuPrincipal.tscn de Pausa/MenuDePausa.tscn
+msgid "Jogar"
+msgstr "Jugar"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Carregar"
+msgstr "Cargar"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Opções\n"
+msgstr "Opciones\n"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Sair\n"
+msgstr "Salir\n"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Som"
+msgstr "Sonido"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração som"
+msgstr "configuración de sonido"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Graficos"
+msgstr "Gráficos"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração grafica"
+msgstr "configuración gráfica"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Controles"
+msgstr "Controles"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração de controles"
+msgstr "configuración de controles"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Acessibilidade"
+msgstr "Accesibilidad"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "acessibilidade"
+msgstr "accesibilidad"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Linguagens"
+msgstr "Idiomas"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Português"
+msgstr "Português"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "English\n"
+msgstr "English\n"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Español\n"
+msgstr "Español\n"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Creditos e apoio"
+msgstr "Créditos y apoyo"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração"
+msgstr "configuración"
+
+#: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
+msgid "Opções"
+msgstr "Opciones"
+
+#: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
+msgid "<"
+msgstr "<"
+
+#: Menu Principal/Menu de Opcoes/OpcaoDeResolucaoButton.tscn
+msgid "Resolução da tela"
+msgstr "Resolución de pantalla"
+
+#: Menu Principal/Menu de Opcoes/WindowModeButton.tscn
+msgid "Tamanho da tela"
+msgstr "Tamaño de pantalla"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Opcoes"
+msgstr "Opciones"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Salvar"
+msgstr "Guardar"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Sair"
+msgstr "Salir"

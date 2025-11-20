@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1e4cgairfpw7"]
+[gd_scene load_steps=5 format=3 uid="uid://b1e4cgairfpw7"]
 
 [ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="1_ijckx"]
 [ext_resource type="PackedScene" uid="uid://b3a5mc8mm2rb7" path="res://Menu Principal/Menu de Opcoes/WindowModeButton.tscn" id="1_mgxxq"]
 [ext_resource type="PackedScene" uid="uid://c0vuo2ehrwvbs" path="res://Menu Principal/Menu de Opcoes/OpcaoDeResolucaoButton.tscn" id="2_ro2m6"]
+[ext_resource type="Script" uid="uid://byop2v5opttvd" path="res://Menu Principal/Menu de Opcoes/SelecaoLinguagem.gd" id="4_81wdl"]
 
 [node name="Controlador_Tab_Container" type="Control"]
 layout_mode = 3
@@ -27,9 +28,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 tab_alignment = 1
-current_tab = 0
+current_tab = 4
 
 [node name="Som" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 metadata/_tab_index = 0
@@ -233,7 +235,6 @@ theme_override_fonts/font = ExtResource("1_ijckx")
 text = "acessibilidade"
 
 [node name="Linguagens" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 metadata/_tab_index = 4
@@ -251,26 +252,33 @@ theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
+script = ExtResource("4_81wdl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Linguagens/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 64
 alignment = 1
 
-[node name="Label" type="Label" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+[node name="Portugues" type="Button" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_ijckx")
-text = "Portugues"
+size_flags_horizontal = 0
+text = "Português"
 
-[node name="Label2" type="Label" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+[node name="Inglês" type="Button" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_ijckx")
-text = "Ingles"
+size_flags_horizontal = 0
+text = "English
+"
 
-[node name="Label3" type="Label" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+[node name="Espanhol" type="Button" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_ijckx")
-text = "Espanhol"
+size_flags_horizontal = 0
+size_flags_vertical = 4
+text = "Español
+"
 
 [node name="Creditos e apoio" type="TabBar" parent="TabContainer"]
 visible = false
@@ -321,3 +329,7 @@ text = "configuração"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ijckx")
 text = "configuração"
+
+[connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Portugues" to="TabContainer/Linguagens/MarginContainer" method="_on_portugues_pressed"]
+[connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Inglês" to="TabContainer/Linguagens/MarginContainer" method="_on_inglês_pressed"]
+[connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Espanhol" to="TabContainer/Linguagens/MarginContainer" method="_on_espanhol_pressed"]
