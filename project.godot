@@ -65,3 +65,10 @@ Dano={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":78,"key_label":0,"unicode":110,"location":0,"echo":false,"script":null)
 ]
 }
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://Traducoes/en_US.mo", "res://Traducoes/es_ES.mo")
+locale/translations_pot_files=PackedStringArray("res://Menu Principal/MenuPrincipal.tscn", "res://Menu Principal/Menu de Opcoes/controlador_tab_container.tscn", "res://Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn", "res://Menu Principal/Menu de Opcoes/OpcaoDeDisplayButton.tscn", "res://Menu Principal/Menu de Opcoes/OpcaoDeResolucaoButton.tscn", "res://Menu Principal/Menu de Opcoes/WindowModeButton.tscn", "res://Menu de Pausa/MenuDePausa.tscn")
+locale/translation_add_builtin_strings_to_pot=true
+locale/fallback=""
