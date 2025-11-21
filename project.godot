@@ -19,10 +19,6 @@ config/icon="res://Menu Principal/icon.svg"
 
 buses/default_bus_layout="res://Sons/Musicas/Menu/default_bus_layout.tres"
 
-[autoload]
-
-ControladorLingua="*res://Auxiliares/ControladorLinguagem.gd"
-
 [display]
 
 window/size/mode=3
