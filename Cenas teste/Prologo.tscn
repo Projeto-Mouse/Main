@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dcu5g444ijhdj"]
 
-[ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas teste/cena1.gd" id="1_jsoku"]
+[ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas teste/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
 [ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Cenas teste/Jogador.gd" id="2_ftip3"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]
@@ -22,7 +22,7 @@ height = 0.5
 radius = 0.1
 height = 0.5
 
-[node name="cena1" type="Node3D"]
+[node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
