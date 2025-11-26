@@ -1,0 +1,128 @@
+# LANGUAGE translation for Projeto mouse for the following files:
+# res://Menu Principal/MenuPrincipal.tscn
+# res://Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+# res://Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
+# res://Menu Principal/Menu de Opcoes/OpcaoDeDisplayButton.tscn
+# res://Menu Principal/Menu de Opcoes/OpcaoDeResolucaoButton.tscn
+# res://Menu Principal/Menu de Opcoes/WindowModeButton.tscn
+# res://Menu de Pausa/MenuDePausa.tscn
+#
+#  <pedro.henrique.g.paula@gmail.com>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Projeto mouse\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2025-11-20 17:41-0300\n"
+"Last-Translator: pedro.henrique.g.paula@gmail.com\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.8\n"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Nos pague uma breja\n"
+msgstr "Pay us a coffe\n"
+
+#: Menu Principal/MenuPrincipal.tscn de Pausa/MenuDePausa.tscn
+msgid "Jogar"
+msgstr "Play"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Carregar"
+msgstr "Load"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Opções\n"
+msgstr "Options\n"
+
+#: Menu Principal/MenuPrincipal.tscn
+msgid "Sair\n"
+msgstr "Quit\n"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Som"
+msgstr "Sound"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração som"
+msgstr "sound settings"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Graficos"
+msgstr "Graphics"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração grafica"
+msgstr "graphics settings"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Controles"
+msgstr "Controls"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração de controles"
+msgstr "controller settings"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Acessibilidade"
+msgstr "Accessibility"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "acessibilidade"
+msgstr "accessibility"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Linguagens"
+msgstr "Languages"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Português"
+msgstr "Português"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "English\n"
+msgstr "English\n"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Español\n"
+msgstr "Español\n"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "Creditos e apoio"
+msgstr "Credits and support"
+
+#: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
+msgid "configuração"
+msgstr "settings"
+
+#: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
+msgid "Opções"
+msgstr "Options"
+
+#: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
+msgid "<"
+msgstr "<"
+
+#: Menu Principal/Menu de Opcoes/OpcaoDeResolucaoButton.tscn
+msgid "Resolução da tela"
+msgstr "Screen resolution"
+
+#: Menu Principal/Menu de Opcoes/WindowModeButton.tscn
+msgid "Tamanho da tela"
+msgstr "Screen size"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Opcoes"
+msgstr "Options"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Salvar"
+msgstr "Save"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Sair"
+msgstr "Quit"
