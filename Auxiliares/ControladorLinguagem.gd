@@ -1,4 +1,4 @@
-class_name ControladorLinguagem
+class_name ControladorTraducao
 extends Node
 
 func _ready() -> void:
