@@ -26,8 +26,10 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		movimento_y += gravidade * delta
-	else: # Zera a queda para evitar acúmulo
+	else: 
+		# Zera a queda para evitar acúmulo
 		movimento_y = 0
+		# Apenas quando tem contato com o chão
 		if Input.is_action_pressed("Pular"):
 			movimento_y = forca_pulo
 		
