@@ -85,7 +85,7 @@ jobs:
 
           CLEAN_FILES=$(echo "$FILES_LIST" | sed '/^EOF$/d' | tr -s ' ' '\n' | grep -v '^$')
           
-          if ! OUTPUT=$(echo "$CLEAN_FILES" | xargs gdformat --check --line-length 120 -- 2>&1); then
+          if ! OUTPUT=$(echo "$CLEAN_FILES" | xargs gdformat --check --line-length 120 2>&1); then
             echo "$OUTPUT"
             # Anotações de erro
            echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
