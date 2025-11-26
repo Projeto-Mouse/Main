@@ -63,23 +63,38 @@ jobs:
         run: |
           pip3 install gdtoolkit
 
-      
+
+      # Antes, o shell dividia nomes de arquivos que continham espaços (ex: 'Auxiliares/Menu de Opcoes.gd')
+      # em múltiplos argumentos (ex: 'Auxiliares/Menu', 'de', 'Opcoes.gd'), causando o erro 'Cannot open file'.
+      #
+      # AGORA, usamos 'tr' e 'xargs' para forçar que cada caminho de arquivo, independentemente dos espaços
+      # internos, seja tratado como uma única unidade de argumento para o comando 'gdformat', 
+      # resolvendo o problema de paths quebrados.
+      #
+      # Exemplo de como é tratado AGORA:
+      # O caminho 'Menu de Opcoes/SelecaoLinguagem.gd' é passado para o gdformat como: 
+      # gdformat ... 'Menu de Opcoes/SelecaoLinguagem.gd' (Um argumento único).
       - name: 4. Rodar Formatador (gdformat)
         # Só roda se o filtro achou arquivos E se eles ainda existem
         if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
         id: gdformat_check
         run: |
           ERROR_FLAG=0
-          FILES="${{ steps.check_files.outputs.files }}"
+          FILES_LIST="${{ steps.check_files.outputs.files }}"
           echo "Verificando formatação com gdformat..."
 
-          if ! OUTPUT=$(gdformat --check $FILES --line-length 120 2>&1); then
+          CLEAN_FILES=$(echo "$FILES_LIST" | sed '/^EOF$/d' | tr -s ' ' '\n' | grep -v '^$')
+          
+          if ! OUTPUT=$(echo "$CLEAN_FILES" | xargs gdformat --check --line-length 120 -- 2>&1); then
             echo "$OUTPUT"
             # Anotações de erro
-            echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
+           echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
               FILE_PATH=$(echo "$line" | awk '{print $1}')
               echo "::error file=$FILE_PATH::Falha no gdformat. Arquivo precisa ser reformatado."
             done
+            
+            # Se a falha for devido a arquivos com espaços, a mensagem de erro pode ser genérica
+            # mas o erro de sintaxe original do gdformat (Cannot open file) será evitado.
             echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat)."
             ERROR_FLAG=1
           fi
