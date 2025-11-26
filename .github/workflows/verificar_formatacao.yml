@@ -28,108 +28,20 @@ jobs:
             gd:
               - '**/*.gd'
 
-      - name: 3. Verificar existência dos arquivos
-        id: check_files
+        #  Usando um action ja pronto pela comunidade que ja faz
+        #  Tudo que o outro codigo fazer, mas sem precisar escrever tudo
+        #  Ele ja le o gdlintrc normalmente e falha se der erro no format e lint
+        #  Nao precisa do erro manual
+      - name: 3. Pular se nenhum gd foi alterado
+        if: steps.filter.outputs.gd != 'true'
+        run: echo "Nenhum arquivo GDScript modificado."
+
+      - name: 4. Rodar gdFormat e gdLint com action pronta
         if: steps.filter.outputs.gd == 'true'
-        run: |
-          # Filtra arquivos que foram deletados (a lista do dorny pode incluir deletados)
-          EXISTING_FILES=""
-          for FILE in ${{ steps.filter.outputs.gd_files }}; do
-            if [ -f "$FILE" ]; then
-              EXISTING_FILES="$EXISTING_FILES $FILE"
-            fi
-          done
-
-          if [ -z "$EXISTING_FILES" ]; then
-            echo "Arquivos foram detectados no diff, mas todos foram deletados."
-            echo "has_files=false" >> $GITHUB_OUTPUT
-          else
-            echo "Arquivos válidos encontrados."
-            echo "has_files=true" >> $GITHUB_OUTPUT
-            # Passa a lista limpa para os próximos passos (usando delimitador EOF para segurança)
-            echo "files<<EOF" >> $GITHUB_OUTPUT
-            echo "$EXISTING_FILES" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-          fi
-
-      - name: 3.1. Setup Python
-        uses: actions/setup-python@v5
-        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
+        uses: Scony/gdtoolkit-action@v1
         with:
-          python-version: '3.x'
+          args: "${{ steps.filter.outputs.gd_files }}"
           
-      - name: 3.5. Baixar gdtoolkit
-        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
-        run: |
-          pip3 install gdtoolkit
-
-
-      # Antes, o shell dividia nomes de arquivos que continham espaços (ex: 'Auxiliares/Menu de Opcoes.gd')
-      # em múltiplos argumentos (ex: 'Auxiliares/Menu', 'de', 'Opcoes.gd'), causando o erro 'Cannot open file'.
-      #
-      # AGORA, usamos 'tr' e 'xargs' para forçar que cada caminho de arquivo, independentemente dos espaços
-      # internos, seja tratado como uma única unidade de argumento para o comando 'gdformat', 
-      # resolvendo o problema de paths quebrados.
-      #
-      # Exemplo de como é tratado AGORA:
-      # O caminho 'Menu de Opcoes/SelecaoLinguagem.gd' é passado para o gdformat como: 
-      # gdformat ... 'Menu de Opcoes/SelecaoLinguagem.gd' (Um argumento único).
-      - name: 4. Rodar Formatador (gdformat)
-        # Só roda se o filtro achou arquivos E se eles ainda existem
-        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
-        id: gdformat_check
-        run: |
-          ERROR_FLAG=0
-          FILES_LIST="${{ steps.check_files.outputs.files }}"
-          echo "Verificando formatação com gdformat..."
-
-          CLEAN_FILES=$(echo "$FILES_LIST" | sed '/^EOF$/d' | tr -s ' ' '\n' | grep -v '^$')
-          
-          if ! OUTPUT=$(echo "$CLEAN_FILES" | xargs gdformat --check --line-length 120 2>&1); then
-            echo "$OUTPUT"
-            # Anotações de erro
-           echo "$OUTPUT" | grep 'need reformatting' | while IFS= read -r line; do
-              FILE_PATH=$(echo "$line" | awk '{print $1}')
-              echo "::error file=$FILE_PATH::Falha no gdformat. Arquivo precisa ser reformatado."
-            done
-            
-            # Se a falha for devido a arquivos com espaços, a mensagem de erro pode ser genérica
-            # mas o erro de sintaxe original do gdformat (Cannot open file) será evitado.
-            echo "::error file=.editorconfig,line=1::Falha na formatação GDScript (gdformat)."
-            ERROR_FLAG=1
-          fi
-          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
-
-      - name: 5. Rodar Linter (gdlint)
-        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
-        id: gdlint_check
-        run: |
-          ERROR_FLAG=${{ steps.gdformat_check.outputs.error_flag }}
-          FILES="${{ steps.check_files.outputs.files }}"
-          echo "Verificando nomenclatura com gdlint..."
-
-          if ! OUTPUT=$(gdlint $FILES 2>&1); then
-            echo "$OUTPUT"
-            # Anotações de erro
-            echo "$OUTPUT" | grep -E '(.+):([0-9]+):[0-9]+:' | while IFS= read -r line; do
-              FILE_PATH=$(echo "$line" | cut -d ':' -f 1)
-              LINE_NUMBER=$(echo "$line" | cut -d ':' -f 2)
-              MESSAGE=$(echo "$line" | cut -d ':' -f 4-)
-              echo "::error file=$FILE_PATH,line=$LINE_NUMBER::$MESSAGE"
-            done
-            echo "::error file=.gdlintrc,line=1::Falha nas convenções de nomenclatura (gdlint)."
-            ERROR_FLAG=1
-          fi
-          echo "error_flag=$ERROR_FLAG" >> $GITHUB_OUTPUT
-
-      - name: 6. Resultado Final (GDScript)
-        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
-        run: |
-          if [ ${{ steps.gdlint_check.outputs.error_flag }} -eq 1 ]; then
-            echo "Erros encontrados. Falhando Job."
-            exit 1
-          fi
-
   check_csharp:
     name: Verificar Formatação C# (.NET)
     runs-on: ubuntu-latest
