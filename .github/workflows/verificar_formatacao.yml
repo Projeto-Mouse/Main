@@ -28,19 +28,27 @@ jobs:
             gd:
               - '**/*.gd'
 
-        #  Usando um action ja pronto pela comunidade que ja faz
-        #  Tudo que o outro codigo fazer, mas sem precisar escrever tudo
-        #  Ele ja le o gdlintrc normalmente e falha se der erro no format e lint
-        #  Nao precisa do erro manual
+      #  Usando um action ja pronto pela comunidade que ja faz
+      #  Tudo que o outro codigo fazer, mas sem precisar escrever tudo
+      #  Ele ja le o gdlintrc normalmente e falha se der erro no format e lint
+      #  Nao precisa do erro manual
       - name: 3. Pular se nenhum gd foi alterado
         if: steps.filter.outputs.gd != 'true'
         run: echo "Nenhum arquivo GDScript modificado."
 
-      - name: 4. Rodar gdFormat e gdLint com action pronta
+      - name: 4. Instalar Action
         if: steps.filter.outputs.gd == 'true'
-        uses: Scony/gdtoolkit-action@v1
-        with:
-          args: "${{ steps.filter.outputs.gd_files }}"
+        uses: Scony/godot-gdscript-toolkit@master
+
+      - name: 5. Rodar gdformater
+        if: steps.filter.outputs.gd == 'true'
+        run: |
+          gdformat --check ${{ steps.filter.outputs.gd_files }}
+
+      - name: 6. Rodar gdlint
+        if: steps.filter.outputs.gd == 'true'
+        run: |
+          gdlint ${{ steps.filter.outputs.gd_files }}
           
   check_csharp:
     name: Verificar Formatação C# (.NET)
