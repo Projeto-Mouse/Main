@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - staging
+  workflow_dispatch:
 
 jobs:
   check_gdscript:
@@ -51,6 +52,18 @@ jobs:
             echo "EOF" >> $GITHUB_OUTPUT
           fi
 
+      - name: 3.1. Setup Python
+        uses: actions/setup-python@v5
+        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
+        with:
+          python-version: '3.x'
+          
+      - name: 3.5. Baixar gdtoolkit
+        if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
+        run: |
+          pip3 install gdtoolkit
+
+      
       - name: 4. Rodar Formatador (gdformat)
         # Só roda se o filtro achou arquivos E se eles ainda existem
         if: steps.filter.outputs.gd == 'true' && steps.check_files.outputs.has_files == 'true'
