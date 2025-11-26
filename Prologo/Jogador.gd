@@ -40,4 +40,4 @@ func _physics_process(delta):
 	
 	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
-		computarDano(dano)
+		computar_dano(dano)

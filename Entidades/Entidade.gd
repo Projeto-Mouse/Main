@@ -24,7 +24,7 @@ func movimentacao(movimento_x : float, movimento_y : float):
 func inventario() -> void:
 	pass
 	
-func computarDano(dano_recebido : float) -> void:
+func computar_dano(dano_recebido : float) -> void:
 	vida_atual -= dano_recebido
 	if vida_atual <= 0:
 		vida_atual = 0

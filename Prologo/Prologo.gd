@@ -7,9 +7,9 @@ var nao_pausado = false
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Pausar"):
-		controlaMenuDePausa()
+		mostrar_menu_de_pausa()
 		
-func controlaMenuDePausa():
+func mostrar_menu_de_pausa():
 	if nao_pausado:
 		menu_de_pause.hide()
 		Engine.time_scale = 1
