@@ -263,22 +263,20 @@ alignment = 1
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Português"
+text = "Português
+"
 
-[node name="Inglês" type="Button" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
+[node name="Ingles" type="Button" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 size_flags_horizontal = 0
-text = "English
-"
+text = "English"
 
 [node name="Espanhol" type="Button" parent="TabContainer/Linguagens/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
-text = "Español
-"
+text = "Español"
 
 [node name="Creditos e apoio" type="TabBar" parent="TabContainer"]
 visible = false
@@ -331,5 +329,5 @@ theme_override_fonts/font = ExtResource("1_ijckx")
 text = "configuração"
 
 [connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Portugues" to="TabContainer/Linguagens/MarginContainer" method="_on_portugues_pressed"]
-[connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Inglês" to="TabContainer/Linguagens/MarginContainer" method="_on_inglês_pressed"]
+[connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Ingles" to="TabContainer/Linguagens/MarginContainer" method="_on_ingles_pressed"]
 [connection signal="pressed" from="TabContainer/Linguagens/MarginContainer/VBoxContainer/Espanhol" to="TabContainer/Linguagens/MarginContainer" method="_on_espanhol_pressed"]
