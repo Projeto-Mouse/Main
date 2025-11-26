@@ -1,4 +1,3 @@
-[gdlint]
 # Define o limite de linha (baseado no PDF )
 max-line-length: 120
 
