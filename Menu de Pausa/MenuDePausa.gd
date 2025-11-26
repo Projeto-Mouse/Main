@@ -37,5 +37,5 @@ func _on_opcoes_in_game_pressed() -> void:
 	menu_de_opcoes.visible = true
 
 func _on_menu_de_opcoes_sai_das_opcoes() -> void: 
-	margin_container.visible = true
+	margin_container.visible = false
 	menu_de_opcoes.visible = false
