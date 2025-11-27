@@ -383,9 +383,10 @@ git push origin PMDT-123/implementar-login-google
 ### 🛡️ Aviso de Propriedade Intelectual e Licença e Apoio Financeiro
 <details> <summary>🇧🇷 Português (Brasil)</summary>
 
-Natureza do Projeto e Direitos Reservados
+Natureza do Projeto e Direitos Reservado:
 
-Apesar de o código-fonte deste projeto de jogo ser Open Source, o conteúdo criativo, as ideias apresentadas, o design e a propriedade intelectual subjacente não são de domínio público. Todos os direitos sobre o conteúdo criativo e intelectual estão estritamente reservados aos donos do projeto e à equipe de desenvolvimento. Não é permitido copiar as ideias, conceitos ou utilizá-los de maneira lucrativa ou comercial sem autorização expressa.
+Apesar de o código-fonte deste projeto de jogo ser Source-Avaliable, o conteúdo criativo, as ideias apresentadas, o design e a propriedade intelectual subjacente não são de domínio público. Todos os direitos sobre o conteúdo criativo e intelectual estão estritamente reservados aos donos do projeto e à equipe de desenvolvimento. Não é permitido copiar as ideias, conceitos ou utilizá-los de maneira lucrativa ou comercial sem autorização expressa.
+Link da licença que utilizamos (Human Readable Deed): https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt-br
 
 Apoio e Financiamento:
 
@@ -396,7 +397,8 @@ O projeto tem como objetivo principal ser gratuito para a comunidade. No entanto
 ### 🛡️ Project Nature, Reserved Rights and Financial Support
 <details> <summary>🇺🇸 English (United States)</summary>
 
-Although the source code for this game project is Open Source, the creative content, presented ideas, design, and underlying intellectual property are not in the public domain. All rights to the creative and intellectual content are strictly reserved for the project owners and the development team. It is not permitted to copy the ideas, concepts, or use them for profitable or commercial purposes without express authorization.
+Although the source code for this game project is Source-Avaliable, the creative content, presented ideas, design, and underlying intellectual property are not in the public domain. All rights to the creative and intellectual content are strictly reserved for the project owners and the development team. It is not permitted to copy the ideas, concepts, or use them for profitable or commercial purposes without express authorization.
+Link to the license we use (Human Readable Deed): https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
 
 Support and Funding:
 
@@ -407,7 +409,8 @@ The project's primary goal is to be free for the community. However, the organiz
 ### 🛡️ Naturaleza del Proyecto, Derechos Reservados y Apoyo Financiero
 <details> <summary>🇪🇸 Español (Latinoamérica)</summary>
 
-Aunque el código fuente de este proyecto de juego es Open Source, el contenido creativo, las ideas presentadas, el diseño y la propiedad intelectual subyacente no son de dominio público. Todos los derechos sobre el contenido creativo e intelectual están estrictamente reservados para los dueños del proyecto y el equipo de desarrollo. No está permitido copiar las ideas, conceptos o utilizarlos con fines lucrativos o comerciales sin autorización expresa.
+Aunque el código fuente de este proyecto de juego es Source-Avaliable, el contenido creativo, las ideas presentadas, el diseño y la propiedad intelectual subyacente no son de dominio público. Todos los derechos sobre el contenido creativo e intelectual están estrictamente reservados para los dueños del proyecto y el equipo de desarrollo. No está permitido copiar las ideas, conceptos o utilizarlos con fines lucrativos o comerciales sin autorización expresa.
+Enlace a la licencia que utilizamos (Human Readable Deed): https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
 
 Apoyo y Financiación:
 
