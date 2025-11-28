@@ -2,6 +2,7 @@ class_name Jogador
 extends Personagem
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
+@onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 
 var movimento_x : float
 var movimento_y : float
