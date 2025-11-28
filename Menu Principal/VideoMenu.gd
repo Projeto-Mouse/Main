@@ -5,5 +5,5 @@ extends VideoStreamPlayer
 func _ready() -> void:
 	pass
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
