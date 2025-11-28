@@ -12,7 +12,7 @@ Por favor, descreva em detalhes a alteração proposta neste Pull Request. Expli
 
 Por favor, descreva em detalhes a o que foi implementado neste Pull Request. Explique o que foi feito nos arquivos que foram adicionados, removidos ou modificados.
 
-## What
+## How
 
 Por favor, descreva em detalhes como foi implementado este Pull Request. Explique como foi feito os arquivos que foram adicionados, removidos ou modificados.
 

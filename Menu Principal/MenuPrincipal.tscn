@@ -62,8 +62,7 @@ theme_override_colors/font_color = Color(0.489622, 0.489622, 0.489622, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_prxhe")
 theme_override_font_sizes/font_size = 32
-text = "Nos pague uma breja
-"
+text = "Nos pague uma breja"
 flat = true
 
 [node name="Separador2" type="Control" parent="MarginContainer/HBoxContainer"]
@@ -107,8 +106,7 @@ theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_prxhe")
 theme_override_font_sizes/font_size = 48
-text = "Opções
-"
+text = "Opções"
 flat = true
 
 [node name="sair_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
@@ -120,8 +118,7 @@ theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_prxhe")
 theme_override_font_sizes/font_size = 48
-text = "Sair
-"
+text = "Sair"
 flat = true
 
 [node name="Separador" type="Control" parent="MarginContainer/HBoxContainer"]
