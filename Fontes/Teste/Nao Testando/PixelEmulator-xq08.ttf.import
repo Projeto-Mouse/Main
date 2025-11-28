@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cfhb28salhxn"
-path="res://.godot/imported/terminal-grotesque.ttf-df3907790baeebad09e77b3e218e678a.fontdata"
+uid="uid://cc86e05qqyhrn"
+path="res://.godot/imported/PixelEmulator-xq08.ttf-382e6928c3eb17e349df61b3ce672f0d.fontdata"
 
 [deps]
 
-source_file="res://Fonts/terminal-grotesque.ttf"
-dest_files=["res://.godot/imported/terminal-grotesque.ttf-df3907790baeebad09e77b3e218e678a.fontdata"]
+source_file="res://Fontes/Teste/Nao Testando/PixelEmulator-xq08.ttf"
+dest_files=["res://.godot/imported/PixelEmulator-xq08.ttf-382e6928c3eb17e349df61b3ce672f0d.fontdata"]
 
 [params]
 
@@ -23,7 +23,7 @@ allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
