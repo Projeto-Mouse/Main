@@ -11,16 +11,28 @@ extends Control
 @onready var sair_button = $MarginContainer/HBoxContainer/VBoxContainer/sair_Button as Button
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var video_player = $VideoMenu
+# Preload de música permanece no mesmo local (Sons não foi movido)
 @onready var musica_menu = preload("res://Sons/Musicas/Menu/Main Menu.wav")
 @onready var controlador_musica = $ControladorMusica
 
-# Leva o jogador para o começo do jogo.
-# TODO: altere depois o diretório para abrir a cena correta
+# Caminho atualizado para refletir nova estrutura de pastas
+# Cenas teste permanecem fora da pasta Menus
 @onready var começar_jogo = preload("res://Cenas teste/cena1.tscn") as PackedScene
+
 
 func _ready():
 	video_player.play()
 	controlador_musica.tocar_musica(musica_menu, true)
+	
+	# Garante que o MarginContainer tenha exatamente o mesmo tamanho e posição do VideoMenu
+	# Isso corrige inconsistências visuais onde o container de UI não alinhava com o fundo
+	margin_container.anchor_right = video_player.anchor_right
+	margin_container.anchor_bottom = video_player.anchor_bottom
+	margin_container.offset_left = video_player.offset_left
+	margin_container.offset_top = video_player.offset_top
+	margin_container.offset_right = video_player.offset_right
+	margin_container.offset_bottom = video_player.offset_bottom
+	
 	segurar_conectores_signals()
 
 func on_jogar_pressed() -> void:
@@ -33,8 +45,9 @@ func on_carregar_pressed() -> void:
 
 func on_opcao_pressed() -> void:
 	margin_container.visible = false
-	menu_de_opcoes.set_process(true)
-	menu_de_opcoes.visible = true
+	# Passa referência deste menu como origem para permitir retorno correto
+	# Resolve bug onde sempre retornava para Menu de Opções em vez do menu anterior
+	menu_de_opcoes.abrir_menu_opcoes(self)
 
 func on_sair_das_opcoes_pressed() -> void:
 	margin_container.visible = true

@@ -9,7 +9,7 @@ Este guia detalhado é o ponto de partida oficial para configurar seu ambiente d
 ---
 
 <details>
-<summary>🇧🇷 <b>Guia de Configuração (Português)</b></summary>
+<summary>Guia de Configuração (Português)</summary>
 
 ## 1. Pré-requisitos (Obrigatório)
 
@@ -124,7 +124,7 @@ This detailed guide is the official starting point for setting up your developme
 ---
 
 <details>
-<summary>🇺🇸 <b>Setup Guide (English)</b></summary>
+<summary>Setup Guide (English)</summary>
 
 ## 1. Prerequisites (Required)
 
@@ -249,7 +249,7 @@ Esta guía detallada es el punto de partida oficial para configurar tu entorno d
 ---
 
 <details> 
-<summary>🇪🇸 <b>Guía de Configuración (Español)</b></summary>
+<summary>Guía de Configuración (Español)</summary>
 
 ## 1. Requisitos previos (obligatorios)
 
@@ -380,8 +380,8 @@ git push origin PMDT-123/implementar-login-google
 
 <img width="3000" height="1500" alt="godot logo" src="https://github.com/user-attachments/assets/c4423c92-596c-4dd5-a041-1bf79281d4b2" />
 
-### 🛡️ Aviso de Propriedade Intelectual e Licença e Apoio Financeiro
-<details> <summary>🇧🇷 Português (Brasil)</summary>
+### Aviso de Propriedade Intelectual e Licença e Apoio Financeiro
+<details> <summary>Português (Brasil)</summary>
 
 Natureza do Projeto e Direitos Reservado:
 
@@ -394,8 +394,8 @@ O projeto tem como objetivo principal ser gratuito para a comunidade. No entanto
 
 </details>
 
-### 🛡️ Project Nature, Reserved Rights and Financial Support
-<details> <summary>🇺🇸 English (United States)</summary>
+### Project Nature, Reserved Rights and Financial Support
+<details> <summary>English (United States)</summary>
 
 Although the source code for this game project is Source-Avaliable, the creative content, presented ideas, design, and underlying intellectual property are not in the public domain. All rights to the creative and intellectual content are strictly reserved for the project owners and the development team. It is not permitted to copy the ideas, concepts, or use them for profitable or commercial purposes without express authorization.
 Link to the license we use (Human Readable Deed): https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
@@ -406,8 +406,8 @@ The project's primary goal is to be free for the community. However, the organiz
 
 </details>
 
-### 🛡️ Naturaleza del Proyecto, Derechos Reservados y Apoyo Financiero
-<details> <summary>🇪🇸 Español (Latinoamérica)</summary>
+### Naturaleza del Proyecto, Derechos Reservados y Apoyo Financiero
+<details> <summary>Español (Latinoamérica)</summary>
 
 Aunque el código fuente de este proyecto de juego es Source-Avaliable, el contenido creativo, las ideas presentadas, el diseño y la propiedad intelectual subyacente no son de dominio público. Todos los derechos sobre el contenido creativo e intelectual están estrictamente reservados para los dueños del proyecto y el equipo de desarrollo. No está permitido copiar las ideas, conceptos o utilizarlos con fines lucrativos o comerciales sin autorización expresa.
 Enlace a la licencia que utilizamos (Human Readable Deed): https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es

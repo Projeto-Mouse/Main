@@ -22,7 +22,8 @@ func _on_salvar_pressed() -> void:
 func _on_sair_do_jogo_pressed() -> void:
 	get_tree().paused = false
 	Engine.time_scale = 1
-	var menu_scene = ResourceLoader.load("res://Menu Principal/MenuPrincipal.tscn") as PackedScene
+	# Caminho atualizado para nova estrutura de pastas Menus/
+	var menu_scene = ResourceLoader.load("res://Menus/Menu Principal/MenuPrincipal.tscn") as PackedScene
 	get_tree().change_scene_to_packed(menu_scene)
 
 func conectar_signals() -> void:
@@ -30,12 +31,27 @@ func conectar_signals() -> void:
 	opcoes_in_game.button_down.connect(_on_opcoes_in_game_pressed)
 	salvar.button_down.connect(_on_salvar_pressed)
 	sair_do_jogo.button_down.connect(_on_sair_do_jogo_pressed)
+	
+	# Conexão via código para garantir funcionamento
+	if not menu_de_opcoes.sair_das_opcoes.is_connected(_on_menu_de_opcoes_sai_das_opcoes):
+		menu_de_opcoes.sair_das_opcoes.connect(_on_menu_de_opcoes_sai_das_opcoes)
+		
+	# Conecta sinal de visibilidade para resetar estado do menu
+	if not visibility_changed.is_connected(_on_visibility_changed):
+		visibility_changed.connect(_on_visibility_changed)
 
 func _on_opcoes_in_game_pressed() -> void:
 	margin_container.visible = false
-	menu_de_opcoes.set_process(true)
-	menu_de_opcoes.visible = true
+	# Passa referência deste menu como origem para permitir retorno correto
+	# Garante que ao sair de opções, volte para Menu de Pausa e não para outro menu
+	menu_de_opcoes.abrir_menu_opcoes(self)
 
-func _on_menu_de_opcoes_sai_das_opcoes() -> void: 
+func _on_menu_de_opcoes_sai_das_opcoes() -> void:
 	margin_container.visible = true
 	menu_de_opcoes.visible = false
+
+func _on_visibility_changed() -> void:
+	if visible:
+		# Reseta o estado do menu ao abrir
+		margin_container.visible = true
+		menu_de_opcoes.visible = false

@@ -24,8 +24,8 @@ msgstr ""
 "X-Generator: Poedit 3.8\n"
 
 #: Menu Principal/MenuPrincipal.tscn
-msgid "Nos pague uma breja\n"
-msgstr "Pay us a coffe\n"
+msgid "Nos pague uma breja"
+msgstr "Pay us a coffe"
 
 #: Menu Principal/MenuPrincipal.tscn de Pausa/MenuDePausa.tscn
 msgid "Jogar"
@@ -36,12 +36,12 @@ msgid "Carregar"
 msgstr "Load"
 
 #: Menu Principal/MenuPrincipal.tscn
-msgid "Opções\n"
-msgstr "Options\n"
+msgid "Opções"
+msgstr "Options"
 
 #: Menu Principal/MenuPrincipal.tscn
-msgid "Sair\n"
-msgstr "Quit\n"
+msgid "Sair"
+msgstr "Quit"
 
 #: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
 msgid "Som"
@@ -123,6 +123,16 @@ msgstr "Options"
 msgid "Salvar"
 msgstr "Save"
 
-#: Menu de Pausa/MenuDePausa.tscn
-msgid "Sair"
-msgstr "Quit"
+
+
+msgid "Tela Cheia"
+msgstr "Fullscreen"
+
+msgid "Janela"
+msgstr "Windowed"
+
+msgid "Janela Sem Bordas"
+msgstr "Borderless Window"
+
+msgid "Tela Cheia Sem Bordas"
+msgstr "Borderless Fullscreen"

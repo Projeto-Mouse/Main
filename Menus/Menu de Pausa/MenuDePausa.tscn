@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://cgf0ufiabknqv"]
 
-[ext_resource type="Script" uid="uid://dw6x71pnxlcyt" path="res://Menu de Pausa/MenuDePausa.gd" id="1_2mjnd"]
+[ext_resource type="Script" uid="uid://dw6x71pnxlcyt" path="res://Menus/Menu de Pausa/MenuDePausa.gd" id="1_2mjnd"]
 [ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="2_j0jh3"]
-[ext_resource type="PackedScene" uid="uid://cop1g3lxprhax" path="res://Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn" id="3_me27e"]
+[ext_resource type="PackedScene" uid="uid://cop1g3lxprhax" path="res://Menus/Menu de Opcoes/MenuDeOpcoes.tscn" id="3_me27e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wwkh8"]
 
@@ -82,3 +82,4 @@ visible = false
 layout_mode = 1
 
 [connection signal="sair_das_opcoes" from="MenuDeOpcoes" to="." method="_on_menu_de_opcoes_sair_das_opcoes"]
+
