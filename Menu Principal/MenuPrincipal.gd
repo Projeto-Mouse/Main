@@ -16,7 +16,7 @@ extends Control
 
 # Leva o jogador para o começo do jogo.
 # TODO: altere depois o diretório para abrir a cena correta
-@onready var começar_jogo = preload("res://Cenas teste/cena1.tscn") as PackedScene
+@onready var começar_jogo = preload("res://Cenas Teste/Prologo/Prologo.tscn") as PackedScene
 
 func _ready():
 	video_player.play()

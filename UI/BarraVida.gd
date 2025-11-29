@@ -11,12 +11,10 @@ var vida_max : float
 # Cada posicao guarda um sprite da vida
 var array_vida : Array = []
 
-
 func _ready() -> void:
 	criar_coracoes()
 
-
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	atualizar_vida_gui()
 
 func criar_coracoes() -> void:
@@ -29,10 +27,9 @@ func criar_coracoes() -> void:
 		add_child(sprite)
 		array_vida.append(sprite)
 
-
 # Atualiza os coracoes na tela
 func atualizar_vida_gui() -> void:
-	var vida_atual = player.vida_atual
+	vida_atual = player.vida_atual
 	
 	for i in range(len(array_vida)):
 		# Clamp e uma funcao que bota vida atual ir de 0 ate 1 se passar disso para baixo ou cima

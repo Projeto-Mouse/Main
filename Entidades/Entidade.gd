@@ -21,11 +21,9 @@ func movimentacao(movimento_x : float, movimento_y : float):
 	
 	move_and_slide()
 
-
 func inventario() -> void:
 	pass
 	
-
 func computar_dano(dano_recebido : float) -> void:
 	vida_atual -= dano_recebido
 	if vida_atual <= 0:
