@@ -71,5 +71,5 @@ Dano={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Traducoes/en_US.po", "res://Traducoes/es_ES.po")
+locale/translations=PackedStringArray("res://Traducoes/pt_BR.po", "res://Traducoes/en_US.po", "res://Traducoes/es_ES.po")
 locale/fallback="pt_BR"
