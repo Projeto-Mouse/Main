@@ -15,9 +15,9 @@ extends Control
 @onready var musica_menu = preload("res://Sons/Musicas/Menu/Main Menu.wav")
 @onready var controlador_musica = $ControladorMusica
 
-# Caminho atualizado para refletir nova estrutura de pastas
-# Cenas teste permanecem fora da pasta Menus
-@onready var começar_jogo = preload("res://Cenas teste/cena1.tscn") as PackedScene
+# Leva o jogador para o começo do jogo.
+# TODO: altere depois o diretório para abrir a cena correta
+@onready var começar_jogo = preload("res://Cenas Teste/Prologo/Prologo.tscn") as PackedScene
 
 
 func _ready():
