@@ -9,44 +9,36 @@ var movimento_y : float
 
 # Função de movimentação básica
 func _physics_process(delta):
-	
-	#Vetor que guarda a direcao 
 	var direcao = Vector3.ZERO
 	
+	# Movimentação do corpo pelo cenário
 	if Input.is_action_pressed("Direita"):
 		direcao.x += 1
-
 	if Input.is_action_pressed("Esquerda"):
 		direcao.x -= 1
-
-	
 	if Input.is_action_pressed("Cima"):
 		direcao.y -= 1
-
 	if Input.is_action_pressed("Baixo"):
 		direcao.y += 1
-
-	# Movimento e a variavel que de fato guarda o movimento do personagem ( com velocidade e direcao )
 	if Input.is_action_pressed("Devagar"):
 		movimento_x = direcao.x * (velocidade - 2.0)
 	else:
 		movimento_x = direcao.x * velocidade
-		
-	# Pulo
-	if is_on_floor():
-		movimento_y = 0
-		# Quando ele aperta o botão de pulo, a velocidade recebe a força do pulo
-		if Input.is_action_just_pressed("ui_accept"):
-			movimento_y = forca_pulo
-	# senao ele mantem no chao o personagem
-	else:
+	
+	if not is_on_floor():
 		movimento_y += gravidade * delta
+	else: 
+		# Zera a queda para evitar acúmulo
+		movimento_y = 0
+		# Apenas quando tem contato com o chão
+		if Input.is_action_pressed("Pular"):
+			movimento_y = forca_pulo
 		
 	direcao = direcao.normalized()
 	
-	# Manda para funcao movimentacao da classe personagem o movimento
+	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	
-	# Chama a funcao computar_dano para testar o dano ( Só estou chamando aqui para teste )
+	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
