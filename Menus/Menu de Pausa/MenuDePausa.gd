@@ -14,7 +14,7 @@ func _ready():
 	conectar_signals()
 
 func _on_voltar_ao_jogo_pressed() -> void:
-	cena_principal.menu_de_pausa()
+	cena_principal.mostrar_menu_de_pausa()
 
 func _on_salvar_pressed() -> void:
 	print("Botão salvar pressionado!")
