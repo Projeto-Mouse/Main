@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8hj4k5m6n7o"]
+
+[ext_resource type="Script" path="res://Menus/Componentes Comuns/MenuBackgroundScene.gd" id="1"]
+[ext_resource type="VideoStream" uid="uid://nrxnjlcx0rm8" path="res://Sprites/Imagens de Backgorund menu/menu neutro.ogv" id="2"]
+
+[node name="MenuBackgroundScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2")
+autoplay = true
+expand = true
+loop = true

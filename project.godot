@@ -11,9 +11,8 @@ config_version=5
 [application]
 
 config/name="Projeto mouse"
-run/main_scene="res://Menu Principal/MenuPrincipal.tscn"
+run/main_scene="res://Menus/Menu Principal/MenuPrincipal.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://Menu Principal/icon.svg"
 
 [audio]
 
@@ -77,5 +76,5 @@ Pular={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Traducoes/en_US.po", "res://Traducoes/es_ES.po")
+locale/translations=PackedStringArray("res://Traducoes/pt_BR.po", "res://Traducoes/en_US.po", "res://Traducoes/es_ES.po")
 locale/fallback="pt_BR"
