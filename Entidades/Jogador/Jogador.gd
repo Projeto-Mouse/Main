@@ -1,16 +1,16 @@
 class_name Jogador
 extends Personagem
 
-@onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
+@onready var camera : Camera3D = $pivo_Camera/Camera
+@onready var coracoes_vida : Control = $"../CanvasLayer/BarraVida"
 
 # Essas variaveis sao testes apenas para rotarcionamos o boneco para testar
 # A logica, depois serao adicionados os sprites de em pe e rastejando.
-@onready var collision_shape: CollisionShape3D = $CollisionShape3D
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+@onready var collision_shape : CollisionShape3D = $CollisionShape3D
+@onready var mesh_instance : MeshInstance3D = $MeshInstance3D
 
-var movimento_x: float
-var movimento_y: float
+var movimento_x : float
+var movimento_y : float
 
 # Função de movimentação básica
 func _physics_process(delta):
