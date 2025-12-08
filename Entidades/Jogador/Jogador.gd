@@ -32,16 +32,16 @@ func _physics_process(delta):
 	# Provisorio o que ele muda quando rasteja
 	# No caso as rotacoes.
 	if Input.is_action_pressed("Rastejar"):
-		collisionShape.rotation_degrees.x = 90
-		meshInstance.rotation_degrees.x = 90
+		collision_shape.rotation_degrees.x = 90
+		mesh_instance.rotation_degrees.x = 90
 		movimento_x = direcao.x * (velocidade - 2.5)
 	elif Input.is_action_pressed("Devagar"):
-		collisionShape.rotation_degrees.x = 0
-		meshInstance.rotation_degrees.x = 0
+		collision_shape.rotation_degrees.x = 0
+		mesh_instance.rotation_degrees.x = 0
 		movimento_x = direcao.x * (velocidade - 2.0)
 	else:
-		collisionShape.rotation_degrees.x = 0
-		meshInstance.rotation_degrees.x = 0
+		collision_shape.rotation_degrees.x = 0
+		mesh_instance.rotation_degrees.x = 0
 		movimento_x = direcao.x * velocidade
 	
 	# Pular
