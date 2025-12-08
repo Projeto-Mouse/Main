@@ -2,7 +2,7 @@ class_name Jogador
 extends Personagem
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
+@onready var coracoesVida: Control = $"../CanvasLayer/BarraVida"
 
 # Essas variaveis sao testes apenas para rotarcionamos o boneco para testar
 # A logica, depois serao adicionados os sprites de em pe e rastejando.
