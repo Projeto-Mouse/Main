@@ -9,8 +9,8 @@ extends Personagem
 @onready var collisionShape: CollisionShape3D = $CollisionShape3D
 @onready var meshInstance: MeshInstance3D = $MeshInstance3D
 
-var movimentoX : float
-var movimentoY : float
+var movimentoX: float
+var movimentoY: float
 
 # Função de movimentação básica
 func _physics_process(delta):
@@ -48,7 +48,7 @@ func _physics_process(delta):
 	if not is_on_floor():
 		movimentoY += gravidade * delta
 	else: 
-		movimento_y = 0
+		movimentoY = 0
 		if Input.is_action_pressed("Pular"):
 			movimentoY = forca_pulo
 	
