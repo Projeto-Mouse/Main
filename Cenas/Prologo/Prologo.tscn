@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=14 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
-[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Cenas/Prologo/Jogador.gd" id="2_ftip3"]
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="2_ftip3"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
@@ -21,6 +21,15 @@ height = 0.5
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hfh5a"]
 radius = 0.1
 height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_spau7"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_spau7"]
+height = 3.0
+radius = 0.01
 
 [node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
@@ -53,7 +62,7 @@ mesh = SubResource("BoxMesh_jwi8j")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
 
 [node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6061838, 0.561286, -1.53023)
 script = ExtResource("2_ftip3")
 velocidade = 3.0
 gravidade = -10.0
@@ -73,8 +82,20 @@ mesh = SubResource("CapsuleMesh_hfh5a")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79922, -0.561286, 1.53023)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
-transform = Transform3D(1, 0, 0, 0, 0.980553, -0.196254, 0, 0.196254, 0.980553, -1.78463, 0.608128, 0.0670158)
+transform = Transform3D(1, 0, 0, 0, 0.99999547, -0.0030192286, 0, 0.0030192286, 0.99999547, -1.7642063, 0.608128, -0.39032993)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
 visible = false
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06941581, 0.06377673)
+
+[node name="mesh" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9998703, 0.016108695, 0, -0.016108695, 0.9998703, -0.2643137, 2.1863704, -1.5753771)
+mesh = SubResource("CylinderMesh_spau7")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9998703, 0.016108695, 0, -0.016108695, 0.9998703, -0.2643137, 2.1863704, -1.5753771)
+shape = SubResource("CylinderShape3D_spau7")
