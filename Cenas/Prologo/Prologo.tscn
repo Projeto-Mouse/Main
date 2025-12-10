@@ -1,8 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=14 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
-[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Cenas/Prologo/Jogador.gd" id="2_ftip3"]
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="2_ftip3"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
@@ -14,6 +14,11 @@ size = Vector3(5, 0.5, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_jwi8j"]
 size = Vector3(5, 0.5, 1)
 
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_spau7"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r4mej"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_evrk6"]
 radius = 0.1
 height = 0.5
@@ -24,6 +29,9 @@ height = 0.5
 
 [node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.6961926, 0.3811526, -0.60830796, -0.38479698, 0.51722103, 0.76446956, 0.60600924, 0.7662931, -0.2134191, -5.203808, 4.214841, 2.0774121)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -38,22 +46,29 @@ sprite_vida_cheia = ExtResource("3_rlofj")
 sprite_vida_meio = ExtResource("4_4yqau")
 sprite_vida_vazia = ExtResource("5_mt6og")
 
-[node name="Chao" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-07, 0.054019, -1.7361)
+[node name="CenaPrologo01" type="Node3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Chao"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.174825)
+[node name="Assoalho" type="StaticBody3D" parent="CenaPrologo01"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CenaPrologo01/Assoalho"]
 shape = SubResource("BoxShape3D_ku42y")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Chao"]
-transform = Transform3D(1, 0, 0, 0, 0.999364, -0.035667, 0, 0.035667, 0.999364, -0.010165, -0.00200897, 0.171418)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenaPrologo01/Assoalho"]
+transform = Transform3D(1, 0, 0, 0, 1.0000002, 0.00041885301, 0, -0.00041885176, 1.0000001, 0, 0, 0)
 mesh = SubResource("BoxMesh_jwi8j")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
+[node name="ParedeDireita" type="StaticBody3D" parent="CenaPrologo01"]
+transform = Transform3D(1, 0, 0, 0, 1.8768197, 0, 0, 0, 1, -8.000082, 0.6988976, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CenaPrologo01/ParedeDireita"]
+shape = SubResource("ConcavePolygonShape3D_spau7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenaPrologo01/ParedeDireita"]
+mesh = SubResource("BoxMesh_r4mej")
 
 [node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.591949, 0.593, 0)
 script = ExtResource("2_ftip3")
 velocidade = 3.0
 gravidade = -10.0
@@ -70,10 +85,10 @@ shape = SubResource("CapsuleShape3D_evrk6")
 mesh = SubResource("CapsuleMesh_hfh5a")
 
 [node name="pivo_Camera" type="Node3D" parent="Jogador"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79922, -0.561286, 1.53023)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79922, -0.561286, 2.861128)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
-transform = Transform3D(1, 0, 0, 0, 0.980553, -0.196254, 0, 0.196254, 0.980553, -1.78463, 0.608128, 0.0670158)
+transform = Transform3D(1, 0, 0, 0, 0.9805531, -0.19625403, 0, 0.19625403, 0.9805531, -1.78463, 0.32741076, -1.6491129)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
