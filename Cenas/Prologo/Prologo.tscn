@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=15 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="5_mt6og"]
+[ext_resource type="Script" uid="uid://bjoxk4wylrh7e" path="res://Componentes/ScriptObjEscalavel.gd" id="8_r4mej"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ku42y"]
 size = Vector3(5, 0.5, 1)
@@ -61,8 +62,8 @@ mesh = SubResource("BoxMesh_jwi8j")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
 
-[node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6061838, 0.561286, -1.53023)
+[node name="Jogador" type="CharacterBody3D" parent="." groups=["Jogador"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2572513, 0.561286, -1.53023)
 script = ExtResource("2_ftip3")
 velocidade = 3.0
 gravidade = -10.0
@@ -88,14 +89,18 @@ fov = 89.5799
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
 visible = false
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06941581, 0.06377673)
+[node name="Cipo" type="Area3D" parent="." groups=["Escalaveis"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06941581, 0.047034502)
+script = ExtResource("8_r4mej")
 
-[node name="mesh" type="MeshInstance3D" parent="Area3D"]
+[node name="mesh" type="MeshInstance3D" parent="Cipo" groups=["Escalaveis"]]
 transform = Transform3D(1, 0, 0, 0, 0.9998703, 0.016108695, 0, -0.016108695, 0.9998703, -0.2643137, 2.1863704, -1.5753771)
 mesh = SubResource("CylinderMesh_spau7")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cipo" groups=["Escalaveis"]]
 transform = Transform3D(1, 0, 0, 0, 0.9998703, 0.016108695, 0, -0.016108695, 0.9998703, -0.2643137, 2.1863704, -1.5753771)
 shape = SubResource("CylinderShape3D_spau7")
+
+[connection signal="body_entered" from="Cipo" to="Cipo" method="entrou_area_escalavel"]
+[connection signal="body_exited" from="Cipo" to="Cipo" method="saiu_area_escalavel"]
