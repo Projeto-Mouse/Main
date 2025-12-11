@@ -52,10 +52,10 @@ mesh = SubResource("BoxMesh_jwi8j")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
 
-[node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)
+[node name="Jogador" type="CharacterBody3D" parent="." groups=["Jogador"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2572513, 0.561286, -1.53023)
 script = ExtResource("2_ftip3")
-velocidade = 3.0
+velocidade_base = 3.0
 gravidade = -10.0
 forca_pulo = 3.5
 nome = "Ratinho"
@@ -73,7 +73,7 @@ mesh = SubResource("CapsuleMesh_hfh5a")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79922, -0.561286, 1.53023)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
-transform = Transform3D(1, 0, 0, 0, 0.980553, -0.196254, 0, 0.196254, 0.980553, -1.78463, 0.608128, 0.0670158)
+transform = Transform3D(1, 0, 0, 0, 0.99999547, -0.0030192286, 0, 0.0030192286, 0.99999547, -1.7642063, 0.608128, -0.39032993)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
