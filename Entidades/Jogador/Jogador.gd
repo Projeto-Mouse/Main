@@ -1,5 +1,5 @@
 class_name Jogador
-extends Personagem
+extends Entidade
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
@@ -21,9 +21,9 @@ func _physics_process(delta):
 	if Input.is_action_pressed("Baixo"):
 		direcao.y += 1
 	if Input.is_action_pressed("Devagar"):
-		movimento_x = direcao.x * (velocidade - 2.0)
+		movimento_x = direcao.x * (velocidade_base - 2.0)
 	else:
-		movimento_x = direcao.x * velocidade
+		movimento_x = direcao.x * velocidade_base
 	
 	if not is_on_floor():
 		movimento_y += gravidade * delta
