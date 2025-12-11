@@ -4,15 +4,17 @@ extends Entidade
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 
-var esta_em_obj_escalavel : bool = false
+var luz_natural_personagem: OmniLight3D
 var movimento_x : float
 var movimento_y : float
 
-func _process(_delta: float) -> void:
-	# Teste temporario para computar dano
-	if Input.is_action_just_pressed("Dano"):
-		computar_dano(dano)
-
+func _ready() -> void:
+	luz_natural_personagem = OmniLight3D.new()
+	luz_natural_personagem.light_energy = 0.05
+	luz_natural_personagem.omni_range = 0.8
+	get_parent().call_deferred("add_child", luz_natural_personagem)
+		
+# Função de movimentação básica
 func _physics_process(delta):
 	var vetor_movimentos = calcular_movimento(velocidade_base, 0)
 	
@@ -56,14 +58,10 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 		
 	direcao = direcao.normalized()
 	
-	if Input.is_action_pressed("Devagar"):
-		velocidade_x *= 0.4 # 40% da velocidade reduzida
+	# Chama o método para mover, presente na classe Personagem
+	movimentacao(movimento_x, movimento_y)
 		
-	var movimento_no_x = direcao.x * velocidade_x
-	var movimento_no_y = direcao.y * velocidade_y
-		
-	return Vector3(movimento_no_x, movimento_no_y, 0)
-	
-func setar_esta_em_escalavel(esta_tocando_escalavel : bool) -> void:
-	esta_em_obj_escalavel = esta_tocando_escalavel
+	var posicao_nova_luz = global_transform.origin
+	posicao_nova_luz.y += 0.3
+	luz_natural_personagem.global_transform.origin = posicao_nova_luz
 	
