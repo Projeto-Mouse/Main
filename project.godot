@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Projeto mouse"
 
+[global_group]
+
+Escalaveis="Objetos Escalaveis"
+
 [input]
 
 Pausar={
