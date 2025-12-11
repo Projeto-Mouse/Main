@@ -1,4 +1,4 @@
-class_name Entidades
+class_name Entidade
 extends CharacterBody3D
 
 # Variaveis fisicas 
