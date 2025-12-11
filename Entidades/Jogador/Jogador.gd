@@ -40,7 +40,10 @@ func _physics_process(delta):
 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
-		
+
+func setar_esta_em_escalavel(esta_tocando_escalavel : bool) -> void:
+	esta_em_obj_escalavel = esta_tocando_escalavel
+	
 func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	var direcao = Vector3.ZERO
 	
@@ -64,6 +67,4 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 		
 	return Vector3(movimento_no_x, movimento_no_y, 0)
 	
-func setar_esta_em_escalavel(esta_tocando_escalavel : bool) -> void:
-	esta_em_obj_escalavel = esta_tocando_escalavel
 	
