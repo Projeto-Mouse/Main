@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="1_ijckx"]
 [ext_resource type="PackedScene" uid="uid://b3a5mc8mm2rb7" path="res://Menus/Menu de Opcoes/Resolucao/WindowModeButton.tscn" id="1_mgxxq"]
 [ext_resource type="PackedScene" uid="uid://c0vuo2ehrwvbs" path="res://Menus/Menu de Opcoes/Resolucao/OpcaoDeResolucaoButton.tscn" id="2_ro2m6"]
-[ext_resource type="Script" uid="uid://xa2ncn1tvmjw" path="res://Menus/Menu de Opcoes/Linguagem/SeletorLinguagem.gd" id="4_81wdl"]
+[ext_resource type="Script" path="res://Menus/Menu de Opcoes/Linguagem/SeletorLinguagem.gd" id="4_81wdl"]
 
 [node name="Controlador_Tab_Container" type="Control"]
 layout_mode = 3
