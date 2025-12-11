@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
-[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Cenas/Prologo/Jogador.gd" id="2_ftip3"]
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="2_ftip3"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
@@ -48,9 +48,6 @@ shape = SubResource("BoxShape3D_ku42y")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Chao"]
 transform = Transform3D(1, 0, 0, 0, 0.999364, -0.035667, 0, 0.035667, 0.999364, -0.010165, -0.00200897, 0.171418)
 mesh = SubResource("BoxMesh_jwi8j")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
 
 [node name="Jogador" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)

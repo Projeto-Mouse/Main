@@ -4,9 +4,16 @@ extends Personagem
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 
+var luz_natural_personagem: OmniLight3D
 var movimento_x : float
 var movimento_y : float
 
+func _ready() -> void:
+	luz_natural_personagem = OmniLight3D.new()
+	luz_natural_personagem.light_energy = 0.05
+	luz_natural_personagem.omni_range = 0.8
+	get_parent().call_deferred("add_child", luz_natural_personagem)
+		
 # Função de movimentação básica
 func _physics_process(delta):
 	var direcao = Vector3.ZERO
@@ -38,6 +45,10 @@ func _physics_process(delta):
 	
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
+		
+	var posicao_nova_luz = global_transform.origin
+	posicao_nova_luz.y += 0.3
+	luz_natural_personagem.global_transform.origin = posicao_nova_luz
 	
 	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
