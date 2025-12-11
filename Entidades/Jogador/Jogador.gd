@@ -44,7 +44,7 @@ func _physics_process(delta):
 func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	var direcao = Vector3.ZERO
 	
-	# Movimentação do corpo pelo cenário
+	# Movimentacao esquerda direita cima baixo
 	if Input.is_action_pressed("Direita"):
 		direcao.x += 1
 	if Input.is_action_pressed("Esquerda"):
