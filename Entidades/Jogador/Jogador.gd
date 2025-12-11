@@ -9,10 +9,17 @@ extends Entidade
 @onready var collision_shape : CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance : MeshInstance3D = $MeshInstance3D
 
+var luz_natural_personagem: OmniLight3D
 var esta_em_obj_escalavel : bool = false
 var movimento_x : float
 var movimento_y : float
 
+func _ready() -> void:
+	luz_natural_personagem = OmniLight3D.new()
+	luz_natural_personagem.light_energy = 0.05
+	luz_natural_personagem.omni_range = 0.8
+	get_parent().call_deferred("add_child", luz_natural_personagem)
+	
 func _process(_delta: float) -> void:
 	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
@@ -45,6 +52,10 @@ func _physics_process(delta):
 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
+	
+	var posicao_nova_luz = global_transform.origin
+	posicao_nova_luz.y += 0.3
+	luz_natural_personagem.global_transform.origin = posicao_nova_luz
 
 func setar_esta_em_escalavel(esta_tocando_escalavel : bool) -> void:
 	esta_em_obj_escalavel = esta_tocando_escalavel
