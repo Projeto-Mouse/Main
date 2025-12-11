@@ -5,13 +5,13 @@ extends Node
 # ELA FAZ A LOGICA DE TROCA DE VARIAVEL DE ESTADO
 # NO JOGADOR
 
-# PROVAVELMENTE DA PARA TIRAR ESSAS DUAS FUNCOES
-# PRATICAMENTE IGUAIS
+func _ready() -> void:
+	var objeto_escalavel = self
 
-func entrou_area_escalavel(corpo : CharacterBody3D) -> void:
+	objeto_escalavel.body_entered.connect(gerenciar_area_escalavel.bind(true))
+	
+	objeto_escalavel.body_exited.connect(gerenciar_area_escalavel.bind(false))
+
+func gerenciar_area_escalavel(corpo: CharacterBody3D, entrou: bool) -> void:
 	if corpo.is_in_group("Jogador"):
-		corpo.setar_esta_em_escalavel(true)
-		
-func saiu_area_escalavel(corpo : CharacterBody3D) -> void:
-	if corpo.is_in_group("Jogador"):
-		corpo.setar_esta_em_escalavel(false)
+		corpo.setar_esta_em_escalavel(entrou)
