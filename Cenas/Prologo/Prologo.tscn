@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=24 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="5_mt6og"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spau7"]
-size = Vector3(12.001867, 0.031238556, 0.022270203)
+size = Vector3(29.406925, 0.031238556, 0.022270203)
 
 [sub_resource type="BoxMesh" id="BoxMesh_r4mej"]
 
@@ -37,6 +37,11 @@ size = Vector3(1.0008545, 0.031097412, 0.022262573)
 size = Vector3(1, 0.031440735, 0.022567749)
 
 [sub_resource type="BoxMesh" id="BoxMesh_r8c7y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
+size = Vector3(0.70095825, 0.03970146, 0.024414063)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tai6l"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_evrk6"]
 radius = 0.1
@@ -75,7 +80,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
 shape = SubResource("BoxShape3D_spau7")
 
 [node name="base_assoalho" type="MeshInstance3D" parent="CenaPrologo01/Assoalho"]
-transform = Transform3D(12, 0, 0, 0, 0.03, 0, 0, 0, 0.02, 0, 0, 0)
+transform = Transform3D(20.461205, 0, 0, 0, 0.03, 0, 0, 0, 0.02, 4.47, 0, 0)
 mesh = SubResource("BoxMesh_r4mej")
 
 [node name="Paredes" type="StaticBody3D" parent="CenaPrologo01"]
@@ -90,31 +95,22 @@ transform = Transform3D(0.02, 0, 0, 0, 1, 0, 0, 0, 0.02, 0, 0, 0)
 mesh = SubResource("BoxMesh_ppn7s")
 
 [node name="Tronco01" type="StaticBody3D" parent="CenaPrologo01"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.564745, 1.1211507, 0)
+transform = Transform3D(0.99886596, -0.047612038, 0, 0.047612038, 0.99886596, 0, 0, 0, 1, 8.564745, 1.1211507, 0)
 
 [node name="colisão_subida_part1" type="CollisionShape3D" parent="CenaPrologo01/Tronco01"]
-transform = Transform3D(0.80074185, -0.59900963, 0, 0.59900963, 0.80074185, 0, 0, 0, 1, -4.2457685, -0.88403815, 0)
-shape = SubResource("BoxShape3D_ppn7s")
-
-[node name="subida_part1" type="MeshInstance3D" parent="CenaPrologo01/Tronco01"]
-transform = Transform3D(0.64059347, -0.017970288, 0, 0.47920772, 0.024022255, 0, 0, 0, 0.02, -4.2457685, -0.88403815, 0)
-mesh = SubResource("BoxMesh_3kemy")
-skeleton = NodePath("")
-
-[node name="colisão_subida_part2" type="CollisionShape3D" parent="CenaPrologo01/Tronco01"]
 transform = Transform3D(0.9509379, -0.30938217, 0, 0.30938217, 0.9509379, 0, 0, 0, 1, -3.545411, -0.5220732, 0)
 shape = SubResource("BoxShape3D_ppn7s")
 
-[node name="subida_part2" type="MeshInstance3D" parent="CenaPrologo01/Tronco01"]
+[node name="subida_part1" type="MeshInstance3D" parent="CenaPrologo01/Tronco01"]
 transform = Transform3D(0.76075023, -0.009281466, 0, 0.24750575, 0.028528135, 0, 0, 0, 0.02, -3.5462923, -0.5229703, 0)
 mesh = SubResource("BoxMesh_3kemy")
 skeleton = NodePath("")
 
-[node name="colisão_subida_part3" type="CollisionShape3D" parent="CenaPrologo01/Tronco01"]
+[node name="colisão_subida_part2" type="CollisionShape3D" parent="CenaPrologo01/Tronco01"]
 transform = Transform3D(0.86185944, -0.50714725, 0, 0.50714725, 0.86185944, 0, 0, 0, 1, -2.830512, -0.19646561, 0)
 shape = SubResource("BoxShape3D_ppn7s")
 
-[node name="subida_part3" type="MeshInstance3D" parent="CenaPrologo01/Tronco01"]
+[node name="subida_part2" type="MeshInstance3D" parent="CenaPrologo01/Tronco01"]
 transform = Transform3D(0.6894876, -0.015214417, 0, 0.40571782, 0.025855783, 0, 0, 0, 0.02, -2.830512, -0.19646561, 0)
 mesh = SubResource("BoxMesh_3kemy")
 skeleton = NodePath("")
@@ -145,37 +141,61 @@ shape = SubResource("BoxShape3D_rteev")
 transform = Transform3D(1, 0, 0, 0, 0.03, 0, 0, 0, 0.02, 0, 0, 0)
 mesh = SubResource("BoxMesh_r8c7y")
 
-[node name="colisão_salto_tronco03" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+[node name="colisão_tronco02_part1" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
 transform = Transform3D(0.98722565, -0.15932983, 0, 0.15932983, 0.98722565, 0, 0, 0, 1, 0.9940996, 0.08037901, -0.00011444092)
 shape = SubResource("BoxShape3D_rteev")
 
-[node name="salto_tronco03" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+[node name="tronco02_part1" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
 transform = Transform3D(0.98722583, -0.004779896, 0, 0.15932989, 0.029616771, 0, 0, 0, 0.020000001, 0.99416924, 0.07994628, 0)
 mesh = SubResource("BoxMesh_r8c7y")
 
-[node name="colisão_salto_tronco04" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
-transform = Transform3D(0.7957378, -0.60564125, 0, 0.60564125, 0.7957378, 0, 0, 0, 1, 1.8795385, 0.46478128, -0.00011444092)
+[node name="colisão_tronco02_part2" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.79573774, -0.60564125, 0, 0.60564125, 0.79573774, 0, 0, 0, 0.99999994, 1.8795376, 0.4647814, -0.00011444091)
 shape = SubResource("BoxShape3D_rteev")
 
-[node name="salto_tronco04" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
-transform = Transform3D(0.7957378, -0.01816924, 0, 0.60564125, 0.023872137, 0, 0, 0, 0.02, 1.8798037, 0.4644313, 0)
+[node name="tronco02_part2" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.79573774, -0.01816924, 0, 0.60564125, 0.023872135, 0, 0, 0, 0.019999998, 1.8798037, 0.4644314, 0)
 mesh = SubResource("BoxMesh_r8c7y")
 
-[node name="colisão_salto_tronco05" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+[node name="colisão_tronco02_part3" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
 transform = Transform3D(0.9854614, -0.16989988, 0, 0.16989988, 0.9854614, 0, 0, 0, 1, 2.7610788, 0.84810495, -0.00011444092)
 shape = SubResource("BoxShape3D_rteev")
 
-[node name="salto_tronco05" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+[node name="tronco02_part3" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
 transform = Transform3D(0.98546124, -0.0050969967, 0, 0.16989988, 0.02956384, 0, 0, 0, 0.02, 2.7611551, 0.84767294, 0)
 mesh = SubResource("BoxMesh_r8c7y")
 
-[node name="colisão_salto_tronco06" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+[node name="colisão_tronco02_part4" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
 transform = Transform3D(0.8284222, -0.56010413, 0, 0.56010413, 0.8284222, 0, 0, 0, 1, 3.6594381, 1.2112012, -0.00011444092)
 shape = SubResource("BoxShape3D_rteev")
 
-[node name="salto_tronco06" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+[node name="tronco02_part4" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
 transform = Transform3D(0.8284222, -0.016803123, 0, 0.56010413, 0.024852663, 0, 0, 0, 0.02, 3.6596842, 1.2108402, 0)
 mesh = SubResource("BoxMesh_r8c7y")
+
+[node name="colisão_queda01_tronco02" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.28230786, -0.9593236, 0, 0.9593236, 0.28230786, 0, 0, 0, 0.99999964, -0.62703705, -0.48596358, -0.000114440874)
+shape = SubResource("BoxShape3D_rteev")
+
+[node name="queda01_tronco03" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.2823078, -0.028779712, 0, 0.9593236, 0.008469237, 0, 0, 0, 0.019999998, -0.6266146, -0.4860872, 0)
+mesh = SubResource("BoxMesh_r8c7y")
+
+[node name="colisão_queda02_tronco02" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.28230786, -0.9593236, 0, 0.9593236, 0.28230786, 0, 0, 0, 0.99999964, -0.62703705, -0.48596358, -0.000114440874)
+shape = SubResource("BoxShape3D_rteev")
+
+[node name="queda01_tronco02" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.2823078, -0.028779712, 0, 0.9593236, 0.008469237, 0, 0, 0, 0.019999998, -0.6266146, -0.4860872, 0)
+mesh = SubResource("BoxMesh_r8c7y")
+
+[node name="colisão_queda02_tronco03" type="CollisionShape3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.6781595, -0.73491454, 0, 0.73491454, 0.6781595, 0, 0, 0, 0.99999964, -0.99499416, -1.2052172, 0.00048828108)
+shape = SubResource("BoxShape3D_r8c7y")
+
+[node name="queda02_tronco02" type="MeshInstance3D" parent="CenaPrologo01/Tronco02"]
+transform = Transform3D(0.47516477, -0.02567812, 0, 0.5149311, 0.02369508, 0, 0, 0, 0.01999999, -0.9950247, -1.2047554, 0)
+mesh = SubResource("BoxMesh_tai6l")
 
 [node name="Jogador" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6182237, 0.567323, 0)
