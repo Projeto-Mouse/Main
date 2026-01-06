@@ -4,6 +4,11 @@ extends Entidade
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 
+# Essas variaveis sao testes apenas para rotarcionamos o boneco para testar
+# A logica, depois serao adicionados os sprites de em pe e rastejando.
+@onready var collision_shape : CollisionShape3D = $CollisionShape3D
+@onready var mesh_instance : MeshInstance3D = $MeshInstance3D
+
 var esta_em_obj_escalavel : bool = false
 var movimento_x : float
 var movimento_y : float
@@ -14,6 +19,7 @@ func _process(_delta: float) -> void:
 		computar_dano(dano)
 
 func _physics_process(delta):
+	var esta_rastejando = Input.is_action_pressed("Rastejar")
 	var vetor_movimentos = calcular_movimento(velocidade_base, 0)
 	
 	movimento_x = vetor_movimentos.x
@@ -34,8 +40,7 @@ func _physics_process(delta):
 		else:
 			# Zera a queda para evitar acúmulo
 			movimento_y = 0
-			# Apenas quando tem contato com o chão
-			if Input.is_action_pressed("Pular"):
+			if Input.is_action_pressed("Pular") && not esta_rastejando:
 				movimento_y = forca_pulo
 
 	# Chama o método para mover, presente na classe Personagem
@@ -61,10 +66,17 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	
 	if Input.is_action_pressed("Devagar"):
 		velocidade_x *= 0.4 # 40% da velocidade reduzida
+	
+	# Provisorio
+	if Input.is_action_pressed("Rastejar"):
+		collision_shape.rotation_degrees.x = 90
+		mesh_instance.rotation_degrees.x = 90
+		velocidade_x *= 0.3
+	else:
+		collision_shape.rotation_degrees.x = 0
+		mesh_instance.rotation_degrees.x = 0
 		
 	var movimento_no_x = direcao.x * velocidade_x
 	var movimento_no_y = direcao.y * velocidade_y
 		
 	return Vector3(movimento_no_x, movimento_no_y, 0)
-	
-	
