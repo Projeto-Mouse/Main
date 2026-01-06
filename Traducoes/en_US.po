@@ -35,11 +35,11 @@ msgstr "Play"
 msgid "Carregar"
 msgstr "Load"
 
-#: Menu Principal/MenuPrincipal.tscn
+#: Menu Principal/MenuPrincipal.tscn Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn Menu de Pausa/MenuDePausa.tscn
 msgid "Opções"
 msgstr "Options"
 
-#: Menu Principal/MenuPrincipal.tscn
+#: Menu Principal/MenuPrincipal.tscn Menu de Pausa/MenuDePausa.tscn
 msgid "Sair"
 msgstr "Quit"
 
@@ -98,10 +98,6 @@ msgstr "Credits and support"
 #: Menu Principal/Menu de Opcoes/controlador_tab_container.tscn
 msgid "configuração"
 msgstr "settings"
-
-#: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
-msgid "Opções"
-msgstr "Options"
 
 #: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
 msgid "<"
