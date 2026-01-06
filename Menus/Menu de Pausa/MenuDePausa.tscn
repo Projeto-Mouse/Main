@@ -55,7 +55,7 @@ size_flags_vertical = 4
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_j0jh3")
 theme_override_font_sizes/font_size = 36
-text = "Opções"
+text = "Opcoes"
 
 [node name="salvar" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 10)

@@ -32,11 +32,11 @@ msgstr "Jogar"
 msgid "Carregar"
 msgstr "Carregar"
 
-#: Menu Principal/MenuPrincipal.tscn Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn Menu de Pausa/MenuDePausa.tscn
+#: Menu Principal/MenuPrincipal.tscn
 msgid "Opções"
 msgstr "Opções"
 
-#: Menu Principal/MenuPrincipal.tscn Menu de Pausa/MenuDePausa.tscn
+#: Menu Principal/MenuPrincipal.tscn
 msgid "Sair"
 msgstr "Sair"
 
@@ -97,6 +97,10 @@ msgid "configuração"
 msgstr "configuração"
 
 #: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
+msgid "Opções"
+msgstr "Opções"
+
+#: Menu Principal/Menu de Opcoes/MenuDeOpcoes.tscn
 msgid "<"
 msgstr "<"
 
@@ -107,6 +111,10 @@ msgstr "Resolução da tela"
 #: Menu Principal/Menu de Opcoes/WindowModeButton.tscn
 msgid "Tamanho da tela"
 msgstr "Tamanho da tela"
+
+#: Menu de Pausa/MenuDePausa.tscn
+msgid "Opcoes"
+msgstr "Opções"
 
 #: Menu de Pausa/MenuDePausa.tscn
 msgid "Salvar"
