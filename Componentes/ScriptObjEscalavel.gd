@@ -1,10 +1,6 @@
 class_name ScriptObjEscalavel
 extends Node
 
-# ESSA CLASSE VAI SER POSTA EM OBJETOS ESCALAVEIS
-# ELA FAZ A LOGICA DE TROCA DE VARIAVEL DE ESTADO
-# NO JOGADOR
-
 func _ready() -> void:
 	var objeto_escalavel = self
 
