@@ -52,8 +52,8 @@ mesh = SubResource("BoxMesh_jwi8j")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1281, -0.281046)
 
-[node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.79922, 0.561286, -1.53023)
+[node name="Jogador" type="CharacterBody3D" parent="." groups=["Jogador"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5619414, 0.561286, -1.53023)
 script = ExtResource("2_ftip3")
 velocidade_base = 3.0
 gravidade = -10.0
