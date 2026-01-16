@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=17 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -14,8 +14,20 @@ size = Vector3(44.599907, 0.21289063, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_r4mej"]
 size = Vector3(1.1256409, 0.20922852, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_3kemy"]
+size = Vector3(41.278767, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hss4k"]
+size = Vector3(0.11367798, 6.2912903, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rteev"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
+radius = 0.2783203
+height = 0.57199097
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ppn7s"]
-size = Vector3(40.101776, 16.113312, 1)
+size = Vector3(40.011948, 16.113312, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_evrk6"]
 radius = 0.1
@@ -50,38 +62,99 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.287596, 0, 0)
 [node name="ColisãoChão" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4126825, 0, 0)
 shape = SubResource("BoxShape3D_spau7")
-debug_color = Color(0.98591393, 0, 0.3336807, 0.41960785)
+debug_color = Color(0, 0.6357732, 0.40352643, 0.41960785)
 
 [node name="ColisãoArvore01" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -2.6876678, -0.5413351, 0)
-polygon = PackedVector2Array(4.716873, 1.090121, 6.341137, 1.8179336, 7.5198097, 2.8623378, 9.062485, 3.2675598, 15.908724, 3.4975133, 16.273619, 3.984039, 17.064222, 4.0448546, 17.429117, 3.6495526, 20.635363, 4.0280833, 22.042429, 4.7034755, 22.143057, 1.7915941, 7.93954, 2.4256306, 6.701625, 1.377894)
+polygon = PackedVector2Array(4.716873, 1.090121, 6.341137, 1.8179336, 7.5198097, 2.8623378, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.273619, 3.984039, 17.064222, 4.0448546, 17.429117, 3.6495526, 20.635363, 4.0280833, 22.042429, 4.7034755, 22.143057, 1.7915941, 7.93954, 2.4256306, 6.701625, 1.377894)
 margin = 0.001
-debug_color = Color(0.21584299, 0.63869834, 3.85046e-07, 0.41960785)
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="Sprite3D" type="Sprite3D" parent="CenaSalaDoSacrificio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0074704, 0.91157365, -0.7440338)
+[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
+transform = Transform3D(-0.053347442, -8.515206, 0, 0.9294462, -0.4887474, 0, 0, 0, 1.25, 15.289015, 2.9854605, -0.93004227)
+texture = ExtResource("5_mt6og")
+
+[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
+transform = Transform3D(0.9644886, 0.2781037, 0, -0.16817404, 1.5949417, 0, 0, 0, 1.25, 21.448576, 3.2223666, -0.93004227)
 texture = ExtResource("5_mt6og")
 
 [node name="ColisãoArvore02" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
-visibility_parent = NodePath("../Sprite3D")
 polygon = PackedVector2Array(16.641018, 3.1894681, 17.978971, 3.067836, 19.985903, 3.3111002, 22.388142, 4.192934, 23.361198, 4.9835434, 24.476946, 6.0701513, 25.722748, 6.942213, 26.769222, 7.315954, 25.623083, 6.39406, 24.925432, 5.5718303, 23.958906, 3.7655153, 25.240469, 3.5920358, 25.027613, 2.19326, 25.058022, 0.7336683, 25.45333, -0.026535511, 16.853874, 0.02703023)
-debug_color = Color(0.12674037, 0.6476897, 5.7756904e-07, 0.41960785)
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="Sprite3D2" type="Sprite3D" parent="CenaSalaDoSacrificio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.826384, 3.5362775, -0.7440338)
+[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
+transform = Transform3D(6.666141, -0.052821815, 0, 0.1899283, 1.8539506, 0, 0, 0, 1, 21.129234, 1.9454229, -0.7440338)
+texture = ExtResource("5_mt6og")
+
+[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
+transform = Transform3D(0.6118177, -1.2639456, 0, 0.76432955, 1.0117424, 0, 0, 0, 1.2499998, 17.747622, 2.106275, -0.7009492)
+texture = ExtResource("5_mt6og")
+
+[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
+transform = Transform3D(0.72178984, 1.093847, 0, -0.6614681, 1.1935993, 0, 0, 0, 1.2499999, 22.922323, 3.6399286, -0.6765777)
+texture = ExtResource("5_mt6og")
+
+[node name="S4" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
+transform = Transform3D(0.35539645, 0.84183204, 0, -0.36155307, 0.82749736, 0, 0, 0, 1.2499999, 24.213835, 5.204351, -0.6812774)
+texture = ExtResource("5_mt6og")
+
+[node name="S5" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
+transform = Transform3D(0.17330235, 1.2162308, 0, -0.24075872, 0.8754642, 0, 0, 0, 0.5202915, 25.512842, 6.486413, -0.658262)
 texture = ExtResource("5_mt6og")
 
 [node name="ColisãoRampaEntradaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.9441524, -0.32950938, 0, 0.32950938, 0.9441524, 0, 0, 0, 1, 28.204054, 0.19277865, 0)
 shape = SubResource("BoxShape3D_r4mej")
-debug_color = Color(0.9459135, 0.2349414, 0, 0.41960785)
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
+
+[node name="ColisãoParteCimaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.817886, 16.510612, 0)
+shape = SubResource("BoxShape3D_3kemy")
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
+
+[node name="ColisãoParedeEsquerda" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.936573, 3.0382233, 0)
+shape = SubResource("BoxShape3D_hss4k")
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="CenaSalaDoSacrificio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.547438, 17.376078, 0)
+physics_material_override = SubResource("PhysicsMaterial_rteev")
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio/RigidBody3D"]
+polygon = PackedVector2Array(3.5968933, 0.3328762, 0.22824478, -0.19020844, -0.37340164, -0.82050323, -0.85676193, -3.214202, -0.9555073, -6.0542774, -1.10956, -8.923261, -1.0493317, -9.480658, -0.9089451, -8.890903, -0.49921227, -6.0053883, -0.3654194, -3.1883411, -0.108161926, -0.93784523, 0.55368423, -0.3713913, 3.5091057, -0.06704521)
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
+
+[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D/CollisionPolygon3D"]
+transform = Transform3D(0.019115373, 1.5332892, 0, -0.17889652, 0.16383438, 0, 0, 0, 0.9999999, 1.8669662, -0.09734535, -0.807747)
+texture = ExtResource("3_rlofj")
+
+[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D/CollisionPolygon3D"]
+transform = Transform3D(0.079069324, 0.15613735, 0, -0.0060021495, 2.0568748, 0, 0, 0, 0.99999964, -0.9080868, -7.522459, -0.6504886)
+texture = ExtResource("3_rlofj")
+
+[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D/CollisionPolygon3D"]
+transform = Transform3D(0.07901292, 0.17440388, 0, -0.0067043346, 2.0554066, 0, 0, 0, 0.99999964, -0.6650295, -3.9443512, -0.68068135)
+texture = ExtResource("3_rlofj")
+
+[node name="RigidBody3D2" type="RigidBody3D" parent="CenaSalaDoSacrificio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.707827, 7.354371, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CenaSalaDoSacrificio/RigidBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7467327, 0)
+shape = SubResource("CapsuleShape3D_r4mej")
+
+[node name="Sprite3D" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D2"]
+transform = Transform3D(0.3175046, 0, 0, 0, 0.26144215, 0, 0, 0, 1, 0, 0.7503185, 0)
+texture = ExtResource("4_4yqau")
 
 [node name="CenaMesa" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6295, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CenaMesa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.436874, 7.9708405, 0)
+[node name="ColisãoMesa" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.39196, 7.9708405, 0)
 shape = SubResource("BoxShape3D_ppn7s")
+debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
 
 [node name="Jogador" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0676657, 0)
