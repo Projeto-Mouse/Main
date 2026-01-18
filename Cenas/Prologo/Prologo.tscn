@@ -22,7 +22,7 @@ height = 0.5
 radius = 0.1
 height = 0.5
 
-[node name="Prologo" type="Node3D"]
+[node name="Node3D" type="Node3D"]
 script = ExtResource("1_jsoku")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

@@ -91,3 +91,24 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	var movimento_no_y = direcao.y * velocidade_y
 		
 	return Vector3(movimento_no_x, movimento_no_y, 0)
+
+# Isso e um override da funcao que esta em entidade
+func computar_dano(dano_recebido : float) -> void:
+	var dano_arredondado = arredondar_dano(dano_recebido)
+
+	vida_atual -= dano_arredondado
+	print("vida atual = ", vida_atual)
+
+	if vida_atual == 0:
+		print("Jogador Morreu")
+
+func arredondar_dano(dano_recebido : float) -> float:
+	var parte_inteira = int(dano_recebido)
+	var parte_decimal = dano_recebido - parte_inteira
+
+	if parte_decimal > 0.5:
+		return parte_inteira + 1
+	elif parte_decimal > 0 and parte_decimal <= 0.5:
+		return parte_inteira + 0.5
+	else:
+		return parte_inteira
