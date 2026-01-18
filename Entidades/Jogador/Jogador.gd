@@ -9,8 +9,8 @@ extends Entidade
 @onready var collision_shape : CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance : MeshInstance3D = $MeshInstance3D
 
-var esta_em_obj_escalavel : bool = false
 var luz_natural_personagem: OmniLight3D
+var esta_em_obj_escalavel : bool = false
 var movimento_x : float
 var movimento_y : float
 
@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
-		
+
 func _physics_process(delta):
 	var esta_rastejando = Input.is_action_pressed("Rastejar")
 	var vetor_movimentos = calcular_movimento(velocidade_base, 0)
@@ -53,7 +53,6 @@ func _physics_process(delta):
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	
-	#Luz seguir personagem
 	var posicao_nova_luz = global_transform.origin
 	posicao_nova_luz.y += 0.3
 	luz_natural_personagem.global_transform.origin = posicao_nova_luz
@@ -78,7 +77,7 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	
 	if Input.is_action_pressed("Devagar"):
 		velocidade_x *= 0.4 # 40% da velocidade reduzida
-		
+	
 	# Provisorio
 	if Input.is_action_pressed("Rastejar"):
 		collision_shape.rotation_degrees.x = 90
@@ -92,3 +91,24 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	var movimento_no_y = direcao.y * velocidade_y
 		
 	return Vector3(movimento_no_x, movimento_no_y, 0)
+
+# Isso e um override da funcao que esta em entidade
+func computar_dano(dano_recebido : float) -> void:
+	var dano_arredondado = arredondar_dano(dano_recebido)
+
+	vida_atual -= dano_arredondado
+	print("vida atual = ", vida_atual)
+
+	if vida_atual == 0:
+		print("Jogador Morreu")
+
+func arredondar_dano(dano_recebido : float) -> float:
+	var parte_inteira = int(dano_recebido)
+	var parte_decimal = dano_recebido - parte_inteira
+
+	if parte_decimal > 0.5:
+		return parte_inteira + 1
+	elif parte_decimal > 0 and parte_decimal <= 0.5:
+		return parte_inteira + 0.5
+	else:
+		return parte_inteira
