@@ -35,7 +35,7 @@ height = 0.5
 radius = 0.1
 height = 0.5
 
-[node name="Node3D" type="Node3D"]
+[node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -130,7 +130,7 @@ debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
 [node name="Jogador" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0676657, 0)
 script = ExtResource("2_ftip3")
-velocidade_base = 3.0
+velocidade = 3.0
 gravidade = -10.0
 forca_pulo = 3.5
 nome = "Ratinho"

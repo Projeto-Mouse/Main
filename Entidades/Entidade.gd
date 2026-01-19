@@ -1,8 +1,8 @@
-class_name Entidade
+class_name Personagem
 extends CharacterBody3D
 
 # Variaveis fisicas 
-@export var velocidade_base : float
+@export var velocidade : float
 @export var gravidade : float
 @export var forca_pulo  : float
 
