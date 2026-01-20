@@ -27,20 +27,20 @@ func criar_coracoes() -> void:
 		add_child(sprite)
 		array_vida.append(sprite)
 
-# Atualiza os coracoes na tela
 func atualizar_vida_gui() -> void:
 	vida_atual = player.vida_atual
 	
-	for i in range(len(array_vida)):
-		# Clamp e uma funcao que bota vida atual ir de 0 ate 1 se passar disso para baixo ou cima
-		# E arredonda fora desse intervalor
-		var unidade_vida = clamp(vida_atual, 0.0, 1.0)
-		
-		if unidade_vida == 1:
-			array_vida[i].texture = sprite_vida_cheia
-		elif unidade_vida > 0 && unidade_vida < 1:
-			array_vida[i].texture = sprite_vida_meio
-		else:
-			array_vida[i].texture = sprite_vida_vazia
-			
-		vida_atual -= unidade_vida
+	var parte_inteira = int(vida_atual)
+	var parte_decimal = vida_atual - parte_inteira
+
+	for i in range(parte_inteira):
+		array_vida[i].texture = sprite_vida_cheia
+
+	var indice = parte_inteira
+	
+	if parte_decimal > 0 and indice < len(array_vida):
+		array_vida[indice].texture = sprite_vida_meio
+		indice += 1
+
+	for i in range(indice, len(array_vida)):
+		array_vida[i].texture = sprite_vida_vazia
