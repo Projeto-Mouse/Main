@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=16 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -20,11 +20,9 @@ size = Vector3(41.278767, 1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hss4k"]
 size = Vector3(0.11367798, 6.2912903, 1)
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rteev"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
-radius = 0.2783203
-height = 0.57199097
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_spau7"]
+height = 9.593994
+radius = 0.11816406
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ppn7s"]
 size = Vector3(40.011948, 16.113312, 1)
@@ -117,36 +115,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.936573, 3.0382233, 0)
 shape = SubResource("BoxShape3D_hss4k")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="CenaSalaDoSacrificio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.547438, 17.376078, 0)
-physics_material_override = SubResource("PhysicsMaterial_rteev")
-
-[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio/RigidBody3D"]
-polygon = PackedVector2Array(3.5968933, 0.3328762, 0.22824478, -0.19020844, -0.37340164, -0.82050323, -0.85676193, -3.214202, -0.9555073, -6.0542774, -1.10956, -8.923261, -1.0493317, -9.480658, -0.9089451, -8.890903, -0.49921227, -6.0053883, -0.3654194, -3.1883411, -0.108161926, -0.93784523, 0.55368423, -0.3713913, 3.5091057, -0.06704521)
-debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
-
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D/CollisionPolygon3D"]
-transform = Transform3D(0.019115373, 1.5332892, 0, -0.17889652, 0.16383438, 0, 0, 0, 0.9999999, 1.8669662, -0.09734535, -0.807747)
-texture = ExtResource("3_rlofj")
-
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D/CollisionPolygon3D"]
-transform = Transform3D(0.079069324, 0.15613735, 0, -0.0060021495, 2.0568748, 0, 0, 0, 0.99999964, -0.9080868, -7.522459, -0.6504886)
-texture = ExtResource("3_rlofj")
-
-[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D/CollisionPolygon3D"]
-transform = Transform3D(0.07901292, 0.17440388, 0, -0.0067043346, 2.0554066, 0, 0, 0, 0.99999964, -0.6650295, -3.9443512, -0.68068135)
-texture = ExtResource("3_rlofj")
-
-[node name="RigidBody3D2" type="RigidBody3D" parent="CenaSalaDoSacrificio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.707827, 7.354371, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CenaSalaDoSacrificio/RigidBody3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7467327, 0)
-shape = SubResource("CapsuleShape3D_r4mej")
-
-[node name="Sprite3D" type="Sprite3D" parent="CenaSalaDoSacrificio/RigidBody3D2"]
-transform = Transform3D(0.3175046, 0, 0, 0, 0.26144215, 0, 0, 0, 1, 0, 0.7503185, 0)
-texture = ExtResource("4_4yqau")
+[node name="ColisãoCipó" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303585, 12.355051, 0)
+shape = SubResource("CylinderShape3D_spau7")
 
 [node name="CenaMesa" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6295, 0, 0)
