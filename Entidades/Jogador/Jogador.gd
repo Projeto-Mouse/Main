@@ -1,24 +1,25 @@
 class_name Jogador
 extends Entidade
 
-enum estados_jogador{ ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR }
+enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR}
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 
 # Essas variaveis sao testes apenas para rotarcionamos o boneco para testar
 # A logica, depois serao adicionados os sprites de em pe e rastejando.
-@onready var collision_shape : CollisionShape3D = $CollisionShape3D
-@onready var mesh_instance : MeshInstance3D = $MeshInstance3D
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
+@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
-var esta_em_obj_escalavel : bool = false
-var movimento_x : float
-var movimento_y : float
+var esta_em_obj_escalavel: bool = false
+var movimento_x: float
+var movimento_y: float
 var estado_atual = estados_jogador.PARADO
 
 func _ready() -> void:
+	add_to_group("Jogador")
 	luz_natural_personagem = OmniLight3D.new()
 	luz_natural_personagem.light_energy = 0.05
 	luz_natural_personagem.omni_range = 0.8
@@ -68,7 +69,7 @@ func _physics_process(delta):
 	posicao_nova_luz.y += 0.3
 	luz_natural_personagem.global_transform.origin = posicao_nova_luz
 
-func setar_esta_em_escalavel(esta_tocando_escalavel : bool) -> void:
+func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 	esta_em_obj_escalavel = esta_tocando_escalavel
 
 func tocar_som_passos() -> void:
@@ -84,7 +85,6 @@ func tocar_som_passos() -> void:
 		som_passos.stop()
 
 func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
-
 	var input_dir = Input.get_vector("Esquerda", "Direita", "Cima", "Baixo")
 		
 	input_dir = input_dir.normalized()
@@ -120,7 +120,7 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	return Vector3(movimento_no_x, movimento_no_y, 0)
 
 # Isso e um override da funcao que esta em entidade
-func computar_dano(dano_recebido : float) -> void:
+func computar_dano(dano_recebido: float) -> void:
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
 	vida_atual -= dano_arredondado
@@ -129,7 +129,7 @@ func computar_dano(dano_recebido : float) -> void:
 	if vida_atual == 0:
 		print("Jogador Morreu")
 
-func arredondar_dano(dano_recebido : float) -> float:
+func arredondar_dano(dano_recebido: float) -> float:
 	var parte_inteira = int(dano_recebido)
 	var parte_decimal = dano_recebido - parte_inteira
 
