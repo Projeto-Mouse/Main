@@ -1,12 +1,17 @@
 class_name ItensDeInteracao
 extends Item
 
-@export var item : Item
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+# Definimos um sinal que envia o próprio item como informação
+signal pedido_de_interacao(item_que_foi_tocado)
 
+# Esta função roda sempre que uma tecla é pressionada
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Interagir") and jogador_na_area:
+		interagir()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func interagir() -> void:
+	print("Tentativa de interagir com: ", nome)
+	
+	# Emite o sinal enviando 'self' (este script/nó) como parâmetro
+	pedido_de_interacao.emit(self)
+	

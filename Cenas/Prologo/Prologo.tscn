@@ -128,7 +128,7 @@ shape = SubResource("BoxShape3D_ppn7s")
 debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
 
 [node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8309181, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8923037, 0)
 script = ExtResource("2_ftip3")
 velocidade_base = 3.0
 gravidade = -10.0
@@ -146,10 +146,9 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_r4mej")
 
 [node name="pivo_Camera" type="Node3D" parent="Jogador"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0676657, 2.1714563)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.112232, 0)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
