@@ -42,6 +42,7 @@ project/assembly_name="Projeto mouse"
 
 Escalaveis="Objetos Escalaveis"
 ItensInterativos="Grupo de itens interativos"
+Entidade=""
 
 [input]
 

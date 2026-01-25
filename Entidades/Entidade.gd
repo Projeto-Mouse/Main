@@ -2,20 +2,23 @@ class_name Entidade
 extends CharacterBody3D
 
 # Variaveis fisicas 
-@export var velocidade_base : float
-@export var gravidade : float
-@export var forca_pulo  : float
+@export var velocidade_base: float
+@export var gravidade: float
+@export var forca_pulo: float
 
 # Variaveis nao-fisicas
-@export var nome : String
-@export var vida_max : float 
-@export var vida_atual : float
-@export var dano : float 
+@export var nome: String
+@export var vida_max: float
+@export var vida_atual: float
+@export var dano: float
+@export var alvo_atual: Entidade = null
 
-func movimentacao(movimento_x : float, movimento_y : float):
-	
+func _ready() -> void:
+	add_to_group("Entidades")
+
+func movimentacao(movimento_x: float, movimento_y: float):
 	# Velocidade para eixo z zerada nao usamos
-	velocity.z = 0 
+	velocity.z = 0
 	velocity.x = movimento_x
 	velocity.y = movimento_y
 	
@@ -24,9 +27,8 @@ func movimentacao(movimento_x : float, movimento_y : float):
 func inventario() -> void:
 	pass
 	
-func computar_dano(dano_recebido : float) -> void:
+func computar_dano(dano_recebido: float) -> void:
 	vida_atual -= dano_recebido
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Personagem Morreu")
-		
