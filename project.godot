@@ -34,7 +34,7 @@ project/assembly_name="Projeto mouse"
 [global_group]
 
 Escalaveis="Objetos Escalaveis"
-Entidade=""
+Entidades=""
 
 [input]
 
