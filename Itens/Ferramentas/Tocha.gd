@@ -1,5 +1,5 @@
-class_name Ferramentas
-extends ItensDeInteracao
+class_name Tocha
+extends Ferramentas
 
 
 # Called when the node enters the scene tree for the first time.
