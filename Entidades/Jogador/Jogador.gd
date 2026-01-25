@@ -17,6 +17,7 @@ var esta_em_obj_escalavel: bool = false
 var movimento_x: float
 var movimento_y: float
 var estado_atual = estados_jogador.PARADO
+var item_atual: Item = null
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -139,3 +140,10 @@ func arredondar_dano(dano_recebido: float) -> float:
 		return parte_inteira + 0.5
 	else:
 		return parte_inteira
+
+func entrou_em_interacao(item: Item):
+	item_atual = item
+
+func saiu_interacao(item: Item):
+	if item_atual == item:
+		item_atual = null
