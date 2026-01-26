@@ -11,10 +11,6 @@ extends CharacterBody3D
 @export var vida_max: float
 @export var vida_atual: float
 @export var dano: float
-@export var alvo_atual: Entidade = null
-
-func _ready() -> void:
-	add_to_group("Entidades")
 
 func movimentacao(movimento_x: float, movimento_y: float):
 	# Velocidade para eixo z zerada nao usamos
@@ -32,3 +28,13 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Personagem Morreu")
+
+func calcular_distancia(entidade: Entidade) -> Vector3:
+	var entidade_atual =  self
+	# vetor_para_entidade.length() isso retorna a distancia
+	# vetor_para_entidade.normalized() isso retorna o vetor direção para outra entidade
+	var vetor_para_entidade = entidade.global_position - entidade_atual.global_position
+
+	return vetor_para_entidade
+
+
