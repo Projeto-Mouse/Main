@@ -21,6 +21,7 @@ buses/default_bus_layout="res://Sons/Musicas/Menu/default_bus_layout.tres"
 [autoload]
 
 ControladorTraducao="*res://Auxiliares/ControladorTraducao.gd"
+ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 
 [display]
 
