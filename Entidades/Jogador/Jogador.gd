@@ -141,9 +141,6 @@ func arredondar_dano(dano_recebido: float) -> float:
 	else:
 		return parte_inteira
 
-func entrou_em_interacao(item: Item):
-	item_atual = item
+func atualizar_interacao(item: Item, ativo: bool):
+	item_atual = item if ativo else (null if item_atual == item else item_atual)
 
-func saiu_interacao(item: Item):
-	if item_atual == item:
-		item_atual = null

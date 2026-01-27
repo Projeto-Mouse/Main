@@ -10,18 +10,13 @@ enum raridades{COMUM, RARO, MUITO_RARO}
 
 func _ready() -> void:
 
-    $Area3D.body_entered.connect(entrou_area_interacao)
-    $Area3D.body_exited.connect(saiu_area_interacao)
+    $Area3D.body_entered.connect(_ao_se_aproximar.bind(true))
+    $Area3D.body_exited.connect(_ao_se_aproximar.bind(false))
 
-func entrou_area_interacao(body):
-    print("DEBUG... entrou na area do item!")
+func _ao_se_aproximar(body: Node, ativo: bool) -> void:
     if body.is_in_group("Jogador"):
-        body.entrou_em_interacao(self)
-
-func saiu_area_interacao(body):
-    print("DEBUG... saiu na area do item!")
-    if body.is_in_group("Jogador"):
-        body.saiu_interacao(self)
+        print("DEBUG... %s na area do item!" % ("Entrou" if ativo else "Saiu"))
+        body.atualizar_interacao(self, ativo)
 
 func interagir():
     pass
