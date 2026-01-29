@@ -17,6 +17,7 @@ var esta_em_obj_escalavel: bool = false
 var movimento_x: float
 var movimento_y: float
 var estado_atual = estados_jogador.PARADO
+var item_atual: Item = null
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -34,6 +35,13 @@ func _process(_delta: float) -> void:
 	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
+	
+	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
+	if Input.is_key_pressed(KEY_P):
+		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
+		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+	
 	tocar_som_passos()
 
 func _physics_process(delta):
@@ -72,17 +80,31 @@ func _physics_process(delta):
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 	esta_em_obj_escalavel = esta_tocando_escalavel
 
+var tempo_proximo_passo: float = 0.0
+const INTERVALO_PASSOS: float = 0.4
+
 func tocar_som_passos() -> void:
 	if estado_atual == estados_jogador.ANDANDO and is_on_floor():
 		som_passos.pitch_scale = 1.0
 		if not som_passos.playing:
 			som_passos.play()
+		
+		tempo_proximo_passo -= get_process_delta_time()
+		if tempo_proximo_passo <= 0:
+			tempo_proximo_passo = INTERVALO_PASSOS
+			# Eleva o ponto de emissão
+			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
+			
 	elif estado_atual == estados_jogador.DEVAGAR:
 		som_passos.pitch_scale = 0.4
 		if not som_passos.playing:
 			som_passos.play()
+			
+		# Passos silenciosos: não emitem ruído
 	else:
 		som_passos.stop()
+		tempo_proximo_passo = 0 # Reseta timer ao parar
 
 func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	var input_dir = Input.get_vector("Esquerda", "Direita", "Cima", "Baixo")
@@ -139,3 +161,10 @@ func arredondar_dano(dano_recebido: float) -> float:
 		return parte_inteira + 0.5
 	else:
 		return parte_inteira
+
+func entrou_em_interacao(item: Item):
+	item_atual = item
+
+func saiu_interacao(item: Item):
+	if item_atual == item:
+		item_atual = null

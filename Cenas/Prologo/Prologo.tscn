@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=20 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="5_mt6og"]
+[ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/Item.gd" id="8_ppn7s"]
+[ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spau7"]
 size = Vector3(44.599907, 0.21289063, 1)
@@ -30,6 +32,12 @@ size = Vector3(40.011948, 16.113312, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
+size = Vector3(2.8039932, 1.5853786, 0.17651367)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
+size = Vector3(0.11230469, 0.44714355, 1)
 
 [node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
@@ -142,11 +150,31 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_r4mej")
 
 [node name="pivo_Camera" type="Node3D" parent="Jogador"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0676657, 2.1714563)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.112232, 0)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
 visible = false
+
+[node name="Tocha" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9596558, 0.97325134, 0)
+script = ExtResource("8_ppn7s")
+nome = "Tocha"
+tipo = "Ferramenta"
+
+[node name="Area3D" type="Area3D" parent="Tocha"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031174421, 0.5445826, -0.024536133)
+shape = SubResource("BoxShape3D_r8c7y")
+
+[node name="Sprite3D" type="Sprite3D" parent="Tocha"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.041650414, 0)
+texture = ExtResource("8_r4mej")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
+shape = SubResource("BoxShape3D_rteev")
