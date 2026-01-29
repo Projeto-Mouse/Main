@@ -29,12 +29,11 @@ func computar_dano(dano_recebido: float) -> void:
 		vida_atual = 0
 		print("Personagem Morreu")
 
-func calcular_distancia(entidade: Entidade) -> Vector3:
-	var entidade_atual =  self
-	# vetor_para_entidade.length() isso retorna a distancia
-	# vetor_para_entidade.normalized() isso retorna o vetor direção para outra entidade
-	var vetor_para_entidade = entidade.global_position - entidade_atual.global_position
+func vetor_para(entidade: Entidade) -> Vector3:
+	return entidade.global_position - global_position
 
-	return vetor_para_entidade
+func distancia_para(entidade: Entidade) -> float:
+	return global_position.distance_to(entidade.global_position)
+
 
 

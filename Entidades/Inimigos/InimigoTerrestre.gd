@@ -11,6 +11,11 @@ func _physics_process(delta: float) -> void:
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
 
+	if alvo == null:
+		alvo = get_tree().get_first_node_in_group("Jogador")
+
+	atualizar_linha_debug()
+
 func movimento_simples() -> void:
 	velocity.x = move_dir * velocidade_base
 
