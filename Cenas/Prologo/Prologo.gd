@@ -6,6 +6,7 @@ var nao_pausado = false
 
 func _ready() -> void:
 	spawn_inimigos_teste()
+	spawn_aliado_teste()
 
 func spawn_inimigos_teste() -> void:
 	var scale_inimigo = 0.15
@@ -26,6 +27,14 @@ func spawn_inimigos_teste() -> void:
 	setup_inimigo_visual(terrestre, Color.BLUE, scale_inimigo)
 	adicionar_sensor_auditivo(terrestre)
 	add_child(terrestre)
+
+func spawn_aliado_teste() -> void:
+	var aliado = AliadoInterativo.new()
+	aliado.name = "AliadoInterativoTeste"
+	aliado.position = Vector3(5, 1.5, 0)
+	aliado.velocidade_base = 2.0
+	setup_inimigo_visual(aliado, Color.GREEN, 0.15)
+	add_child(aliado)
 
 func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -> void:
 	var mesh_instance = MeshInstance3D.new()
