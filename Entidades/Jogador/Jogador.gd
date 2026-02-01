@@ -1,7 +1,7 @@
 class_name Jogador
 extends Entidade
 
-enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR}
+enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR, ESCALANDO}
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
@@ -15,28 +15,23 @@ enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR}
 
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
-var esta_em_obj_escalavel: bool = false
 var movimento_x: float
 var movimento_y: float
 var estado_atual = estados_jogador.PARADO
+var item_atual: Item = null
+var tempo_proximo_passo: float = 0.0
+const INTERVALO_PASSOS: float = 0.4
 var item_na_area_atual: Item = null
 var item_equipado_na_mao: Item = null
 var inventario_temporario: InventarioTemp
 
+
 func _ready() -> void:
 	add_to_group("Jogador")
-	luz_natural_personagem = OmniLight3D.new()
-	luz_natural_personagem.light_energy = 0.05
-	luz_natural_personagem.omni_range = 0.8
-	get_parent().call_deferred("add_child", luz_natural_personagem)
-	
-	som_passos = AudioStreamPlayer.new()
-	add_child(som_passos)
-	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
-	som_passos.volume_db = -5
-
+	criar_luz_jogador()
+	criar_som_passos()
 	inventario_temporario = InventarioTemp.new()
-	
+
 func _process(_delta: float) -> void:
 	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
@@ -59,7 +54,7 @@ func _physics_process(delta):
 	
 	movimento_x = vetor_movimentos.x
 	
-	if esta_em_obj_escalavel && not is_on_floor():
+	if estado_atual == estados_jogador.ESCALANDO && not is_on_floor():
 		vetor_movimentos = calcular_movimento(1.0, velocidade_base)
 		movimento_x = vetor_movimentos.x
 		movimento_y = vetor_movimentos.y
@@ -81,46 +76,13 @@ func _physics_process(delta):
 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
-	
-	var posicao_nova_luz = global_transform.origin
-	posicao_nova_luz.y += 0.3
-	luz_natural_personagem.global_transform.origin = posicao_nova_luz
-
-func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
-	esta_em_obj_escalavel = esta_tocando_escalavel
-
-var tempo_proximo_passo: float = 0.0
-const INTERVALO_PASSOS: float = 0.4
-
-func tocar_som_passos() -> void:
-	if estado_atual == estados_jogador.ANDANDO and is_on_floor():
-		som_passos.pitch_scale = 1.0
-		if not som_passos.playing:
-			som_passos.play()
-		
-		tempo_proximo_passo -= get_process_delta_time()
-		if tempo_proximo_passo <= 0:
-			tempo_proximo_passo = INTERVALO_PASSOS
-			# Eleva o ponto de emissão
-			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
-			
-	elif estado_atual == estados_jogador.DEVAGAR:
-		som_passos.pitch_scale = 0.4
-		if not som_passos.playing:
-			som_passos.play()
-			
-		# Passos silenciosos: não emitem ruído
-	else:
-		som_passos.stop()
-		tempo_proximo_passo = 0 # Reseta timer ao parar
+	atualizar_posicao_luz_jogador()
 
 func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 	var input_dir = Input.get_vector("Esquerda", "Direita", "Cima", "Baixo")
-		
+	
 	input_dir = input_dir.normalized()
-
-
+	
 	if not is_on_floor():
 		estado_atual = estados_jogador.PULANDO
 	elif Input.is_action_pressed("Rastejar"):
@@ -150,6 +112,48 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 		
 	return Vector3(movimento_no_x, movimento_no_y, 0)
 
+func criar_luz_jogador() -> void:
+	print("luz do personagem criada.")
+	luz_natural_personagem = OmniLight3D.new()
+	luz_natural_personagem.light_energy = 0.05
+	luz_natural_personagem.omni_range = 0.8
+	get_parent().call_deferred("add_child", luz_natural_personagem)
+
+func criar_som_passos() -> void:
+	print("som de passo criado.")
+	som_passos = AudioStreamPlayer.new()
+	add_child(som_passos)
+	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
+	som_passos.volume_db = -5
+
+func tocar_som_passos() -> void:
+	if estado_atual == estados_jogador.ANDANDO and is_on_floor():
+		som_passos.pitch_scale = 1.0
+		if not som_passos.playing:
+			som_passos.play()
+		
+		tempo_proximo_passo -= get_process_delta_time()
+		if tempo_proximo_passo <= 0:
+			tempo_proximo_passo = INTERVALO_PASSOS
+			# Eleva o ponto de emissão
+			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
+			
+	elif estado_atual == estados_jogador.DEVAGAR:
+		som_passos.pitch_scale = 0.4
+		if not som_passos.playing:
+			som_passos.play()
+			
+		# Passos silenciosos: não emitem ruído
+	else:
+		som_passos.stop()
+		tempo_proximo_passo = 0 # Reseta timer ao parar
+
+func atualizar_posicao_luz_jogador() -> void:
+	var posicao_nova_luz = global_transform.origin
+	posicao_nova_luz.y += 0.3
+	luz_natural_personagem.global_transform.origin = posicao_nova_luz
+	
 # Isso e um override da funcao que esta em entidade
 func computar_dano(dano_recebido: float) -> void:
 	var dano_arredondado = arredondar_dano(dano_recebido)
@@ -174,6 +178,12 @@ func arredondar_dano(dano_recebido: float) -> float:
 func atualizar_interacao(item: Item, ativo: bool):
 	item_na_area_atual = item if ativo else (null if item_na_area_atual == item else item_na_area_atual)
 
+func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
+	if esta_tocando_escalavel:
+		estado_atual = estados_jogador.ESCALANDO
+	else:
+		estado_atual = estados_jogador.PARADO
+
 func pegar_item() -> void:
 	if item_na_area_atual == null:
 		return
@@ -190,13 +200,3 @@ func pegar_item() -> void:
 		posicionar_item_na_mao()
 
 func posicionar_item_na_mao() -> void:
-	if item_equipado_na_mao == null:
-		return
-	
-	for filho in mao.get_children():
-		filho.queue_free()
-
-	if item_equipado_na_mao.cena_3d:
-		var visual = item_equipado_na_mao.cena_3d.instantiate()
-		mao.add_child(visual)
-		visual.transform = Transform3D.IDENTITY #ALinha com a mao
