@@ -1,4 +1,3 @@
-class_name ControladorMusica
 extends Node
 
 @export var duracao_fade : float = 0.5
