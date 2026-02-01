@@ -11,13 +11,17 @@ enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR}
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
+@onready var mao: Node3D = $Mao
+
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var esta_em_obj_escalavel: bool = false
 var movimento_x: float
 var movimento_y: float
 var estado_atual = estados_jogador.PARADO
-var item_atual: Item = null
+var item_na_area_atual: Item = null
+var item_equipado_na_mao: Item = null
+var inventario_temporario: InventarioTemp
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -30,6 +34,8 @@ func _ready() -> void:
 	add_child(som_passos)
 	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
 	som_passos.volume_db = -5
+
+	inventario_temporario = InventarioTemp.new()
 	
 func _process(_delta: float) -> void:
 	# Teste temporario para computar dano
@@ -41,7 +47,10 @@ func _process(_delta: float) -> void:
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
-	
+
+	if Input.is_action_just_pressed("Interagir"):
+		pegar_item()
+
 	tocar_som_passos()
 
 func _physics_process(delta):
@@ -163,5 +172,31 @@ func arredondar_dano(dano_recebido: float) -> float:
 		return parte_inteira
 
 func atualizar_interacao(item: Item, ativo: bool):
-	item_atual = item if ativo else (null if item_atual == item else item_atual)
+	item_na_area_atual = item if ativo else (null if item_na_area_atual == item else item_na_area_atual)
 
+func pegar_item() -> void:
+	if item_na_area_atual == null:
+		return
+
+	if item_na_area_atual.is_in_group("Itens_Interativos"):
+		inventario_temporario.adicionar_item(item_na_area_atual)
+
+
+		item_equipado_na_mao = item_na_area_atual
+
+
+		item_na_area_atual.queue_free() 
+
+		posicionar_item_na_mao()
+
+func posicionar_item_na_mao() -> void:
+	if item_equipado_na_mao == null:
+		return
+	
+	for filho in mao.get_children():
+		filho.queue_free()
+
+	if item_equipado_na_mao.cena_3d:
+		var visual = item_equipado_na_mao.cena_3d.instantiate()
+		mao.add_child(visual)
+		visual.transform = Transform3D.IDENTITY #ALinha com a mao
