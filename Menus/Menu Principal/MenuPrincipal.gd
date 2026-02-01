@@ -13,7 +13,6 @@ extends Control
 @onready var video_player = $VideoMenu
 # Preload de música permanece no mesmo local (Sons não foi movido)
 @onready var musica_menu = preload("res://Sons/Musicas/Menu/Main Menu.wav")
-@onready var controlador_musica = $ControladorMusica
 
 # Leva o jogador para o começo do jogo.
 # TODO: altere depois o diretório para abrir a cena correta
@@ -22,7 +21,7 @@ extends Control
 
 func _ready():
 	video_player.play()
-	controlador_musica.tocar_musica(musica_menu, true)
+	ControladorMusica.tocar_musica(musica_menu, true)
 	
 	# Garante que o MarginContainer tenha exatamente o mesmo tamanho e posição do VideoMenu
 	# Isso corrige inconsistências visuais onde o container de UI não alinhava com o fundo
@@ -36,6 +35,7 @@ func _ready():
 	segurar_conectores_signals()
 
 func on_jogar_pressed() -> void:
+	ControladorMusica.parar_musica()
 	get_tree().paused = false
 	Engine.time_scale = 1
 	get_tree().change_scene_to_packed(começar_jogo)
