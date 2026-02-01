@@ -102,13 +102,15 @@ func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
 		
 	return Vector3(movimento_no_x, movimento_no_y, 0)
 
-func criar_luz_jogador() -> void:	
+func criar_luz_jogador() -> void:
+	print("Luz jogado criada.")
 	luz_natural_personagem = OmniLight3D.new()
 	luz_natural_personagem.light_energy = 0.05
 	luz_natural_personagem.omni_range = 0.8
 	get_parent().call_deferred("add_child", luz_natural_personagem)
 
 func criar_som_passos() -> void:
+	print("Som de passo criado")
 	som_passos = AudioStreamPlayer.new()
 	add_child(som_passos)
 	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
