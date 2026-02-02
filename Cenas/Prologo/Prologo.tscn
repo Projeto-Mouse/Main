@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=22 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="5_mt6og"]
 [ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/Item.gd" id="8_ppn7s"]
 [ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
+[ext_resource type="PackedScene" uid="uid://cbttvartqc71d" path="res://Itens/Equipamentos/Ferramentas/Tocha/Tocha.tscn" id="9_3kemy"]
+[ext_resource type="Script" uid="uid://gmvyhdrpxya3" path="res://Itens/Equipamentos/Ferramentas/Tocha/LuzTocha.gd" id="11_hss4k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spau7"]
 size = Vector3(44.599907, 0.21289063, 1)
@@ -158,11 +160,16 @@ fov = 89.5799
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
 visible = false
 
-[node name="Tocha" type="RigidBody3D" parent="."]
+[node name="Mao" type="Node3D" parent="Jogador"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.21806717)
+
+[node name="Tocha" type="RigidBody3D" parent="." groups=["ItensInterativos"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9596558, 0.97325134, 0)
 script = ExtResource("8_ppn7s")
 nome = "Tocha"
 tipo = "Ferramenta"
+descricao = "Item para Iluminar ao redor."
+cena_3d = ExtResource("9_3kemy")
 
 [node name="Area3D" type="Area3D" parent="Tocha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
@@ -178,3 +185,8 @@ texture = ExtResource("8_r4mej")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
 shape = SubResource("BoxShape3D_rteev")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Tocha"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013459682, 0.11840665, 0)
+light_color = Color(1, 0.6, 0.2, 1)
+script = ExtResource("11_hss4k")

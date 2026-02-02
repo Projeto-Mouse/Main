@@ -36,6 +36,7 @@ project/assembly_name="Projeto mouse"
 [global_group]
 
 Escalaveis="Objetos Escalaveis"
+ItensInterativos="Grupo de itens interativos"
 
 [input]
 
