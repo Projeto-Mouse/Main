@@ -33,6 +33,10 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Projeto mouse"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [global_group]
 
 Escalaveis="Objetos Escalaveis"
