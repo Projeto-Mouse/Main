@@ -7,12 +7,9 @@ var move_dir = 0.0
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravidade * delta
-	if alvo == null:
-		alvo = get_tree().get_first_node_in_group("Jogador")
 		
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
-	atualizar_linha_debug()
 
 func movimento_simples() -> void:
 	velocity.x = move_dir * velocidade_base
