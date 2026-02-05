@@ -9,9 +9,11 @@ func _ready() -> void:
 	add_child(reprodutor)
 	reprodutor.volume_db = volume_alvo_db
 
-func tocar_musica(musica_audio: AudioStream) -> void:
+func tocar_musica(musica_audio: AudioStream, repetir: bool) -> void:
 	reprodutor.stop() 
 	reprodutor.stream = musica_audio
+	if repetir:
+		pass
 	reprodutor.play()
 
 func trocar_musica(musica_audio : AudioStream) -> void:

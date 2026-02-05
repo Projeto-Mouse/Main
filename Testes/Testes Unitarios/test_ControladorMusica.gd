@@ -21,7 +21,7 @@ func test_tocar_musica() -> void:
 
 	await wait_physics_frames(2)
 
-	controlador.tocar_musica(audio_fake)
+	controlador.tocar_musica(audio_fake, true)
 
 	assert_eq(controlador.reprodutor.stream, audio_fake, "O stream deve ser o mesmo")
 	assert_true(controlador.reprodutor.playing, "O áudio deveria estar tocando")
