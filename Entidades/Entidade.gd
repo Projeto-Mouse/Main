@@ -34,9 +34,6 @@ func configurar_raycast(raycast_visao: RayCast3D, ray_ativo: bool, position_targ
 	raycast_visao.target_position = position_target
 	raycast_visao.collision_mask = mascara
 	raycast_visao.exclude_parent = ignorar_pai
-
-func inventario() -> void:
-	pass
 	
 func computar_dano(dano_recebido: float) -> void:
 	vida_atual -= dano_recebido
