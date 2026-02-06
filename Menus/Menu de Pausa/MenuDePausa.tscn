@@ -7,6 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wwkh8"]
 
 [node name="MenuDePausa" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,9 +28,11 @@ color = Color(0, 0, 0, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 120.0
+offset_bottom = 238.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -94,5 +97,4 @@ flat = true
 visible = false
 layout_mode = 1
 
-[connection signal="sair_das_opcoes" from="MenuDeOpcoes" to="." method="_on_menu_de_opcoes_sair_das_opcoes"]
-
+[connection signal="sair_das_opcoes" from="MenuDeOpcoes" to="." method="_on_menu_de_opcoes_sai_das_opcoes"]
