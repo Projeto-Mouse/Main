@@ -1,14 +1,15 @@
 class_name Inimigo
 extends Entidade
 
-var raycast: RayCast3D
-var vetor_pos_raycast: Vector3 = [0, 0, -10]
+@export var raycast: RayCast3D
+var debug_raycast: bool = false
 
 func _ready() -> void:
 	if dano == 0:
 		dano = 1.0
+	
 	raycast = criar_raycast()
-	configurar_raycast(raycast, true, vetor_pos_raycast, 1, true)
+	configurar_raycast(raycast, true, Vector3.RIGHT * 10 , 2, true)
 
 # (placeholder)
 func detectar_jogador_som() -> void:
