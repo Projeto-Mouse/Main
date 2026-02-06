@@ -1,18 +1,15 @@
 class_name Inimigo
 extends Entidade
 
-@export var raycast: RayCast3D
-var vetor_raycast: = Vector3.RIGHT * 10 
+var raycast: RayCast3D
+var vetor_pos_raycast = Vector3.RIGHT * 10
 
 func _ready() -> void:
 	if dano == 0:
 		dano = 1.0
-	
 	raycast = criar_raycast()
-	configurar_raycast(raycast, true, vetor_raycast , 2, true)
+	configurar_raycast(raycast, true, vetor_pos_raycast, 2, true)
 
-func _physics_process(delta: float) -> void:
-	pass
 
 # (placeholder)
 func detectar_jogador_som() -> void:
@@ -20,7 +17,20 @@ func detectar_jogador_som() -> void:
 
 # (placeholder)
 func target() -> void:
-	pass
+	if not raycast.is_colliding():
+		return
+
+	var collider := raycast.get_collider()
+
+	if not collider.is_in_group("Jogador"):
+		return
+
+	# Direção REAL até o jogador
+	var direcao_jogador = vetor_para(collider).normalized()
+
+	# Use isso para IA, movimento, ataque etc.
+	print("Direção do jogador:", direcao_jogador)
+	raycast.target_position = direcao_jogador
 
 func verificar_dano_contato() -> void:
 	for i in get_slide_collision_count():

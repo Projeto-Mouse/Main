@@ -8,9 +8,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravidade * delta
 		
-	if raycast.is_colliding():
-		var alvo = raycast.get_collider()
-		print("DEBUG...Vejo você...", alvo.name)
+	target()
 		
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
