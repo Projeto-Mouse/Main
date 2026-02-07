@@ -86,6 +86,15 @@ func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 		animar_entrada(target_pos)
 		
 func animar_entrada(target_pos_local: Vector2) -> void:
+	# Se time_scale for 0 (Pause via time_scale), o Tween padrão não roda.
+	# Nesse caso, pulamos a animação e mostramos imediatamente.
+	if is_zero_approx(Engine.time_scale):
+		if tween_animacao:
+			tween_animacao.kill()
+		modulate.a = 1.0
+		container_principal.position = target_pos_local
+		return
+
 	if tween_animacao:
 		tween_animacao.kill()
 	
@@ -99,6 +108,16 @@ func animar_entrada(target_pos_local: Vector2) -> void:
 
 func _on_voltar_pressed() -> void:
 	# Animação de saída
+	if is_zero_approx(Engine.time_scale):
+		# Sem animação se time_scale 0
+		visible = false
+		sair_das_opcoes.emit()
+		if menu_origem and menu_origem.has_method("grab_focus_on_return"):
+			menu_origem.grab_focus_on_return()
+		elif menu_origem and menu_origem is Control:
+			menu_origem.grab_focus()
+		return
+
 	if tween_animacao:
 		tween_animacao.kill()
 	
