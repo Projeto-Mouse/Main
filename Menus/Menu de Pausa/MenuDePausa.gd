@@ -6,6 +6,7 @@ extends Control
 @onready var salvar: Button = $MarginContainer/VBoxContainer/salvar
 @onready var sair_do_jogo: Button = $MarginContainer/VBoxContainer/sair_do_jogo
 @onready var margin_container = $MarginContainer as MarginContainer
+@onready var botoes_vbox = $MarginContainer/VBoxContainer
 @onready var menu_de_opcoes: MenuDeOpcoes = $MenuDeOpcoes
 @onready var cena_principal: Node3D = $"../../../.."
 
@@ -50,7 +51,10 @@ func _process(_delta):
 			margin_container.position.x = animation_target_x
 			print("MENU PAUSA: Animacao finalizada em ", animation_target_x)
 			if animation_callback.is_valid():
+				print("MENU PAUSA: Executando callback de animacao")
 				animation_callback.call()
+			else:
+				print("MENU PAUSA: Callback invalido ou nulo")
 		else:
 			# Easing: Quint Out (1 - pow(1 - t, 5))
 			var ease_t = 1.0 - pow(1.0 - t, 5)
@@ -107,7 +111,7 @@ func _on_opcoes_in_game_pressed() -> void:
 	
 	start_wall_tween(destino_x, func():
 		# Passa o margin_container do menu de pausa como referência de posição
-		menu_de_opcoes.abrir_menu_opcoes(self, margin_container)
+		menu_de_opcoes.abrir_menu_opcoes(self, botoes_vbox)
 	)
 
 func grab_focus_on_return() -> void:

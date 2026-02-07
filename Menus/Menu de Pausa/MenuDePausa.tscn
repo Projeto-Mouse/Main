@@ -95,6 +95,7 @@ flat = true
 
 [node name="MenuDeOpcoes" parent="." instance=ExtResource("3_me27e")]
 visible = false
+z_index = 10
 layout_mode = 1
 
 [connection signal="sair_das_opcoes" from="MenuDeOpcoes" to="." method="_on_menu_de_opcoes_sai_das_opcoes"]

@@ -44,6 +44,7 @@ func conectar_botoes() -> void:
 	btn_voltar.pressed.connect(_on_voltar_pressed)
 
 func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
+	print("MENU OPCOES: Abrir chamado. Origem: ", origem.name, " Ref: ", container_ref.name if container_ref else "Nulo")
 	menu_origem = origem
 	visible = true
 	
