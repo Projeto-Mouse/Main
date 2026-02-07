@@ -20,12 +20,10 @@ var animation_callback: Callable = Callable()
 
 func _ready():
 	print("MENU PAUSA: Ready started")
-	conectar_signals()
 	
 	# Wait for layout
 	await get_tree().process_frame
 	
-	# CALCULO MANUAL DO CENTRO
 	var viewport_size = get_viewport_rect().size
 	var container_size = margin_container.size
 	
@@ -106,19 +104,31 @@ func _on_opcoes_in_game_pressed() -> void:
 	var destino_x = 60
 	
 	start_wall_tween(destino_x, func():
-		menu_de_opcoes.abrir_menu_opcoes(self)
+		# Passa o margin_container do menu de pausa como referência de posição
+		menu_de_opcoes.abrir_menu_opcoes(self, margin_container)
 	)
+
+func grab_focus_on_return() -> void:
+	if opcoes_in_game:
+		opcoes_in_game.grab_focus()
 
 func _on_menu_de_opcoes_sai_das_opcoes() -> void:
 	print("MENU PAUSA: Sair das Opcoes")
 	menu_de_opcoes.visible = false
-	start_wall_tween(posicao_original_x)
+	start_wall_tween(posicao_original_x, func():
+		grab_focus_on_return()
+	)
 
 func _on_visibility_changed() -> void:
 	if visible:
 		is_animating = false # Para animações anteriores
 		if margin_container:
-			margin_container.position.x = posicao_original_x
+			# Se o menu de opções ESTIVER visível, não reseta a posição imediatamente para o centro,
+			# pois pode estar voltando de um sub-menu ou algo assim. 
+			# Mas se acabou de ficar visível (pause), deve ir pro centro.
+			if not menu_de_opcoes.visible:
+				margin_container.position.x = posicao_original_x
 			margin_container.visible = true
 		if menu_de_opcoes:
+			# Se abriu o pause, opções deve fechar? Normalmente sim.
 			menu_de_opcoes.visible = false

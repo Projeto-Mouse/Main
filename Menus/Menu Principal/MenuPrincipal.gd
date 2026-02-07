@@ -11,6 +11,7 @@ extends Control
 @onready var sair_button = $MarginContainer/HBoxContainer/VBoxContainer/sair_Button as Button
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var video_player = $VideoMenu
+@onready var botoes_vbox = $MarginContainer/HBoxContainer/VBoxContainer
 # Preload de música permanece no mesmo local (Sons não foi movido)
 @onready var musica_menu = preload("res://Sons/Musicas/Menu/Main Menu.wav")
 
@@ -44,17 +45,29 @@ func on_carregar_pressed() -> void:
 	print("Botão carregar pressionado!")
 
 func on_opcao_pressed() -> void:
-	margin_container.visible = false
-	# Passa referência deste menu como origem para permitir retorno correto
-	# Resolve bug onde sempre retornava para Menu de Opções em vez do menu anterior
-	menu_de_opcoes.abrir_menu_opcoes(self)
+	# margin_container.visible = false # COMENTADO: Manter visivel para layout side-by-side
+	# Passa referência do container de BOTÕES para alinhar corretamente ao lado deles
+	# Usar margin_container (Full Screen) causava posicionamento fora da tela
+	if botoes_vbox:
+		menu_de_opcoes.abrir_menu_opcoes(self, botoes_vbox)
+	else:
+		menu_de_opcoes.abrir_menu_opcoes(self, margin_container)
 
 func on_sair_das_opcoes_pressed() -> void:
-	margin_container.visible = true
+	if margin_container:
+		margin_container.visible = true
 	menu_de_opcoes.visible = false
+	
+	# Retorna o foco para o botão de opções
+	if opcao_button:
+		opcao_button.grab_focus()
 
 func on_sair_pressed() -> void:
 	get_tree().quit()
+
+func grab_focus_on_return() -> void:
+	if opcao_button:
+		opcao_button.grab_focus()
 
 func on_pagar_pressed() -> void:
 	print("Botão pagar pressionado!")
