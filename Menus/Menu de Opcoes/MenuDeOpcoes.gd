@@ -22,6 +22,15 @@ const ANIM_DURATION: float = 0.4
 const ANIM_OFFSET_X: float = -50.0
 const DISTANCIA_ENTRE_MENUS: float = 60.0
 
+var is_animating: bool = false
+var anim_start_time: int = 0
+var anim_duration_ms: int = 400
+var anim_start_pos: Vector2
+var anim_target_pos: Vector2
+var anim_start_alpha: float = 0.0
+var anim_target_alpha: float = 0.0
+var anim_callback: Callable = Callable()
+
 func _ready() -> void:
 	visible = false
 	modulate.a = 0.0
@@ -31,6 +40,34 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	conectar_botoes()
+
+	conectar_botoes()
+
+func _process(_delta: float) -> void:
+	if is_animating:
+		var current_time = Time.get_ticks_msec()
+		var elapsed = current_time - anim_start_time
+		var t = float(elapsed) / float(anim_duration_ms)
+		
+		if t >= 1.0:
+			t = 1.0
+			is_animating = false
+			container_principal.position = anim_target_pos
+			modulate.a = anim_target_alpha
+			if anim_callback.is_valid():
+				anim_callback.call()
+		else:
+			var ease_t = t
+			if anim_target_alpha > 0.5:
+				ease_t = 1.0 - pow(1.0 - t, 5)
+			else:
+				ease_t = pow(t, 5)
+
+			var new_pos = anim_start_pos.lerp(anim_target_pos, ease_t)
+			var new_alpha = lerp(anim_start_alpha, anim_target_alpha, ease_t)
+			
+			container_principal.position = new_pos
+			modulate.a = new_alpha
 
 func conectar_botoes() -> void:
 	btn_som.pressed.connect(func(): print("Categoria Som selecionada"))
@@ -49,20 +86,16 @@ func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 	
 	var target_pos: Vector2 = Vector2.ZERO
 	
-	# Força atualização de layout se necessário
 	if is_inside_tree():
 		await get_tree().process_frame
 	
 	if container_ref:
 		var ref_global_rect = container_ref.get_global_rect()
 
-		# Ajuste fino: Considera a margem interna do container para que a distância visual seja dps botões (60px)
-		# e não do container invisível.
 		var margin_left = 0
 		if container_principal is MarginContainer:
 			margin_left = container_principal.get_theme_constant("margin_left")
 			
-		# Distância desejada (60) - Margem interna que empurra os botões (12) = 48 de gap real do container
 		var target_x = ref_global_rect.end.x + DISTANCIA_ENTRE_MENUS - margin_left
 		
 		var my_size_y = container_principal.size.y
@@ -84,65 +117,35 @@ func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 		container_principal.position = target_pos + Vector2(ANIM_OFFSET_X, 0)
 		animar_entrada(target_pos)
 		
-func animar_entrada(target_pos_local: Vector2) -> void:
-	# Se time_scale for 0 (Pause via time_scale), o Tween padrão não roda.
-	# Nesse caso, pulamos a animação e mostramos imediatamente.
-	if is_zero_approx(Engine.time_scale):
-		if tween_animacao:
-			tween_animacao.kill()
-		modulate.a = 1.0
-		container_principal.position = target_pos_local
-		return
-
+func start_manual_tween(target_pos: Vector2, target_alpha: float, callback: Callable = Callable()) -> void:
+	is_animating = true
+	anim_start_time = Time.get_ticks_msec()
+	anim_start_pos = container_principal.position
+	anim_target_pos = target_pos
+	anim_start_alpha = modulate.a
+	anim_target_alpha = target_alpha
+	anim_callback = callback
+	
+	# Garante kill do tween antigo se ainda existir algo
 	if tween_animacao:
 		tween_animacao.kill()
-	
-	tween_animacao = create_tween().set_parallel(true)
-	tween_animacao.set_ease(Tween.EASE_OUT)
-	tween_animacao.set_trans(Tween.TRANS_QUINT)
-	
-	tween_animacao.tween_property(self, "modulate:a", 1.0, ANIM_DURATION).from(0.0)
-	
-	tween_animacao.tween_property(container_principal, "position", target_pos_local, ANIM_DURATION)
+
+func animar_entrada(target_pos_local: Vector2) -> void:
+	# Reseta alpha para garantir inicio correto se vier de invisivel
+	if modulate.a < 0.01:
+		modulate.a = 0.0
+		
+	start_manual_tween(target_pos_local, 1.0)
 
 func _on_voltar_pressed() -> void:
-	# Animação de saída
-	if is_zero_approx(Engine.time_scale):
-		# Sem animação se time_scale 0
-		visible = false
-		sair_das_opcoes.emit()
-		if menu_origem and menu_origem.has_method("grab_focus_on_return"):
-			menu_origem.grab_focus_on_return()
-		elif menu_origem and menu_origem is Control:
-			menu_origem.grab_focus()
-		return
-
-	if tween_animacao:
-		tween_animacao.kill()
-	
-	tween_animacao = create_tween().set_parallel(true)
-	tween_animacao.set_ease(Tween.EASE_IN) # In para saída
-	tween_animacao.set_trans(Tween.TRANS_QUINT)
-	
-	# Fade Out
-	tween_animacao.tween_property(self, "modulate:a", 0.0, ANIM_DURATION)
-	
-	# Slide Out (Volta para a posição offset)
-	# Posição atual + Offset (mesmo offset de entrada mas reverso)
-	# Entrada: pos + offset -> pos.
-	# Saída: pos -> pos + offset.
 	var current_pos = container_principal.position
-	var target_pos = current_pos + Vector2(ANIM_OFFSET_X, 0) # ANIM_OFFSET_X é negativo (-50), então vai para esquerda
+	var target_pos = current_pos + Vector2(ANIM_OFFSET_X, 0)
 	
-	tween_animacao.tween_property(container_principal, "position", target_pos, ANIM_DURATION)
-	
-	tween_animacao.chain().tween_callback(func():
+	start_manual_tween(target_pos, 0.0, func():
 		visible = false
 		sair_das_opcoes.emit()
-		# Tenta devolver o foco para o menu de origem se possível
 		if menu_origem and menu_origem.has_method("grab_focus_on_return"):
 			menu_origem.grab_focus_on_return()
 		elif menu_origem and menu_origem is Control:
-			# Tenta focar no container geral se nada especifico for definido
 			menu_origem.grab_focus()
 	)
