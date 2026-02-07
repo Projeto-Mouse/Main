@@ -7,9 +7,10 @@ var alvo_target: CharacterBody3D
 func _ready() -> void:
 	if dano == 0:
 		dano = 1.0
+
 	raycast = criar_raycast()
 	configurar_raycast(raycast, true, 2, true)
-	raycast.target_position = Vector3.RIGHT * 10
+	raycast.target_position = Vector3.ZERO
 	add_child(raycast)
 
 
@@ -17,20 +18,27 @@ func _ready() -> void:
 func detectar_jogador_som() -> void:
 	pass
 
+func atualizar_raycast_direcao_movimento() -> void:
+	if velocity.x == 0:
+		return
+
+	if velocity.x < 0:
+		raycast.target_position = Vector3.LEFT * 10
+		return
+
+	raycast.target_position = Vector3.RIGHT * 10
+	
 # (placeholder)
 func target() -> void:
 	var collider := raycast.get_collider()
-
 	if collider == null:
 		return
 	
-	var distancia_jogador = global_position.distance_to(collider.global_position)
-
 	if not collider.is_in_group("Jogador"):
 		return
-	
+
+	var distancia_jogador = global_position.distance_to(collider.global_position)
 	if distancia_jogador > 10:
-		raycast.target_position = Vector3.RIGHT * 10
 		alvo_target = null
 		print("DEBUG...parou aqui!")
 		return

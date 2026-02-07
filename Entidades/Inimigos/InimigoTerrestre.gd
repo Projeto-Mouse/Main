@@ -8,8 +8,8 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravidade * delta
 		
+	atualizar_raycast_direcao_movimento()
 	target()
-		
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
 
