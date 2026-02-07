@@ -63,8 +63,14 @@ func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 		if my_size_y == 0:
 			my_size_y = container_principal.get_minimum_size().y
 			
-		var target_y = ref_global_rect.position.y + (ref_global_rect.size.y / 2.0) - (my_size_y / 2.0)
+		# DEBUG DETALHADO
+		print("MENU OPCOES: Container Ref Global Rect: ", ref_global_rect)
+		print("MENU OPCOES: Minha Altura (Size Y): ", my_size_y)
 		
+		# Ajuste fino: Se o menu de opções estiver ficando Off-Screen no Pause
+		# O Pause Menu pode estar com clip_contents = true? Verificar.
+		
+		var target_y = ref_global_rect.position.y + (ref_global_rect.size.y / 2.0) - (my_size_y / 2.0)
 		target_pos = Vector2(target_x, target_y)
 		
 		var local_target_pos = target_pos - global_position

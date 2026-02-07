@@ -129,12 +129,19 @@ func _on_visibility_changed() -> void:
 	if visible:
 		is_animating = false # Para animações anteriores
 		if margin_container:
-			# Se o menu de opções ESTIVER visível, não reseta a posição imediatamente para o centro,
-			# pois pode estar voltando de um sub-menu ou algo assim. 
+			# Se o menu de opções ESTIVER visível, não reseta a posição imediatamente para o centro
 			# Mas se acabou de ficar visível (pause), deve ir pro centro.
-			if not menu_de_opcoes.visible:
-				margin_container.position.x = posicao_original_x
+			# A verificação de visible as vezes falha se o menu de opcoes não tiver fechado 'limpo'.
+			# Vamos forçar o reset se estiver abrindo o menu de pausa.
+			# Se o menu de opções está visível mas o pause acabou de abrir, provavelmente queremos resetar o estado.
+			if menu_de_opcoes.visible:
+				menu_de_opcoes.visible = false
+				
+			margin_container.position.x = posicao_original_x
 			margin_container.visible = true
+			
+	else:
+		# Quando o menu de pausa fecha (resume game), resetamos variaveis para a proxima vez
 		if menu_de_opcoes:
-			# Se abriu o pause, opções deve fechar? Normalmente sim.
 			menu_de_opcoes.visible = false
+		is_animating = false
