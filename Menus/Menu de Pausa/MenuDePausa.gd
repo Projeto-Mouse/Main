@@ -61,9 +61,9 @@ func _process(_delta):
 			var new_x = lerp(animation_start_x, animation_target_x, ease_t)
 			margin_container.position.x = new_x
 		
-		# Debug ocasional
 		if int(Engine.get_frames_drawn()) % 60 == 0:
-			print("MENU PAUSA DEBUG: Margin X: ", margin_container.position.x, " Delta: ", _delta, " TimeScale: ", Engine.time_scale)
+			pass
+			# print("MENU PAUSA DEBUG: Margin X: ", margin_container.position.x, " Delta: ", _delta, " TimeScale: ", Engine.time_scale)
 
 func start_wall_tween(target_x: float, callback: Callable = Callable()):
 	is_animating = true

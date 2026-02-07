@@ -44,7 +44,6 @@ func conectar_botoes() -> void:
 	btn_voltar.pressed.connect(_on_voltar_pressed)
 
 func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
-	print("MENU OPCOES: Abrir chamado. Origem: ", origem.name, " Ref: ", container_ref.name if container_ref else "Nulo")
 	menu_origem = origem
 	visible = true
 	
@@ -57,18 +56,18 @@ func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 	if container_ref:
 		var ref_global_rect = container_ref.get_global_rect()
 
-		var target_x = ref_global_rect.end.x + DISTANCIA_ENTRE_MENUS
+		# Ajuste fino: Considera a margem interna do container para que a distância visual seja dps botões (60px)
+		# e não do container invisível.
+		var margin_left = 0
+		if container_principal is MarginContainer:
+			margin_left = container_principal.get_theme_constant("margin_left")
+			
+		# Distância desejada (60) - Margem interna que empurra os botões (12) = 48 de gap real do container
+		var target_x = ref_global_rect.end.x + DISTANCIA_ENTRE_MENUS - margin_left
 		
 		var my_size_y = container_principal.size.y
 		if my_size_y == 0:
 			my_size_y = container_principal.get_minimum_size().y
-			
-		# DEBUG DETALHADO
-		print("MENU OPCOES: Container Ref Global Rect: ", ref_global_rect)
-		print("MENU OPCOES: Minha Altura (Size Y): ", my_size_y)
-		
-		# Ajuste fino: Se o menu de opções estiver ficando Off-Screen no Pause
-		# O Pause Menu pode estar com clip_contents = true? Verificar.
 		
 		var target_y = ref_global_rect.position.y + (ref_global_rect.size.y / 2.0) - (my_size_y / 2.0)
 		target_pos = Vector2(target_x, target_y)
