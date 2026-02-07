@@ -41,8 +41,6 @@ func _ready() -> void:
 	
 	conectar_botoes()
 
-	conectar_botoes()
-
 func _process(_delta: float) -> void:
 	if is_animating:
 		var current_time = Time.get_ticks_msec()
