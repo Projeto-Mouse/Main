@@ -32,6 +32,8 @@ func _ready():
 	
 	posicao_original_x = margin_container.position.x
 	print("MENU PAUSA: Posicao Original X: ", posicao_original_x)
+	
+	conectar_signals()
 
 func _process(_delta):
 	# FORCE WALL CLOCK ANIMATION
