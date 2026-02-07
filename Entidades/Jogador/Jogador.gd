@@ -11,19 +11,26 @@ enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR, ESCALANDO}
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
+@onready var mao: Node3D = $Mao
+
+const INTERVALO_PASSOS: float = 0.4
+
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var movimento_x: float
 var movimento_y: float
 var estado_atual = estados_jogador.PARADO
-var item_atual: Item = null
+var item_da_area_atual: Item = null
+var item_equipado_na_mao = null
 var tempo_proximo_passo: float = 0.0
-const INTERVALO_PASSOS: float = 0.4
+var inventario_temp: InventarioTemp
+
 
 func _ready() -> void:
 	add_to_group("Jogador")
 	criar_luz_jogador()
 	criar_som_passos()
+	inventario_temp = InventarioTemp.new()
 	
 func _process(_delta: float) -> void:
 	# Teste temporario para computar dano
@@ -36,9 +43,13 @@ func _process(_delta: float) -> void:
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
 	
+	if Input.is_action_just_pressed("Interagir"):
+		pegar_item()
+	
 	tocar_som_passos()
 
 func _physics_process(delta):
+	esconder_tocha_rastejando()
 	var esta_rastejando = Input.is_action_pressed("Rastejar")
 	var vetor_movimentos = calcular_movimento(velocidade_base, 0)
 	
@@ -165,10 +176,38 @@ func arredondar_dano(dano_recebido: float) -> float:
 		return parte_inteira
 
 func atualizar_interacao(item: Item, ativo: bool):
-	item_atual = item if ativo else (null if item_atual == item else item_atual)
+	item_da_area_atual = item if ativo else (null if item_da_area_atual == item else item_da_area_atual)
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 	if esta_tocando_escalavel:
 		estado_atual = estados_jogador.ESCALANDO
 	else:
 		estado_atual = estados_jogador.PARADO
+
+func pegar_item() -> void:
+	if item_da_area_atual == null:
+		return
+
+	if item_da_area_atual.is_in_group("ItensInterativos"):
+		inventario_temp.adicionar_item(item_da_area_atual)
+
+		item_equipado_na_mao = item_da_area_atual
+
+		item_da_area_atual.queue_free()
+
+		posicionar_item_na_mao()
+
+func posicionar_item_na_mao() -> void:
+	if item_equipado_na_mao == null:
+		return
+	
+	for filho in mao.get_children():
+		filho.queue_free()
+	
+	if item_equipado_na_mao.cena_3d:
+		var visual = item_equipado_na_mao.cena_3d.instantiate()
+		mao.add_child(visual)
+		visual.transform = Transform3D.IDENTITY #alinha com a mao
+
+func esconder_tocha_rastejando() -> void:
+	mao.visible = not Input.is_action_pressed("Rastejar")
