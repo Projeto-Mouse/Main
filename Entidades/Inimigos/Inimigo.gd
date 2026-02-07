@@ -3,6 +3,7 @@ extends Entidade
 
 var raycast: RayCast3D
 var alvo_target: CharacterBody3D
+var linha_debug: MeshInstance3D
 
 func _ready() -> void:
 	if dano == 0:
@@ -13,10 +14,41 @@ func _ready() -> void:
 	raycast.target_position = Vector3.ZERO
 	add_child(raycast)
 
+	criar_linha_debug()
 
 # (placeholder)
 func detectar_jogador_som() -> void:
 	pass
+
+func criar_linha_debug() -> void:
+	linha_debug = MeshInstance3D.new()
+
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(0.05, 0.05, 1.0)
+
+	linha_debug.mesh = mesh
+
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color.RED
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	linha_debug.material_override = mat
+
+	linha_debug.visible = false
+	add_child(linha_debug)
+
+func atualizar_linha_debug() -> void:
+	if alvo_target == null:
+		linha_debug.visible = false
+		return
+	
+	linha_debug.visible = true
+
+	var direcao := vetor_para(alvo_target)
+	var distancia := direcao.length()
+
+	linha_debug.global_position = global_position + direcao * 0.5
+	linha_debug.look_at(alvo_target.global_position, Vector3.UP)
+	linha_debug.scale = Vector3(1, 1, distancia)
 
 func atualizar_raycast_direcao_movimento() -> void:
 	if velocity.x == 0:

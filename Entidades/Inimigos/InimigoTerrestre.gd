@@ -10,8 +10,10 @@ func _physics_process(delta: float) -> void:
 		
 	atualizar_raycast_direcao_movimento()
 	target()
+	atualizar_linha_debug()
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
+
 
 func movimento_simples() -> void:
 	velocity.x = move_dir * velocidade_base
