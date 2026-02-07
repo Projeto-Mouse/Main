@@ -24,7 +24,7 @@ func criar_linha_debug() -> void:
 	linha_debug = MeshInstance3D.new()
 
 	var mesh := BoxMesh.new()
-	mesh.size = Vector3(0.05, 0.05, 1.0)
+	mesh.size = Vector3(0.02, 0.02, 1.0)
 
 	linha_debug.mesh = mesh
 
