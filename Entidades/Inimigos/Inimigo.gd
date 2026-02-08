@@ -75,15 +75,17 @@ func target() -> void:
 	if not collider.is_in_group("Jogador"):
 		return
 
+	if alvo_target == null:
+		print("DEBUG...Achei você...", collider.name)
+
 	var distancia_jogador = global_position.distance_to(collider.global_position)
 	if distancia_jogador > 10:
 		alvo_target = null
-		print("DEBUG...parou aqui!")
+		print("DEBUG...Cade você ", collider.name, "?!")
 		return
 
 	alvo_target = collider
 	raycast.target_position = vetor_para(alvo_target)
-	print("DEBUG...Achei você...", alvo_target.name)
 
 func verificar_dano_contato() -> void:
 	for i in get_slide_collision_count():
