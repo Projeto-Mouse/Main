@@ -4,6 +4,7 @@ extends Entidade
 var raycast: RayCast3D
 var alvo_target: CharacterBody3D
 var linha_debug: MeshInstance3D
+var debug_linha_ativa: bool = false
 
 func _ready() -> void:
 	if dano == 0:
@@ -36,8 +37,13 @@ func criar_linha_debug() -> void:
 	linha_debug.visible = false
 	add_child(linha_debug)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_CAPSLOCK:
+			debug_linha_ativa = !debug_linha_ativa
+
 func atualizar_linha_debug() -> void:
-	if alvo_target == null:
+	if not debug_linha_ativa or alvo_target == null:
 		linha_debug.visible = false
 		return
 	
