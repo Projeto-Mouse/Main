@@ -40,12 +40,20 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta):
 	var esta_rastejando = Input.is_action_pressed("Rastejar")
-	var vetor_movimentos = calcular_movimento(velocidade_base, 0)
+	var esta_devagar = Input.is_action_pressed("Devagar")
+	var vetor_input = Input.get_vector("Esquerda", "Direita", "Cima", "Baixo")
+	vetor_input = vetor_input.normalized()
+	var esta_no_chao = is_on_floor()
+	
+	var vetor_movimentos = calcular_movimento(vetor_input, esta_devagar, 
+	esta_rastejando, esta_no_chao, velocidade_base, 0)
 	
 	movimento_x = vetor_movimentos.x
 	
 	if estado_atual == estados_jogador.ESCALANDO && not is_on_floor():
-		vetor_movimentos = calcular_movimento(1.0, velocidade_base)
+		vetor_movimentos = calcular_movimento(vetor_input, esta_devagar, 
+	esta_rastejando, esta_no_chao, 0, velocidade_base)
+	
 		movimento_x = vetor_movimentos.x
 		movimento_y = vetor_movimentos.y
 		
@@ -55,7 +63,7 @@ func _physics_process(delta):
 		if Input.is_action_pressed("Pular"):
 			movimento_y = forca_pulo
 	else:
-		if not is_on_floor():
+		if not esta_no_chao:
 			movimento_y += gravidade * delta
 			estado_atual = estados_jogador.PULANDO
 		else:
@@ -68,38 +76,41 @@ func _physics_process(delta):
 	movimentacao(movimento_x, movimento_y)
 	atualizar_posicao_luz_jogador()
 
-func calcular_movimento(velocidade_x, velocidade_y) -> Vector3:
-	var input_dir = Input.get_vector("Esquerda", "Direita", "Cima", "Baixo")
-	
-	input_dir = input_dir.normalized()
-	
-	if not is_on_floor():
+func calcular_movimento(
+	input_dir: Vector2,
+	esta_devagar: bool,
+	esta_rastejando: bool,
+	no_chao: bool,
+	velocidade_x,
+	velocidade_y
+) -> Vector3:
+
+	if not no_chao:
 		estado_atual = estados_jogador.PULANDO
-	elif Input.is_action_pressed("Rastejar"):
+	elif esta_rastejando:
 		estado_atual = estados_jogador.RASTEJANDO
 	elif input_dir.length() > 0:
-		if Input.is_action_pressed("Devagar"):
+		if esta_devagar:
 			estado_atual = estados_jogador.DEVAGAR
 		else:
 			estado_atual = estados_jogador.ANDANDO
 	else:
 		estado_atual = estados_jogador.PARADO
-	
-	if Input.is_action_pressed("Devagar"):
-		velocidade_x *= 0.4 # 40% da velocidade reduzida
-	
-	# Provisorio
-	if Input.is_action_pressed("Rastejar"):
+
+	if esta_devagar:
+		velocidade_x *= 0.4
+
+	if esta_rastejando:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_x *= 0.3
 	else:
 		collision_shape.rotation_degrees.x = 0
 		mesh_instance.rotation_degrees.x = 0
-		
+
 	var movimento_no_x = input_dir.x * velocidade_x
 	var movimento_no_y = input_dir.y * velocidade_y
-		
+
 	return Vector3(movimento_no_x, movimento_no_y, 0)
 
 func criar_luz_jogador() -> void:
