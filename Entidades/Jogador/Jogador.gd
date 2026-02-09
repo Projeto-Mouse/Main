@@ -13,10 +13,10 @@ enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR, ESCALANDO}
 
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
-var movimento_x: float
-var movimento_y: float
 var estado_atual = estados_jogador.PARADO
 var item_atual: Item = null
+var movimento_x: float = 0.0
+var movimento_y: float = 0.0
 var tempo_proximo_passo: float = 0.0
 const INTERVALO_PASSOS: float = 0.4
 
@@ -39,79 +39,118 @@ func _process(_delta: float) -> void:
 	tocar_som_passos()
 
 func _physics_process(delta):
-	var esta_rastejando = Input.is_action_pressed("Rastejar")
-	var esta_devagar = Input.is_action_pressed("Devagar")
-	var vetor_input = Input.get_vector("Esquerda", "Direita", "Cima", "Baixo")
-	vetor_input = vetor_input.normalized()
+	var apertando_direita = Input.is_action_pressed("Direita")
+	var apertando_esquerda = Input.is_action_pressed("Esquerda")
+	var apertando_cima = Input.is_action_pressed("Cima")
+	var apertando_baixo = Input.is_action_pressed("Baixo")
+	var apertando_pular = Input.is_action_just_pressed("Pular")
+	var apertando_rastejar = Input.is_action_pressed("Rastejar")
+	var apertando_devagar = Input.is_action_pressed("Devagar")
 	var esta_no_chao = is_on_floor()
 	
-	var vetor_movimentos = calcular_movimento(vetor_input, esta_devagar, 
-	esta_rastejando, esta_no_chao, velocidade_base, 0)
+	atualizar_estado(esta_no_chao, apertando_rastejar, apertando_devagar, movimento_x, movimento_y)
 	
-	movimento_x = vetor_movimentos.x
+	movimento_x = calcular_movimento_horizontal(
+		apertando_direita, 
+		apertando_esquerda, 
+		apertando_rastejar,
+		apertando_devagar,
+		velocidade_base,
+		delta,
+	)
 	
-	if estado_atual == estados_jogador.ESCALANDO && not is_on_floor():
-		vetor_movimentos = calcular_movimento(vetor_input, esta_devagar, 
-	esta_rastejando, esta_no_chao, 0, velocidade_base)
+	movimento_y = calcular_movimento_vertical(
+		esta_no_chao,
+		apertando_cima, 
+		apertando_baixo, 
+		apertando_pular, 
+		velocidade_base,
+		delta
+	)
 	
-		movimento_x = vetor_movimentos.x
-		movimento_y = vetor_movimentos.y
-		
-		if vetor_movimentos.y == 0:
-			movimento_y -= 1
-			
-		if Input.is_action_pressed("Pular"):
-			movimento_y = forca_pulo
-	else:
-		if not esta_no_chao:
-			movimento_y += gravidade * delta
-			estado_atual = estados_jogador.PULANDO
-		else:
-			# Zera a queda para evitar acúmulo
-			movimento_y = 0
-			if Input.is_action_pressed("Pular") && not esta_rastejando:
-				movimento_y = forca_pulo
-
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	atualizar_posicao_luz_jogador()
 
-func calcular_movimento(
-	input_dir: Vector2,
-	esta_devagar: bool,
-	esta_rastejando: bool,
-	no_chao: bool,
-	velocidade_x,
-	velocidade_y
-) -> Vector3:
-
-	if not no_chao:
-		estado_atual = estados_jogador.PULANDO
-	elif esta_rastejando:
-		estado_atual = estados_jogador.RASTEJANDO
-	elif input_dir.length() > 0:
-		if esta_devagar:
-			estado_atual = estados_jogador.DEVAGAR
-		else:
-			estado_atual = estados_jogador.ANDANDO
-	else:
-		estado_atual = estados_jogador.PARADO
-
-	if esta_devagar:
+func calcular_movimento_horizontal(
+	apertando_direita: bool,
+	apertando_esquerda: bool,
+	apertando_rastejar: bool,
+	apertando_devagar: bool,
+	velocidade_x: float,
+	delta: float,
+) -> float:
+	
+	var direcao_horizontal = 0.0
+	
+	if apertando_direita:
+		direcao_horizontal += 1
+	if apertando_esquerda:
+		direcao_horizontal -= 1
+		
+	if apertando_devagar:
 		velocidade_x *= 0.4
-
-	if esta_rastejando:
+		
+	if apertando_rastejar:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_x *= 0.3
 	else:
 		collision_shape.rotation_degrees.x = 0
 		mesh_instance.rotation_degrees.x = 0
+	
+	return direcao_horizontal * velocidade_x
 
-	var movimento_no_x = input_dir.x * velocidade_x
-	var movimento_no_y = input_dir.y * velocidade_y
 
-	return Vector3(movimento_no_x, movimento_no_y, 0)
+func calcular_movimento_vertical(
+	no_chao: bool,
+	apertando_cima: bool,
+	apertando_baixo: bool,
+	apertando_pular: bool,
+	velocidade_y: float,
+	delta: float
+) -> float:
+
+	var movimento_no_y = velocity.y
+	
+	if estado_atual == estados_jogador.ESCALANDO:
+		var direcao_vertical = 0.0
+		if apertando_cima:
+			direcao_vertical -= 1
+		if apertando_baixo:
+			direcao_vertical += 1
+		movimento_no_y = direcao_vertical * velocidade_y
+	elif no_chao:
+		if apertando_pular and estado_atual != estados_jogador.RASTEJANDO:
+			movimento_no_y = forca_pulo
+		else:
+			movimento_no_y = 0
+	else:
+		movimento_no_y += gravidade * delta
+	
+	return movimento_no_y
+
+var estado_anterior = estado_atual
+
+func atualizar_estado(no_chao: bool, esta_rastejando: bool, esta_devagar: bool, movimento_x: float, movimento_y: float) -> void:
+	if estado_atual == estados_jogador.ESCALANDO and not no_chao:
+		return
+			
+	if not no_chao:
+		estado_atual = estados_jogador.PULANDO
+	elif esta_rastejando:
+		estado_atual = estados_jogador.RASTEJANDO
+	elif movimento_x != 0 or movimento_y != 0:
+		if esta_devagar:
+			estado_atual = estados_jogador.DEVAGAR
+		else:
+			estado_atual = estados_jogador.ANDANDO
+	else:
+		estado_atual = estados_jogador.PARADO
+		
+	if estado_atual != estado_anterior:
+		print("Mudou para:", estado_atual)
+		estado_anterior = estado_atual
 
 func criar_luz_jogador() -> void:
 	print("Luz jogado criada.")
