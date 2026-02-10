@@ -3,6 +3,13 @@ extends Entidade
 
 enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR, ESCALANDO}
 
+const INTERVALO_PASSOS: float = 0.4
+const ENERGIA_LUZ_JOGADOR: float = 0.05
+const RANGE_LUZ_JOGADOR: float = 0.8
+const ALTURA_VOLUME_PASSOS: int = -5
+const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
+const PITCH_SOM_PASSO_NORMAL = 1.0
+
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 
@@ -18,7 +25,6 @@ var item_atual: Item = null
 var movimento_x: float = 0.0
 var movimento_y: float = 0.0
 var tempo_proximo_passo: float = 0.0
-const INTERVALO_PASSOS: float = 0.4
 var esta_no_chao = true
 
 func _ready() -> void:
@@ -156,8 +162,8 @@ func atualizar_estado(no_chao: bool, esta_rastejando: bool, esta_devagar: bool, 
 func criar_luz_jogador() -> void:
 	print("Luz jogado criada.")
 	luz_natural_personagem = OmniLight3D.new()
-	luz_natural_personagem.light_energy = 0.05
-	luz_natural_personagem.omni_range = 0.8
+	luz_natural_personagem.light_energy = ENERGIA_LUZ_JOGADOR
+	luz_natural_personagem.omni_range = RANGE_LUZ_JOGADOR
 	get_parent().call_deferred("add_child", luz_natural_personagem)
 
 func criar_som_passos() -> void:
@@ -165,11 +171,11 @@ func criar_som_passos() -> void:
 	som_passos = AudioStreamPlayer.new()
 	add_child(som_passos)
 	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
-	som_passos.volume_db = -5
+	som_passos.volume_db = ALTURA_VOLUME_PASSOS
 
 func tocar_som_passos() -> void:
 	if estado_atual == estados_jogador.ANDANDO and esta_no_chao:
-		som_passos.pitch_scale = 1.0
+		som_passos.pitch_scale = PITCH_SOM_PASSO_NORMAL
 		if not som_passos.playing:
 			som_passos.play()
 		
@@ -181,7 +187,7 @@ func tocar_som_passos() -> void:
 			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
 			
 	elif estado_atual == estados_jogador.DEVAGAR:
-		som_passos.pitch_scale = 0.4
+		som_passos.pitch_scale = ESCALA_PITCH_SOM_PASSO_DEVAGAR
 		if not som_passos.playing:
 			som_passos.play()
 			
