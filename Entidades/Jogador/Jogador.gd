@@ -46,58 +46,58 @@ func _process(_delta: float) -> void:
 	tocar_som_passos()
 
 func _physics_process(delta):
-	var apertando_direita = Input.is_action_pressed("Direita")
-	var apertando_esquerda = Input.is_action_pressed("Esquerda")
-	var apertando_cima = Input.is_action_pressed("Cima")
-	var apertando_baixo = Input.is_action_pressed("Baixo")
-	var apertando_pular = Input.is_action_just_pressed("Pular")
-	var apertando_rastejar = Input.is_action_pressed("Rastejar")
-	var apertando_devagar = Input.is_action_pressed("Devagar")
+	var apertou_direita = Input.is_action_pressed("Direita")
+	var apertou_esquerda = Input.is_action_pressed("Esquerda")
+	var apertou_cima = Input.is_action_pressed("Cima")
+	var apertou_baixo = Input.is_action_pressed("Baixo")
+	var apertou_pular = Input.is_action_just_pressed("Pular")
+	var apertou_rastejar = Input.is_action_pressed("Rastejar")
+	var apertou_devagar = Input.is_action_pressed("Devagar")
 	esta_no_chao = is_on_floor()
 	
 	movimento_x = calcular_movimento_horizontal(
-		apertando_direita, 
-		apertando_esquerda, 
-		apertando_rastejar,
-		apertando_devagar,
+		apertou_direita, 
+		apertou_esquerda, 
+		apertou_rastejar,
+		apertou_devagar,
 		velocidade_base,
 		delta,
 	)
 	
 	movimento_y = calcular_movimento_vertical(
 		esta_no_chao,
-		apertando_cima, 
-		apertando_baixo, 
-		apertando_pular, 
+		apertou_cima, 
+		apertou_baixo, 
+		apertou_pular, 
 		velocidade_base,
 		delta
 	)
 	
-	atualizar_estado(esta_no_chao, apertando_rastejar, apertando_devagar, movimento_x, movimento_y)
+	atualizar_estado(esta_no_chao, apertou_rastejar, apertou_devagar, movimento_x, movimento_y)
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	atualizar_posicao_luz_jogador()
 
 func calcular_movimento_horizontal(
-	apertando_direita: bool,
-	apertando_esquerda: bool,
-	apertando_rastejar: bool,
-	apertando_devagar: bool,
+	apertou_direita: bool,
+	apertou_esquerda: bool,
+	apertou_rastejar: bool,
+	apertou_devagar: bool,
 	velocidade_x: float,
 	delta: float,
 ) -> float:
 	
 	var direcao_horizontal = 0.0
 	
-	if apertando_direita:
+	if apertou_direita:
 		direcao_horizontal += 1
-	if apertando_esquerda:
+	if apertou_esquerda:
 		direcao_horizontal -= 1
 		
-	if apertando_devagar:
+	if apertou_devagar:
 		velocidade_x *= 0.4
 		
-	if apertando_rastejar:
+	if apertou_rastejar:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_x *= 0.3
@@ -110,9 +110,9 @@ func calcular_movimento_horizontal(
 
 func calcular_movimento_vertical(
 	no_chao: bool,
-	apertando_cima: bool,
-	apertando_baixo: bool,
-	apertando_pular: bool,
+	apertou_cima: bool,
+	apertou_baixo: bool,
+	apertou_pular: bool,
 	velocidade_y: float,
 	delta: float
 ) -> float:
@@ -121,13 +121,13 @@ func calcular_movimento_vertical(
 	
 	if estado_atual == estados_jogador.ESCALANDO:
 		var direcao_vertical = 0.0
-		if apertando_cima:
+		if apertou_cima:
 			direcao_vertical += 1
-		if apertando_baixo:
+		if apertou_baixo:
 			direcao_vertical -= 1
 		movimento_no_y = direcao_vertical * velocidade_y
 	elif no_chao:
-		if apertando_pular and estado_atual != estados_jogador.RASTEJANDO:
+		if apertou_pular and estado_atual != estados_jogador.RASTEJANDO:
 			movimento_no_y = forca_pulo
 		else:
 			movimento_no_y = 0

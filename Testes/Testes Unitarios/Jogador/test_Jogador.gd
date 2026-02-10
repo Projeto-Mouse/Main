@@ -72,13 +72,13 @@ func test_calcular_movimento_vertical_cima() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
 	var resultado = jogador.calcular_movimento_vertical(false, true, false, false, 2.0, 3.0)
 	resultado = int(resultado)
-	assert_lt(resultado, 0)
+	assert_gt(resultado, 0)
 	
 func test_calcular_movimento_vertical_baixo() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
 	var resultado = jogador.calcular_movimento_vertical(false, false, true, false, 2.0, 3.0)
 	resultado = int(resultado)
-	assert_gt(resultado, 0)
+	assert_lt(resultado, 0)
 
 func test_calcular_movimento_vertical_pulando() -> void:
 	var resultado = jogador.calcular_movimento_vertical(true, false, false, true, 2.0, 3.0)
