@@ -113,18 +113,24 @@ func test_atualizar_estado_parado() -> void:
 	jogador.atualizar_estado(true, false, false, 0.0, 0.0)
 	assert_eq(jogador.estado_atual, jogador.estados_jogador.PARADO)
 
-# NAO CONSEGUI FAZER FUNCIONAR
-# PELO QUE VI TEM QUE MOCKAR O AUDIOSTREAM ( POIS SEM STRAM NAO FUNCIONA )
-# PARA MOCKAR O PLAY E STOP, MAS A GODOT NAO DEIXA DAR OVERRIDE NESSES METODOS
-# SE ALGUEM QUISER TENTAR EU TO A MT TEMPO NESSA PORRA -_- NEM O GPTO CONSEGUIU
+func test_tocar_som_passos_tocando() -> void:
+	jogador.estado_atual = jogador.estados_jogador.ANDANDO
+	jogador.esta_no_chao = true
 
-# func test_tocar_som_passos_tocando() -> void:
-	#jogador.estado_atual = jogador.estados_jogador.ANDANDO
-	#jogador.esta_no_chao = true
-	#jogador.tempo_proximo_passo = 0
-	#jogador.tocar_som_passos()
-	#await get_tree().process_frame
-	#assert_true(jogador.som_passos.playing)
+	jogador.som_passos.stream = AudioStreamPolyphonic.new()
+
+	jogador.tocar_som_passos()
+	assert_true(jogador.som_passos.playing, "O audio deveria estar tocando no estado ANDANDO")
+
+func test_tocar_som_passos_para_quando_parado() -> void:
+	jogador.som_passos.play()
+	jogador.estado_atual = jogador.estados_jogador.PARADO
+
+	jogador.som_passos.stream = AudioStreamPolyphonic.new()
+
+	jogador.tocar_som_passos()
+
+	assert_false(jogador.som_passos.playing, "Audio nao deveria estar tocando")
 
 func test_tocar_som_passos_ponto_emissao() -> void:
 	jogador.global_position = Vector3(10, 2, 5)
