@@ -19,6 +19,7 @@ var movimento_x: float = 0.0
 var movimento_y: float = 0.0
 var tempo_proximo_passo: float = 0.0
 const INTERVALO_PASSOS: float = 0.4
+var esta_no_chao = true
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -46,7 +47,7 @@ func _physics_process(delta):
 	var apertando_pular = Input.is_action_just_pressed("Pular")
 	var apertando_rastejar = Input.is_action_pressed("Rastejar")
 	var apertando_devagar = Input.is_action_pressed("Devagar")
-	var esta_no_chao = is_on_floor()
+	esta_no_chao = is_on_floor()
 	
 	atualizar_estado(esta_no_chao, apertando_rastejar, apertando_devagar, movimento_x, movimento_y)
 	
@@ -135,7 +136,7 @@ var estado_anterior = estado_atual
 func atualizar_estado(no_chao: bool, esta_rastejando: bool, esta_devagar: bool, movimento_x: float, movimento_y: float) -> void:
 	if estado_atual == estados_jogador.ESCALANDO and not no_chao:
 		return
-			
+		
 	if not no_chao:
 		estado_atual = estados_jogador.PULANDO
 	elif esta_rastejando:
@@ -167,7 +168,7 @@ func criar_som_passos() -> void:
 	som_passos.volume_db = -5
 
 func tocar_som_passos() -> void:
-	if estado_atual == estados_jogador.ANDANDO and is_on_floor():
+	if estado_atual == estados_jogador.ANDANDO and esta_no_chao:
 		som_passos.pitch_scale = 1.0
 		if not som_passos.playing:
 			som_passos.play()
@@ -184,7 +185,7 @@ func tocar_som_passos() -> void:
 		if not som_passos.playing:
 			som_passos.play()
 			
-		# Passos silenciosos: não emitem ruído
+	# Passos silenciosos: não emitem ruído
 	else:
 		som_passos.stop()
 		tempo_proximo_passo = 0 # Reseta timer ao parar
@@ -193,13 +194,18 @@ func atualizar_posicao_luz_jogador() -> void:
 	var posicao_nova_luz = global_transform.origin
 	posicao_nova_luz.y += 0.3
 	luz_natural_personagem.global_transform.origin = posicao_nova_luz
+	
 # Isso e um override da funcao que esta em entidade
 func computar_dano(dano_recebido: float) -> void:
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
 	vida_atual -= dano_arredondado
+	
+	if vida_atual <= 0:
+		vida_atual = 0
+	
 	print("vida atual = ", vida_atual)
-
+	
 	if vida_atual == 0:
 		print("Jogador Morreu")
 

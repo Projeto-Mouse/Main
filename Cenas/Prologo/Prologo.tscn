@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=20 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -39,15 +39,15 @@ size = Vector3(2.8039932, 1.5853786, 0.17651367)
 [sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
 size = Vector3(0.11230469, 0.44714355, 1)
 
-[node name="Prologo" type="Node3D" unique_id=1316856209]
+[node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1594869866]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.81913203, -1.2206018e-08, 0.57360506, -0.2206925, 0.92302233, 0.31515813, -0.5294503, -0.38474643, 0.7560772, 0, 0, 0)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1800781372]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="BarraVida" type="Control" parent="CanvasLayer" unique_id=1290164632 node_paths=PackedStringArray("player")]
+[node name="BarraVida" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -58,80 +58,80 @@ sprite_vida_cheia = ExtResource("3_rlofj")
 sprite_vida_meio = ExtResource("4_4yqau")
 sprite_vida_vazia = ExtResource("5_mt6og")
 
-[node name="CenaSalaDoSacrificio" type="StaticBody3D" parent="." unique_id=888522214]
+[node name="CenaSalaDoSacrificio" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.287596, 0, 0)
 
-[node name="ColisãoChão" type="CollisionShape3D" parent="CenaSalaDoSacrificio" unique_id=1852879559]
+[node name="ColisãoChão" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4126825, 0, 0)
 shape = SubResource("BoxShape3D_spau7")
 debug_color = Color(0, 0.6357732, 0.40352643, 0.41960785)
 
-[node name="ColisãoArvore01" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio" unique_id=987262123]
+[node name="ColisãoArvore01" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -2.6876678, -0.5413351, 0)
 polygon = PackedVector2Array(4.716873, 1.090121, 6.341137, 1.8179336, 7.5198097, 2.8623378, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.273619, 3.984039, 17.064222, 4.0448546, 17.429117, 3.6495526, 20.635363, 4.0280833, 22.042429, 4.7034755, 22.143057, 1.7915941, 7.93954, 2.4256306, 6.701625, 1.377894)
 margin = 0.001
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01" unique_id=1056327712]
+[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
 transform = Transform3D(-0.053347442, -8.515206, 0, 0.9294462, -0.4887474, 0, 0, 0, 1.25, 15.289015, 2.9854605, -0.93004227)
 texture = ExtResource("5_mt6og")
 
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01" unique_id=1790270055]
+[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
 transform = Transform3D(0.9644886, 0.2781037, 0, -0.16817404, 1.5949417, 0, 0, 0, 1.25, 21.448576, 3.2223666, -0.93004227)
 texture = ExtResource("5_mt6og")
 
-[node name="ColisãoArvore02" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio" unique_id=1140729691]
+[node name="ColisãoArvore02" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 polygon = PackedVector2Array(16.641018, 3.1894681, 17.978971, 3.067836, 19.985903, 3.3111002, 22.388142, 4.192934, 23.361198, 4.9835434, 24.476946, 6.0701513, 25.722748, 6.942213, 26.769222, 7.315954, 25.623083, 6.39406, 24.925432, 5.5718303, 23.958906, 3.7655153, 25.240469, 3.5920358, 25.027613, 2.19326, 25.058022, 0.7336683, 25.45333, -0.026535511, 16.853874, 0.02703023)
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02" unique_id=1096996580]
+[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
 transform = Transform3D(6.666141, -0.052821815, 0, 0.1899283, 1.8539506, 0, 0, 0, 1, 21.129234, 1.9454229, -0.7440338)
 texture = ExtResource("5_mt6og")
 
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02" unique_id=1575887325]
+[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
 transform = Transform3D(0.6118177, -1.2639456, 0, 0.76432955, 1.0117424, 0, 0, 0, 1.2499998, 17.747622, 2.106275, -0.7009492)
 texture = ExtResource("5_mt6og")
 
-[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02" unique_id=137975582]
+[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
 transform = Transform3D(0.72178984, 1.093847, 0, -0.6614681, 1.1935993, 0, 0, 0, 1.2499999, 22.922323, 3.6399286, -0.6765777)
 texture = ExtResource("5_mt6og")
 
-[node name="S4" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02" unique_id=2042558733]
+[node name="S4" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
 transform = Transform3D(0.35539645, 0.84183204, 0, -0.36155307, 0.82749736, 0, 0, 0, 1.2499999, 24.213835, 5.204351, -0.6812774)
 texture = ExtResource("5_mt6og")
 
-[node name="S5" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02" unique_id=617066465]
+[node name="S5" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
 transform = Transform3D(0.17330235, 1.2162308, 0, -0.24075872, 0.8754642, 0, 0, 0, 0.5202915, 25.512842, 6.486413, -0.658262)
 texture = ExtResource("5_mt6og")
 
-[node name="ColisãoRampaEntradaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio" unique_id=874254217]
+[node name="ColisãoRampaEntradaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.9441524, -0.32950938, 0, 0.32950938, 0.9441524, 0, 0, 0, 1, 28.204054, 0.19277865, 0)
 shape = SubResource("BoxShape3D_r4mej")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="ColisãoParteCimaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio" unique_id=1117742628]
+[node name="ColisãoParteCimaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.817886, 16.510612, 0)
 shape = SubResource("BoxShape3D_3kemy")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="ColisãoParedeEsquerda" type="CollisionShape3D" parent="CenaSalaDoSacrificio" unique_id=979144486]
+[node name="ColisãoParedeEsquerda" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.936573, 3.0382233, 0)
 shape = SubResource("BoxShape3D_hss4k")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="ColisãoCipó" type="CollisionShape3D" parent="CenaSalaDoSacrificio" unique_id=780932365]
+[node name="ColisãoCipó" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303585, 12.355051, 0)
 shape = SubResource("CylinderShape3D_spau7")
 
-[node name="CenaMesa" type="StaticBody3D" parent="." unique_id=1069186595]
+[node name="CenaMesa" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6295, 0, 0)
 
-[node name="ColisãoMesa" type="CollisionShape3D" parent="CenaMesa" unique_id=1572414082]
+[node name="ColisãoMesa" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.39196, 7.9708405, 0)
 shape = SubResource("BoxShape3D_ppn7s")
 debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
 
-[node name="Jogador" type="CharacterBody3D" parent="." unique_id=137342936]
+[node name="Jogador" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9317702, 0)
 script = ExtResource("2_ftip3")
 velocidade_base = 3.0
@@ -141,40 +141,40 @@ vida_max = 10.0
 vida_atual = 10.0
 dano = 1.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Jogador" unique_id=1055103734]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Jogador"]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_spau7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Jogador" unique_id=1395169675]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Jogador"]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_r4mej")
 
-[node name="pivo_Camera" type="Node3D" parent="Jogador" unique_id=1121341278]
+[node name="pivo_Camera" type="Node3D" parent="Jogador"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
-[node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera" unique_id=1545857741]
+[node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
 fov = 89.5799
 
-[node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" unique_id=1809846064 instance=ExtResource("3_03pyc")]
+[node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
 visible = false
 
-[node name="Tocha" type="RigidBody3D" parent="." unique_id=1332907971]
+[node name="Tocha" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9596558, 0.97325134, 0)
 script = ExtResource("8_ppn7s")
 nome = "Tocha"
 tipo = "Ferramenta"
 
-[node name="Area3D" type="Area3D" parent="Tocha" unique_id=381773658]
+[node name="Area3D" type="Area3D" parent="Tocha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha/Area3D" unique_id=1056808657]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031174421, 0.5445826, -0.024536133)
 shape = SubResource("BoxShape3D_r8c7y")
 
-[node name="Sprite3D" type="Sprite3D" parent="Tocha" unique_id=1886125932]
+[node name="Sprite3D" type="Sprite3D" parent="Tocha"]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.041650414, 0)
 texture = ExtResource("8_r4mej")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha" unique_id=281554287]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
 shape = SubResource("BoxShape3D_rteev")
