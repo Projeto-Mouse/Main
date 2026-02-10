@@ -55,8 +55,6 @@ func _physics_process(delta):
 	var apertando_devagar = Input.is_action_pressed("Devagar")
 	esta_no_chao = is_on_floor()
 	
-	atualizar_estado(esta_no_chao, apertando_rastejar, apertando_devagar, movimento_x, movimento_y)
-	
 	movimento_x = calcular_movimento_horizontal(
 		apertando_direita, 
 		apertando_esquerda, 
@@ -75,6 +73,7 @@ func _physics_process(delta):
 		delta
 	)
 	
+	atualizar_estado(esta_no_chao, apertando_rastejar, apertando_devagar, movimento_x, movimento_y)
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	atualizar_posicao_luz_jogador()
@@ -123,9 +122,9 @@ func calcular_movimento_vertical(
 	if estado_atual == estados_jogador.ESCALANDO:
 		var direcao_vertical = 0.0
 		if apertando_cima:
-			direcao_vertical -= 1
-		if apertando_baixo:
 			direcao_vertical += 1
+		if apertando_baixo:
+			direcao_vertical -= 1
 		movimento_no_y = direcao_vertical * velocidade_y
 	elif no_chao:
 		if apertando_pular and estado_atual != estados_jogador.RASTEJANDO:
@@ -140,7 +139,7 @@ func calcular_movimento_vertical(
 var estado_anterior = estado_atual
 
 func atualizar_estado(no_chao: bool, esta_rastejando: bool, esta_devagar: bool, movimento_x: float, movimento_y: float) -> void:
-	if estado_atual == estados_jogador.ESCALANDO and not no_chao:
+	if estado_atual == estados_jogador.ESCALANDO:
 		return
 		
 	if not no_chao:
