@@ -1,7 +1,7 @@
 class_name Jogador
 extends Entidade
 
-enum estados_jogador {ANDANDO, RASTEJANDO, PARADO, PULANDO, DEVAGAR, ESCALANDO}
+enum estados_jogador {PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO}
 
 const INTERVALO_PASSOS: float = 0.4
 const ENERGIA_LUZ_JOGADOR: float = 0.05
@@ -12,9 +12,6 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
-
-# Essas variaveis sao testes apenas para rotarcionamos o boneco para testar
-# A logica, depois serao adicionados os sprites de em pe e rastejando.
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
@@ -25,7 +22,6 @@ var item_atual: Item = null
 var movimento_x: float = 0.0
 var movimento_y: float = 0.0
 var tempo_proximo_passo: float = 0.0
-var esta_no_chao = true
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -33,7 +29,6 @@ func _ready() -> void:
 	criar_som_passos()
 	
 func _process(_delta: float) -> void:
-	# Teste temporario para computar dano
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
 	
@@ -43,111 +38,70 @@ func _process(_delta: float) -> void:
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
 	
-	tocar_som_passos()
 
 func _physics_process(delta):
-	var apertando_direita = Input.is_action_pressed("Direita")
-	var apertando_esquerda = Input.is_action_pressed("Esquerda")
-	var apertando_cima = Input.is_action_pressed("Cima")
-	var apertando_baixo = Input.is_action_pressed("Baixo")
-	var apertando_pular = Input.is_action_just_pressed("Pular")
-	var apertando_rastejar = Input.is_action_pressed("Rastejar")
-	var apertando_devagar = Input.is_action_pressed("Devagar")
-	esta_no_chao = is_on_floor()
+	var esta_no_chao = is_on_floor()
+	var direcao_x = Input.get_axis("Esquerda", "Direita") 
+	var direcao_y = Input.get_axis("Baixo", "Cima")
+	var apertou_pular = Input.is_action_just_pressed("Pular")
 	
-	movimento_x = calcular_movimento_horizontal(
-		apertando_direita, 
-		apertando_esquerda, 
-		apertando_rastejar,
-		apertando_devagar,
-		velocidade_base,
-		delta,
-	)
 	
-	movimento_y = calcular_movimento_vertical(
-		esta_no_chao,
-		apertando_cima, 
-		apertando_baixo, 
-		apertando_pular, 
-		velocidade_base,
-		delta
-	)
+	var movimento_x = calcular_movimento_horizontal(direcao_x)
 	
-	atualizar_estado(esta_no_chao, apertando_rastejar, apertando_devagar, movimento_x, movimento_y)
+	var movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
+	
+	tocar_som_passos(esta_no_chao)
+	atualizar_estado(esta_no_chao, movimento_x)
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	atualizar_posicao_luz_jogador()
 
-func calcular_movimento_horizontal(
-	apertando_direita: bool,
-	apertando_esquerda: bool,
-	apertando_rastejar: bool,
-	apertando_devagar: bool,
-	velocidade_x: float,
-	delta: float,
-) -> float:
-	
-	var direcao_horizontal = 0.0
-	
-	if apertando_direita:
-		direcao_horizontal += 1
-	if apertando_esquerda:
-		direcao_horizontal -= 1
+func calcular_movimento_horizontal(direcao: float) -> float:
+	var velocidade_final = velocidade_base
 		
-	if apertando_devagar:
-		velocidade_x *= 0.4
+	if Input.is_action_pressed("Devagar"):
+		velocidade_final *= 0.4
 		
-	if apertando_rastejar:
+	if Input.is_action_pressed("Rastejar"):
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
-		velocidade_x *= 0.3
+		velocidade_final *= 0.3
 	else:
 		collision_shape.rotation_degrees.x = 0
 		mesh_instance.rotation_degrees.x = 0
 	
-	return direcao_horizontal * velocidade_x
+	return direcao * velocidade_final
 
 
-func calcular_movimento_vertical(
-	no_chao: bool,
-	apertando_cima: bool,
-	apertando_baixo: bool,
-	apertando_pular: bool,
-	velocidade_y: float,
-	delta: float
-) -> float:
-
-	var movimento_no_y = velocity.y
+func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, delta: float) -> float:
+	var velocidade_final_y = velocity.y
 	
 	if estado_atual == estados_jogador.ESCALANDO:
-		var direcao_vertical = 0.0
-		if apertando_cima:
-			direcao_vertical += 1
-		if apertando_baixo:
-			direcao_vertical -= 1
-		movimento_no_y = direcao_vertical * velocidade_y
+		velocidade_final_y = direcao * velocidade_base
+		if(direcao <= 0):
+			velocidade_final_y -= 0.25
 	elif no_chao:
-		if apertando_pular and estado_atual != estados_jogador.RASTEJANDO:
-			movimento_no_y = forca_pulo
+		if pular and not Input.is_action_pressed("Rastejar"):
+			velocidade_final_y = forca_pulo
 		else:
-			movimento_no_y = 0
+			velocidade_final_y = 0
 	else:
-		movimento_no_y += gravidade * delta
+		velocidade_final_y += gravidade * delta
 	
-	return movimento_no_y
+	return velocidade_final_y
 
 var estado_anterior = estado_atual
 
-func atualizar_estado(no_chao: bool, esta_rastejando: bool, esta_devagar: bool, movimento_x: float, movimento_y: float) -> void:
+func atualizar_estado(no_chao: bool, movimento_x: float) -> void:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return
 		
 	if not no_chao:
-		estado_atual = estados_jogador.PULANDO
-	elif esta_rastejando:
+		estado_atual = estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
+	elif Input.is_action_pressed("Rastejar"):
 		estado_atual = estados_jogador.RASTEJANDO
-	elif movimento_x != 0 or movimento_y != 0:
-		if esta_devagar:
+	elif movimento_x != 0:
+		if Input.is_action_pressed("Devagar"):
 			estado_atual = estados_jogador.DEVAGAR
 		else:
 			estado_atual = estados_jogador.ANDANDO
@@ -172,7 +126,7 @@ func criar_som_passos() -> void:
 	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
 	som_passos.volume_db = ALTURA_VOLUME_PASSOS
 
-func tocar_som_passos() -> void:
+func tocar_som_passos(esta_no_chao: bool) -> void:
 	if estado_atual == estados_jogador.ANDANDO and esta_no_chao:
 		som_passos.pitch_scale = PITCH_SOM_PASSO_NORMAL
 		if not som_passos.playing:

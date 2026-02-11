@@ -8,6 +8,9 @@ class JogadorMock extends Jogador:
 	func criar_som_passos() -> void:
 		som_passos = AudioStreamPlayer.new()
 		add_child(som_passos)
+	
+	func retornar_esta_no_chao(booleano: bool) -> bool:
+		return booleano
 
 class ItemMock extends Item:
 	func _ready():
@@ -15,10 +18,19 @@ class ItemMock extends Item:
 
 var jogador
 var item
+var sender = InputSender.new(Input)
 
+func after_each():
+	sender.release_all()
+	
 func before_each():
 	jogador = JogadorMock.new()
+	jogador.velocidade_base = 3.0
+	jogador.forca_pulo = 2.0
+	jogador.gravidade = 10
+	jogador.estado_atual = jogador.estados_jogador.PARADO
 	jogador.criar_som_passos()
+	jogador.criar_luz_jogador()
 	
 	item = ItemMock.new()
 	add_child_autofree(item)
@@ -28,6 +40,7 @@ func before_each():
 
 	var pivo = Node3D.new()
 	pivo.name = "pivo_Camera"
+	jogador.add_child(pivo)
 
 	var camera = Camera3D.new()
 	camera.name = "Camera"
@@ -35,96 +48,94 @@ func before_each():
 
 	var mesh = MeshInstance3D.new()
 	mesh.name = "MeshInstance3D"
+	jogador.add_child(mesh)
 
 	var col = CollisionShape3D.new()
 	col.name = "CollisionShape3D"
+	jogador.add_child(col)
 
 	var canvas = CanvasLayer.new()
 	canvas.name = "CanvasLayer"
 
 	var barra = Control.new()
 	barra.name = "BarraVida"
-
 	canvas.add_child(barra)
-
-	jogador.add_child(mesh)
-	jogador.add_child(col)
-	jogador.add_child(pivo)
 
 	root.add_child(canvas)
 	root.add_child(jogador)
 	
-	jogador.estado_atual = jogador.estados_jogador.PARADO
-
 func test_calcular_movimento_horizontal_direita() -> void:
-	var resultado = jogador.calcular_movimento_horizontal(true, false, false, false, 2.0, 3.0)
+	var resultado = jogador.calcular_movimento_horizontal(1.0)
 	assert_gt(resultado, 0.0)
 
 func test_calcular_movimento_horizontal_esquerda() -> void:
-	var resultado = jogador.calcular_movimento_horizontal(false, true, false, false, 2.0, 3.0)
+	var resultado = jogador.calcular_movimento_horizontal(-1.0)
 	assert_lt(resultado, 0.0)
 
 func test_calcular_movimento_horizontal_esquerda_e_direita_juntos() -> void:
-	var resultado = jogador.calcular_movimento_horizontal(true, true, false, false, 2.0, 3.0)
+	var resultado = jogador.calcular_movimento_horizontal(0.0)
 	assert_eq(resultado, 0.0)
 
-func test_calcular_movimento_vertical_cima() -> void:
+func test_calcular_movimento_vertical_escalando_cima() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
-	var resultado = jogador.calcular_movimento_vertical(false, true, false, false, 2.0, 3.0)
-	resultado = int(resultado)
+	var resultado = jogador.calcular_movimento_vertical(false, 1.0, false, 3.0)
 	assert_gt(resultado, 0)
 	
-func test_calcular_movimento_vertical_baixo() -> void:
+func test_calcular_movimento_vertical_escalando_descendo() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
-	var resultado = jogador.calcular_movimento_vertical(false, false, true, false, 2.0, 3.0)
-	resultado = int(resultado)
+	var resultado = jogador.calcular_movimento_vertical(false, -1.0, false, 3.0)
 	assert_lt(resultado, 0)
 
 func test_calcular_movimento_vertical_pulando() -> void:
-	var resultado = jogador.calcular_movimento_vertical(true, false, false, true, 2.0, 3.0)
+	var resultado = jogador.calcular_movimento_vertical(true, 0.0, true, 3.0)
 	assert_eq(resultado, jogador.forca_pulo)
 	
 func test_calcular_movimento_vertical_fora_chao_sem_apertar_nada() -> void:
-	jogador.gravidade = 10
-	var resultado = jogador.calcular_movimento_vertical(false, false, false, false, 2.0, 1.0)
-	assert_eq(resultado, 10.0)
-
+	var resultado = jogador.calcular_movimento_vertical(false, 0.0, false, 1.0)
+	assert_eq(resultado, jogador.gravidade)
+	
 func test_atualizar_estado_andando_direita() -> void:
-	jogador.atualizar_estado(true, false, false, 3.0, 0.0)
+	jogador.atualizar_estado(true, 1.0)
 	assert_eq(jogador.estado_atual, jogador.estados_jogador.ANDANDO)
-	
-func test_atualizar_estado_andando_esquerda() -> void:
-		jogador.atualizar_estado(true, false, false, 0.0, 3.0)
-		assert_eq(jogador.estado_atual, jogador.estados_jogador.ANDANDO)
-		
-func test_atualizar_estado_devagar() -> void:
-		jogador.atualizar_estado(true, false, true, 3.0, 3.0)
-		assert_eq(jogador.estado_atual, jogador.estados_jogador.DEVAGAR)
 
-func test_atualizar_estado_rastejando() -> void:
-	jogador.atualizar_estado(true, true, false, 3.0, 3.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.RASTEJANDO)
-	
-func test_atualizar_estado_pulando() -> void:
-	jogador.atualizar_estado(false, false, false, 0.0, 0.0)
+func test_atualizar_estado_pulando_vs_caindo() -> void:
+	jogador.velocity.y = 1.0
+	jogador.atualizar_estado(false, 0.0)
 	assert_eq(jogador.estado_atual, jogador.estados_jogador.PULANDO)
 	
+	jogador.velocity.y = -1.0
+	jogador.atualizar_estado(false, 0.0)
+	assert_eq(jogador.estado_atual, jogador.estados_jogador.CAINDO)
+
+func test_atualizar_estado_devagar() -> void:
+	sender.action_down("Devagar")
+	jogador.atualizar_estado(true, 1.0)
+	assert_eq(jogador.estado_atual, jogador.estados_jogador.DEVAGAR)
+
+func test_atualizar_estado_rastejando() -> void:
+	sender.action_down("Rastejar")
+	jogador.atualizar_estado(true, 1.0)
+	assert_eq(jogador.estado_atual, jogador.estados_jogador.RASTEJANDO)
+
 func test_atualizar_estado_parado() -> void:
-	jogador.atualizar_estado(true, false, false, 0.0, 0.0)
+	jogador.atualizar_estado(true, 0.0)
 	assert_eq(jogador.estado_atual, jogador.estados_jogador.PARADO)
+	
+func test_tocar_som_passos_tocando() -> void:
+	jogador.som_passos.stream = AudioStreamPolyphonic.new()
+	jogador.estado_atual = jogador.estados_jogador.ANDANDO
 
-# NAO CONSEGUI FAZER FUNCIONAR
-# PELO QUE VI TEM QUE MOCKAR O AUDIOSTREAM ( POIS SEM STRAM NAO FUNCIONA )
-# PARA MOCKAR O PLAY E STOP, MAS A GODOT NAO DEIXA DAR OVERRIDE NESSES METODOS
-# SE ALGUEM QUISER TENTAR EU TO A MT TEMPO NESSA PORRA -_- NEM O GPTO CONSEGUIU
+	jogador.tocar_som_passos(true)
+	assert_true(jogador.som_passos.playing, "O audio deveria estar tocando no estado ANDANDO")
 
-# func test_tocar_som_passos_tocando() -> void:
-	#jogador.estado_atual = jogador.estados_jogador.ANDANDO
-	#jogador.esta_no_chao = true
-	#jogador.tempo_proximo_passo = 0
-	#jogador.tocar_som_passos()
-	#await get_tree().process_frame
-	#assert_true(jogador.som_passos.playing)
+func test_tocar_som_passos_para_quando_parado() -> void:
+	jogador.som_passos.stream = AudioStreamPolyphonic.new()
+	jogador.som_passos.play()
+	jogador.estado_atual = jogador.estados_jogador.PARADO
+
+	jogador.tocar_som_passos(true)
+
+	assert_false(jogador.som_passos.playing, "Audio nao deveria estar tocando")
 
 func test_tocar_som_passos_ponto_emissao() -> void:
 	jogador.global_position = Vector3(10, 2, 5)
@@ -133,12 +144,12 @@ func test_tocar_som_passos_ponto_emissao() -> void:
 	
 func test_tocar_som_passos_devagar() -> void:
 	jogador.estado_atual = jogador.estados_jogador.DEVAGAR
-	jogador.tocar_som_passos()
+	jogador.tocar_som_passos(true)
 	assert_almost_eq(jogador.som_passos.pitch_scale, 0.4, 0.001)	
 	
 func test_tocar_som_passos_sinal_sem_tocar() -> void:
 	jogador.estado_atual = jogador.estados_jogador.PULANDO
-	jogador.tocar_som_passos()
+	jogador.tocar_som_passos(true)
 	assert_false(jogador.som_passos.playing)
 	
 func test_computar_dano_decimal_abaixo_zero_virgula_cinco() -> void:

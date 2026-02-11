@@ -141,6 +141,7 @@ script = ExtResource("2_ftip3")
 velocidade_base = 3.0
 gravidade = -10.0
 forca_pulo = 5.0
+nome = "Ratinho"
 vida_max = 10.0
 vida_atual = 10.0
 dano = 1.0
