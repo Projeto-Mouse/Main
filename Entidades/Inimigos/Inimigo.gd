@@ -75,16 +75,17 @@ func target() -> void:
 	if not collider.is_in_group("Jogador"):
 		return
 
-	if alvo_target == null:
-		print("DEBUG...Achei você...", collider.name)
-
 	var distancia_jogador = global_position.distance_to(collider.global_position)
 	if distancia_jogador > 10:
 		alvo_target = null
 		print("DEBUG...Cade você ", collider.name, "?!")
 		return
 
-	alvo_target = collider
+	if alvo_target != collider:
+		alvo_target = collider
+		if alvo_target != null:
+			print("DEBUG...Achei você...", collider.name)
+
 	raycast.target_position = vetor_para(alvo_target)
 
 func verificar_dano_contato() -> void:
