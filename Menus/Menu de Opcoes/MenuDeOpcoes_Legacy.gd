@@ -1,4 +1,4 @@
-class_name MenuDeOpcoes
+class_name MenuDeOpcoesLegacy
 extends Control
 
 @onready var sair_do_menu_button = $MarginContainer/VBoxContainer/sair_do_menu_Button as Button
