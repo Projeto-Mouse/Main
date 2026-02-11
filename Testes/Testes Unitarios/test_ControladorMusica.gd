@@ -1,10 +1,8 @@
 extends GutTest
 
 var script_controlador = load("res://Auxiliares/ControladorMusica.gd")
-
 var controlador
 
-# Instanciando tudo
 func before_each() -> void:
 	controlador = script_controlador.new()
 	add_child_autofree(controlador)
