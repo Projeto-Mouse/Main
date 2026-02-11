@@ -37,10 +37,10 @@ size = Vector3(40.011948, 16.113312, 1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
-size = Vector3(2.8039932, 1.5853786, 0.17651367)
+size = Vector3(2.747838, 1.5853786, 0.17651367)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
-size = Vector3(0.11230469, 0.44714355, 1)
+size = Vector3(0.11230469, 0.44714355, 0.17469788)
 
 [node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
@@ -71,41 +71,13 @@ debug_color = Color(0, 0.6357732, 0.40352643, 0.41960785)
 
 [node name="ColisãoArvore01" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -2.6876678, -0.5413351, 0)
-polygon = PackedVector2Array(4.716873, 1.090121, 6.341137, 1.8179336, 7.5198097, 2.8623378, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.273619, 3.984039, 17.064222, 4.0448546, 17.429117, 3.6495526, 20.635363, 4.0280833, 22.042429, 4.7034755, 22.143057, 1.7915941, 7.93954, 2.4256306, 6.701625, 1.377894)
+polygon = PackedVector2Array(5.575194, 1.4237863, 6.692674, 2.0130036, 7.5198097, 2.8623378, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.42477, 4.058466, 17.29542, 4.1352882, 17.372244, 3.6615522, 20.635363, 4.0280833, 22.042429, 4.7034755, 22.143057, 1.7915941, 8.052789, 2.1633825, 7.038078, 1.5456939)
 margin = 0.001
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
-
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
-transform = Transform3D(-0.053347442, -8.515206, 0, 0.9294462, -0.4887474, 0, 0, 0, 1.25, 15.289015, 2.9854605, -0.93004227)
-texture = ExtResource("5_mt6og")
-
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
-transform = Transform3D(0.9644886, 0.2781037, 0, -0.16817404, 1.5949417, 0, 0, 0, 1.25, 21.448576, 3.2223666, -0.93004227)
-texture = ExtResource("5_mt6og")
 
 [node name="ColisãoArvore02" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 polygon = PackedVector2Array(16.641018, 3.1894681, 17.978971, 3.067836, 19.985903, 3.3111002, 22.388142, 4.192934, 23.361198, 4.9835434, 24.476946, 6.0701513, 25.722748, 6.942213, 26.769222, 7.315954, 25.623083, 6.39406, 24.925432, 5.5718303, 23.958906, 3.7655153, 25.240469, 3.5920358, 25.027613, 2.19326, 25.058022, 0.7336683, 25.45333, -0.026535511, 16.853874, 0.02703023)
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
-
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(6.666141, -0.052821815, 0, 0.1899283, 1.8539506, 0, 0, 0, 1, 21.129234, 1.9454229, -0.7440338)
-texture = ExtResource("5_mt6og")
-
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.6118177, -1.2639456, 0, 0.76432955, 1.0117424, 0, 0, 0, 1.2499998, 17.747622, 2.106275, -0.7009492)
-texture = ExtResource("5_mt6og")
-
-[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.72178984, 1.093847, 0, -0.6614681, 1.1935993, 0, 0, 0, 1.2499999, 22.922323, 3.6399286, -0.6765777)
-texture = ExtResource("5_mt6og")
-
-[node name="S4" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.35539645, 0.84183204, 0, -0.36155307, 0.82749736, 0, 0, 0, 1.2499999, 24.213835, 5.204351, -0.6812774)
-texture = ExtResource("5_mt6og")
-
-[node name="S5" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.17330235, 1.2162308, 0, -0.24075872, 0.8754642, 0, 0, 0, 0.5202915, 25.512842, 6.486413, -0.658262)
-texture = ExtResource("5_mt6og")
 
 [node name="ColisãoRampaEntradaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.9441524, -0.32950938, 0, 0.32950938, 0.9441524, 0, 0, 0, 1, 28.204054, 0.19277865, 0)
@@ -138,7 +110,7 @@ shape = SubResource("BoxShape3D_ppn7s")
 debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
 
 [node name="Jogador" type="CharacterBody3D" parent="." groups=["Entidades"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8309181, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9941854, 0.8309181, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("2_ftip3")
@@ -182,15 +154,13 @@ cena_3d = ExtResource("9_3kemy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031174421, 0.5445826, -0.024536133)
 shape = SubResource("BoxShape3D_r8c7y")
 
 [node name="Sprite3D" type="Sprite3D" parent="Tocha"]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.041650414, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.02846694, -0.041650414, 0)
 texture = ExtResource("8_r4mej")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
 shape = SubResource("BoxShape3D_rteev")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Tocha"]
