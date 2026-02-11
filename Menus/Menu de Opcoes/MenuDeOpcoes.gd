@@ -6,7 +6,11 @@ signal sair_das_opcoes
 @onready var container_principal: Container = $MarginContainer
 @onready var botoes_container: VBoxContainer = $MarginContainer/VBoxContainer
 
-var botoes: Array[Button] = []
+# Buttons control
+var botoes: Array[Control] = []
+var main_menu_items: Array[Control] = []
+var graphics_menu_items: Array[Control] = []
+
 var carousel_container: Control
 
 var current_index: float = 0.0
@@ -42,6 +46,15 @@ func _ready() -> void:
 	last_process_msec = Time.get_ticks_msec()
 	
 	setup_carousel()
+	
+	# Store initial buttons as Main Menu
+	for child in carousel_container.get_children():
+		if child is Control:
+			main_menu_items.append(child)
+	
+	# Initialize with Main Menu
+	load_items(main_menu_items)
+	
 	conectar_botoes()
 
 func setup_carousel() -> void:
@@ -51,16 +64,80 @@ func setup_carousel() -> void:
 	carousel_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	container_principal.add_child(carousel_container)
 	
+	# Move existing children from VBox to Carousel
 	for child in botoes_container.get_children():
-		if child is Button:
+		if child is Control:
 			child.reparent(carousel_container)
-			botoes.append(child)
 			child.pivot_offset = child.size / 2.0
 	
 	botoes_container.queue_free()
+
+func load_items(items: Array[Control]) -> void:
+	# Clear current carousel view (remove from tree but don't free)
+	for child in carousel_container.get_children():
+		carousel_container.remove_child(child)
+		
+	botoes.clear()
 	
-	if botoes.size() > 0:
-		target_index = 0
+	# Add new items
+	for item in items:
+		carousel_container.add_child(item)
+		botoes.append(item)
+		# Ensure pivot is set (important for scaling)
+		item.pivot_offset = item.size / 2.0
+		
+	target_index = 0
+	current_index = 0.0
+
+func create_graphics_items() -> void:
+	if graphics_menu_items.size() > 0:
+		return
+		
+	# Resolution
+	var res_scene = load("res://Menus/Menu de Opcoes/Resolucao/OpcaoDeResolucaoButton.tscn")
+	if res_scene:
+		var res_btn = res_scene.instantiate()
+		graphics_menu_items.append(res_btn)
+		
+	# Window Mode
+	var win_scene = load("res://Menus/Menu de Opcoes/Resolucao/WindowModeButton.tscn")
+	if win_scene:
+		var win_btn = win_scene.instantiate()
+		graphics_menu_items.append(win_btn)
+		
+	# Placeholders
+	var placeholders = ["Qualidade", "VSync", "Sombras"]
+	for p_name in placeholders:
+		var btn = Button.new()
+		btn.text = p_name
+		btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+		btn.add_theme_font_size_override("font_size", 48)
+		btn.flat = true
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		btn.custom_minimum_size = Vector2(250, 60)
+		btn.add_theme_color_override("font_color", Color("7d7d7d"))
+		btn.add_theme_color_override("font_hover_color", Color.WHITE)
+		graphics_menu_items.append(btn)
+		
+	# Voltar button
+	var btn_voltar = Button.new()
+	btn_voltar.text = "Voltar"
+	btn_voltar.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn_voltar.add_theme_font_size_override("font_size", 48)
+	btn_voltar.flat = true
+	btn_voltar.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn_voltar.custom_minimum_size = Vector2(250, 60)
+	btn_voltar.add_theme_color_override("font_color", Color("7d7d7d"))
+	btn_voltar.add_theme_color_override("font_hover_color", Color.WHITE)
+	btn_voltar.pressed.connect(show_main_menu)
+	graphics_menu_items.append(btn_voltar)
+
+func show_graphics_menu() -> void:
+	create_graphics_items()
+	load_items(graphics_menu_items)
+
+func show_main_menu() -> void:
+	load_items(main_menu_items)
 
 func _input(event: InputEvent) -> void:
 	if not visible:
@@ -96,7 +173,7 @@ func update_carousel_visuals() -> void:
 	var center_x = container_principal.size.x / 2.0
 	
 	for i in range(botoes.size()):
-		var button = botoes[i]
+		var control = botoes[i]
 		
 		var diff = i - current_index
 		var dist = abs(diff)
@@ -109,18 +186,18 @@ func update_carousel_visuals() -> void:
 		else:
 			scale_val = 0.25
 			
-		var pos_y = center_y + (diff * BUTTON_SPACING) - (button.size.y / 2.0)
-		var pos_x = center_x - (button.size.x / 2.0)
+		var pos_y = center_y + (diff * BUTTON_SPACING) - (control.size.y / 2.0)
+		var pos_x = center_x - (control.size.x / 2.0)
 		
-		button.position = Vector2(pos_x, pos_y)
-		button.scale = Vector2(scale_val, scale_val)
+		control.position = Vector2(pos_x, pos_y)
+		control.scale = Vector2(scale_val, scale_val)
 		
-		button.z_index = 100 - int(dist * 10)
+		control.z_index = 100 - int(dist * 10)
 		
 		var alpha = 1.0
 		if dist > 2.0:
 			alpha = max(0.0, 1.0 - (dist - 2.0))
-		button.modulate.a = alpha
+		control.modulate.a = alpha
 
 func process_entry_animation() -> void:
 	if is_animating_entry:
@@ -151,7 +228,7 @@ func process_entry_animation() -> void:
 func conectar_botoes() -> void:
 	_ready_post_setup()
 
-func get_button_by_name(name_str: String) -> Button:
+func get_button_by_name(name_str: String) -> Control:
 	for b in botoes:
 		if b.name == name_str:
 			return b
@@ -160,7 +237,7 @@ func get_button_by_name(name_str: String) -> Button:
 func _ready_post_setup() -> void:
 	var map = {
 		"BtnSom": func(): print("Categoria Som selecionada"),
-		"BtnGraficos": func(): print("Categoria Graficos selecionada"),
+		"BtnGraficos": show_graphics_menu,
 		"BtnControles": func(): print("Categoria Controles selecionada"),
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
 		"BtnLinguagens": func(): print("Categoria Linguagens selecionada"),
@@ -171,15 +248,17 @@ func _ready_post_setup() -> void:
 	
 	for btn_name in map.keys():
 		var btn = get_button_by_name(btn_name)
-		if btn:
-			var callable = map[btn_name]
-			if not btn.pressed.is_connected(callable):
-				btn.pressed.connect(callable)
+		if btn and btn is Button:
+			if not btn.pressed.is_connected(map[btn_name]):
+				btn.pressed.connect(map[btn_name])
 				btn.pressed.connect(func(): target_index = botoes.find(btn))
 
 func opening_logic(origem: Control, container_ref: Control = null) -> void:
 	menu_origem = origem
 	visible = true
+	
+	# Ensure Main Menu is shown when opening
+	show_main_menu()
 	
 	var target_pos: Vector2 = Vector2.ZERO
 	
@@ -218,6 +297,7 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 	else:
 		var view_size = get_viewport_rect().size
 		var my_size = container_principal.size
+		# Center on screen logic remains same
 		target_pos = (view_size / 2.0) - (my_size / 2.0)
 		container_principal.position = target_pos + Vector2(ANIM_OFFSET_X, 0)
 		animar_entrada(target_pos)
