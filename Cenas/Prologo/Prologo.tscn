@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=23 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="5_mt6og"]
+[ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="6_3kemy"]
 [ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/Item.gd" id="8_ppn7s"]
 [ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
 [ext_resource type="PackedScene" uid="uid://cbttvartqc71d" path="res://Itens/Equipamentos/Ferramentas/Tocha/Tocha.tscn" id="9_3kemy"]
@@ -121,7 +122,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.936573, 3.0382233, 0)
 shape = SubResource("BoxShape3D_hss4k")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
-[node name="ColisãoCipó" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
+[node name="Cipo" type="Area3D" parent="CenaSalaDoSacrificio" groups=["Escalaveis"]]
+script = ExtResource("6_3kemy")
+
+[node name="ColisãoCipó" type="CollisionShape3D" parent="CenaSalaDoSacrificio/Cipo"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303585, 12.355051, 0)
 shape = SubResource("CylinderShape3D_spau7")
 
@@ -141,6 +145,7 @@ script = ExtResource("2_ftip3")
 velocidade_base = 3.0
 gravidade = -10.0
 forca_pulo = 5.0
+nome = "Ratinho"
 vida_max = 10.0
 vida_atual = 10.0
 dano = 1.0
