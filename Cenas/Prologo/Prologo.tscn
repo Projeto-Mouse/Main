@@ -133,8 +133,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.39196, 7.9708405, 0)
 shape = SubResource("BoxShape3D_ppn7s")
 debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
 
-[node name="Jogador" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8923037, 0)
+[node name="Jogador" type="CharacterBody3D" parent="." groups=["Entidades"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8309181, 0)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("2_ftip3")
 velocidade_base = 3.0
 gravidade = -10.0
