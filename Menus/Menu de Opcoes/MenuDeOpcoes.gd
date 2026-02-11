@@ -6,17 +6,14 @@ signal sair_das_opcoes
 @onready var container_principal: Container = $MarginContainer
 @onready var botoes_container: VBoxContainer = $MarginContainer/VBoxContainer
 
-# Buttons variables (will be populated in _ready)
 var botoes: Array[Button] = []
 var carousel_container: Control
 
-# Carousel logic variables
 var current_index: float = 0.0
 var target_index: int = 0
-const BUTTON_SPACING: float = 70.0 # Adjust spacing between items
+const BUTTON_SPACING: float = 70.0
 const SCROLL_SPEED: float = 10.0
 
-# Animation variables
 var menu_origem: Control = null
 var tween_animacao: Tween
 
@@ -33,37 +30,35 @@ var anim_start_alpha: float = 0.0
 var anim_target_alpha: float = 0.0
 var anim_callback: Callable = Callable()
 
+var last_process_msec: int = 0
+
 func _ready() -> void:
 	visible = false
 	modulate.a = 0.0
 	
-	# Configure critical settings
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	last_process_msec = Time.get_ticks_msec()
 	
 	setup_carousel()
 	conectar_botoes()
 
 func setup_carousel() -> void:
-	# Create a holder for buttons that doesn't enforce layout like VBoxContainer
 	carousel_container = Control.new()
 	carousel_container.name = "CarouselContainer"
 	carousel_container.set_anchors_preset(Control.PRESET_FULL_RECT)
 	carousel_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	container_principal.add_child(carousel_container)
 	
-	# Move buttons to the new container
 	for child in botoes_container.get_children():
 		if child is Button:
 			child.reparent(carousel_container)
 			botoes.append(child)
-			# Set pivot to center for correct scaling
 			child.pivot_offset = child.size / 2.0
 	
-	# Remove the old VBoxContainer
 	botoes_container.queue_free()
 	
-	# Initialize target
 	if botoes.size() > 0:
 		target_index = 0
 
@@ -73,17 +68,28 @@ func _input(event: InputEvent) -> void:
 		
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			target_index = max(0, target_index - 1)
+			target_index -= 1
+			if target_index < 0:
+				target_index = botoes.size() - 1
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			target_index = min(botoes.size() - 1, target_index + 1)
+			target_index += 1
+			if target_index >= botoes.size():
+				target_index = 0
 
 func _process(delta: float) -> void:
-	# Handle Entry/Exit Animation
+	var current_msec = Time.get_ticks_msec()
+	var real_delta = float(current_msec - last_process_msec) / 1000.0
+	last_process_msec = current_msec
+
+	# Use real_delta if the game is paused (where delta is usually 0)
+	var anim_delta = delta
+	if is_zero_approx(delta):
+		anim_delta = real_delta
+
 	process_entry_animation()
 	
-	# Handle Carousel Animation
 	if botoes.size() > 0:
-		current_index = lerp(current_index, float(target_index), delta * SCROLL_SPEED)
+		current_index = lerp(current_index, float(target_index), anim_delta * SCROLL_SPEED)
 		update_carousel_visuals()
 
 func update_carousel_visuals() -> void:
@@ -92,10 +98,10 @@ func update_carousel_visuals() -> void:
 	
 	for i in range(botoes.size()):
 		var button = botoes[i]
+		
 		var diff = i - current_index
 		var dist = abs(diff)
 		
-		# Calculate scale based on distance
 		var scale_val: float = 1.0
 		if dist <= 1.0:
 			scale_val = lerp(1.0, 0.5, dist)
@@ -104,22 +110,14 @@ func update_carousel_visuals() -> void:
 		else:
 			scale_val = 0.25
 			
-		# Calculate position
-		# We want the center item at center_y
-		# Items correspond to diff * BUTTON_SPACING
 		var pos_y = center_y + (diff * BUTTON_SPACING) - (button.size.y / 2.0)
 		var pos_x = center_x - (button.size.x / 2.0)
 		
 		button.position = Vector2(pos_x, pos_y)
 		button.scale = Vector2(scale_val, scale_val)
 		
-		# Adjust layout/z-index
-		# We want closer items to be drawn on top? 
-		# Or maybe strict order: 
-		# Actually, standard carousel often puts center on top.
 		button.z_index = 100 - int(dist * 10)
 		
-		# Optional: Fade out distant items
 		var alpha = 1.0
 		if dist > 2.0:
 			alpha = max(0.0, 1.0 - (dist - 2.0))
@@ -154,7 +152,6 @@ func process_entry_animation() -> void:
 func conectar_botoes() -> void:
 	_ready_post_setup()
 
-# Helper to find button by name in our array
 func get_button_by_name(name_str: String) -> Button:
 	for b in botoes:
 		if b.name == name_str:
@@ -179,7 +176,6 @@ func _ready_post_setup() -> void:
 			var callable = map[btn_name]
 			if not btn.pressed.is_connected(callable):
 				btn.pressed.connect(callable)
-				# Also update target index on click (optional)
 				btn.pressed.connect(func(): target_index = botoes.find(btn))
 
 func opening_logic(origem: Control, container_ref: Control = null) -> void:
@@ -194,13 +190,15 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 	if container_ref:
 		var ref_global_rect = container_ref.get_global_rect()
 
-		var margin_left = 0
-		if container_principal is MarginContainer:
-			margin_left = container_principal.get_theme_constant("margin_left")
+		var btn_width = 250.0
+		if botoes.size() > 0:
+			btn_width = botoes[0].size.x
 			
-		var target_x = ref_global_rect.end.x + DISTANCIA_ENTRE_MENUS - margin_left
+		var container_width = container_principal.size.x
+		var center_offset = (container_width - btn_width) / 2.0
+			
+		var target_x = ref_global_rect.end.x + DISTANCIA_ENTRE_MENUS - center_offset
 		
-		# For vertical centering, we use center of REF and center of US
 		var my_size_y = container_principal.size.y
 		var target_y = ref_global_rect.position.y + (ref_global_rect.size.y / 2.0) - (my_size_y / 2.0)
 		target_pos = Vector2(target_x, target_y)
