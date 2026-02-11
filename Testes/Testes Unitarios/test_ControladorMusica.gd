@@ -28,7 +28,7 @@ func test_trocar_musica():
 	var audio_fake1 = AudioStreamWAV.new()
 	var audio_fake2 = AudioStreamWAV.new()
 	
-	await wait_physics_frames(2)
+	await wait_physics_frames(5)
 	
 	await controlador.trocar_musica(audio_fake2)
 	

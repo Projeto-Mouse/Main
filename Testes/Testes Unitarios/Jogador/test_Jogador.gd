@@ -37,6 +37,10 @@ func before_each():
 	
 	var root = Node3D.new()
 	add_child_autofree(root)
+	
+	var Mao = Node3D.new()
+	Mao.name = "Mao"
+	jogador.add_child(Mao)
 
 	var pivo = Node3D.new()
 	pivo.name = "pivo_Camera"
@@ -189,7 +193,7 @@ func test_arredondar_dano_sem_decimal() -> void:
 	
 func test_atualizar_interacao() -> void:
 	jogador.atualizar_interacao(item, true)
-	assert_eq(jogador.item_atual, item)
+	assert_eq(jogador.item_da_area_atual, item)
 	
 func test_setar_esta_em_escalavel_para_quando_entrar_em_escalavel() -> void:
 	jogador.setar_esta_em_escalavel(true)
