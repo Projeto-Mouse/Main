@@ -81,7 +81,6 @@ func _process(delta: float) -> void:
 	var real_delta = float(current_msec - last_process_msec) / 1000.0
 	last_process_msec = current_msec
 
-	# Use real_delta if the game is paused (where delta is usually 0)
 	var anim_delta = delta
 	if is_zero_approx(delta):
 		anim_delta = real_delta
@@ -199,8 +198,16 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 			
 		var target_x = ref_global_rect.end.x + DISTANCIA_ENTRE_MENUS - center_offset
 		
+		var target_center_y = ref_global_rect.position.y + (ref_global_rect.size.y / 2.0)
+		
+		if container_ref.get_child_count() > 0:
+			var first_child = container_ref.get_child(0)
+			if first_child is Control:
+				var child_rect = first_child.get_global_rect()
+				target_center_y = child_rect.position.y + (child_rect.size.y / 2.0)
+		
 		var my_size_y = container_principal.size.y
-		var target_y = ref_global_rect.position.y + (ref_global_rect.size.y / 2.0) - (my_size_y / 2.0)
+		var target_y = target_center_y - (my_size_y / 2.0)
 		target_pos = Vector2(target_x, target_y)
 		
 		var local_target_pos = target_pos - global_position
