@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PauData" load_steps=3 format=3 uid="uid://1o5h1otp6fto"]
+
+[ext_resource type="PackedScene" uid="uid://cjw1fvk3twwwa" path="res://Itens/Equipamentos/Armas/Pau/Pau.tscn" id="1_b0ebi"]
+[ext_resource type="Script" uid="uid://i8rre581034j" path="res://Itens/Equipamentos/Armas/Pau/PauData.gd" id="1_pgbve"]
+
+[resource]
+script = ExtResource("1_pgbve")
+nome = "Pau"
+cena_3d = ExtResource("1_b0ebi")
+metadata/_custom_type_script = "uid://i8rre581034j"

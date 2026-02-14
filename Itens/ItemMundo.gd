@@ -1,13 +1,7 @@
-class_name Item
+class_name ItemMundo
 extends Node
 
-enum raridades{COMUM, RARO, MUITO_RARO}
-
-@export var nome: String
-@export var tipo: String
-@export var descricao: String
-@export var raridade: raridades
-@export var cena_3d: PackedScene
+@export var item_data: ItemData
 
 func _ready() -> void:
 	if has_node("Area3D"):

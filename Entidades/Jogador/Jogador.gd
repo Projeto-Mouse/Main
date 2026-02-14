@@ -22,8 +22,8 @@ var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
 var movimento_x: float = 0.0
 var movimento_y: float = 0.0
-var item_da_area_atual: Item = null
-var item_equipado_na_mao = null
+var item_da_area_atual: ItemMundo = null
+var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 
@@ -50,7 +50,7 @@ func _process(_delta: float) -> void:
 	
 
 func _physics_process(delta):
-	esconder_tocha_rastejando()
+	esconder_item_rastejando()
 	var esta_no_chao = is_on_floor()
 	var direcao_x = Input.get_axis("Esquerda", "Direita") 
 	var direcao_y = Input.get_axis("Baixo", "Cima")
@@ -65,6 +65,9 @@ func _physics_process(delta):
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao(movimento_x, movimento_y)
 	atualizar_posicao_luz_jogador()
+
+func _input(event: InputEvent) -> void:
+	ler_input_hot_bar(event)
 
 func calcular_movimento_horizontal(direcao: float) -> float:
 	var velocidade_final = velocidade_base
@@ -189,7 +192,7 @@ func arredondar_dano(dano_recebido: float) -> float:
 	else:
 		return parte_inteira
 
-func atualizar_interacao(item: Item, ativo: bool):
+func atualizar_interacao(item: ItemMundo, ativo: bool):
 	item_da_area_atual = item if ativo else (null if item_da_area_atual == item else item_da_area_atual)
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
@@ -201,27 +204,67 @@ func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 func pegar_item() -> void:
 	if item_da_area_atual == null:
 		return
-
+		
 	if item_da_area_atual.is_in_group("ItensInterativos"):
-		inventario_temp.adicionar_item(item_da_area_atual)
-
-		item_equipado_na_mao = item_da_area_atual
-
-		item_da_area_atual.queue_free()
-
-		posicionar_item_na_mao()
+		if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
+			print("Inventario cheio")
+			return
+		else:
+			item_equipado_na_mao = item_da_area_atual.item_data
+			item_da_area_atual.queue_free()
+			item_da_area_atual = null
+			posicionar_item_na_mao()
 
 func posicionar_item_na_mao() -> void:
-	if item_equipado_na_mao == null:
-		return
-	
 	for filho in mao.get_children():
 		filho.queue_free()
 	
+	if item_equipado_na_mao == null:
+		return
+		
 	if item_equipado_na_mao.cena_3d:
-		var visual = item_equipado_na_mao.cena_3d.instantiate()
-		mao.add_child(visual)
-		visual.transform = Transform3D.IDENTITY #alinha com a mao
+		criar_cena_item()
+		
+func criar_cena_item() -> void:
+	var visual = item_equipado_na_mao.cena_3d.instantiate()
+	mao.add_child(visual)
+	visual.transform = Transform3D.IDENTITY #alinha com a mao
 
-func esconder_tocha_rastejando() -> void:
+func esconder_item_rastejando() -> void:
 	mao.visible = not Input.is_action_pressed("Rastejar")
+	
+# TALVEZ TENHA UM JEITO MELHOR DE FAZER ISSO NAO SE 
+# SE SOUBEREM FALEM, SE NAO SOUBEREM ME FALA PARA TIRAR O COMENTARIO 
+func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
+	if tecla_apertada is InputEventKey and tecla_apertada.pressed: 
+		match tecla_apertada.keycode:
+			KEY_1:
+				item_equipado_na_mao = inventario_temp.pegar_item(1) 
+				posicionar_item_na_mao() 
+			KEY_2: 
+				item_equipado_na_mao = inventario_temp.pegar_item(2) 
+				posicionar_item_na_mao() 
+			KEY_3: 
+				item_equipado_na_mao = inventario_temp.pegar_item(3)
+				posicionar_item_na_mao() 
+			KEY_4: 
+				item_equipado_na_mao = inventario_temp.pegar_item(4) 
+				posicionar_item_na_mao() 
+			KEY_5: 
+				item_equipado_na_mao = inventario_temp.pegar_item(5) 
+				posicionar_item_na_mao() 
+			KEY_6: 
+				item_equipado_na_mao = inventario_temp.pegar_item(6) 
+				posicionar_item_na_mao() 
+			KEY_7:
+				item_equipado_na_mao = inventario_temp.pegar_item(7) 
+				posicionar_item_na_mao() 
+			KEY_8: 
+				item_equipado_na_mao = inventario_temp.pegar_item(8) 
+				posicionar_item_na_mao() 
+			KEY_9:
+				item_equipado_na_mao = inventario_temp.pegar_item(9) 
+				posicionar_item_na_mao() 
+			KEY_0: 
+				item_equipado_na_mao = inventario_temp.pegar_item(10) 
+				posicionar_item_na_mao()
