@@ -11,19 +11,26 @@ class JogadorMock extends Jogador:
 	
 	func retornar_esta_no_chao(booleano: bool) -> bool:
 		return booleano
-
+	
 class ItemMock extends ItemMundo:
 	func _ready():
-		pass
+		pass	
+	
+class MockItemData extends ItemData:
+	func _init(scene):
+		cena_3d = scene
 
 var jogador
 var item
+var inventario
 var sender = InputSender.new(Input)
 
 func after_each():
 	sender.release_all()
 	
 func before_each():
+	inventario = InventarioTemp.new()
+	
 	jogador = JogadorMock.new()
 	jogador.velocidade_base = 3.0
 	jogador.forca_pulo = 2.0
@@ -83,12 +90,12 @@ func test_calcular_movimento_horizontal_esquerda_e_direita_juntos() -> void:
 func test_calcular_movimento_vertical_escalando_cima() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
 	var resultado = jogador.calcular_movimento_vertical(false, 1.0, false, 3.0)
-	assert_gt(resultado, 0)
+	assert_gt(resultado, 0.0)
 	
 func test_calcular_movimento_vertical_escalando_descendo() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
 	var resultado = jogador.calcular_movimento_vertical(false, -1.0, false, 3.0)
-	assert_lt(resultado, 0)
+	assert_lt(resultado, 0.0)
 
 func test_calcular_movimento_vertical_pulando() -> void:
 	var resultado = jogador.calcular_movimento_vertical(true, 0.0, true, 3.0)
@@ -203,3 +210,59 @@ func test_setar_esta_em_escalavel_para_quando_sair_escalavel() -> void:
 	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
 	jogador.setar_esta_em_escalavel(false)
 	assert_eq(jogador.estado_atual, jogador.estados_jogador.PARADO)
+
+func test_pegar_item_sucesso() -> void:
+	var node_para_pack = Node3D.new()
+	var cena_fake := PackedScene.new()
+	cena_fake.pack(node_para_pack)
+	node_para_pack.free()
+	
+	var item_data = MockItemData.new(cena_fake)
+	
+	item.item_data = item_data
+	item.add_to_group("ItensInterativos")
+	
+	jogador.inventario_temp = inventario
+	jogador.item_da_area_atual = item
+	
+	jogador.pegar_item()
+	
+	await get_tree().process_frame
+	
+	assert_eq(jogador.item_equipado_na_mao, item_data)
+	assert_eq(jogador.item_da_area_atual, null)
+	assert_eq(jogador.mao.get_child_count(), 1)
+	
+func test_posicionar_item_instancia_visual() -> void:
+	var node_para_pack = Node3D.new()
+	var cena_fake := PackedScene.new()
+	cena_fake.pack(node_para_pack)
+	node_para_pack.free()
+	
+	jogador.item_equipado_na_mao = MockItemData.new(cena_fake)
+	
+	jogador.posicionar_item_na_mao()
+	
+	assert_eq(jogador.mao.get_child_count(), 1)
+
+func test_criar_cena_item() -> void:
+	var node_para_pack = Node3D.new()
+	var cena_fake := PackedScene.new()
+	cena_fake.pack(node_para_pack)
+	node_para_pack.free()
+	
+	jogador.item_equipado_na_mao = MockItemData.new(cena_fake)
+	
+	jogador.criar_cena_item()
+	
+	assert_eq(jogador.mao.get_child_count(), 1)
+	
+	var filho = jogador.mao.get_child(0)
+	assert_eq(filho.transform, Transform3D.IDENTITY)
+	
+func test_esconder_item_rastejando_esconde() -> void:
+	sender.action_down("Rastejar")
+	
+	jogador.esconder_item_rastejando()
+	
+	assert_false(jogador.mao.visible)
