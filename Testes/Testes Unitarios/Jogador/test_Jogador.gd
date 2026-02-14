@@ -12,7 +12,7 @@ class JogadorMock extends Jogador:
 	func retornar_esta_no_chao(booleano: bool) -> bool:
 		return booleano
 
-class ItemMock extends Item:
+class ItemMock extends ItemMundo:
 	func _ready():
 		pass
 
