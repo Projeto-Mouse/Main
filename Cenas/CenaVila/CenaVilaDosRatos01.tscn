@@ -1,0 +1,216 @@
+[gd_scene load_steps=25 format=3 uid="uid://b8dn5uq0taedw"]
+
+[sub_resource type="GDScript" id="GDScript_nw1u0"]
+script/source = "class_name CenaVilaDosRatos01
+extends Prologo
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f2jvw"]
+size = Vector3(0.25500488, 29.826973, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i4wga"]
+size = Vector3(120.37263, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nw1u0"]
+size = Vector3(7.9403963, 0.4116211, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wj5a5"]
+size = Vector3(0.2913208, 0.94628906, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dvqgd"]
+size = Vector3(4.423706, 0.35925293, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s2oqp"]
+size = Vector3(0.9641113, 0.32764435, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c1elu"]
+size = Vector3(0.19650269, 6.3322773, 0.001)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_im6yx"]
+size = Vector3(14.191345, 0.57714844, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f2tbk"]
+size = Vector3(14.079353, 0.41723633, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0kkrm"]
+size = Vector3(2.464138, 0.4296875, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bn3ne"]
+size = Vector3(6.9605675, 0.32720947, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_btin2"]
+size = Vector3(0.2998047, 2.4852448, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t5prb"]
+size = Vector3(3.1095428, 0.3803711, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lrpig"]
+size = Vector3(0.33190918, 0.6562662, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_axsuk"]
+size = Vector3(1.4721375, 0.29699707, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3fvgj"]
+size = Vector3(0.34033203, 2.5751953, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8gasg"]
+size = Vector3(0.30126953, 4.0202637, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ifjvh"]
+size = Vector3(1.3110962, 0.32348633, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_61c3v"]
+size = Vector3(0.23736572, 1.8568726, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ou4yg"]
+size = Vector3(0.099853516, 3.6878662, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d8yju"]
+size = Vector3(0.1015625, 2.291504, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lrovo"]
+size = Vector3(0.11984253, 4.9911194, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tp548"]
+size = Vector3(0.10694885, 2.0322876, 1)
+
+[node name="VilaDosRatos" type="Node3D"]
+script = SubResource("GDScript_nw1u0")
+
+[node name="Vila" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.7304115, 0, 0)
+
+[node name="ColisãoParedeEsquerdaVila01" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.006268, 14.913336, 0)
+shape = SubResource("BoxShape3D_f2jvw")
+
+[node name="ColisãoParedeDireitoVila01" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.140594, 14.819193, 0)
+shape = SubResource("BoxShape3D_f2jvw")
+
+[node name="ColisãoEntrada01DaVila01" type="CollisionPolygon3D" parent="Vila"]
+polygon = PackedVector2Array(-7.9950037, 17.224321, -3.1725426, 17.0357, -2.9319668, 14.571815, 2.2198029, 14.34453, 3.2671623, 8.095876, 7.585554, 8.020116, 8.646212, 2.7168283, 9.858389, 1.3531284, 13.722212, 1.0500832, 21.449858, 0.5955143, 28.894852, 0.20718265, 28.692005, -0.23464966, -7.941699, -0.3505125)
+
+[node name="ColisãoEntrada02DaVila01" type="CollisionPolygon3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2071095, -0.19305897, 0)
+polygon = PackedVector2Array(7.1115627, 19.001392, 16.466917, 19.001392, 17.326408, 12.494747, 21.483406, 12.429795, 21.678267, 7.688217, 26.744612, 7.5583115, 26.87451, 4.050844, 19.386457, 4.196415, 9.89661, 5.3170166, 9.142315, 8.207843, 14.143705, 8.272797, 13.818939, 13.079325, 7.755085, 14.660849)
+
+[node name="ColisãoChãoVila01" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.044144, -0.25981092, 0)
+shape = SubResource("BoxShape3D_i4wga")
+
+[node name="ColisãoPlataforma01" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.912766, 2.9591904, 0)
+shape = SubResource("BoxShape3D_nw1u0")
+
+[node name="ColisãoPlataforma02" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.741806, 2.5989885, 0)
+shape = SubResource("BoxShape3D_wj5a5")
+
+[node name="ColisãoPlataforma03" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.808136, 2.2666736, 0)
+shape = SubResource("BoxShape3D_dvqgd")
+
+[node name="ColisãoPlataforma04" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.86742, 1.6408482, 0)
+shape = SubResource("BoxShape3D_s2oqp")
+
+[node name="ColisãoPlataforma05" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75.04491, 1.0081544, 0)
+shape = SubResource("BoxShape3D_s2oqp")
+
+[node name="AreaCordaTemplo" type="Area3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.870968, 12.570732, 0)
+
+[node name="ColisãoCordaTemplo" type="CollisionShape3D" parent="Vila/AreaCordaTemplo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12461853, -6.516365, 0)
+shape = SubResource("BoxShape3D_c1elu")
+debug_color = Color(0.9999998, 0, 0.10456676, 0.41960785)
+
+[node name="ColisãoPlataformaTemplo" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.130497, 9.0409, 0)
+shape = SubResource("BoxShape3D_im6yx")
+
+[node name="ColisãoTorreVigia01" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 101.69702, 10.658662, 0)
+shape = SubResource("BoxShape3D_f2tbk")
+
+[node name="ColisãoTorreVigia02" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.8781, 10.665118, 0)
+shape = SubResource("BoxShape3D_0kkrm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.35979, 5.379574, 0)
+shape = SubResource("BoxShape3D_bn3ne")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 102.03345, 7.8328466, 0)
+shape = SubResource("BoxShape3D_bn3ne")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.96466, 6.4624977, 0)
+shape = SubResource("BoxShape3D_btin2")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108.364395, 7.8082256, 0)
+shape = SubResource("BoxShape3D_t5prb")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.749344, 7.3941054, 0)
+shape = SubResource("BoxShape3D_lrpig")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.52382, 7.216271, 0)
+shape = SubResource("BoxShape3D_axsuk")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.503235, 2.3025491, 0)
+shape = SubResource("BoxShape3D_axsuk")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.730606, 9.192834, 0)
+shape = SubResource("BoxShape3D_3fvgj")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.037445, 3.24511, 0)
+shape = SubResource("BoxShape3D_8gasg")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.526306, 1.399859, 0)
+shape = SubResource("BoxShape3D_ifjvh")
+
+[node name="CollisionShape3D11" type="CollisionShape3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.76085, 9.776628, 0)
+shape = SubResource("BoxShape3D_61c3v")
+
+[node name="Area3D" type="Area3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.779465, 3.3188202, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Vila/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.028251648, 0.30389404, 0)
+shape = SubResource("BoxShape3D_ou4yg")
+debug_color = Color(0.99822086, 0, 0.15862334, 0.41960785)
+
+[node name="Area3D2" type="Area3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.73044, 6.6079416, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Vila/Area3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01612854, 0.19604492, 0)
+shape = SubResource("BoxShape3D_d8yju")
+debug_color = Color(0.9993934, 0, 0.12844995, 0.41960785)
+
+[node name="Area3D3" type="Area3D" parent="Vila"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.937775, 4.779599, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Vila/Area3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00093078613, 0.30308533, 0)
+shape = SubResource("BoxShape3D_lrovo")
+debug_color = Color(0.99999994, 0.0055102007, 0.08265651, 0.41960785)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 117.276146, 9.923662, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02319336, -0.09573364, 0)
+shape = SubResource("BoxShape3D_tp548")
+debug_color = Color(0.99936324, 0.02633255, 0, 0.41960785)
