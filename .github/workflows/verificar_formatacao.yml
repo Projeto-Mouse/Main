@@ -46,10 +46,12 @@ jobs:
           FILES=()
           IFS=$'\n'
           for FILE in ${{ steps.filter.outputs.gd_files }}; do
-          if [ -f "$FILE" ]; then
-            FILES+=("$FILE")
+            CLEAN_FILE=$(echo "$FILE" | sed "s/^'//;s/'$//")
+          if [ -f "$CLEAN_FILE" ]; then
+            FILES+=("$CLEAN_FILE")
           fi
           done
+
 
           if [ ${#FILES[@]} -eq 0 ]; then
             echo "Nenhum arquivo válido restante."
