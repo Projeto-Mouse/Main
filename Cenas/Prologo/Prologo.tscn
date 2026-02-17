@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=28 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -40,6 +40,9 @@ size = Vector3(40.784912, 0.23724365, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h0w4g"]
 size = Vector3(0.24654579, 15.720154, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xfbn7"]
+size = Vector3(0.19966125, 6.5657196, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
@@ -134,6 +137,11 @@ shape = SubResource("BoxShape3D_fk2ij")
 [node name="ColisãoMesaParedeDireita" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.31701, 8.255528, 0)
 shape = SubResource("BoxShape3D_h0w4g")
+
+[node name="ColisãoDivisão01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.369877, 3.7301903, 0)
+shape = SubResource("BoxShape3D_xfbn7")
+debug_color = Color(0.6810641, 0.2988012, 1, 0.41960785)
 
 [node name="Jogador" type="CharacterBody3D" parent="." groups=["Entidades"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9941854, 0.8309181, 0)
