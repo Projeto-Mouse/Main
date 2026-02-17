@@ -58,7 +58,7 @@ jobs:
             exit 0
           fi
 
-          gdformat --check "${FILES[@]}"
+          gdformat --diff "${FILES[@]}"
           gdlint "${FILES[@]}"
 
           
