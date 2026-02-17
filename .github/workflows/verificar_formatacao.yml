@@ -40,7 +40,7 @@ jobs:
         if: steps.filter.outputs.gd == 'true'
         uses: Scony/godot-gdscript-toolkit@master
 
-       - name: 5. Rodar gdformat + gdlint
+      - name: 5. Rodar gdformat + gdlint
         if: steps.filter.outputs.gd == 'true'
         run: |
           EXISTING_FILES=""
@@ -52,7 +52,7 @@ jobs:
 
           if [ -z "$EXISTING_FILES" ]; then
             echo "Nenhum arquivo válido restante."
-          exit 0
+            exit 0
           fi
 
           gdformat --check $EXISTING_FILES
