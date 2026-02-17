@@ -77,7 +77,7 @@ size = Vector3(0.9641113, 0.32764435, 1)
 size = Vector3(0.19650269, 6.3322773, 0.001)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hw0x5"]
-size = Vector3(1.1203613, 1.4586792, 1)
+size = Vector3(0.5941162, 1.4586792, 1)
 
 [node name="VilaDosRatos" type="Node3D"]
 script = SubResource("GDScript_nw1u0")
@@ -238,7 +238,7 @@ polygon = PackedVector2Array(7.1115627, 19.001392, 16.466917, 19.001392, 17.3264
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29690742, 17.921928, 0)
 
 [node name="ColisãoEntradaSalaSacrificio" type="CollisionShape3D" parent="AreaEntradaSalaDeSacrificio"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1604743, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
@@ -250,10 +250,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
-[node name="AreaSaídaDaVila" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.321236, 0.9757402, 0)
+[node name="AreaSaídaDaVilaPart01" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.45685, 0.9757402, 0)
 
-[node name="ColisãoSaídaVila" type="CollisionShape3D" parent="AreaSaídaDaVila"]
+[node name="ColisãoSaídaVila" type="CollisionShape3D" parent="AreaSaídaDaVilaPart01"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
+
+[node name="Spawn01EntradaVilaPart01" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9019804, 17.986897, 0)
+
+[node name="Spawn02EntradaVilaPart01" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96.25127, 1.00402, 0)
+
+[node name="Spawn03EntradaVilaPart01" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 118.6898, 1.0193546, 0)
