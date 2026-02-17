@@ -17,7 +17,7 @@ func _ready() -> void:
 
 func movimentacao(movimento_x: float, movimento_y: float):
 	# Velocidade para eixo z zerada nao usamos
-	velocity.z = 0
+	velocity.z=0
 	velocity.x = movimento_x
 	velocity.y = movimento_y
 	
@@ -41,6 +41,3 @@ func computar_dano(dano_recebido: float) -> void:
 
 func vetor_para(entidade: Entidade) -> Vector3:
 	return entidade.global_position - global_position
-
-
-
