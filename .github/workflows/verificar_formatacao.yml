@@ -43,7 +43,20 @@ jobs:
       - name: 5. Rodar gdformater
         if: steps.filter.outputs.gd == 'true'
         run: |
-          gdformat --check ${{ steps.filter.outputs.gd_files }}
+          EXISTING_FILES=""
+          for FILE in ${{ steps.filter.outputs.gd_files }}; do
+            if [ -f "$FILE" ]; then
+              EXISTING_FILES="$EXISTING_FILES $FILE"
+            fi
+          done
+
+          if [ -z "$EXISTING_FILES" ]; then
+            echo "Nenhum arquivo válido restante."
+            exit 0
+          fi
+          
+          gdformat --check $EXISTING_FILES
+
 
       - name: 6. Rodar gdlint
         if: steps.filter.outputs.gd == 'true'
