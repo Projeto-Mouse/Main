@@ -1,6 +1,6 @@
-/>English version below
+**English version below**
 
-Versión en español a continuación
+**Versión en español a continuación**
 
 # Tutorial de Configuração: Projeto Mouse
 
