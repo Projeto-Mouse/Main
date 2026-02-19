@@ -1,4 +1,4 @@
-<img width="794" height="650" alt="image" src="https://github.com/user-attachments/assets/8048de26-e363-45ef-9f5a-35d174371c67" /><img width="794" height="650" alt="image" src="https://github.com/user-attachments/assets/8048de26-e363-45ef-9f5a-35d174371c67" />English version below
+/>English version below
 
 Versión en español a continuación
 
