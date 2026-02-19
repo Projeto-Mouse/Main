@@ -40,15 +40,27 @@ jobs:
         if: steps.filter.outputs.gd == 'true'
         uses: Scony/godot-gdscript-toolkit@master
 
-      - name: 5. Rodar gdformater
+      - name: 5. Rodar gdformat + gdlint
         if: steps.filter.outputs.gd == 'true'
         run: |
-          gdformat --check ${{ steps.filter.outputs.gd_files }}
+          FILES=()
+          IFS=$'\n'
+          for FILE in ${{ steps.filter.outputs.gd_files }}; do
+            CLEAN_FILE=$(echo "$FILE" | sed "s/^'//;s/'$//")
+          if [ -f "$CLEAN_FILE" ]; then
+            FILES+=("$CLEAN_FILE")
+          fi
+          done
 
-      - name: 6. Rodar gdlint
-        if: steps.filter.outputs.gd == 'true'
-        run: |
-          gdlint ${{ steps.filter.outputs.gd_files }}
+
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "Nenhum arquivo válido restante."
+            exit 0
+          fi
+
+          gdformat --diff "${FILES[@]}"
+          gdlint "${FILES[@]}"
+
           
   check_csharp:
     name: Verificar Formatação C# (.NET)

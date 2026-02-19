@@ -24,7 +24,7 @@ func movimentacao(movimento_x: float, movimento_y: float):
 	move_and_slide()
 
 func criar_raycast() -> RayCast3D:
-	var raycast_visao : RayCast3D
+	var raycast_visao: RayCast3D
 	raycast_visao = RayCast3D.new()
 	return raycast_visao
 
@@ -41,6 +41,3 @@ func computar_dano(dano_recebido: float) -> void:
 
 func vetor_para(entidade: Entidade) -> Vector3:
 	return entidade.global_position - global_position
-
-
-
