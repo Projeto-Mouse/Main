@@ -41,6 +41,3 @@ func computar_dano(dano_recebido: float) -> void:
 
 func vetor_para(entidade: Entidade) -> Vector3:
 	return entidade.global_position - global_position
-
-
-
