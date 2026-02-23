@@ -205,15 +205,18 @@ func pegar_item() -> void:
 	if item_da_area_atual == null:
 		return
 		
-	if item_da_area_atual.is_in_group("ItensInterativos"):
-		if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
-			print("Inventario cheio")
-			return
-		else:
-			item_equipado_na_mao = item_da_area_atual.item_data
-			item_da_area_atual.queue_free()
-			item_da_area_atual = null
-			posicionar_item_na_mao()
+	if not item_da_area_atual.is_in_group("ItensInterativos"):
+		return
+
+	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
+		print("Inventário cheio")
+		return
+
+	item_equipado_na_mao = item_da_area_atual.item_data
+	item_da_area_atual.queue_free()
+	item_da_area_atual = null
+
+	posicionar_item_na_mao()
 
 func posicionar_item_na_mao() -> void:
 	for filho in mao.get_children():
@@ -233,38 +236,9 @@ func criar_cena_item() -> void:
 func esconder_item_rastejando() -> void:
 	mao.visible = not Input.is_action_pressed("Rastejar")
 	
-# TALVEZ TENHA UM JEITO MELHOR DE FAZER ISSO NAO SE 
-# SE SOUBEREM FALEM, SE NAO SOUBEREM ME FALA PARA TIRAR O COMENTARIO 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
-	if tecla_apertada is InputEventKey and tecla_apertada.pressed: 
-		match tecla_apertada.keycode:
-			KEY_1:
-				item_equipado_na_mao = inventario_temp.pegar_item(1) 
-				posicionar_item_na_mao() 
-			KEY_2: 
-				item_equipado_na_mao = inventario_temp.pegar_item(2) 
-				posicionar_item_na_mao() 
-			KEY_3: 
-				item_equipado_na_mao = inventario_temp.pegar_item(3)
-				posicionar_item_na_mao() 
-			KEY_4: 
-				item_equipado_na_mao = inventario_temp.pegar_item(4) 
-				posicionar_item_na_mao() 
-			KEY_5: 
-				item_equipado_na_mao = inventario_temp.pegar_item(5) 
-				posicionar_item_na_mao() 
-			KEY_6: 
-				item_equipado_na_mao = inventario_temp.pegar_item(6) 
-				posicionar_item_na_mao() 
-			KEY_7:
-				item_equipado_na_mao = inventario_temp.pegar_item(7) 
-				posicionar_item_na_mao() 
-			KEY_8: 
-				item_equipado_na_mao = inventario_temp.pegar_item(8) 
-				posicionar_item_na_mao() 
-			KEY_9:
-				item_equipado_na_mao = inventario_temp.pegar_item(9) 
-				posicionar_item_na_mao() 
-			KEY_0: 
-				item_equipado_na_mao = inventario_temp.pegar_item(10) 
-				posicionar_item_na_mao()
+	for i in range(1, 11):
+		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
+			item_equipado_na_mao = inventario_temp.pegar_item(i)
+			posicionar_item_na_mao()
+			break

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://be8puuwgirq8w"]
+
+[node name="Cena_teste" type="Node2D" unique_id=236794268]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1156518660]
+
+[node name="LabelTeste" type="Label" parent="Node2D" unique_id=762352032]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "MODO DEV ATIVO"

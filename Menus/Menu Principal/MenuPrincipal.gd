@@ -17,7 +17,7 @@ extends Control
 # Leva o jogador para o começo do jogo.
 # TODO: altere depois o diretório para abrir a cena correta
 @onready var começar_jogo = preload("res://Cenas/Prologo/Prologo.tscn") as PackedScene
-
+@onready var cena_teste = preload("res://Cenas/Teste/Cena.teste.tscn") as PackedScene
 
 func _ready():
 	video_player.play()
@@ -38,7 +38,14 @@ func on_jogar_pressed() -> void:
 	ControladorMusica.parar_musica()
 	get_tree().paused = false
 	Engine.time_scale = 1
-	get_tree().change_scene_to_packed(começar_jogo)
+	
+	if DebugCtrl.is_dev():
+		# Modo dev ativo, Abre cena de teste
+		get_tree().change_scene_to_packed(cena_teste)
+	else: 
+		# Modo dev desligado, Abre o Prólogo normal
+		get_tree().change_scene_to_packed(começar_jogo)
+
 
 func on_carregar_pressed() -> void:
 	print("Botão carregar pressionado!")
@@ -67,3 +74,7 @@ func segurar_conectores_signals() -> void:
 	menu_de_opcoes.sair_das_opcoes.connect(on_sair_das_opcoes_pressed)
 	sair_button.button_down.connect(on_sair_pressed)
 	pagar_button.button_down.connect(on_pagar_pressed)
+
+func _input(event):
+	if event.is_action_pressed("toggle_dev_mode"):
+		DebugCtrl.alternar()
