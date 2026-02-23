@@ -27,7 +27,7 @@ buses/default_bus_layout="res://Sons/Musicas/Menu/default_bus_layout.tres"
 ControladorTraducao="*res://Auxiliares/ControladorTraducao.gd"
 ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 ControladorMusica="*res://Auxiliares/ControladorMusica.gd"
-DebugCtrl="*uid://bkwp88vnsbavf"
+DebugCtrl="*res://Auxiliares/ControladorDebug.gd"
 
 [debug]
 

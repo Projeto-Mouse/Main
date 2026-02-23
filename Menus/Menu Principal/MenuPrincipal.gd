@@ -76,5 +76,4 @@ func segurar_conectores_signals() -> void:
 	pagar_button.button_down.connect(on_pagar_pressed)
 
 func _input(event):
-	if event.is_action_pressed("toggle_dev_mode"):
-		DebugCtrl.alternar()
+	DebugCtrl.registrar_tecla(event)
