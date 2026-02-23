@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=57 format=3 uid="uid://dcu5g444ijhdj"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -33,7 +33,10 @@ height = 9.593994
 radius = 0.041015625
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tai6l"]
-size = Vector3(0.26513672, 14.2988205, 1)
+size = Vector3(0.26513672, 13.009621, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_67pu1"]
+size = Vector3(0.27349854, 0.16799927, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fk2ij"]
 size = Vector3(40.106323, 0.23724365, 1)
@@ -89,6 +92,18 @@ size = Vector3(1.8526764, 0.21362305, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_oyspk"]
 size = Vector3(10.7664795, 0.22033691, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_xkhes"]
+size = Vector3(1.9564514, 0.756958, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f00mp"]
+size = Vector3(1, 0.21972656, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jvwcb"]
+size = Vector3(11.85099, 0.21203613, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7hdjx"]
+size = Vector3(0.64352417, 0.15246582, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_u870t"]
 size = Vector3(0.14456177, 3.401245, 1)
 
@@ -98,14 +113,23 @@ size = Vector3(12.5935135, 0.21191406, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_detax"]
 size = Vector3(1, 0.21066284, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8yoaw"]
+size = Vector3(1, 1.3426819, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n3itt"]
+size = Vector3(6.7128906, 0.23834229, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_0w5us"]
 size = Vector3(0.17022705, 2.269165, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mcvqg"]
-size = Vector3(9.393097, 0.21185303, 1)
+size = Vector3(9.656509, 0.21185303, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rgv80"]
 size = Vector3(4.841797, 0.21057129, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_umv33"]
+size = Vector3(3.087738, 0.46679688, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
@@ -189,9 +213,13 @@ debug_color = Color(0.997742, 0, 0.16937497, 0.41960785)
 [node name="CenaMesa" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6295, 0, 0)
 
-[node name="ColisãoMesaParedeEsquerda" type="CollisionShape3D" parent="CenaMesa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5800323, 8.953378, 0)
+[node name="ColisãoMesaParedeEsquerda01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5800323, 8.308777, 0)
 shape = SubResource("BoxShape3D_tai6l")
+
+[node name="ColisãoMesaParedeEsquerda02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.577156, 15.924355, 0)
+shape = SubResource("BoxShape3D_67pu1")
 
 [node name="ColisãoMesaChão" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.379745, 0.35098267, 0)
@@ -216,17 +244,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.378971, 7.29594, 0)
 shape = SubResource("BoxShape3D_5w1dw")
 debug_color = Color(0, 0.64747006, 0.24542743, 0.41960785)
 
-[node name="ColisãoLivro01" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoLivroPrimeiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4142456, 0.8865175, 0)
 shape = SubResource("BoxShape3D_7ge4o")
 debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
 
-[node name="ColisãoLivro02" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoLivroPrimeiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(-4.3711385e-08, -0.9999999, 0, 0.9999999, -4.3711385e-08, 0, 0, 0, 1, 4.396801, 2.0016713, 0)
 shape = SubResource("BoxShape3D_7ge4o")
 debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
 
-[node name="ColisãoPote01" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoPotePrimeiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4370728, 1.8590813, 0)
 shape = SubResource("BoxShape3D_v8ify")
 debug_color = Color(0.9991264, 0.028875828, 0, 0.41960785)
@@ -304,15 +332,45 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21286774, 8.287452, 0)
 shape = SubResource("BoxShape3D_vunpe")
 debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
 
-[node name="ColisãoPlatSegundoPiso03" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoChãoTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5512047, 8.847971, 0)
 shape = SubResource("BoxShape3D_lucg8")
 debug_color = Color(0.8092374, 0.002221138, 0.98942715, 0.41960785)
 
-[node name="ColisãoPlatSegundoPiso04" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoChãoTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8955307, 8.849949, 0)
 shape = SubResource("BoxShape3D_oyspk")
 debug_color = Color(0.8553477, 0.00078048825, 0.8885107, 0.41960785)
+
+[node name="ColisãoLivroTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.898655, 9.335889, 0)
+shape = SubResource("BoxShape3D_xkhes")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoLivroTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 11.825516, 9.912362, 0)
+shape = SubResource("BoxShape3D_xkhes")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.390381, 11.703663, 0)
+shape = SubResource("BoxShape3D_f00mp")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4823723, 11.426926, 0)
+shape = SubResource("BoxShape3D_jvwcb")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso03" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -2.3330803, 11.815994, 0)
+shape = SubResource("BoxShape3D_f00mp")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso04" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(0.87082803, -0.49158788, 0, 0.49158788, 0.87082803, 0, 0, 0, 1, 9.65377, 11.588743, 0)
+shape = SubResource("BoxShape3D_7hdjx")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 
 [node name="SubidaTerceiroPiso" type="Area3D" parent="CenaMesa" groups=["Escalaveis"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.429203, 9.886636, 0)
@@ -323,29 +381,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.077041626, 0.9039917, 0)
 shape = SubResource("BoxShape3D_u870t")
 debug_color = Color(0.99788517, 0, 0.16623443, 0.41960785)
 
-[node name="ColisãoChãoTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoChãoQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.422348, 12.413594, 0)
 shape = SubResource("BoxShape3D_qcir2")
 debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 
-[node name="ColisãoChãoTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoChãoQuartoPiso02" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.789448, 12.415578, 0)
 shape = SubResource("BoxShape3D_detax")
 debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 
-[node name="ColisãoDivisãoTerceiroPiso" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoPoteQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6555023, 13.186142, 0)
+shape = SubResource("BoxShape3D_8yoaw")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083984375, 13.641036, 0)
+shape = SubResource("BoxShape3D_n3itt")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoDivisãoQuartoPiso" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3662186, 13.649506, 0)
 shape = SubResource("BoxShape3D_0w5us")
 debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 
-[node name="ColisãoChãoQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2477798, 14.899682, 0)
+[node name="ColisãoChãoQuintoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1160736, 14.899682, 0)
 shape = SubResource("BoxShape3D_mcvqg")
 debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 
-[node name="ColisãoChãoQuartoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+[node name="ColisãoChãoQuintoPiso02" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.86137, 14.897627, 0)
 shape = SubResource("BoxShape3D_rgv80")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoCaderQuintoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.911106, 15.2286825, 0)
+shape = SubResource("BoxShape3D_umv33")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoCaderQuintoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5841293, 15.2286825, 0)
+shape = SubResource("BoxShape3D_umv33")
 debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 
 [node name="Jogador" type="CharacterBody3D" parent="." groups=["Entidades"]]
