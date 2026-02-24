@@ -234,27 +234,24 @@ polygon = PackedVector2Array(-7.9950037, 17.224321, -3.1725426, 17.0357, -2.9319
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.937521, -0.19305897, 0)
 polygon = PackedVector2Array(7.1115627, 19.001392, 16.466917, 19.001392, 17.326408, 12.494747, 21.483406, 12.429795, 21.678267, 7.688217, 26.744612, 7.5583115, 26.87451, 4.050844, 19.386457, 4.196415, 9.89661, 5.3170166, 9.142315, 8.207843, 14.143705, 8.272797, 13.818939, 13.079325, 7.755085, 14.660849)
 
-[node name="AreaEntradaSalaDeSacrificio" type="Area3D" parent="." groups=["Escalaveis"]]
+[node name="AreaEntradaSalaDeSacrificio" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29690742, 17.921928, 0)
-script = ExtResource("1_wj5a5")
 
 [node name="ColisãoEntradaSalaSacrificio" type="CollisionShape3D" parent="AreaEntradaSalaDeSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1604743, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
-[node name="AreaEntradaVilaPart02" type="Area3D" parent="." groups=["Escalaveis"]]
+[node name="AreaEntradaVilaPart02" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.4361, 0.9821172, 0)
-script = ExtResource("1_wj5a5")
 
 [node name="ColisãoEntradaVilaPart02" type="CollisionShape3D" parent="AreaEntradaVilaPart02"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
-[node name="AreaSaídaDaVilaPart01" type="Area3D" parent="." groups=["Escalaveis"]]
+[node name="AreaSaídaDaVilaPart01" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.45685, 0.9757402, 0)
-script = ExtResource("1_wj5a5")
 
 [node name="ColisãoSaídaVila" type="CollisionShape3D" parent="AreaSaídaDaVilaPart01"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
@@ -262,10 +259,10 @@ shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
 [node name="Spawn01EntradaVilaPart01" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9019804, 17.986897, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6759615, 17.986897, 0)
 
 [node name="Spawn02EntradaVilaPart01" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96.25127, 1.00402, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.45267, 1.00402, 0)
 
 [node name="Spawn03EntradaVilaPart01" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 118.6898, 1.0193546, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.413055, 1.0193546, 0)
