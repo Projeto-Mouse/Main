@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0te6a84wjms8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6twvr"]
+size = Vector3(10.081543, 0.14666748, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_16but"]
+size = Vector3(0.12817383, 4.1171265, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x551k"]
+size = Vector3(0.39169312, 0.7119751, 1)
+
+[node name="SaídaVilaDosRatos" type="Node3D"]
+
+[node name="CorredorExterno" type="StaticBody3D" parent="."]
+
+[node name="ColisãoChãoCorredor" type="CollisionShape3D" parent="CorredorExterno"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0430574, 0.009490967, 0)
+shape = SubResource("BoxShape3D_6twvr")
+
+[node name="ColisãoParedeDaVila" type="CollisionShape3D" parent="CorredorExterno"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07141113, 1.988739, 0)
+shape = SubResource("BoxShape3D_16but")
+
+[node name="EntradaParaVilaDosRatos" type="Area3D" parent="CorredorExterno"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45183325, 0.64386165, 0)
+
+[node name="ColisãoEntradaVilaDosRatos" type="CollisionShape3D" parent="CorredorExterno/EntradaParaVilaDosRatos"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08945274, -0.17184448, 0)
+shape = SubResource("BoxShape3D_x551k")
+debug_color = Color(0.2147251, 0.63987774, 1.347661e-06, 0.41960785)
