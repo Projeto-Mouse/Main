@@ -15,8 +15,9 @@ func _physics_process(delta: float) -> void:
 	verificar_dano_contato()
 
 
-func movimento_simples() -> void:
+func movimentacao() -> void:
 	velocity.x = move_dir * velocidade_base
+	move_and_slide()
 
 func gerar_movimento_aleatorio() -> void:
 	var delta = get_physics_process_delta_time()
@@ -33,6 +34,7 @@ func gerar_movimento_aleatorio() -> void:
 		else:
 			move_dir = 0.0
 	
-	movimento_simples()
+	movimentacao()
 	
-	move_and_slide()
+func computar_dano(dano_recebido: float) -> void:
+	pass

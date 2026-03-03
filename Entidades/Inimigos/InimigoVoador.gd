@@ -1,3 +1,4 @@
+
 class_name InimigoVoador
 extends Inimigo
 
@@ -27,6 +28,9 @@ func movimento_voo() -> void:
 func movimento_pouso() -> void:
 	velocity.y -= gravidade * 0.5
 	
+func movimentacao() -> void:
+	velocity.x = direcao_atual.x * velocidade_base
+	
 func gerar_movimento_aleatorio() -> void:
 	var delta = get_physics_process_delta_time()
 	tempo_mudanca_direcao -= delta
@@ -42,10 +46,13 @@ func gerar_movimento_aleatorio() -> void:
 
 	if estado_atual == EstadoVoo.VOANDO:
 		movimento_voo()
-		velocity.x = direcao_atual.x * velocidade_base
+		movimentacao()
 		velocity.y = direcao_atual.y * velocidade_base
 	elif estado_atual == EstadoVoo.POUSANDO:
 		movimento_pouso()
 		velocity.x = 0
 
 	move_and_slide()
+	
+func computar_dano(dano_recebido: float) -> void:
+	pass

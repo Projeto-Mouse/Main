@@ -1,3 +1,4 @@
+@abstract
 class_name Inimigo
 extends Entidade
 

@@ -1,3 +1,4 @@
+@abstract
 class_name Entidade
 extends CharacterBody3D
 
@@ -16,21 +17,16 @@ extends CharacterBody3D
 func _ready() -> void:
 	pass
 
+@abstract
+func movimentacao()
 
-func movimentacao(movimento_x: float, movimento_y: float):
-	# Velocidade para eixo z zerada nao usamos
-	velocity.z = 0
-	velocity.x = movimento_x
-	velocity.y = movimento_y
-
-	move_and_slide()
-
+@abstract
+func computar_dano(dano_recebido: float)
 
 func criar_raycast() -> RayCast3D:
 	var raycast_visao: RayCast3D
 	raycast_visao = RayCast3D.new()
 	return raycast_visao
-
 
 func configurar_raycast(
 	raycast_visao: RayCast3D, ray_ativo: bool, mascara: int, ignorar_pai: bool
@@ -38,14 +34,6 @@ func configurar_raycast(
 	raycast_visao.enabled = ray_ativo
 	raycast_visao.collision_mask = mascara
 	raycast_visao.exclude_parent = ignorar_pai
-
-
-func computar_dano(dano_recebido: float) -> void:
-	vida_atual -= dano_recebido
-	if vida_atual <= 0:
-		vida_atual = 0
-		print("Personagem Morreu")
-
 
 func vetor_para(entidade: Entidade) -> Vector3:
 	return entidade.global_position - global_position

@@ -1,5 +1,6 @@
+@abstract
 class_name Aliados
-extends "res://Entidades/Entidade.gd"
+extends Entidade
 
 # Deve mudar entre -127 e 127 ( talvez menos a decidir )
 # Pensei em comecar em 0 para ser neutro ( possivel mudanca ) 

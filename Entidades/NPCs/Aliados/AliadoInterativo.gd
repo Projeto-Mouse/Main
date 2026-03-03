@@ -73,3 +73,9 @@ func calcular_preco(valor_base: float) -> float:
 		return valor_base * 0.80
 	else:
 		return valor_base
+
+func movimentacao() -> void:
+	pass
+	
+func computar_dano(dano_recebido: float) -> void:
+	pass

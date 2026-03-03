@@ -28,7 +28,6 @@ var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 
 
-
 func _ready() -> void:
 	add_to_group("Jogador")
 	criar_luz_jogador()
@@ -56,18 +55,25 @@ func _physics_process(delta):
 	var direcao_y = Input.get_axis("Baixo", "Cima")
 	var apertou_pular = Input.is_action_just_pressed("Pular")	
 	
-	var movimento_x = calcular_movimento_horizontal(direcao_x)
+	movimento_x = calcular_movimento_horizontal(direcao_x)
 	
-	var movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
+	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 	
 	tocar_som_passos(esta_no_chao)
 	atualizar_estado(esta_no_chao, movimento_x)
 	# Chama o método para mover, presente na classe Personagem
-	movimentacao(movimento_x, movimento_y)
+	movimentacao()
 	atualizar_posicao_luz_jogador()
 
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
+
+func movimentacao() -> void:
+	velocity.z = 0
+	velocity.x = movimento_x
+	velocity.y = movimento_y
+	
+	move_and_slide()
 
 func calcular_movimento_horizontal(direcao: float) -> float:
 	var velocidade_final = velocidade_base

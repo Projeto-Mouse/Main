@@ -63,7 +63,7 @@ func setup_iluminacao() -> void:
 
 func spawn_inimigos_teste() -> void:
 	var scale_inimigo = 0.15
-	var voador: InimigoVoador = InimigoVoador.new()
+	var voador: Entidade = InimigoVoador.new()
 	voador.name = "InimigoVoadorTeste"
 	voador.position = Vector3(4, 3, 0)
 	voador.velocidade_base = 2.0
@@ -72,7 +72,7 @@ func spawn_inimigos_teste() -> void:
 	add_child(voador)
 	
 
-	var terrestre: InimigoTerrestre = InimigoTerrestre.new()
+	var terrestre: Entidade = InimigoTerrestre.new()
 	terrestre.name = "InimigoTerrestreTeste"
 	terrestre.position = Vector3(6, 1.5, 0)
 	terrestre.velocidade_base = 2.0
@@ -82,7 +82,7 @@ func spawn_inimigos_teste() -> void:
 	add_child(terrestre)
 
 func spawn_aliado_teste() -> void:
-	var aliado = AliadoInterativo.new()
+	var aliado: Aliados = AliadoInterativo.new()
 	aliado.name = "AliadoInterativoTeste"
 	aliado.position = Vector3(5, 1.5, 0)
 	aliado.velocidade_base = 2.0
