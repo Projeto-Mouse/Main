@@ -1,5 +1,4 @@
-@abstract
-class_name Entidade
+@abstract class_name Entidade
 extends CharacterBody3D
 
 # Variaveis fisicas
@@ -17,11 +16,10 @@ extends CharacterBody3D
 func _ready() -> void:
 	pass
 
-@abstract
-func movimentacao()
 
-@abstract
-func computar_dano(dano_recebido: float)
+@abstract func movimentacao()
+
+@abstract func computar_dano(dano_recebido: float)
 
 
 func criar_raycast() -> RayCast3D:
@@ -29,12 +27,14 @@ func criar_raycast() -> RayCast3D:
 	raycast_visao = RayCast3D.new()
 	return raycast_visao
 
+
 func configurar_raycast(
 	raycast_visao: RayCast3D, ray_ativo: bool, mascara: int, ignorar_pai: bool
 ) -> void:
 	raycast_visao.enabled = ray_ativo
 	raycast_visao.collision_mask = mascara
 	raycast_visao.exclude_parent = ignorar_pai
+
 
 func vetor_para(entidade: Entidade) -> Vector3:
 	return entidade.global_position - global_position

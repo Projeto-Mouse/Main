@@ -4,10 +4,11 @@ extends Inimigo
 var tempo_mudanca_direcao = 0.0
 var move_dir = 0.0
 
+
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravidade * delta
-		
+
 	atualizar_raycast_direcao_movimento()
 	target()
 	atualizar_linha_debug()
@@ -15,15 +16,15 @@ func _physics_process(delta: float) -> void:
 	verificar_dano_contato()
 
 
-
 func movimentacao() -> void:
 	velocity.x = move_dir * velocidade_base
 	move_and_slide()
 
+
 func gerar_movimento_aleatorio() -> void:
 	var delta = get_physics_process_delta_time()
 	tempo_mudanca_direcao -= delta
-	
+
 	if tempo_mudanca_direcao <= 0:
 		tempo_mudanca_direcao = randf_range(1.0, 4.0)
 		# Escolhe: esquerda, direita ou parado
@@ -34,8 +35,9 @@ func gerar_movimento_aleatorio() -> void:
 			move_dir = 1.0
 		else:
 			move_dir = 0.0
-	
+
 	movimentacao()
-	
+
+
 func computar_dano(dano_recebido: float) -> void:
 	pass
