@@ -15,6 +15,7 @@ func _physics_process(delta: float) -> void:
 	verificar_dano_contato()
 
 
+
 func movimentacao() -> void:
 	velocity.x = move_dir * velocidade_base
 	move_and_slide()

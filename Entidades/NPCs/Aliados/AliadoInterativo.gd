@@ -9,6 +9,7 @@ var area_deteccao: Area3D
 func _ready() -> void:
 	setup_area_deteccao()
 
+
 func setup_area_deteccao() -> void:
 	area_deteccao = Area3D.new()
 	var collision_shape = CollisionShape3D.new()

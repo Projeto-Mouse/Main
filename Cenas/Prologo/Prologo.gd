@@ -63,7 +63,7 @@ func setup_iluminacao() -> void:
 
 func spawn_inimigos_teste() -> void:
 	var scale_inimigo = 0.15
-	var voador: Entidade = InimigoVoador.new()
+	var voador: Inimigo = InimigoVoador.new()
 	voador.name = "InimigoVoadorTeste"
 	voador.position = Vector3(4, 3, 0)
 	voador.velocidade_base = 2.0
@@ -72,7 +72,7 @@ func spawn_inimigos_teste() -> void:
 	add_child(voador)
 	
 
-	var terrestre: Entidade = InimigoTerrestre.new()
+	var terrestre: Inimigo = InimigoTerrestre.new()
 	terrestre.name = "InimigoTerrestreTeste"
 	terrestre.position = Vector3(6, 1.5, 0)
 	terrestre.velocidade_base = 2.0

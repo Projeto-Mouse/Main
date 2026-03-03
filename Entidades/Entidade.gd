@@ -23,6 +23,7 @@ func movimentacao()
 @abstract
 func computar_dano(dano_recebido: float)
 
+
 func criar_raycast() -> RayCast3D:
 	var raycast_visao: RayCast3D
 	raycast_visao = RayCast3D.new()

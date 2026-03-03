@@ -7,6 +7,8 @@ var alvo_target: CharacterBody3D
 var linha_debug: MeshInstance3D
 var debug_linha_ativa: bool = false
 
+
+
 func _ready() -> void:
 	if dano == 0:
 		dano = 1.0

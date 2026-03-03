@@ -234,6 +234,7 @@ func posicionar_item_na_mao() -> void:
 	if item_equipado_na_mao.cena_3d:
 		criar_cena_item()
 		
+
 func criar_cena_item() -> void:
 	var visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
