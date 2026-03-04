@@ -10,6 +10,7 @@ signal sair_das_opcoes
 var botoes: Array = []
 var main_menu_items: Array = []
 var graphics_menu_items: Array = []
+var languages_menu_items: Array = []
 
 var carousel_container: Control
 
@@ -136,6 +137,80 @@ func show_graphics_menu() -> void:
 	create_graphics_items()
 	load_items(graphics_menu_items)
 
+func update_language_buttons() -> void:
+	var locale_atual = TranslationServer.get_locale()
+	for btn in languages_menu_items:
+		if btn.name == "Voltar":
+			continue
+		
+		# Enable all first
+		btn.disabled = false
+		btn.add_theme_color_override("font_color", Color("7d7d7d"))
+		
+		# Disable the active one
+		var is_active = false
+		match btn.name:
+			"BtnPtBR": is_active = (locale_atual == "pt_BR")
+			"BtnEnUS": is_active = (locale_atual == "en_US")
+			"BtnEsES": is_active = (locale_atual == "es_ES")
+			
+		if is_active:
+			btn.disabled = true
+			btn.add_theme_color_override("font_disabled_color", Color.WHITE) # Make it stand out as selected
+
+func create_languages_items() -> void:
+	if languages_menu_items.size() > 0:
+		update_language_buttons()
+		return
+		
+	var langs = [
+		{"name": "Português", "locale": "pt_BR", "node_name": "BtnPtBR"},
+		{"name": "English", "locale": "en_US", "node_name": "BtnEnUS"},
+		{"name": "Español", "locale": "es_ES", "node_name": "BtnEsES"}
+	]
+	
+	for lang_data in langs:
+		var btn = Button.new()
+		btn.name = lang_data["node_name"]
+		btn.text = lang_data["name"]
+		btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+		btn.add_theme_font_size_override("font_size", 48)
+		btn.flat = true
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		btn.custom_minimum_size = Vector2(250, 60)
+		btn.add_theme_color_override("font_color", Color("7d7d7d"))
+		btn.add_theme_color_override("font_hover_color", Color.WHITE)
+		btn.add_theme_color_override("font_focus_color", Color.WHITE)
+		btn.add_theme_color_override("font_pressed_color", Color.WHITE)
+		
+		var locale_str = lang_data["locale"]
+		btn.pressed.connect(func():
+			ControladorTraducao.set_traducao(locale_str)
+			update_language_buttons()
+		)
+		languages_menu_items.append(btn)
+		
+	# Voltar button
+	var btn_voltar = Button.new()
+	btn_voltar.name = "Voltar"
+	btn_voltar.text = "Voltar"
+	btn_voltar.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn_voltar.add_theme_font_size_override("font_size", 48)
+	btn_voltar.flat = true
+	btn_voltar.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn_voltar.custom_minimum_size = Vector2(250, 60)
+	btn_voltar.add_theme_color_override("font_color", Color("7d7d7d"))
+	btn_voltar.add_theme_color_override("font_hover_color", Color.WHITE)
+	btn_voltar.add_theme_color_override("font_focus_color", Color.WHITE)
+	btn_voltar.pressed.connect(show_main_menu)
+	languages_menu_items.append(btn_voltar)
+	
+	update_language_buttons()
+
+func show_languages_menu() -> void:
+	create_languages_items()
+	load_items(languages_menu_items)
+
 func show_main_menu() -> void:
 	load_items(main_menu_items)
 
@@ -240,7 +315,7 @@ func _ready_post_setup() -> void:
 		"BtnGraficos": show_graphics_menu,
 		"BtnControles": func(): print("Categoria Controles selecionada"),
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
-		"BtnLinguagens": func(): print("Categoria Linguagens selecionada"),
+		"BtnLinguagens": show_languages_menu,
 		"BtnCreditos": func(): print("Categoria Creditos selecionada"),
 		"BtnApoio": func(): print("Categoria Apoio selecionada"),
 		"BtnVoltar": _on_voltar_pressed
