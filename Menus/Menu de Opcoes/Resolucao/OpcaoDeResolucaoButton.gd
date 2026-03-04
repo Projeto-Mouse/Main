@@ -69,8 +69,12 @@ func _process(_delta: float) -> void:
 		
 	if has_mouse or is_popup_open:
 		option_button.show()
+		label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+		option_button.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 	else:
 		option_button.hide()
+		label.add_theme_color_override("font_color", Color(0.49, 0.49, 0.49, 1))
+		option_button.add_theme_color_override("font_color", Color(0.49, 0.49, 0.49, 1))
 
 func add_opcao_resolucao() -> void:
 	for resolucao_text in dic_de_resolucoes:

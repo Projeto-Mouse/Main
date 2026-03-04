@@ -12,21 +12,21 @@ script = ExtResource("1_bt5wt")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_constants/separation = 10
+theme_override_constants/separation = -9
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gy65r")
 theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.49, 0.49, 0.49, 1)
 mouse_filter = 0
 text = "Resolução da tela"
 
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
 visible = false
-custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gy65r")
 theme_override_font_sizes/font_size = 32
+flat = true
 
