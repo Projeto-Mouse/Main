@@ -44,7 +44,7 @@ size = Vector3(0.27349854, 0.16799927, 1)
 size = Vector3(0.25524902, 15.816071, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kagyw"]
-size = Vector3(40.29699, 0.26306915, 1973.8301)
+size = Vector3(40.29699, 0.26306915, 0.5541992)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wvxea"]
 size = Vector3(0.20477295, 6.500473, 1)
@@ -246,7 +246,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.49363, 8.110336, 0)
 shape = SubResource("BoxShape3D_imsa7")
 
 [node name="ColisãoMesaChão" type="CollisionShape3D" parent="CenaMesa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.472393, 0.33695212, 986.41504)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.472, 0.337, 0)
 shape = SubResource("BoxShape3D_kagyw")
 
 [node name="ColisãoDivisãoMesa01" type="CollisionShape3D" parent="CenaMesa"]
