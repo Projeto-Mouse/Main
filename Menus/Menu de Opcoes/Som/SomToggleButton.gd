@@ -31,8 +31,6 @@ func _on_button_pressed() -> void:
 	is_on = !is_on
 	_update_visuals()
 	
-	# Aqui seria onde você implementaria a lógica de "Surround" e "Mono" no servidor de áudio
-	# Para uso genérico global, precisaria de uma variável global no AutoLoad.
 	print("Toggle ", setting_name, " alterado para: ", is_on)
 
 func _update_visuals() -> void:

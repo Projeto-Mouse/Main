@@ -106,7 +106,6 @@ func _on_opcoes_in_game_pressed() -> void:
 	var destino_x = 60
 	
 	start_wall_tween(destino_x, func():
-		# Passa o margin_container do menu de pausa como referência de posição
 		menu_de_opcoes.abrir_menu_opcoes(self , botoes_vbox)
 	)
 
@@ -123,7 +122,7 @@ func _on_menu_de_opcoes_sai_das_opcoes() -> void:
 
 func _on_visibility_changed() -> void:
 	if visible:
-		is_animating = false # Para animações anteriores
+		is_animating = false
 		if margin_container:
 			if menu_de_opcoes.visible:
 				menu_de_opcoes.visible = false

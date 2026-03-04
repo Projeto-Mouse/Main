@@ -49,12 +49,11 @@ func _ready() -> void:
 	
 	setup_carousel()
 	
-	# Store initial buttons as Main Menu
+	# Guarda os botoes iniciais 
 	for child in carousel_container.get_children():
 		if child is Control:
 			main_menu_items.append(child)
 	
-	# Initialize with Main Menu
 	load_items(main_menu_items)
 	
 	conectar_botoes()
@@ -66,7 +65,6 @@ func setup_carousel() -> void:
 	carousel_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	container_principal.add_child(carousel_container)
 	
-	# Move existing children from VBox to Carousel
 	for child in botoes_container.get_children():
 		if child is Control:
 			child.reparent(carousel_container)
@@ -75,17 +73,16 @@ func setup_carousel() -> void:
 	botoes_container.queue_free()
 
 func load_items(items: Array) -> void:
-	# Clear current carousel view (remove from tree but don't free)
+	# remove da tree sem dar free
 	for child in carousel_container.get_children():
 		carousel_container.remove_child(child)
 		
 	botoes.clear()
 	
-	# Add new items
+	# Adiciona os botoes
 	for item in items:
 		carousel_container.add_child(item)
 		botoes.append(item)
-		# Ensure pivot is set (important for scaling)
 		item.pivot_offset = item.size / 2.0
 		
 	target_index = 0
@@ -95,13 +92,11 @@ func create_graphics_items() -> void:
 	if graphics_menu_items.size() > 0:
 		return
 		
-	# Resolution
 	var res_scene = load("res://Menus/Menu de Opcoes/Resolucao/OpcaoDeResolucaoButton.tscn")
 	if res_scene:
 		var res_btn = res_scene.instantiate()
 		graphics_menu_items.append(res_btn)
 		
-	# Window Mode
 	var win_scene = load("res://Menus/Menu de Opcoes/Resolucao/WindowModeButton.tscn")
 	if win_scene:
 		var win_btn = win_scene.instantiate()
@@ -144,11 +139,9 @@ func update_language_buttons() -> void:
 		if btn.name == "Voltar":
 			continue
 		
-		# Enable all first
 		btn.disabled = false
 		btn.add_theme_color_override("font_color", Color("7d7d7d"))
 		
-		# Disable the active one
 		var is_active = false
 		match btn.name:
 			"BtnPtBR": is_active = (locale_atual == "pt_BR")
@@ -157,7 +150,7 @@ func update_language_buttons() -> void:
 			
 		if is_active:
 			btn.disabled = true
-			btn.add_theme_color_override("font_disabled_color", Color.WHITE) # Make it stand out as selected
+			btn.add_theme_color_override("font_disabled_color", Color.WHITE)
 
 func create_languages_items() -> void:
 	if languages_menu_items.size() > 0:
@@ -403,7 +396,6 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 	menu_origem = origem
 	visible = true
 	
-	# Ensure Main Menu is shown when opening
 	show_main_menu()
 	
 	var target_pos: Vector2 = Vector2.ZERO
@@ -443,7 +435,6 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 	else:
 		var view_size = get_viewport_rect().size
 		var my_size = container_principal.size
-		# Center on screen logic remains same
 		target_pos = (view_size / 2.0) - (my_size / 2.0)
 		container_principal.position = target_pos + Vector2(ANIM_OFFSET_X, 0)
 		animar_entrada(target_pos)
