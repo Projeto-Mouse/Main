@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dcu5g444ijhdj"]
+[gd_scene load_steps=65 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -19,7 +19,7 @@
 size = Vector3(44.599907, 0.21289063, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r4mej"]
-size = Vector3(1.1256409, 0.20922852, 1)
+size = Vector3(1.093142, 0.20922852, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3kemy"]
 size = Vector3(41.278767, 1, 1)
@@ -27,28 +27,148 @@ size = Vector3(41.278767, 1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hss4k"]
 size = Vector3(0.11367798, 6.2912903, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_jnk6v"]
+size = Vector3(0.20654297, 7.6364746, 1)
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_spau7"]
 height = 9.593994
-radius = 0.11816406
+radius = 0.041015625
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ppn7s"]
-size = Vector3(40.011948, 16.113312, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_0iwd3"]
+size = Vector3(0.2798462, 13.172516, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_67pu1"]
+size = Vector3(0.27349854, 0.16799927, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_imsa7"]
+size = Vector3(0.25524902, 15.816071, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kagyw"]
+size = Vector3(40.29699, 0.26306915, 1.0062256)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wvxea"]
+size = Vector3(0.20477295, 6.500473, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t8eqn"]
+size = Vector3(0.20129395, 8.12439, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5w1dw"]
+size = Vector3(0.2826538, 1.1735659, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ge4o"]
+size = Vector3(3.105751, 0.8494873, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v8ify"]
+size = Vector3(1.0460205, 1.0801392, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f36u2"]
+size = Vector3(0.2510376, 2.9589767, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stac6"]
+size = Vector3(2.5192566, 0.2472229, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wepuf"]
+size = Vector3(0.19970703, 4.809143, 0.53619385)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8jg8y"]
+size = Vector3(0.2607422, 0.63183594, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u2wl6"]
+size = Vector3(2.161377, 0.23535156, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l38m2"]
+size = Vector3(8.172086, 0.2310791, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qwomt"]
+size = Vector3(1.3134708, 0.23498535, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_to0sy"]
+size = Vector3(0.24279785, 2.3209395, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vunpe"]
+size = Vector3(1, 0.21398926, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lucg8"]
+size = Vector3(1.8526764, 0.21362305, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oyspk"]
+size = Vector3(10.7664795, 0.22033691, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xkhes"]
+size = Vector3(1.9564514, 0.756958, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f00mp"]
+size = Vector3(1, 0.21972656, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jvwcb"]
+size = Vector3(11.85099, 0.21203613, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7hdjx"]
+size = Vector3(0.64352417, 0.15246582, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u870t"]
+size = Vector3(0.14456177, 3.401245, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qcir2"]
+size = Vector3(12.5935135, 0.21191406, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_detax"]
+size = Vector3(1, 0.21066284, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8yoaw"]
+size = Vector3(1, 1.3426819, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n3itt"]
+size = Vector3(6.7128906, 0.23834229, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0w5us"]
+size = Vector3(0.17022705, 2.269165, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mcvqg"]
+size = Vector3(9.656509, 0.21185303, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rgv80"]
+size = Vector3(4.841797, 0.21057129, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_umv33"]
+size = Vector3(3.087738, 0.46679688, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xfbn7"]
+size = Vector3(0.16918945, 0.15475464, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tai6l"]
+size = Vector3(0.2722168, 1.5717773, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fk2ij"]
+size = Vector3(5.0296936, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h0w4g"]
+size = Vector3(5.347378, 0.2553711, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4udsb"]
+size = Vector3(4.345886, 1.4880981, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ccs8p"]
+size = Vector3(1, 0.2055664, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
-size = Vector3(2.8039932, 1.5853786, 0.17651367)
+size = Vector3(2.747838, 1.5853786, 0.17651367)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
-size = Vector3(0.11230469, 0.44714355, 1)
+size = Vector3(0.11230469, 0.44714355, 0.17469788)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g6w1d"]
+size = Vector3(0.7122803, 1.2601929, 1)
 
 [node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.81913203, -1.2206018e-08, 0.57360506, -0.2206925, 0.92302233, 0.31515813, -0.5294503, -0.38474643, 0.7560772, 0, 0, 0)
+transform = Transform3D(0.819132, 0, 0.573605, -0.22069249, 0.9230223, 0.31515813, -0.52945024, -0.38474643, 0.7560771, 0, 0, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -73,74 +193,323 @@ debug_color = Color(0, 0.6357732, 0.40352643, 0.41960785)
 
 [node name="ColisãoArvore01" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -2.6876678, -0.5413351, 0)
-polygon = PackedVector2Array(4.716873, 1.090121, 6.341137, 1.8179336, 7.5198097, 2.8623378, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.273619, 3.984039, 17.064222, 4.0448546, 17.429117, 3.6495526, 20.635363, 4.0280833, 22.042429, 4.7034755, 22.143057, 1.7915941, 7.93954, 2.4256306, 6.701625, 1.377894)
+polygon = PackedVector2Array(5.575194, 1.4237863, 6.931255, 2.095929, 7.596382, 2.7723303, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.42477, 4.058466, 17.29542, 4.1352882, 17.372244, 3.6615522, 20.635363, 4.0280833, 22.042429, 4.7034755, 21.992666, 3.2489753, 9.472828, 2.638252, 7.1341753, 1.588628)
 margin = 0.001
-debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
-
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
-transform = Transform3D(-0.053347442, -8.515206, 0, 0.9294462, -0.4887474, 0, 0, 0, 1.25, 15.289015, 2.9854605, -0.93004227)
-texture = ExtResource("5_mt6og")
-
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore01"]
-transform = Transform3D(0.9644886, 0.2781037, 0, -0.16817404, 1.5949417, 0, 0, 0, 1.25, 21.448576, 3.2223666, -0.93004227)
-texture = ExtResource("5_mt6og")
+debug_color = Color(0.9188645, 5.833447e-05, 0.6933957, 0.41960785)
 
 [node name="ColisãoArvore02" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
-polygon = PackedVector2Array(16.641018, 3.1894681, 17.978971, 3.067836, 19.985903, 3.3111002, 22.388142, 4.192934, 23.361198, 4.9835434, 24.476946, 6.0701513, 25.722748, 6.942213, 26.769222, 7.315954, 25.623083, 6.39406, 24.925432, 5.5718303, 23.958906, 3.7655153, 25.240469, 3.5920358, 25.027613, 2.19326, 25.058022, 0.7336683, 25.45333, -0.026535511, 16.853874, 0.02703023)
-debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
-
-[node name="S1" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(6.666141, -0.052821815, 0, 0.1899283, 1.8539506, 0, 0, 0, 1, 21.129234, 1.9454229, -0.7440338)
-texture = ExtResource("5_mt6og")
-
-[node name="S2" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.6118177, -1.2639456, 0, 0.76432955, 1.0117424, 0, 0, 0, 1.2499998, 17.747622, 2.106275, -0.7009492)
-texture = ExtResource("5_mt6og")
-
-[node name="S3" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.72178984, 1.093847, 0, -0.6614681, 1.1935993, 0, 0, 0, 1.2499999, 22.922323, 3.6399286, -0.6765777)
-texture = ExtResource("5_mt6og")
-
-[node name="S4" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.35539645, 0.84183204, 0, -0.36155307, 0.82749736, 0, 0, 0, 1.2499999, 24.213835, 5.204351, -0.6812774)
-texture = ExtResource("5_mt6og")
-
-[node name="S5" type="Sprite3D" parent="CenaSalaDoSacrificio/ColisãoArvore02"]
-transform = Transform3D(0.17330235, 1.2162308, 0, -0.24075872, 0.8754642, 0, 0, 0, 0.5202915, 25.512842, 6.486413, -0.658262)
-texture = ExtResource("5_mt6og")
+polygon = PackedVector2Array(16.641018, 3.1894681, 17.978971, 3.067836, 19.985903, 3.3111002, 22.156637, 4.2340336, 23.300743, 5.08897, 24.620867, 6.157641, 25.815262, 6.8239884, 26.961884, 7.0141306, 25.741762, 6.3169184, 24.925432, 5.5718303, 23.923447, 3.589632, 25.464512, 3.616201, 25.027613, 2.19326, 25.058022, 0.7336683, 25.45333, -0.026535511, 16.853874, 0.02703023)
+debug_color = Color(0.9116784, 8.8560584e-05, 0.71892107, 0.41960785)
 
 [node name="ColisãoRampaEntradaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
-transform = Transform3D(0.9441524, -0.32950938, 0, 0.32950938, 0.9441524, 0, 0, 0, 1, 28.204054, 0.19277865, 0)
+transform = Transform3D(0.94233245, -0.33467868, 0, 0.33467868, 0.94233245, 0, 0, 0, 1, 28.188711, 0.18742603, 0)
 shape = SubResource("BoxShape3D_r4mej")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
 [node name="ColisãoParteCimaMesa" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.817886, 16.510612, 0)
 shape = SubResource("BoxShape3D_3kemy")
-debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
+debug_color = Color(0.92683685, 3.4750403e-05, 0.663267, 0.41960785)
 
 [node name="ColisãoParedeEsquerda" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.936573, 3.0382233, 0)
 shape = SubResource("BoxShape3D_hss4k")
 debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
 
+[node name="ColisãoParedeDireita" type="CollisionShape3D" parent="CenaSalaDoSacrificio"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 69.565865, 19.81159, 0)
+shape = SubResource("BoxShape3D_jnk6v")
+debug_color = Color(0, 0.63529414, 0.40392157, 0.41960785)
+
 [node name="Cipo" type="Area3D" parent="CenaSalaDoSacrificio" groups=["Escalaveis"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.796389, 15.889278, 0)
 script = ExtResource("6_3kemy")
 
 [node name="ColisãoCipó" type="CollisionShape3D" parent="CenaSalaDoSacrificio/Cipo"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303585, 12.355051, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9710255, -3.717905, 0)
 shape = SubResource("CylinderShape3D_spau7")
+debug_color = Color(0.997742, 0, 0.16937497, 0.41960785)
 
 [node name="CenaMesa" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.6295, 0, 0)
 
-[node name="ColisãoMesa" type="CollisionShape3D" parent="CenaMesa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.39196, 7.9708405, 0)
-shape = SubResource("BoxShape3D_ppn7s")
-debug_color = Color(0.9978743, 0, 0.16647226, 0.41960785)
+[node name="ColisãoMesaParedeEsquerda01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5778923, 8.422625, 0)
+shape = SubResource("BoxShape3D_0iwd3")
+
+[node name="ColisãoMesaParedeEsquerda02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.577156, 15.924355, 0)
+shape = SubResource("BoxShape3D_67pu1")
+
+[node name="ColisãoMesaParedeDireita" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.49363, 8.110336, 0)
+shape = SubResource("BoxShape3D_imsa7")
+
+[node name="ColisãoMesaChão" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.472, 0.337, 0)
+shape = SubResource("BoxShape3D_kagyw")
+
+[node name="ColisãoDivisãoMesa01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.378738, 3.4438496, 0)
+shape = SubResource("BoxShape3D_wvxea")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoDivisãoMesa02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3755455, 11.957852, 0)
+shape = SubResource("BoxShape3D_t8eqn")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoEntradaBloqueada" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.378971, 7.29594, 0)
+shape = SubResource("BoxShape3D_5w1dw")
+debug_color = Color(0, 0.64747006, 0.24542743, 0.41960785)
+
+[node name="ColisãoLivroPrimeiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4142456, 0.8865175, 0)
+shape = SubResource("BoxShape3D_7ge4o")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoLivroPrimeiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(-4.3711385e-08, -0.9999999, 0, 0.9999999, -4.3711385e-08, 0, 0, 0, 1, 4.396801, 2.0016713, 0)
+shape = SubResource("BoxShape3D_7ge4o")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoPotePrimeiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4370728, 1.8590813, 0)
+shape = SubResource("BoxShape3D_v8ify")
+debug_color = Color(0.9991264, 0.028875828, 0, 0.41960785)
+
+[node name="ColisãoJarroQuebrado01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.663044, 2.7256615, 0)
+shape = SubResource("BoxShape3D_f36u2")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoJarroQuebrado02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.932575, 2.723414, 0)
+shape = SubResource("BoxShape3D_f36u2")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoPlataformaJarro" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.798889, 4.3122387, 0)
+shape = SubResource("BoxShape3D_stac6")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="EscadaParaJarro" type="Area3D" parent="CenaMesa" groups=["Escalaveis"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.779095, 1.0730441, 0)
+script = ExtResource("6_3kemy")
+
+[node name="ColisãoEscadaJarro" type="CollisionShape3D" parent="CenaMesa/EscadaParaJarro"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3487816, 1.9814124, 0.016204834)
+shape = SubResource("BoxShape3D_wepuf")
+debug_color = Color(0.997618, 0, 0.17204309, 0.41960785)
+
+[node name="SubidaPiso2" type="Area3D" parent="CenaMesa" groups=["Escalaveis"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.251728, 6.3773184, 0)
+script = ExtResource("6_3kemy")
+
+[node name="ColisãoSubidaPiso2" type="CollisionShape3D" parent="CenaMesa/SubidaPiso2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27663422, 0, 0)
+shape = SubResource("BoxShape3D_8jg8y")
+debug_color = Color(0.996821, 0, 0.19511878, 0.41960785)
+
+[node name="ColisãoSegundoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.193356, 6.5770593, 0)
+shape = SubResource("BoxShape3D_u2wl6")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoSegundoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7243652, 6.575745, 0)
+shape = SubResource("BoxShape3D_l38m2")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoSegundoPiso03" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.799511, 6.575308, 0)
+shape = SubResource("BoxShape3D_qwomt")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoSegundoPiso04" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0150108, 5.8073406, 0)
+shape = SubResource("BoxShape3D_qwomt")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoSegundoPiso05" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2419472, 5.2966137, 0)
+shape = SubResource("BoxShape3D_to0sy")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoSegundoPiso06" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -2.296547, 3.062972, 0)
+shape = SubResource("BoxShape3D_to0sy")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoPlatSegundoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1310883, 7.6286507, 0)
+shape = SubResource("BoxShape3D_vunpe")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoPlatSegundoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21286774, 8.287452, 0)
+shape = SubResource("BoxShape3D_vunpe")
+debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
+
+[node name="ColisãoChãoTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5512047, 8.847971, 0)
+shape = SubResource("BoxShape3D_lucg8")
+debug_color = Color(0.8092374, 0.002221138, 0.98942715, 0.41960785)
+
+[node name="ColisãoChãoTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8955307, 8.849949, 0)
+shape = SubResource("BoxShape3D_oyspk")
+debug_color = Color(0.8553477, 0.00078048825, 0.8885107, 0.41960785)
+
+[node name="ColisãoLivroTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.898655, 9.335889, 0)
+shape = SubResource("BoxShape3D_xkhes")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoLivroTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 11.825516, 9.912362, 0)
+shape = SubResource("BoxShape3D_xkhes")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.390381, 11.703663, 0)
+shape = SubResource("BoxShape3D_f00mp")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4823723, 11.426926, 0)
+shape = SubResource("BoxShape3D_jvwcb")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso03" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -2.3330803, 11.815994, 0)
+shape = SubResource("BoxShape3D_f00mp")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatTerceiroPiso04" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(0.87082803, -0.49158788, 0, 0.49158788, 0.87082803, 0, 0, 0, 1, 9.65377, 11.588743, 0)
+shape = SubResource("BoxShape3D_7hdjx")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="SubidaTerceiroPiso" type="Area3D" parent="CenaMesa" groups=["Escalaveis"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.429203, 9.886636, 0)
+script = ExtResource("6_3kemy")
+
+[node name="ColisãoSubidaTerceiroPiso" type="CollisionShape3D" parent="CenaMesa/SubidaTerceiroPiso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.077041626, 0.9039917, 0)
+shape = SubResource("BoxShape3D_u870t")
+debug_color = Color(0.99788517, 0, 0.16623443, 0.41960785)
+
+[node name="ColisãoChãoQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.422348, 12.413594, 0)
+shape = SubResource("BoxShape3D_qcir2")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoChãoQuartoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.789448, 12.415578, 0)
+shape = SubResource("BoxShape3D_detax")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPoteQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6555023, 13.186142, 0)
+shape = SubResource("BoxShape3D_8yoaw")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoPlatQuartoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083984375, 13.641036, 0)
+shape = SubResource("BoxShape3D_n3itt")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoDivisãoQuartoPiso" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.3662186, 13.649506, 0)
+shape = SubResource("BoxShape3D_0w5us")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoChãoQuintoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1160736, 14.899682, 0)
+shape = SubResource("BoxShape3D_mcvqg")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoChãoQuintoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.86137, 14.897627, 0)
+shape = SubResource("BoxShape3D_rgv80")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoCaderQuintoPiso01" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.911106, 15.2286825, 0)
+shape = SubResource("BoxShape3D_umv33")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ColisãoCaderQuintoPiso02" type="CollisionShape3D" parent="CenaMesa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5841293, 15.2286825, 0)
+shape = SubResource("BoxShape3D_umv33")
+debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
+
+[node name="ParteCimaMesa(MiniBoss)" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.618916, 17.533024, 0)
+
+[node name="SubidaCandelabro" type="Area3D" parent="ParteCimaMesa(MiniBoss)" groups=["Escalaveis"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1601219, 1.0638008, 0)
+script = ExtResource("6_3kemy")
+
+[node name="ColisãoSubidaCandelabro" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)/SubidaCandelabro"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05090332, -0.06968689, 0)
+shape = SubResource("BoxShape3D_xfbn7")
+debug_color = Color(0.9977191, 0, 0.16986793, 0.41960785)
+
+[node name="ColisãoCandelaPart01" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.94203186, 0.28588867, 0)
+shape = SubResource("BoxShape3D_tai6l")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoCandelaPart02" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.009536743, 0.28588867, 0)
+shape = SubResource("BoxShape3D_tai6l")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoCandelaPart03" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9630432, 0.28588867, 0)
+shape = SubResource("BoxShape3D_tai6l")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoVelaCandelabro" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(0.9695096, -0.24505354, 0, 0.24505354, 0.9695096, 0, 0, 0, 1, 3.7739983, 0.59535027, 0)
+shape = SubResource("BoxShape3D_fk2ij")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoPlatEstátua" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.94035, 1.1111317, 0)
+shape = SubResource("BoxShape3D_h0w4g")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoBaseEstátua" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.926697, 0.24404907, 0)
+shape = SubResource("BoxShape3D_4udsb")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoPlatEstátua2" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.089504, 1.1111317, 0)
+shape = SubResource("BoxShape3D_h0w4g")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoBaseEstátua2" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.075851, 0.24404907, 0)
+shape = SubResource("BoxShape3D_4udsb")
+debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
+
+[node name="ColisãoPlatParaVila01" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.852821, 0.91931343, 0)
+shape = SubResource("BoxShape3D_ccs8p")
+debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
+
+[node name="ColisãoPlatParaVila02" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.29264, 0.2764492, 0)
+shape = SubResource("BoxShape3D_ccs8p")
+debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
 
 [node name="Jogador" type="CharacterBody3D" parent="." groups=["Entidades"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8309181, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9941854, 0.8309181, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("2_ftip3")
@@ -201,18 +570,27 @@ item_data = ExtResource("12_h0w4g")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031174421, 0.5445826, -0.024536133)
 shape = SubResource("BoxShape3D_r8c7y")
 
 [node name="Sprite3D" type="Sprite3D" parent="Tocha"]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.041650414, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.02846694, -0.041650414, 0)
 texture = ExtResource("8_r4mej")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
 shape = SubResource("BoxShape3D_rteev")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Tocha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013459682, 0.11840665, 0)
 light_color = Color(1, 0.6, 0.2, 1)
 script = ExtResource("11_hss4k")
+
+[node name="AreaEntradaVilaDosRatos" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.58566, 17.518267, 0)
+
+[node name="ColisãoEntradaVila" type="CollisionShape3D" parent="AreaEntradaVilaDosRatos"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0040664673, 0.13009644, 0)
+shape = SubResource("BoxShape3D_g6w1d")
+debug_color = Color(0.3368608, 0.622321, 3.85046e-07, 0.41960785)
+
+[node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.57766, 17.752892, 0)
