@@ -8,17 +8,17 @@ signal sair_das_opcoes
 
 # Buttons control
 var botoes: Array = []
-var main_menu_items: Array = []
-var graphics_menu_items: Array = []
-var languages_menu_items: Array = []
-var sound_menu_items: Array = []
+var itens_menu_principal: Array = []
+var itens_menu_graficos: Array = []
+var itens_menu_linguagens: Array = []
+var itens_menu_som: Array = []
 
-var carousel_container: Control
+var container_carrossel: Control
 
-var current_index: float = 0.0
-var target_index: int = 0
-const BUTTON_SPACING: float = 72.0
-const SCROLL_SPEED: float = 10.0
+var indice_atual: float = 0.0
+var indice_alvo: int = 0
+const ESPACAMENTO_BOTOES: float = 72.0
+const VELOCIDADE_SCROLL: float = 10.0
 
 var menu_origem: Control = null
 var tween_animacao: Tween
@@ -27,16 +27,16 @@ const ANIM_DURATION: float = 0.4
 const ANIM_OFFSET_X: float = -50.0
 const DISTANCIA_ENTRE_MENUS: float = 60.0
 
-var is_animating_entry: bool = false
-var anim_start_time: int = 0
-var anim_duration_ms: int = 400
-var anim_start_pos: Vector2
-var anim_target_pos: Vector2
-var anim_start_alpha: float = 0.0
-var anim_target_alpha: float = 0.0
-var anim_callback: Callable = Callable()
+var esta_animando_entrada: bool = false
+var tempo_inicio_anim: int = 0
+var duracao_anim_ms: int = 400
+var pos_inicio_anim: Vector2
+var pos_alvo_anim: Vector2
+var alpha_inicio_anim: float = 0.0
+var alpha_alvo_anim: float = 0.0
+var callback_anim: Callable = Callable()
 
-var last_process_msec: int = 0
+var ultimo_processo_msec: int = 0
 
 func _ready() -> void:
 	visible = false
@@ -45,62 +45,62 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	last_process_msec = Time.get_ticks_msec()
+	ultimo_processo_msec = Time.get_ticks_msec()
 	
-	setup_carousel()
+	configurar_carrossel()
 	
 	# Guarda os botoes iniciais 
-	for child in carousel_container.get_children():
+	for child in container_carrossel.get_children():
 		if child is Control:
-			main_menu_items.append(child)
+			itens_menu_principal.append(child)
 	
-	load_items(main_menu_items)
+	carregar_itens(itens_menu_principal)
 	
 	conectar_botoes()
 
-func setup_carousel() -> void:
-	carousel_container = Control.new()
-	carousel_container.name = "CarouselContainer"
-	carousel_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	carousel_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	container_principal.add_child(carousel_container)
+func configurar_carrossel() -> void:
+	container_carrossel = Control.new()
+	container_carrossel.name = "CarouselContainer"
+	container_carrossel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	container_carrossel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	container_principal.add_child(container_carrossel)
 	
 	for child in botoes_container.get_children():
 		if child is Control:
-			child.reparent(carousel_container)
+			child.reparent(container_carrossel)
 			child.pivot_offset = child.size / 2.0
 	
 	botoes_container.queue_free()
 
-func load_items(items: Array) -> void:
+func carregar_itens(items: Array) -> void:
 	# remove da tree sem dar free
-	for child in carousel_container.get_children():
-		carousel_container.remove_child(child)
+	for child in container_carrossel.get_children():
+		container_carrossel.remove_child(child)
 		
 	botoes.clear()
 	
 	# Adiciona os botoes
 	for item in items:
-		carousel_container.add_child(item)
+		container_carrossel.add_child(item)
 		botoes.append(item)
 		item.pivot_offset = item.size / 2.0
 		
-	target_index = 0
-	current_index = 0.0
+	indice_alvo = 0
+	indice_atual = 0.0
 
-func create_graphics_items() -> void:
-	if graphics_menu_items.size() > 0:
+func criar_itens_graficos() -> void:
+	if itens_menu_graficos.size() > 0:
 		return
 		
 	var res_scene = load("res://Menus/Menu de Opcoes/Resolucao/OpcaoDeResolucaoButton.tscn")
 	if res_scene:
 		var res_btn = res_scene.instantiate()
-		graphics_menu_items.append(res_btn)
+		itens_menu_graficos.append(res_btn)
 		
 	var win_scene = load("res://Menus/Menu de Opcoes/Resolucao/WindowModeButton.tscn")
 	if win_scene:
 		var win_btn = win_scene.instantiate()
-		graphics_menu_items.append(win_btn)
+		itens_menu_graficos.append(win_btn)
 		
 	# Placeholders
 	var placeholders = ["Qualidade", "VSync", "Sombras"]
@@ -114,7 +114,7 @@ func create_graphics_items() -> void:
 		btn.custom_minimum_size = Vector2(250, 60)
 		btn.add_theme_color_override("font_color", Color("7d7d7d"))
 		btn.add_theme_color_override("font_hover_color", Color.WHITE)
-		graphics_menu_items.append(btn)
+		itens_menu_graficos.append(btn)
 		
 	# Voltar button
 	var btn_voltar = Button.new()
@@ -126,16 +126,16 @@ func create_graphics_items() -> void:
 	btn_voltar.custom_minimum_size = Vector2(250, 60)
 	btn_voltar.add_theme_color_override("font_color", Color("7d7d7d"))
 	btn_voltar.add_theme_color_override("font_hover_color", Color.WHITE)
-	btn_voltar.pressed.connect(show_main_menu)
-	graphics_menu_items.append(btn_voltar)
+	btn_voltar.pressed.connect(mostrar_menu_principal)
+	itens_menu_graficos.append(btn_voltar)
 
-func show_graphics_menu() -> void:
-	create_graphics_items()
-	load_items(graphics_menu_items)
+func mostrar_menu_graficos() -> void:
+	criar_itens_graficos()
+	carregar_itens(itens_menu_graficos)
 
-func update_language_buttons() -> void:
+func atualizar_botoes_linguagem() -> void:
 	var locale_atual = TranslationServer.get_locale()
-	for btn in languages_menu_items:
+	for btn in itens_menu_linguagens:
 		if btn.name == "Voltar":
 			continue
 		
@@ -152,9 +152,9 @@ func update_language_buttons() -> void:
 			btn.disabled = true
 			btn.add_theme_color_override("font_disabled_color", Color.WHITE)
 
-func create_languages_items() -> void:
-	if languages_menu_items.size() > 0:
-		update_language_buttons()
+func criar_itens_linguagens() -> void:
+	if itens_menu_linguagens.size() > 0:
+		atualizar_botoes_linguagem()
 		return
 		
 	var langs = [
@@ -180,9 +180,9 @@ func create_languages_items() -> void:
 		var locale_str = lang_data["locale"]
 		btn.pressed.connect(func():
 			ControladorTraducao.set_traducao(locale_str)
-			update_language_buttons()
+			atualizar_botoes_linguagem()
 		)
-		languages_menu_items.append(btn)
+		itens_menu_linguagens.append(btn)
 		
 	# Voltar button
 	var btn_voltar = Button.new()
@@ -196,13 +196,13 @@ func create_languages_items() -> void:
 	btn_voltar.add_theme_color_override("font_color", Color("7d7d7d"))
 	btn_voltar.add_theme_color_override("font_hover_color", Color.WHITE)
 	btn_voltar.add_theme_color_override("font_focus_color", Color.WHITE)
-	btn_voltar.pressed.connect(show_main_menu)
-	languages_menu_items.append(btn_voltar)
+	btn_voltar.pressed.connect(mostrar_menu_principal)
+	itens_menu_linguagens.append(btn_voltar)
 	
-	update_language_buttons()
+	atualizar_botoes_linguagem()
 
-func create_sound_items() -> void:
-	if sound_menu_items.size() > 0:
+func criar_itens_som() -> void:
+	if itens_menu_som.size() > 0:
 		return
 		
 	var slider_scene = load("res://Menus/Menu de Opcoes/Som/SomVolumeSlider.tscn")
@@ -212,44 +212,44 @@ func create_sound_items() -> void:
 		# Geral
 		var master_vol = slider_scene.instantiate()
 		master_vol.bus_name = "Master"
-		sound_menu_items.append(master_vol)
+		itens_menu_som.append(master_vol)
 		master_vol.ready.connect(func(): master_vol.set_label_text("Volume Geral"))
 		
 		# Objetos
 		var objects_vol = slider_scene.instantiate()
 		objects_vol.bus_name = "Objetos"
-		sound_menu_items.append(objects_vol)
+		itens_menu_som.append(objects_vol)
 		objects_vol.ready.connect(func(): objects_vol.set_label_text("Volume de Objetos"))
 		
 		# Entidades
 		var entities_vol = slider_scene.instantiate()
 		entities_vol.bus_name = "Entidades"
-		sound_menu_items.append(entities_vol)
+		itens_menu_som.append(entities_vol)
 		entities_vol.ready.connect(func(): entities_vol.set_label_text("Volume de Entidades"))
 		
 		# SFX
 		var sfx_vol = slider_scene.instantiate()
 		sfx_vol.bus_name = "Sfx"
-		sound_menu_items.append(sfx_vol)
+		itens_menu_som.append(sfx_vol)
 		sfx_vol.ready.connect(func(): sfx_vol.set_label_text("Volume de SFX"))
 		
 		# UI
 		var ui_vol = slider_scene.instantiate()
 		ui_vol.bus_name = "UI"
-		sound_menu_items.append(ui_vol)
+		itens_menu_som.append(ui_vol)
 		ui_vol.ready.connect(func(): ui_vol.set_label_text("Volume da UI"))
 		
 	if toggle_scene:
 		# Surround
 		var surround_toggle = toggle_scene.instantiate()
 		surround_toggle.setting_name = "Surround"
-		sound_menu_items.append(surround_toggle)
+		itens_menu_som.append(surround_toggle)
 		surround_toggle.ready.connect(func(): surround_toggle.set_label_text("Som Surround"))
 		
 		# Mono
 		var mono_toggle = toggle_scene.instantiate()
 		mono_toggle.setting_name = "Mono"
-		sound_menu_items.append(mono_toggle)
+		itens_menu_som.append(mono_toggle)
 		mono_toggle.ready.connect(func(): mono_toggle.set_label_text("Áudio Mono"))
 		
 	# Voltar button
@@ -264,19 +264,19 @@ func create_sound_items() -> void:
 	btn_voltar.add_theme_color_override("font_color", Color("7d7d7d"))
 	btn_voltar.add_theme_color_override("font_hover_color", Color.WHITE)
 	btn_voltar.add_theme_color_override("font_focus_color", Color.WHITE)
-	btn_voltar.pressed.connect(show_main_menu)
-	sound_menu_items.append(btn_voltar)
+	btn_voltar.pressed.connect(mostrar_menu_principal)
+	itens_menu_som.append(btn_voltar)
 
-func show_sound_menu() -> void:
-	create_sound_items()
-	load_items(sound_menu_items)
+func mostrar_menu_som() -> void:
+	criar_itens_som()
+	carregar_itens(itens_menu_som)
 
-func show_languages_menu() -> void:
-	create_languages_items()
-	load_items(languages_menu_items)
+func mostrar_menu_linguagens() -> void:
+	criar_itens_linguagens()
+	carregar_itens(itens_menu_linguagens)
 
-func show_main_menu() -> void:
-	load_items(main_menu_items)
+func mostrar_menu_principal() -> void:
+	carregar_itens(itens_menu_principal)
 
 func _input(event: InputEvent) -> void:
 	if not visible:
@@ -284,37 +284,37 @@ func _input(event: InputEvent) -> void:
 		
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			target_index -= 1
-			if target_index < 0:
-				target_index = botoes.size() - 1
+			indice_alvo -= 1
+			if indice_alvo < 0:
+				indice_alvo = botoes.size() - 1
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			target_index += 1
-			if target_index >= botoes.size():
-				target_index = 0
+			indice_alvo += 1
+			if indice_alvo >= botoes.size():
+				indice_alvo = 0
 
 func _process(delta: float) -> void:
 	var current_msec = Time.get_ticks_msec()
-	var real_delta = float(current_msec - last_process_msec) / 1000.0
-	last_process_msec = current_msec
+	var real_delta = float(current_msec - ultimo_processo_msec) / 1000.0
+	ultimo_processo_msec = current_msec
 
 	var anim_delta = delta
 	if is_zero_approx(delta):
 		anim_delta = real_delta
 
-	process_entry_animation()
+	processar_animacao_entrada()
 	
 	if botoes.size() > 0:
-		current_index = lerp(current_index, float(target_index), anim_delta * SCROLL_SPEED)
-		update_carousel_visuals()
+		indice_atual = lerp(indice_atual, float(indice_alvo), anim_delta * VELOCIDADE_SCROLL)
+		atualizar_visuais_carrossel()
 
-func update_carousel_visuals() -> void:
+func atualizar_visuais_carrossel() -> void:
 	var center_y = container_principal.size.y / 2.0
 	var center_x = container_principal.size.x / 2.0
 	
 	for i in range(botoes.size()):
 		var control = botoes[i]
 		
-		var diff = i - current_index
+		var diff = i - indice_atual
 		var dist = abs(diff)
 		
 		var scale_val: float = 1.0
@@ -325,7 +325,7 @@ func update_carousel_visuals() -> void:
 		else:
 			scale_val = 0.6
 			
-		var pos_y = center_y + (diff * BUTTON_SPACING) - (control.size.y / 2.0)
+		var pos_y = center_y + (diff * ESPACAMENTO_BOTOES) - (control.size.y / 2.0)
 		var pos_x = center_x - (control.size.x / 2.0)
 		
 		control.position = Vector2(pos_x, pos_y)
@@ -338,28 +338,28 @@ func update_carousel_visuals() -> void:
 			alpha = max(0.0, 1.0 - (dist - 2.0))
 		control.modulate.a = alpha
 
-func process_entry_animation() -> void:
-	if is_animating_entry:
+func processar_animacao_entrada() -> void:
+	if esta_animando_entrada:
 		var current_time = Time.get_ticks_msec()
-		var elapsed = current_time - anim_start_time
-		var t = float(elapsed) / float(anim_duration_ms)
+		var elapsed = current_time - tempo_inicio_anim
+		var t = float(elapsed) / float(duracao_anim_ms)
 		
 		if t >= 1.0:
 			t = 1.0
-			is_animating_entry = false
-			container_principal.position = anim_target_pos
-			modulate.a = anim_target_alpha
-			if anim_callback.is_valid():
-				anim_callback.call()
+			esta_animando_entrada = false
+			container_principal.position = pos_alvo_anim
+			modulate.a = alpha_alvo_anim
+			if callback_anim.is_valid():
+				callback_anim.call()
 		else:
 			var ease_t = t
-			if anim_target_alpha > 0.5:
+			if alpha_alvo_anim > 0.5:
 				ease_t = 1.0 - pow(1.0 - t, 5)
 			else:
 				ease_t = pow(t, 5)
 
-			var new_pos = anim_start_pos.lerp(anim_target_pos, ease_t)
-			var new_alpha = lerp(anim_start_alpha, anim_target_alpha, ease_t)
+			var new_pos = pos_inicio_anim.lerp(pos_alvo_anim, ease_t)
+			var new_alpha = lerp(alpha_inicio_anim, alpha_alvo_anim, ease_t)
 			
 			container_principal.position = new_pos
 			modulate.a = new_alpha
@@ -375,11 +375,11 @@ func get_button_by_name(name_str: String) -> Control:
 
 func _ready_post_setup() -> void:
 	var map = {
-		"BtnSom": show_sound_menu,
-		"BtnGraficos": show_graphics_menu,
+		"BtnSom": mostrar_menu_som,
+		"BtnGraficos": mostrar_menu_graficos,
 		"BtnControles": func(): print("Categoria Controles selecionada"),
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
-		"BtnLinguagens": show_languages_menu,
+		"BtnLinguagens": mostrar_menu_linguagens,
 		"BtnCreditos": func(): print("Categoria Creditos selecionada"),
 		"BtnApoio": func(): print("Categoria Apoio selecionada"),
 		"BtnVoltar": _on_voltar_pressed
@@ -390,13 +390,13 @@ func _ready_post_setup() -> void:
 		if btn and btn is Button:
 			if not btn.pressed.is_connected(map[btn_name]):
 				btn.pressed.connect(map[btn_name])
-				btn.pressed.connect(func(): target_index = botoes.find(btn))
+				btn.pressed.connect(func(): indice_alvo = botoes.find(btn))
 
-func opening_logic(origem: Control, container_ref: Control = null) -> void:
+func logica_abertura(origem: Control, container_ref: Control = null) -> void:
 	menu_origem = origem
 	visible = true
 	
-	show_main_menu()
+	mostrar_menu_principal()
 	
 	var target_pos: Vector2 = Vector2.ZERO
 	
@@ -440,16 +440,16 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 		animar_entrada(target_pos)
 
 func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
-	opening_logic(origem, container_ref)
+	logica_abertura(origem, container_ref)
 
 func start_manual_tween(target_pos: Vector2, target_alpha: float, callback: Callable = Callable()) -> void:
-	is_animating_entry = true
-	anim_start_time = Time.get_ticks_msec()
-	anim_start_pos = container_principal.position
-	anim_target_pos = target_pos
-	anim_start_alpha = modulate.a
-	anim_target_alpha = target_alpha
-	anim_callback = callback
+	esta_animando_entrada = true
+	tempo_inicio_anim = Time.get_ticks_msec()
+	pos_inicio_anim = container_principal.position
+	pos_alvo_anim = target_pos
+	alpha_inicio_anim = modulate.a
+	alpha_alvo_anim = target_alpha
+	callback_anim = callback
 	
 	if tween_animacao:
 		tween_animacao.kill()
