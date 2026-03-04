@@ -11,6 +11,7 @@ var dic_de_resolucoes: Dictionary = {
 	"1920 x 1080": Vector2i(1920, 1080),
 	"2440 x 1920": Vector2i(2440, 1920)
 }
+@onready var label: Label = $VBoxContainer/Label
 
 func _ready():
 	# Detecta resolução nativa do monitor do usuário
@@ -53,6 +54,23 @@ func _ready():
 	
 	# Conecta ao sinal de mudança de tamanho da janela raiz
 	get_tree().root.size_changed.connect(on_root_window_size_changed)
+
+func _process(_delta: float) -> void:
+	if not label: return
+	
+	var vbox = $VBoxContainer
+	var rect = Rect2(Vector2.ZERO, vbox.size)
+	var has_mouse = rect.has_point(vbox.get_local_mouse_position())
+	
+	var is_popup_open = false
+	var popup = option_button.get_popup()
+	if popup and popup.visible:
+		is_popup_open = true
+		
+	if has_mouse or is_popup_open:
+		option_button.show()
+	else:
+		option_button.hide()
 
 func add_opcao_resolucao() -> void:
 	for resolucao_text in dic_de_resolucoes:

@@ -4,13 +4,8 @@
 [ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="2_7picw"]
 
 [node name="window_mode_button" type="Control"]
-custom_minimum_size = Vector2(350, 130)
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_2ow0f")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -20,14 +15,16 @@ offset_bottom = 40.0
 theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(248, 0)
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_7picw")
 theme_override_font_sizes/font_size = 48
+mouse_filter = 0
 text = "Tamanho da tela"
 
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(256, 64)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_7picw")

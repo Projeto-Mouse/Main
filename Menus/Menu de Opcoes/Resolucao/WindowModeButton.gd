@@ -7,6 +7,8 @@ const vetor_window_mode: Array[String] = [
 	"Tela Cheia", "Janela", "Janela Sem Bordas", "Tela Cheia Sem Bordas"
 ]
 
+@onready var label: Label = $VBoxContainer/Label
+
 func _ready():
 	add_opcoes_window()
 	
@@ -29,6 +31,23 @@ func _ready():
 	option_button.selected = index
 	
 	option_button.item_selected.connect(on_window_mode_selected)
+
+func _process(_delta: float) -> void:
+	if not label: return
+	
+	var vbox = $VBoxContainer
+	var rect = Rect2(Vector2.ZERO, vbox.size)
+	var has_mouse = rect.has_point(vbox.get_local_mouse_position())
+	
+	var is_popup_open = false
+	var popup = option_button.get_popup()
+	if popup and popup.visible:
+		is_popup_open = true
+		
+	if has_mouse or is_popup_open:
+		option_button.show()
+	else:
+		option_button.hide()
 
 func add_opcoes_window() -> void:
 	for window_mode in vetor_window_mode:
