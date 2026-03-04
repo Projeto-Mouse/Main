@@ -11,6 +11,7 @@ var botoes: Array = []
 var main_menu_items: Array = []
 var graphics_menu_items: Array = []
 var languages_menu_items: Array = []
+var sound_menu_items: Array = []
 
 var carousel_container: Control
 
@@ -207,6 +208,76 @@ func create_languages_items() -> void:
 	
 	update_language_buttons()
 
+func create_sound_items() -> void:
+	if sound_menu_items.size() > 0:
+		return
+		
+	var slider_scene = load("res://Menus/Menu de Opcoes/Som/SomVolumeSlider.tscn")
+	var toggle_scene = load("res://Menus/Menu de Opcoes/Som/SomToggleButton.tscn")
+	
+	if slider_scene:
+		# Geral
+		var master_vol = slider_scene.instantiate()
+		master_vol.bus_name = "Master"
+		sound_menu_items.append(master_vol)
+		master_vol.ready.connect(func(): master_vol.set_label_text("Volume Geral"))
+		
+		# Objetos
+		var objects_vol = slider_scene.instantiate()
+		objects_vol.bus_name = "Objetos"
+		sound_menu_items.append(objects_vol)
+		objects_vol.ready.connect(func(): objects_vol.set_label_text("Volume de Objetos"))
+		
+		# Entidades
+		var entities_vol = slider_scene.instantiate()
+		entities_vol.bus_name = "Entidades"
+		sound_menu_items.append(entities_vol)
+		entities_vol.ready.connect(func(): entities_vol.set_label_text("Volume de Entidades"))
+		
+		# SFX
+		var sfx_vol = slider_scene.instantiate()
+		sfx_vol.bus_name = "Sfx"
+		sound_menu_items.append(sfx_vol)
+		sfx_vol.ready.connect(func(): sfx_vol.set_label_text("Volume de SFX"))
+		
+		# UI
+		var ui_vol = slider_scene.instantiate()
+		ui_vol.bus_name = "UI"
+		sound_menu_items.append(ui_vol)
+		ui_vol.ready.connect(func(): ui_vol.set_label_text("Volume da UI"))
+		
+	if toggle_scene:
+		# Surround
+		var surround_toggle = toggle_scene.instantiate()
+		surround_toggle.setting_name = "Surround"
+		sound_menu_items.append(surround_toggle)
+		surround_toggle.ready.connect(func(): surround_toggle.set_label_text("Som Surround"))
+		
+		# Mono
+		var mono_toggle = toggle_scene.instantiate()
+		mono_toggle.setting_name = "Mono"
+		sound_menu_items.append(mono_toggle)
+		mono_toggle.ready.connect(func(): mono_toggle.set_label_text("Áudio Mono"))
+		
+	# Voltar button
+	var btn_voltar = Button.new()
+	btn_voltar.name = "Voltar"
+	btn_voltar.text = "Voltar"
+	btn_voltar.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn_voltar.add_theme_font_size_override("font_size", 48)
+	btn_voltar.flat = true
+	btn_voltar.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn_voltar.custom_minimum_size = Vector2(250, 60)
+	btn_voltar.add_theme_color_override("font_color", Color("7d7d7d"))
+	btn_voltar.add_theme_color_override("font_hover_color", Color.WHITE)
+	btn_voltar.add_theme_color_override("font_focus_color", Color.WHITE)
+	btn_voltar.pressed.connect(show_main_menu)
+	sound_menu_items.append(btn_voltar)
+
+func show_sound_menu() -> void:
+	create_sound_items()
+	load_items(sound_menu_items)
+
 func show_languages_menu() -> void:
 	create_languages_items()
 	load_items(languages_menu_items)
@@ -311,7 +382,7 @@ func get_button_by_name(name_str: String) -> Control:
 
 func _ready_post_setup() -> void:
 	var map = {
-		"BtnSom": func(): print("Categoria Som selecionada"),
+		"BtnSom": show_sound_menu,
 		"BtnGraficos": show_graphics_menu,
 		"BtnControles": func(): print("Categoria Controles selecionada"),
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
