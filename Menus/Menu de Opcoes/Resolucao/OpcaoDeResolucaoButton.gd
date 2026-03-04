@@ -1,7 +1,7 @@
 class_name OpcaoDeResolucaoButton
 extends Control
 
-@onready var option_button: OptionButton = $HBoxContainer/OptionButton
+@onready var option_button: OptionButton = $VBoxContainer/OptionButton
 
 # Dicionário de resoluções disponíveis
 # Modificado para não ser const, permitindo adicionar resoluções dinâmicas

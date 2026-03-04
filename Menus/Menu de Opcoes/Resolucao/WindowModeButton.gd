@@ -1,7 +1,7 @@
 class_name WindowModeButton
 extends Control
 
-@onready var option_button: OptionButton = $HBoxContainer/OptionButton
+@onready var option_button: OptionButton = $VBoxContainer/OptionButton
 
 const vetor_window_mode: Array[String] = [
 	"Tela Cheia", "Janela", "Janela Sem Bordas", "Tela Cheia Sem Bordas"
