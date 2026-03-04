@@ -7,7 +7,7 @@ extends Control
 @onready var sair_do_jogo: Button = $MarginContainer/VBoxContainer/sair_do_jogo
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var botoes_vbox = $MarginContainer/VBoxContainer
-@onready var menu_de_opcoes: MenuDeOpcoes = $MenuDeOpcoes
+@onready var menu_de_opcoes = $MenuDeOpcoes
 @onready var cena_principal: Node3D = $"../../../.."
 
 var posicao_original_x: float = 0.0
@@ -107,7 +107,7 @@ func _on_opcoes_in_game_pressed() -> void:
 	
 	start_wall_tween(destino_x, func():
 		# Passa o margin_container do menu de pausa como referência de posição
-		menu_de_opcoes.abrir_menu_opcoes(self, botoes_vbox)
+		menu_de_opcoes.abrir_menu_opcoes(self , botoes_vbox)
 	)
 
 func grab_focus_on_return() -> void:

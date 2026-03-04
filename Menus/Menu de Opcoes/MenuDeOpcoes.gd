@@ -7,15 +7,15 @@ signal sair_das_opcoes
 @onready var botoes_container: VBoxContainer = $MarginContainer/VBoxContainer
 
 # Buttons control
-var botoes: Array[Control] = []
-var main_menu_items: Array[Control] = []
-var graphics_menu_items: Array[Control] = []
+var botoes: Array = []
+var main_menu_items: Array = []
+var graphics_menu_items: Array = []
 
 var carousel_container: Control
 
 var current_index: float = 0.0
 var target_index: int = 0
-const BUTTON_SPACING: float = 70.0
+const BUTTON_SPACING: float = 72.0
 const SCROLL_SPEED: float = 10.0
 
 var menu_origem: Control = null
@@ -72,7 +72,7 @@ func setup_carousel() -> void:
 	
 	botoes_container.queue_free()
 
-func load_items(items: Array[Control]) -> void:
+func load_items(items: Array) -> void:
 	# Clear current carousel view (remove from tree but don't free)
 	for child in carousel_container.get_children():
 		carousel_container.remove_child(child)
@@ -180,11 +180,11 @@ func update_carousel_visuals() -> void:
 		
 		var scale_val: float = 1.0
 		if dist <= 1.0:
-			scale_val = lerp(1.0, 0.5, dist)
+			scale_val = lerp(1.0, 0.8, dist)
 		elif dist <= 2.0:
-			scale_val = lerp(0.5, 0.25, dist - 1.0)
+			scale_val = lerp(0.8, 0.6, dist - 1.0)
 		else:
-			scale_val = 0.25
+			scale_val = 0.6
 			
 		var pos_y = center_y + (diff * BUTTON_SPACING) - (control.size.y / 2.0)
 		var pos_x = center_x - (control.size.x / 2.0)
@@ -301,7 +301,7 @@ func opening_logic(origem: Control, container_ref: Control = null) -> void:
 		target_pos = (view_size / 2.0) - (my_size / 2.0)
 		container_principal.position = target_pos + Vector2(ANIM_OFFSET_X, 0)
 		animar_entrada(target_pos)
-		
+
 func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 	opening_logic(origem, container_ref)
 
