@@ -22,7 +22,7 @@ var animation_callback: Callable = Callable()
 func _ready():
 	print("MENU PAUSA: Ready started")
 	
-	# Wait for layout
+	# Espera layout
 	await get_tree().process_frame
 	
 	var viewport_size = get_viewport_rect().size
@@ -53,7 +53,7 @@ func _process(_delta):
 			else:
 				print("MENU PAUSA: Callback invalido ou nulo")
 		else:
-			# Easing: Quint Out (1 - pow(1 - t, 5))
+			# facilitando a animacao: Quint Out (1 - pow(1 - t, 5))
 			var ease_t = 1.0 - pow(1.0 - t, 5)
 			var new_x = lerp(animation_start_x, animation_target_x, ease_t)
 			margin_container.position.x = new_x
