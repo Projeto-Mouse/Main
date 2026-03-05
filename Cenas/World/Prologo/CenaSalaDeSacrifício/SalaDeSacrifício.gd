@@ -1,4 +1,4 @@
-class_name Prologo
+class_name SalaDeSacrificio
 extends Node3D
 
 @onready var menu_de_pause: Control = $Jogador/pivo_Camera/Camera/MenuDePausa
