@@ -1,6 +1,6 @@
 [gd_scene load_steps=65 format=3 uid="uid://ykuee7nx2fiu"]
 
-[ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
+[ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
 [ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="2_ftip3"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]

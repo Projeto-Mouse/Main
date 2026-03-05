@@ -16,7 +16,7 @@ extends Control
 
 # Leva o jogador para o começo do jogo.
 # TODO: altere depois o diretório para abrir a cena correta
-@onready var começar_jogo = preload("res://Cenas/World/Prologo/CenaSalaDeSacrifício/SalaDeSacrifício.tscn") as PackedScene
+@onready var começar_jogo = preload("res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.tscn") as PackedScene
 @onready var cena_debug = preload("res://Cenas/CenaDebug/Debug.tscn") as PackedScene
 
 func _ready():
