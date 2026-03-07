@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dugdfkwdeydnr"]
+
+[ext_resource type="Script" uid="uid://sfur81jy458l" path="res://Cenas/Game.gd" id="1_7t40e"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_7t40e")
+
+[node name="World" type="Node3D" parent="."]

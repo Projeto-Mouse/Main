@@ -594,3 +594,6 @@ debug_color = Color(0.3368608, 0.622321, 3.85046e-07, 0.41960785)
 
 [node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.57766, 17.752892, 0)
+
+[node name="SpawnInícioGame" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.163022, 1.1035476, 0)
