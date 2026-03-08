@@ -27,7 +27,7 @@ func posicionar_jogador(nome_spawn: String):
 		push_warning("Spawn não encontrado: " + nome_spawn)
 		return
 
-	var jogador = get_tree().get_first_node_in_group("player")
+	var jogador = get_tree().get_first_node_in_group("Jogador")
 
 	if jogador:
 		jogador.global_position = spawn_node.global_position
