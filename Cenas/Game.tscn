@@ -1,8 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://dugdfkwdeydnr"]
+[gd_scene load_steps=7 format=3 uid="uid://dugdfkwdeydnr"]
 
 [ext_resource type="Script" uid="uid://sfur81jy458l" path="res://Cenas/Game.gd" id="1_7t40e"]
+[ext_resource type="PackedScene" uid="uid://b4vfiwl5jri1" path="res://Entidades/Jogador/Jogador.tscn" id="2_d5ttk"]
+[ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="4_8i4ha"]
+[ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="5_2uwyn"]
+[ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="6_cht1d"]
+[ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="7_uspeq"]
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_7t40e")
 
 [node name="World" type="Node3D" parent="."]
+
+[node name="Jogador" parent="." instance=ExtResource("2_d5ttk")]
+
+[node name="BarraVida" type="CanvasLayer" parent="."]
+
+[node name="BarraVida" type="Control" parent="BarraVida" node_paths=PackedStringArray("player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_8i4ha")
+player = NodePath("../../Jogador")
+sprite_vida_cheia = ExtResource("5_2uwyn")
+sprite_vida_meio = ExtResource("6_cht1d")
+sprite_vida_vazia = ExtResource("7_uspeq")
