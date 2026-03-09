@@ -22,6 +22,7 @@ func _ready() -> void:
 @abstract func computar_dano(dano_recebido: float)
 
 
+
 func criar_raycast() -> RayCast3D:
 	var raycast_visao: RayCast3D
 	raycast_visao = RayCast3D.new()
@@ -34,6 +35,7 @@ func configurar_raycast(
 	raycast_visao.enabled = ray_ativo
 	raycast_visao.collision_mask = mascara
 	raycast_visao.exclude_parent = ignorar_pai
+
 
 
 func vetor_para(entidade: Entidade) -> Vector3:
