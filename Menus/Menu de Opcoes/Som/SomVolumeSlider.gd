@@ -28,10 +28,10 @@ func _process(_delta: float) -> void:
 	var has_mouse = rect.has_point(vbox.get_local_mouse_position())
 	
 	if has_mouse or slider.has_focus():
-		slider.modulate.a = 1.0
+		slider.visible = true
 		label.add_theme_color_override("font_color", Color.WHITE)
 	else:
-		slider.modulate.a = 0.5
+		slider.visible = false
 		label.add_theme_color_override("font_color", Color("7d7d7d"))
 
 func _on_slider_value_changed(value: float) -> void:
