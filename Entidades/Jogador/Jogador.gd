@@ -20,8 +20,6 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
-var movimento_x: float = 0.0
-var movimento_y: float = 0.0
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp

@@ -1,2 +1,3 @@
+@abstract
 class_name FerramentaData
 extends EquipamentosData
