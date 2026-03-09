@@ -20,12 +20,16 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
-var movimento_x: float = 0.0
-var movimento_y: float = 0.0
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
+
+# INPUTS
+var input_direcao_x: float
+var input_direcao_y: float
+var input_pular: bool
+var input_interagir: bool
 
 var pos_hotbar_controle: int = 1
 
@@ -47,18 +51,17 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta):
 	esconder_item_rastejando()
-	var esta_no_chao = is_on_floor()
-	var direcao_x = Input.get_axis("Esquerda", "Direita") 
-	var direcao_y = Input.get_axis("Baixo", "Cima")
-	var apertou_pular = Input.is_action_just_pressed("Pular") and item_da_area_atual == null
-	var apertou_interagir = Input.is_action_just_pressed("Interagir")
+	var esta_no_chao: bool = is_on_floor()
 	
-	if apertou_interagir and item_da_area_atual != null:
+	ler_input()
+	
+	if input_interagir and item_da_area_atual != null:
 		pegar_item()
+		input_pular = false
 	
-	var movimento_x = calcular_movimento_horizontal(direcao_x)
+	var movimento_x = calcular_movimento_horizontal(input_direcao_x)
 	
-	var movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
+	var movimento_y = calcular_movimento_vertical(esta_no_chao, input_direcao_y, input_pular, delta)
 	
 	tocar_som_passos(esta_no_chao)
 	atualizar_estado(esta_no_chao, movimento_x)
@@ -69,6 +72,13 @@ func _physics_process(delta):
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
 
+func ler_input() -> void:
+	input_direcao_x = Input.get_axis("Esquerda", "Direita")
+	input_direcao_y = Input.get_axis("Baixo", "Cima")
+
+	input_pular = Input.is_action_just_pressed("Pular") and item_da_area_atual == null
+	input_interagir = Input.is_action_just_pressed("Interagir")
+	
 func calcular_movimento_horizontal(direcao: float) -> float:
 	var velocidade_final = velocidade_base
 		
