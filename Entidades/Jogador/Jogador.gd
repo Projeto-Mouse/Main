@@ -44,17 +44,17 @@ func _process(_delta: float) -> void:
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
-	
-	if Input.is_action_just_pressed("Interagir"):
-		pegar_item()
-	
 
 func _physics_process(delta):
 	esconder_item_rastejando()
 	var esta_no_chao = is_on_floor()
 	var direcao_x = Input.get_axis("Esquerda", "Direita") 
 	var direcao_y = Input.get_axis("Baixo", "Cima")
-	var apertou_pular = Input.is_action_just_pressed("Pular")	
+	var apertou_pular = Input.is_action_just_pressed("Pular") and item_da_area_atual == null
+	var apertou_interagir = Input.is_action_just_pressed("Interagir")
+	
+	if apertou_interagir and item_da_area_atual != null:
+		pegar_item()
 	
 	var movimento_x = calcular_movimento_horizontal(direcao_x)
 	
@@ -202,9 +202,6 @@ func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 		estado_atual = estados_jogador.PARADO
 
 func pegar_item() -> void:
-	if item_da_area_atual == null:
-		return
-		
 	if not item_da_area_atual.is_in_group("ItensInterativos"):
 		return
 
