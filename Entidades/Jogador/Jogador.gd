@@ -27,7 +27,7 @@ var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 
-
+var pos_hotbar_controle: int = 1
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -234,6 +234,20 @@ func esconder_item_rastejando() -> void:
 	mao.visible = not Input.is_action_pressed("Rastejar")
 	
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
+	if tecla_apertada.is_action_pressed("aumentar_pos_hotbar_controle"):
+		pos_hotbar_controle += 1
+		if pos_hotbar_controle > 10:
+			pos_hotbar_controle = 1
+		item_equipado_na_mao = inventario_temp.pegar_item(pos_hotbar_controle)
+		posicionar_item_na_mao()
+		
+	if tecla_apertada.is_action_pressed("diminuir_pos_hotbar_controle"):
+		pos_hotbar_controle -= 1
+		if pos_hotbar_controle < 1:
+			pos_hotbar_controle = 10
+		item_equipado_na_mao = inventario_temp.pegar_item(pos_hotbar_controle)
+		posicionar_item_na_mao()
+		
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
