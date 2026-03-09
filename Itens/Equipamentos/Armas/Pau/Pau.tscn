@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjw1fvk3twwwa"]
+
+[ext_resource type="Texture2D" uid="uid://c1kdktb5onab2" path="res://Sprites/Itens/Armas/Pau.png" id="1_2rthh"]
+
+[node name="Pau" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("1_2rthh")

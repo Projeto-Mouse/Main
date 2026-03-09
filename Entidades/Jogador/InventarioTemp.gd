@@ -3,14 +3,14 @@ extends Resource
 
 const TAMANHO = 11
 
-var inventario: Array[Item] = []
+var inventario: Array[ItemData] = []
 var parte_livre = 1
 
 func _init() -> void:
 	inventario.resize(TAMANHO)
 	inventario[0] = null
 
-func adicionar_item(item_da_area: Item) -> bool:
+func adicionar_item(item_da_area: ItemData) -> bool:
 	if parte_livre >= TAMANHO:
 		return false
 	
@@ -18,7 +18,8 @@ func adicionar_item(item_da_area: Item) -> bool:
 	parte_livre += 1
 	return true
 
-func pegar_item(posicao: int) -> Item:
+func pegar_item(posicao: int) -> ItemData:
+	print("Peguei o item ", posicao)
 	if posicao <= 0 or posicao >= TAMANHO:
 		return null
 	
