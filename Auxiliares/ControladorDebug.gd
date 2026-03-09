@@ -24,10 +24,10 @@ func registrar_tecla(event: InputEvent) -> void:
 		return
 
 	if event is InputEventKey and event.pressed:
-		var char: String = event.as_text().to_lower()
+		var caractere: String = event.as_text().to_lower()
 
-		if char.length() == 1:
-			buffer += char
+		if caractere.length() == 1:
+			buffer += caractere
 
 			if buffer.length() > 20:
 				buffer = buffer.substr(1)
