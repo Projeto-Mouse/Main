@@ -44,7 +44,7 @@ size = Vector3(0.27349854, 0.16799927, 1)
 size = Vector3(0.25524902, 15.816071, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kagyw"]
-size = Vector3(40.29699, 0.26306915, 0.9847717)
+size = Vector3(40.29699, 0.26306915, 1.0062256)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wvxea"]
 size = Vector3(0.20477295, 6.500473, 1)
