@@ -71,7 +71,7 @@ func spawn_inimigos_teste() -> void:
 	voador.position = Vector3(4, 3, 0)
 	voador.velocidade_base = 2.0
 	setup_inimigo_visual(voador, Color.RED, scale_inimigo)
-	adicionar_sensor_auditivo(voador)  # Sistema de detecção de som
+	adicionar_sensor_auditivo(voador)  # Sistema deteccao de som
 	add_child(voador)
 
 	var terrestre: Inimigo = InimigoTerrestre.new()
