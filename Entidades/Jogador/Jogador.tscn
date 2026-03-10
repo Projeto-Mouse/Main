@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4vfiwl5jri1"]
+[gd_scene load_steps=4 format=3 uid="uid://b4vfiwl5jri1"]
 
 [ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="1_o2fes"]
-[ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_qixuv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
@@ -32,9 +31,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
 [node name="Camera" type="Camera3D" parent="pivo_Camera"]
 fov = 89.5799
-
-[node name="MenuDePausa" parent="pivo_Camera/Camera" instance=ExtResource("2_qixuv")]
-visible = false
 
 [node name="Mao" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.21806717)

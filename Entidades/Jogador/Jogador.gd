@@ -11,10 +11,9 @@ const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
 const PITCH_SOM_PASSO_NORMAL = 1.0
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../CenaBarraVida/BarraVida"
+@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-
 @onready var mao: Node3D = $Mao
 
 var som_passos: AudioStreamPlayer

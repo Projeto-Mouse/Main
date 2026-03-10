@@ -154,7 +154,7 @@ size = Vector3(0.11230469, 0.44714355, 0.17469788)
 [sub_resource type="BoxShape3D" id="BoxShape3D_g6w1d"]
 size = Vector3(0.7122803, 1.2601929, 1)
 
-[node name="Prologo" type="Node3D"]
+[node name="SalaDeSacrificio" type="Node3D"]
 script = ExtResource("1_jsoku")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -538,8 +538,8 @@ debug_color = Color(0.3368608, 0.622321, 3.85046e-07, 0.41960785)
 
 [node name="SpawnPoints" type="Node3D" parent="."]
 
-[node name="SpawnInícioGame" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.163022, 0.99374413, 0)
+[node name="SpawnPadrao" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.011919, 1.0282176, 0)
 
 [node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.57766, 17.752892, 0)

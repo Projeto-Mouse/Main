@@ -1,9 +1,6 @@
 class_name SalaDeSacrificio
 extends Node3D
 
-@onready var menu_de_pause: Control = $Jogador/pivo_Camera/Camera/MenuDePausa
-var nao_pausado = false
-
 func _ready() -> void:
 	spawn_inimigos_teste()
 	spawn_aliado_teste()
@@ -20,11 +17,16 @@ func setup_iluminacao() -> void:
 	controlador.set_script(ScriptIluminacao)
 	# add_child movido para o final da função setup_iluminacao para evitar warnings no _ready
 
-	var camera = $Jogador/pivo_Camera/Camera
+	var jogador = get_tree().get_first_node_in_group("Jogador")
+	var camera: Camera3D = null
+
+	if jogador:
+		camera = jogador.get_node_or_null("pivo_Camera/Camera")
+		
 	if camera:
 		controlador.camera_alvo = camera
 	else:
-		push_warning("Camera não encontrada em Jogador/pivo_Camera/Camera")
+		push_warning("Camera do jogador não encontrada.")
 
 	var sol = get_node_or_null("DirectionalLight3D")
 	if sol:
@@ -127,18 +129,3 @@ func adicionar_sensor_auditivo(inimigo: CharacterBody3D) -> void:
 	sensor.set("mascara_oclusao", 1)
 	
 	inimigo.add_child(sensor)
-
-# Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Pausar"):
-		mostrar_menu_de_pausa()
-		
-func mostrar_menu_de_pausa():
-	if nao_pausado:
-		menu_de_pause.hide()
-		Engine.time_scale = 1
-	else:
-		menu_de_pause.show()
-		Engine.time_scale = 0
-		
-	nao_pausado = !nao_pausado
