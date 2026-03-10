@@ -10,7 +10,6 @@ var controlador_iluminacao_debug
 func _ready() -> void:
 	remover_foco_botoes()
 	
-	# PEGA A CENA DEBUG PARA CONSEGUIR USAR AS VARIAVEIS LA ( COISA FEIA MESMO )
 	cena_debug = get_tree().get_first_node_in_group("debug")
 	controlador_iluminacao_debug = cena_debug.controlador_iluminacao
 
