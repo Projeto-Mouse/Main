@@ -9,7 +9,6 @@ var nao_pausado = false
 
 func _ready() -> void:
 	setup_iluminacao()
-	conectar_sinais_botoes_iluminacao()
 
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
@@ -76,16 +75,3 @@ func mostrar_menu_de_pausa():
 		Engine.time_scale = 0
 
 	nao_pausado = !nao_pausado
-
-func conectar_sinais_botoes_iluminacao() -> void:
-	controlador_menu_debug.trocar_para_dia.connect(trocar_para_dia)
-	controlador_menu_debug.trocar_para_noite.connect(trocar_para_noite)
-
-func trocar_para_dia() -> void:
-	print("entrei em trocar_para_dia")
-	controlador_iluminacao.tempo_atual = 0.0
-
-func trocar_para_noite() -> void:
-	print("entrei em trocar_para_noite")
-	controlador_iluminacao.tempo_atual = 900.0
-	
