@@ -15,17 +15,18 @@ var playlist_script
 
 func _ready() -> void:
 	setup_iluminacao()
-	
+
 	botao_abrir_fechar_menu_debug.focus_mode = Control.FOCUS_NONE
 	botao_trocar_musica.focus_mode = Control.FOCUS_NONE
-	
+
 	debug_menu.hide()
 	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
-	
+
 	playlist_script = preload("res://Cenas/CenaDebug/MusicasCenaDebug/PlaylistScript.gd").new()
 	playlist_script.carregar_musicas()
 	ControladorMusica.volume_alvo_db = -30
 	ControladorMusica.tocar_varias(playlist_script.musicas)
+
 
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
@@ -83,6 +84,7 @@ func setup_iluminacao() -> void:
 
 	add_child(controlador_iluminacao)
 
+
 func mostrar_menu_de_pausa():
 	if nao_pausado:
 		menu_de_pause.hide()
@@ -92,6 +94,7 @@ func mostrar_menu_de_pausa():
 		Engine.time_scale = 0
 
 	nao_pausado = !nao_pausado
+
 
 func _abrir_e_fechar_menu_debug() -> void:
 	if !menu_aberto:
