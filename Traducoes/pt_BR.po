@@ -125,3 +125,9 @@ msgstr "Janela Sem Bordas"
 
 msgid "Tela Cheia Sem Bordas"
 msgstr "Tela Cheia Sem Bordas"
+
+msgid "Créditos"
+msgstr "Créditos"
+
+msgid "Apoio"
+msgstr "Apoio"

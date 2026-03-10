@@ -132,3 +132,9 @@ msgstr "Borderless Window"
 
 msgid "Tela Cheia Sem Bordas"
 msgstr "Borderless Fullscreen"
+
+msgid "Créditos"
+msgstr "Credits"
+
+msgid "Apoio"
+msgstr "Support"

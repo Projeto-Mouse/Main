@@ -43,35 +43,12 @@ offset_top = -6.0
 offset_right = 2.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-alignment = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-alignment = 2
-
-[node name="pagar_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
-show_behind_parent = true
-custom_minimum_size = Vector2(400, 32)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.489622, 0.489622, 0.489622, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_prxhe")
-theme_override_font_sizes/font_size = 32
-text = "Nos pague uma breja"
-flat = true
-alignment = 0
-autowrap_mode = 3
-
-[node name="Separador2" type="Control" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
@@ -126,9 +103,28 @@ theme_override_font_sizes/font_size = 48
 text = "Sair"
 flat = true
 
-[node name="Separador" type="Control" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
+[node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.76
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="pagar_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
+show_behind_parent = true
+custom_minimum_size = Vector2(400, 32)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.489622, 0.489622, 0.489622, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_prxhe")
+theme_override_font_sizes/font_size = 32
+text = "Nos pague uma breja"
+flat = true
+alignment = 2
+autowrap_mode = 3
 
 [node name="MenuDeOpcoes" parent="." instance=ExtResource("3_andfb")]
 visible = false

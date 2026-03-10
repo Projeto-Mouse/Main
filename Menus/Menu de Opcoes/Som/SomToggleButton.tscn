@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3u2b7q8r9w1a"]
+
+[ext_resource type="Script" path="res://Menus/Menu de Opcoes/Som/SomToggleButton.gd" id="1_toggle"]
+[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fontes/Teste/terminal-grotesque.ttf" id="2_font"]
+
+[node name="SomToggleButton" type="Control"]
+custom_minimum_size = Vector2(250, 60)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_toggle")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -8
+alignment = 0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 32
+text = "Toggle"
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 32
+text = "Desligado"
+flat = true
+alignment = 0
