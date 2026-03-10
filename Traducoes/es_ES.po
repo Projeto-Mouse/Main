@@ -114,3 +114,9 @@ msgstr "Ventana Sin Bordes"
 
 msgid "Tela Cheia Sem Bordas"
 msgstr "Pantalla Completa Sin Bordes"
+
+msgid "Créditos"
+msgstr "Créditos"
+
+msgid "Apoio"
+msgstr "Apoyo"
