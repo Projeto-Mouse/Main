@@ -1,6 +1,6 @@
-English version below
+**English version below**
 
-Versión en español a continuación
+**Versión en español a continuación**
 
 # Tutorial de Configuração: Projeto Mouse
 
@@ -33,7 +33,6 @@ Para que o Godot carregue os módulos C++, você precisa de um compilador C++ in
 * **No Windows (Recomendado):** Instale o **Visual Studio Community** com a carga de trabalho (workload) **"Desenvolvimento para desktop com C++"**.
 * **No Linux:** Instale o `build-essential` (GCC, G++).
 * **No macOS:** Instale o `Xcode Command Line Tools`.
-
 ---
 
 ## 2. Configuração do Repositório
@@ -62,6 +61,120 @@ Navegue para a pasta `Main` que foi criada:
 ```bash
 cd Main
 ```
+
+### 2.4. Instalação do pre-commit (Ferramenta para rodar hooks de formatter e lint)
+
+O **pre-commit** é uma ferramenta que executa automaticamente o formatter e o lint (gdtoolkit) sempre que um commit é realizado.
+
+Isso garante que o código esteja formatado corretamente antes de passar pelo CI.
+
+---
+
+### Requisitos
+
+- Ter o **Python** instalado no computador.
+
+---
+
+## Instalação no Windows
+
+1. Execute o comando:
+
+```bash
+python -m pip install pre-commit
+```
+
+2. Após a instalação, o terminal mostrará o caminho onde o executável foi instalado.  
+   Adicione esse caminho ao **PATH do Windows** para poder executar o comando:
+
+```bash
+pre-commit install
+```
+
+3. Dentro da pasta clonada do projeto, execute:
+
+```bash
+pre-commit install
+```
+
+---
+
+### Alternativa (sem adicionar ao PATH)
+
+Caso não queira adicionar ao PATH, execute:
+
+```bash
+python -m pre_commit install
+```
+
+Também dentro da pasta clonada (seu repositório local do jogo).
+
+---
+
+## Instalação no Linux (Recomendado usar pipx)
+
+1. Instale o Python.
+2. Instale o pipx:
+
+### Ubuntu e derivados
+```bash
+sudo apt install pipx
+```
+
+### Arch e derivados
+```bash
+sudo pacman -S pipx
+```
+
+3. Depois execute:
+
+```bash
+pipx install pre-commit
+pipx ensurepath
+```
+
+4. Reinicie o terminal (recomendado) e, na pasta clonada do repositório, execute:
+
+```bash
+pre-commit install
+```
+
+---
+
+## Como funciona
+
+Depois de instalado, sempre que você fizer:
+
+```bash
+git add .
+git commit -m "SUA_MENSAGEM"
+```
+
+O pre-commit irá:
+
+- Executar o formatter
+- Executar o lint
+- Bloquear o commit se houver problemas
+
+Se o formatter modificar arquivos:
+
+- O commit será cancelado
+- Você deverá executar novamente:
+
+```bash
+git add .
+git commit -m "MESMA_MENSAGEM"
+```
+
+Na segunda tentativa o commit passará normalmente.
+
+Depois disso, basta executar:
+
+```bash
+git push
+```
+
+O CI apenas validará novamente a formatação, mas provavelmente passará sem problemas.
 
 ## 3. Fluxo de Trabalho (Padrão de Branch Obrigatório)
 Você nunca deve trabalhar diretamente no branch main. Siga este padrão para cada task ou bug.
@@ -181,6 +294,120 @@ Navigate to the `Main` folder that was created:
 ```bash
 cd Main
 ```
+
+### 2.4. Pre-commit Installation (Formatter and Lint Hooks)
+
+**pre-commit** is a tool that automatically runs the formatter and lint (gdtoolkit) whenever a commit is made.
+
+This ensures that the code is properly formatted before passing CI.
+
+---
+
+### Requirements
+
+- Python must be installed on your computer.
+
+---
+
+## Installation on Windows
+
+1. Run:
+
+```bash
+python -m pip install pre-commit
+```
+
+2. After installation, the terminal will display the path where the executable was installed.  
+   Add this path to your **Windows PATH** so you can run:
+
+```bash
+pre-commit install
+```
+
+3. Inside the cloned project folder, run:
+
+```bash
+pre-commit install
+```
+
+---
+
+### Alternative (Without modifying PATH)
+
+If you do not want to modify your PATH, run:
+
+```bash
+python -m pre_commit install
+```
+
+Inside the cloned repository folder.
+
+---
+
+## Installation on Linux (Recommended: pipx)
+
+1. Install Python.
+2. Install pipx:
+
+### Ubuntu and derivatives
+```bash
+sudo apt install pipx
+```
+
+### Arch and derivatives
+```bash
+sudo pacman -S pipx
+```
+
+3. Then run:
+
+```bash
+pipx install pre-commit
+pipx ensurepath
+```
+
+4. Restart your terminal (recommended) and inside the cloned repository run:
+
+```bash
+pre-commit install
+```
+
+---
+
+## How It Works
+
+After installation, whenever you run:
+
+```bash
+git add .
+git commit -m "YOUR_MESSAGE"
+```
+
+pre-commit will:
+
+- Run the formatter
+- Run the lint
+- Block the commit if there are issues
+
+If the formatter modifies files:
+
+- The commit will be canceled
+- You must run:
+
+```bash
+git add .
+git commit -m "SAME_MESSAGE"
+```
+
+On the second attempt, the commit will pass.
+
+Then simply run:
+
+```bash
+git push
+```
+
+CI will validate again, but it should pass successfully.
 
 ## 3. Workflow (Mandatory Branch Pattern)
 You should never work directly on the main branch. Follow this pattern for each task or bug.
@@ -310,6 +537,120 @@ Navegue a la carpeta `Main` que se creó:
 ```bash
 cd Main
 ```
+
+### 2.4. Instalación de pre-commit (Hooks de formatter y lint)
+
+**pre-commit** es una herramienta que ejecuta automáticamente el formatter y el lint (gdtoolkit) cada vez que se realiza un commit.
+
+Esto garantiza que el código esté correctamente formateado antes de pasar el CI.
+
+---
+
+### Requisitos
+
+- Tener **Python** instalado en el computador.
+
+---
+
+## Instalación en Windows
+
+1. Ejecuta:
+
+```bash
+python -m pip install pre-commit
+```
+
+2. Después de la instalación, el terminal mostrará la ruta donde fue instalado el ejecutable.  
+   Agrega esa ruta al **PATH de Windows** para poder ejecutar:
+
+```bash
+pre-commit install
+```
+
+3. Dentro de la carpeta clonada del proyecto, ejecuta:
+
+```bash
+pre-commit install
+```
+
+---
+
+### Alternativa (Sin modificar el PATH)
+
+Si no deseas modificar el PATH, ejecuta:
+
+```bash
+python -m pre_commit install
+```
+
+Dentro de la carpeta del repositorio clonado.
+
+---
+
+## Instalación en Linux (Recomendado usar pipx)
+
+1. Instala Python.
+2. Instala pipx:
+
+### Ubuntu y derivados
+```bash
+sudo apt install pipx
+```
+
+### Arch y derivados
+```bash
+sudo pacman -S pipx
+```
+
+3. Luego ejecuta:
+
+```bash
+pipx install pre-commit
+pipx ensurepath
+```
+
+4. Reinicia el terminal (recomendado) y dentro del repositorio clonado ejecuta:
+
+```bash
+pre-commit install
+```
+
+---
+
+## Cómo funciona
+
+Después de la instalación, cada vez que ejecutes:
+
+```bash
+git add .
+git commit -m "TU_MENSAJE"
+```
+
+pre-commit:
+
+- Ejecutará el formatter
+- Ejecutará el lint
+- Bloqueará el commit si hay errores
+
+Si el formatter modifica archivos:
+
+- El commit será cancelado
+- Debes ejecutar nuevamente:
+
+```bash
+git add .
+git commit -m "MISMO_MENSAJE"
+```
+
+En el segundo intento el commit pasará correctamente.
+
+Luego ejecuta:
+
+```bash
+git push
+```
+
+El CI validará nuevamente, pero debería pasar sin problemas.
 
 ## 3. Flujo de trabajo (Patrón de ramas obligatorio)
 Nunca trabaje directamente en la rama principal. Siga este patrón para cada tarea o error.
