@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbttvartqc71d"]
+[gd_scene load_steps=4 format=3 uid="uid://cbttvartqc71d"]
 
 [ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="1_lny6n"]
+[ext_resource type="Script" uid="uid://oc6fcicl3117" path="res://Itens/Equipamentos/Ferramentas/Tocha/Tocha.gd" id="1_rg1jl"]
 [ext_resource type="Script" uid="uid://gmvyhdrpxya3" path="res://Itens/Equipamentos/Ferramentas/Tocha/LuzTocha.gd" id="3_ofxlt"]
 
 [node name="Tocha" type="Node3D"]
+script = ExtResource("1_rg1jl")
+nome = "Tocha"
+tipo = "Ferramenta"
+descricao = "Item para iluminar ao redor"
+cena_3d = null
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.0170158, 0.09821433, -0.04173726)

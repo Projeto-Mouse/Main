@@ -7,12 +7,7 @@ var tempo_mudanca_direcao = 0.0
 var intervalo_mudanca = 2.0
 var direcao_atual = Vector2.ZERO
 var altura_maxima_voo = 6.0
-
 func _physics_process(delta: float) -> void:
-
-	atualizar_raycast_direcao_movimento()
-	target()
-	atualizar_linha_debug()
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
 	

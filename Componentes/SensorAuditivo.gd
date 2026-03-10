@@ -6,20 +6,19 @@ extends Node3D
 func _ready() -> void:
 	ControladorRuido.ruido_gerado.connect(_ao_ruido_percebido)
 
-func _ao_ruido_percebido(posicao_ruido: Vector3, intensidade: float) -> bool:
+func _ao_ruido_percebido(posicao_ruido: Vector3, intensidade: float) -> void:
 	var distancia := global_position.distance_to(posicao_ruido)
 	var alcance_efetivo: float = min(intensidade, alcance_maximo)
 	
 	if distancia > alcance_efetivo:
-		print("Debug Sensor: Som ignorado por distância (", distancia, " > ", alcance_efetivo, ")")
-		return false
+		# print("Debug Sensor: Som ignorado por distância (", distancia, " > ", alcance_efetivo, ")")
+		return
 	
 	if _verificar_oclusao(posicao_ruido):
 		print("Debug Sensor: Som ignorado por oclusão (Parede no caminho)")
-		return false
+		return
 	
 	print("inimigo escutou jogador")
-	return true
 
 func _verificar_oclusao(posicao_ruido: Vector3) -> bool:
 	var espaco_estado := get_world_3d().direct_space_state

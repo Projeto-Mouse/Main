@@ -9,11 +9,11 @@ func _ready() -> void:
 	add_child(reprodutor)
 	reprodutor.volume_db = volume_alvo_db
 
-func tocar_musica(musica_audio: AudioStream, repetir: bool) -> void:
+func tocar_musica(musica_audio: AudioStream, repetir: bool = false) -> void:
 	reprodutor.stop() 
 	reprodutor.stream = musica_audio
 	if repetir:
-		pass
+		pass # Ver logica para loop de audio
 	reprodutor.play()
 
 func trocar_musica(musica_audio : AudioStream) -> void:
@@ -29,10 +29,8 @@ func parar_musica() -> void:
 
 func fade_out() -> void:
 	var tween = create_tween()
-	#-80 volume alvo.
 	tween.tween_property(reprodutor, "volume_db", -80.0, duracao_fade)
 	await tween.finished
-	reprodutor.stop()
 
 func fade_in() -> void:
 	var tween = create_tween()

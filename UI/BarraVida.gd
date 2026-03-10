@@ -12,7 +12,6 @@ var vida_max : float
 var array_vida : Array = []
 
 func _ready() -> void:
-	vida_max = player.vida_max
 	criar_coracoes()
 
 func _process(_delta: float) -> void:
@@ -21,7 +20,7 @@ func _process(_delta: float) -> void:
 func criar_coracoes() -> void:
 	# NUMEROS NA SORTE TEM QUE AJEITAR ISSO AI
 	var tamanho_sprite = sprite_vida_cheia.get_width()
-	for i in range(vida_max):
+	for i in range(player.vida_max):
 		var sprite = Sprite2D.new()
 		sprite.scale = Vector2(0.3, 0.3)
 		sprite.position = Vector2((i + 0.6)  * tamanho_sprite * 0.3, 30)
