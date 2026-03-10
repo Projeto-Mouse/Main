@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8hj4k5m6n7o"]
 
-[ext_resource type="Script" path="res://Menus/Componentes Comuns/MenuBackgroundScene.gd" id="1"]
+[ext_resource type="Script" path="res://Menus/Componentes Comuns/Background/MenuBackgroundScene.gd" id="1"]
 [ext_resource type="VideoStream" uid="uid://nrxnjlcx0rm8" path="res://Sprites/Imagens de Backgorund menu/menu neutro.ogv" id="2"]
 
 [node name="MenuBackgroundScene" type="Control"]

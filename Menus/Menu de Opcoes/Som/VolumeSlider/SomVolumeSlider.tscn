@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb3p21n7r1e0a"]
 
-[ext_resource type="Script" path="res://Menus/Menu de Opcoes/Som/SomVolumeSlider.gd" id="1_volume"]
+[ext_resource type="Script" path="res://Menus/Menu de Opcoes/Som/VolumeSlider/SomVolumeSlider.gd" id="1_volume"]
 [ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fontes/Teste/terminal-grotesque.ttf" id="2_font"]
 
 [node name="SomVolumeSlider" type="Control"]

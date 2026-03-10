@@ -98,11 +98,11 @@ func _carregar_graficos_se_necessario() -> void:
 	if itens_menu_graficos.size() > 0:
 		return
 
-	var res_scene = load("res://Menus/Menu de Opcoes/Resolucao/OpcaoDeResolucaoButton.tscn")
+	var res_scene = load("res://Menus/Menu de Opcoes/Graficos/OpcaoDeResolucaoButton.tscn")
 	if res_scene:
 		itens_menu_graficos.append(res_scene.instantiate())
 
-	var win_scene = load("res://Menus/Menu de Opcoes/Resolucao/WindowModeButton.tscn")
+	var win_scene = load("res://Menus/Menu de Opcoes/Graficos/WindowMode/WindowModeButton.tscn")
 	if win_scene:
 		itens_menu_graficos.append(win_scene.instantiate())
 
@@ -117,7 +117,7 @@ func _carregar_som_se_necessario() -> void:
 	if itens_menu_som.size() > 0:
 		return
 
-	var slider_scene = load("res://Menus/Menu de Opcoes/Som/SomVolumeSlider.tscn")
+	var slider_scene = load("res://Menus/Menu de Opcoes/Som/VolumeSlider/SomVolumeSlider.tscn")
 	var toggle_scene = load("res://Menus/Menu de Opcoes/Som/SomToggleButton.tscn")
 
 	if slider_scene:
