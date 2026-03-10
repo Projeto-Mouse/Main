@@ -25,6 +25,9 @@ var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 
+var movimento_x: float
+var movimento_y: float
+
 
 func _ready() -> void:
 	add_to_group("Jogador")
