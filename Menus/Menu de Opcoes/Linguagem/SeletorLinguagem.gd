@@ -1,38 +1,65 @@
 class_name SeletorLinguagem
-extends MarginContainer
+extends Control
 
-@onready var portugues_btn = $VBoxContainer/portugues
-@onready var ingles_btn = $VBoxContainer/ingles
-@onready var espanhol_btn = $VBoxContainer/espanhol
+## Componente self-contained de selecao de idioma para o Menu de Opcoes
+## Cria e gerencia os botoes de linguagem dinamicamente
+
+var botoes_linguagem: Array = []
+
+signal linguagem_selecionada
 
 func _ready() -> void:
+	_criar_botoes()
 	atualizar_estado_botoes()
 
-func _on_portugues_pressed() -> void:
-	ControladorTraducao.set_traducao("pt_BR")
-	atualizar_estado_botoes()
+func _criar_botoes() -> void:
+	var langs = [
+		{"name": "Português", "locale": "pt_BR", "node_name": "BtnPtBR"},
+		{"name": "English", "locale": "en_US", "node_name": "BtnEnUS"},
+		{"name": "Español", "locale": "es_ES", "node_name": "BtnEsES"}
+	]
 
-func _on_ingles_pressed() -> void:
-	ControladorTraducao.set_traducao("en_US")
-	atualizar_estado_botoes()
+	for lang_data in langs:
+		var btn = _criar_botao(lang_data["name"], lang_data["node_name"])
+		var locale_str = lang_data["locale"]
+		btn.pressed.connect(func():
+			ControladorTraducao.set_traducao(locale_str)
+			atualizar_estado_botoes()
+			linguagem_selecionada.emit()
+		)
+		botoes_linguagem.append(btn)
 
-func _on_espanhol_pressed() -> void:
-	ControladorTraducao.set_traducao("es_ES")
-	atualizar_estado_botoes()
+func _criar_botao(texto: String, nome: String) -> Button:
+	var btn = Button.new()
+	btn.name = nome
+	btn.text = texto
+	btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn.add_theme_font_size_override("font_size", 48)
+	btn.flat = true
+	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	btn.custom_minimum_size = Vector2(250, 60)
+	btn.add_theme_color_override("font_color", Color("7d7d7d"))
+	btn.add_theme_color_override("font_hover_color", Color.WHITE)
+	btn.add_theme_color_override("font_focus_color", Color.WHITE)
+	btn.add_theme_color_override("font_pressed_color", Color.WHITE)
+	add_child(btn)
+	return btn
 
 func atualizar_estado_botoes() -> void:
 	var locale_atual = TranslationServer.get_locale()
-	
-	# Resetar todos os botões
-	portugues_btn.disabled = false
-	ingles_btn.disabled = false
-	espanhol_btn.disabled = false
-	
-	# Desabilitar o botão do idioma selecionado para feedback visual
-	match locale_atual:
-		"pt_BR":
-			portugues_btn.disabled = true
-		"en_US":
-			ingles_btn.disabled = true
-		"es_ES":
-			espanhol_btn.disabled = true
+	for btn in botoes_linguagem:
+		btn.disabled = false
+		btn.add_theme_color_override("font_color", Color("7d7d7d"))
+
+		var is_active = false
+		match btn.name:
+			"BtnPtBR": is_active = (locale_atual == "pt_BR")
+			"BtnEnUS": is_active = (locale_atual == "en_US")
+			"BtnEsES": is_active = (locale_atual == "es_ES")
+
+		if is_active:
+			btn.disabled = true
+			btn.add_theme_color_override("font_disabled_color", Color.WHITE)
+
+func obter_botoes() -> Array:
+	return botoes_linguagem
