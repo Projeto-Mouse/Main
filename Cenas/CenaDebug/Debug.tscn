@@ -103,4 +103,4 @@ visible = false
 [node name="Mao" type="Node3D" parent="Jogador"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.21806717)
 
-[node name="Luz" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
