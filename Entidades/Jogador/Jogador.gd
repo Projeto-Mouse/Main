@@ -1,7 +1,7 @@
 class_name Jogador
 extends Entidade
 
-enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
+enum estados_jogador {PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO}
 
 const INTERVALO_PASSOS: float = 0.4
 const ENERGIA_LUZ_JOGADOR: float = 0.05
@@ -24,6 +24,8 @@ var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
+var movimento_x: float = 0.0
+var movimento_y: float = 0.0
 
 
 func _ready() -> void:
@@ -41,7 +43,7 @@ func _process(_delta: float) -> void:
 	if Input.is_key_pressed(KEY_P):
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self )
 
 	if Input.is_action_just_pressed("Interagir"):
 		pegar_item()
@@ -163,7 +165,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 			tempo_proximo_passo = INTERVALO_PASSOS
 			# Eleva o ponto de emissão
 			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
+			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self )
 
 	elif estado_atual == estados_jogador.DEVAGAR:
 		som_passos.pitch_scale = ESCALA_PITCH_SOM_PASSO_DEVAGAR
@@ -173,7 +175,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 	# Passos silenciosos: não emitem ruído
 	else:
 		som_passos.stop()
-		tempo_proximo_passo = 0  # Reseta timer ao parar
+		tempo_proximo_passo = 0 # Reseta timer ao parar
 
 
 func atualizar_posicao_luz_jogador() -> void:
@@ -254,7 +256,7 @@ func posicionar_item_na_mao() -> void:
 func criar_cena_item() -> void:
 	var visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
-	visual.transform = Transform3D.IDENTITY  #alinha com a mao
+	visual.transform = Transform3D.IDENTITY # alinha com a mao
 
 
 func esconder_item_rastejando() -> void:
