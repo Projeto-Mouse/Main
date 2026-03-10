@@ -59,8 +59,7 @@ func on_sair_das_opcoes_pressed() -> void:
 	menu_de_opcoes.visible = false
 	
 	# Retorna o foco para o botão de opções
-	if opcao_button:
-		opcao_button.grab_focus()
+	grab_focus_on_return()
 
 func on_sair_pressed() -> void:
 	get_tree().quit()
