@@ -2,13 +2,19 @@ class_name Debug
 extends Node3D
 
 @onready var menu_de_pause: Control = $Jogador/pivo_Camera/Camera/MenuDePausa
-@onready var controlador_menu_debug = $MenuDebug/MenuDebug
+@onready var botao_abrir_fechar_menu_debug = $AbrirMenuDebug/BotaoAbrirMenu
+@onready var debug_menu = $MenuDebug
+
 var controlador_iluminacao = Node3D.new()
 var nao_pausado = false
+var menu_aberto: bool = false
 
 
 func _ready() -> void:
 	setup_iluminacao()
+	debug_menu.hide()
+	botao_abrir_fechar_menu_debug.focus_mode = Control.FOCUS_NONE
+	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
 
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
@@ -75,3 +81,12 @@ func mostrar_menu_de_pausa():
 		Engine.time_scale = 0
 
 	nao_pausado = !nao_pausado
+
+func _abrir_e_fechar_menu_debug() -> void:
+	if !menu_aberto:
+		botao_abrir_fechar_menu_debug.set_text("Fechar Menu Debug")
+		debug_menu.show()
+	else:
+		botao_abrir_fechar_menu_debug.set_text("Abrir Menu Debug")
+		debug_menu.hide()
+	menu_aberto = !menu_aberto
