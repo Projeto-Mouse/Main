@@ -4,17 +4,28 @@ extends Node3D
 @onready var menu_de_pause: Control = $Jogador/pivo_Camera/Camera/MenuDePausa
 @onready var botao_abrir_fechar_menu_debug = $AbrirMenuDebug/BotaoAbrirMenu
 @onready var debug_menu = $MenuDebug
+@onready var botao_trocar_musica = $TrocarMusica/BotaoTrocarMusica
 
 var controlador_iluminacao = Node3D.new()
 var nao_pausado = false
 var menu_aberto: bool = false
 
+var playlist_script
+
 
 func _ready() -> void:
 	setup_iluminacao()
-	debug_menu.hide()
+	
 	botao_abrir_fechar_menu_debug.focus_mode = Control.FOCUS_NONE
+	botao_trocar_musica.focus_mode = Control.FOCUS_NONE
+	
+	debug_menu.hide()
 	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
+	
+	playlist_script = preload("res://Cenas/CenaDebug/MusicasCenaDebug/PlaylistScript.gd").new()
+	playlist_script.carregar_musicas()
+	ControladorMusica.volume_alvo_db = -30
+	ControladorMusica.tocar_varias(playlist_script.musicas)
 
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
@@ -90,3 +101,7 @@ func _abrir_e_fechar_menu_debug() -> void:
 		botao_abrir_fechar_menu_debug.set_text("Abrir Menu Debug")
 		debug_menu.hide()
 	menu_aberto = !menu_aberto
+
+
+func _on_botao_trocar_musica_pressed() -> void:
+	ControladorMusica.proxima_musica()

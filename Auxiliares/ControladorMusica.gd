@@ -2,7 +2,9 @@ extends Node
 
 @export var duracao_fade : float = 0.5
 @export var volume_alvo_db : float = 0.0
-var reprodutor = AudioStreamPlayer
+var reprodutor: AudioStreamPlayer
+var sequencia_de_musicas: Array[AudioStream] = []
+var indice_da_musica_atual
 
 func _ready() -> void:
 	reprodutor = AudioStreamPlayer.new()
@@ -39,3 +41,22 @@ func fade_in() -> void:
 	reprodutor.volume_db = -80.0
 	tween.tween_property(reprodutor, "volume_db", volume_alvo_db, duracao_fade)
 	await tween.finished
+
+func tocar_varias(musicas: Array[AudioStream]) -> void:
+	sequencia_de_musicas = musicas
+	indice_da_musica_atual = 0
+	
+	for musica in musicas:
+		await trocar_musica(musica)
+		await reprodutor.finished
+
+func proxima_musica() -> void:
+	if sequencia_de_musicas.is_empty():
+		return
+	
+	indice_da_musica_atual += 1
+	
+	if indice_da_musica_atual >= sequencia_de_musicas.size():
+		indice_da_musica_atual = 0
+	
+	trocar_musica(sequencia_de_musicas[indice_da_musica_atual])
