@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c30so6kdawvgx"]
+[gd_scene load_steps=16 format=3 uid="uid://c30so6kdawvgx"]
 
 [ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="1_pvfj2"]
 [ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="5_eyvbi"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="6_rk7pk"]
+[ext_resource type="Script" uid="uid://b65sk0ybme8qf" path="res://Cenas/CenaDebug/ControladorMenuDebug.gd" id="8_kfvfk"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_mpjjm"]
 size = Vector3(100, 0.1, 0.5)
@@ -110,19 +111,41 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.218
 
 [node name="MenuDebug" type="CanvasLayer" parent="."]
 
-[node name="Menu" type="Control" parent="MenuDebug"]
+[node name="MenuDebug" type="Control" parent="MenuDebug"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -498.0
+offset_top = -2.0
+offset_right = 1.0
+offset_bottom = 688.0
+grow_horizontal = 0
+script = ExtResource("8_kfvfk")
 
-[node name="Panel" type="Panel" parent="MenuDebug/Menu"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Panel" type="Panel" parent="MenuDebug/MenuDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uepp0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MenuDebug/Menu/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuDebug/MenuDebug/Panel"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 83.0
+offset_bottom = 25.0
+
+[node name="TrocarDia_Noite" type="CheckButton" parent="MenuDebug/MenuDebug/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Dia/Noite"
+
+[node name="Label" type="Label" parent="MenuDebug/MenuDebug/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Mudar Tempo"
+
+[node name="HSlider" type="HSlider" parent="MenuDebug/MenuDebug/Panel/VBoxContainer"]
+layout_mode = 2
