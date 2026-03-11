@@ -25,9 +25,14 @@ func trocar_mapa(cena: PackedScene, spawn: String = "", usar_jogador := true):
 	set_jogador_ativo(usar_jogador)
 
 	if usar_jogador:
+		if jogador.get_parent():
+			jogador.get_parent().remove_child(jogador)
+
+		mapa_atual.add_child(jogador)
 		posicionar_jogador(spawn)
-	else:
-		jogador.global_position = Vector3(0,-1000,0)
+	
+	elif jogador.get_parent():
+		jogador.get_parent().remove_child(jogador)
 
 func erro_critico(mensagem: String):
 
@@ -38,21 +43,11 @@ func posicionar_jogador(nome_spawn: String):
 
 	if jogador == null:
 		erro_critico("Jogador não encontrado no grupo 'Jogador'.")
-		return
 
 	var spawn_node: Marker3D = mapa_atual.get_node_or_null("SpawnPoints/" + nome_spawn)
 
 	if spawn_node == null:
-
-		push_warning("Spawn não encontrado: " + nome_spawn)
-		push_warning("Tentando SpawnPadrao...")
-
-		spawn_node = mapa_atual.get_node_or_null("SpawnPoints/SpawnPadrao")
-		print("Achei um SpawnPadrao para você!")
-		nome_spawn = "SpawnPadrao"
-
-		if spawn_node == null:
-			erro_critico("SpawnPadrao não existe no mapa atual.")
+		erro_critico("SpawnPadrao não existe no mapa atual.")
 
 	print("Movendo Jogador para " + nome_spawn)
 	jogador.global_position = spawn_node.global_position
