@@ -3,6 +3,8 @@ extends Node
 var world: Node3D
 var mapa_atual: Node3D
 var jogador: CharacterBody3D
+var menu_de_pause : Control
+var pausado := false
 
 
 func inicializar(world_node: Node3D):
@@ -63,3 +65,25 @@ func set_jogador_ativo(ativo: bool):
 
 	jogador.visible = ativo
 	jogador.process_mode = Node.PROCESS_MODE_INHERIT 
+
+func registrar_menu(menu: Control) -> void:
+	menu_de_pause = menu
+	menu_de_pause.hide()
+
+func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+func _input(event):
+
+	if event.is_action_pressed("Pausar") and not event.is_echo():
+		if menu_de_pause != null:
+			toggle_pause()
+
+func toggle_pause():
+	if menu_de_pause == null:
+		return
+
+	pausado = !pausado
+	menu_de_pause.visible = pausado
+	get_tree().paused = pausado
+

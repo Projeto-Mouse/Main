@@ -29,7 +29,6 @@ ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 ControladorMusica="*res://Auxiliares/ControladorMusica.gd"
 ControladorDebug="*res://Auxiliares/ControladorDebug.gd"
 ControladorCena="*res://Auxiliares/ControladorCena.gd"
-ControladorPause="*res://Auxiliares/ControladorPause.gd"
 
 [debug]
 
