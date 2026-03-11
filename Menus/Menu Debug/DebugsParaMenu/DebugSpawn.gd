@@ -17,12 +17,15 @@ func _ready() -> void:
 	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
 	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
 
+	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
+	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
+
 
 func _process(delta: float) -> void:
-	if botao_spawnar_terrestre.pressed and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if click_spawnar_terrestre and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		spawnar_terrestre_na_pos_click()
 
-	if botao_spawnar_voador.pressed and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if click_spawnar_voador and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		spawnar_voador_na_pos_click()
 
 
@@ -36,6 +39,14 @@ func spawnar_voador_na_pos_click() -> void:
 	var posicao_click = get_viewport().get_mouse_position()
 	click_spawnar_voador = false
 	spawnar_inimigo_voador(posicao_click)
+
+
+func _ao_apertar_botao_spawnar_terrestre() -> void:
+	click_spawnar_terrestre = true
+
+
+func _ao_apertar_botao_spawnar_voador() -> void:
+	click_spawnar_voador = true
 
 
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
