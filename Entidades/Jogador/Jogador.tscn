@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4vfiwl5jri1"]
+
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="1_o2fes"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
+
+[node name="Jogador" type="CharacterBody3D" groups=["Entidades"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_o2fes")
+velocidade_base = 3.0
+gravidade = -10.0
+forca_pulo = 5.0
+nome = "Ratinho"
+vida_max = 10.0
+vida_atual = 10.0
+dano = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_spau7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_r4mej")
+
+[node name="pivo_Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
+
+[node name="Camera" type="Camera3D" parent="pivo_Camera"]
+fov = 89.5799
+
+[node name="Mao" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.21806717)
