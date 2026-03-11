@@ -7,6 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wwkh8"]
 
 [node name="MenuDePausa" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,58 +28,74 @@ color = Color(0, 0, 0, 0)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 120.0
+offset_bottom = 238.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="voltar_ao_jogo" type="Button" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 10)
+custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_j0jh3")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 48
 text = "Jogar"
+flat = true
 
 [node name="opcoes_in_game" type="Button" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 10)
+custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_j0jh3")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 48
 text = "Opções"
+flat = true
 
 [node name="salvar" type="Button" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 10)
+custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_j0jh3")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 48
 text = "Salvar"
+flat = true
 
 [node name="sair_do_jogo" type="Button" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(120, 10)
+custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_j0jh3")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 48
 text = "Sair"
+flat = true
 
 [node name="MenuDeOpcoes" parent="." instance=ExtResource("3_me27e")]
 visible = false
+z_index = 10
 layout_mode = 1
 
 [connection signal="sair_das_opcoes" from="MenuDeOpcoes" to="." method="_on_menu_de_opcoes_sair_das_opcoes"]
