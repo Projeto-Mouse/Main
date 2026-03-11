@@ -20,9 +20,7 @@ var animation_target_x: float = 0.0
 var animation_callback: Callable = Callable()
 
 func _ready():
-	
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
 	print("MENU PAUSA: Ready started")
 	
 	# Espera layout

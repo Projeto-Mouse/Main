@@ -157,9 +157,6 @@ size = Vector3(0.7122803, 1.2601929, 1)
 [node name="SalaDeSacrificio" type="Node3D"]
 script = ExtResource("1_jsoku")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.819132, 0, 0.573605, -0.22069249, 0.9230223, 0.31515813, -0.52945024, -0.38474643, 0.7560771, 0, 0, 0)
-
 [node name="CenaSalaDoSacrificio" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.287596, 0, 0)
 
