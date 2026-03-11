@@ -7,14 +7,15 @@ extends Control
 @onready var sair_do_jogo: Button = $MarginContainer/VBoxContainer/sair_do_jogo
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var menu_de_opcoes: MenuDeOpcoes = $MenuDeOpcoes
-@onready var cena_principal: Node3D = $"../../../.."
 
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	conectar_signals()
 
-func _on_voltar_ao_jogo_pressed() -> void:
-	cena_principal.mostrar_menu_de_pausa()
+func _on_voltar_ao_jogo_pressed():
+	print("BOTAO VOLTAR FUNCIONOU")
+	ControladorPause.toggle_pause()
 
 func _on_salvar_pressed() -> void:
 	print("Botão salvar pressionado!")
@@ -27,10 +28,10 @@ func _on_sair_do_jogo_pressed() -> void:
 	get_tree().change_scene_to_packed(menu_scene)
 
 func conectar_signals() -> void:
-	voltar_ao_jogo.button_down.connect(_on_voltar_ao_jogo_pressed)
-	opcoes_in_game.button_down.connect(_on_opcoes_in_game_pressed)
-	salvar.button_down.connect(_on_salvar_pressed)
-	sair_do_jogo.button_down.connect(_on_sair_do_jogo_pressed)
+	voltar_ao_jogo.pressed.connect(_on_voltar_ao_jogo_pressed)
+	opcoes_in_game.pressed.connect(_on_opcoes_in_game_pressed)
+	salvar.pressed.connect(_on_salvar_pressed)
+	sair_do_jogo.pressed.connect(_on_sair_do_jogo_pressed)
 	
 	# Conexão via código para garantir funcionamento
 	if not menu_de_opcoes.sair_das_opcoes.is_connected(_on_menu_de_opcoes_sai_das_opcoes):

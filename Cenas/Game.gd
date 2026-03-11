@@ -1,7 +1,7 @@
 extends Node
 
 @onready var world = $World
-@onready var menu_de_pausa = $MenuDePausa
+@onready var menu_de_pausa = $BarraVida/MenuDePausa
 
 func _ready():
 

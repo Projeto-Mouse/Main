@@ -28,5 +28,5 @@ sprite_vida_cheia = ExtResource("5_2uwyn")
 sprite_vida_meio = ExtResource("6_cht1d")
 sprite_vida_vazia = ExtResource("7_uspeq")
 
-[node name="MenuDePausa" parent="." instance=ExtResource("7_8i4ha")]
-process_mode = 2
+[node name="MenuDePausa" parent="BarraVida" instance=ExtResource("7_8i4ha")]
+script = null
