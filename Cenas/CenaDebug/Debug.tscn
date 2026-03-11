@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="5_eyvbi"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="6_rk7pk"]
-[ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Cenas/CenaDebug/DebugMenu.tscn" id="8_kfvfk"]
+[ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Menus/Menu Debug/DebugMenu.tscn" id="8_kfvfk"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_mpjjm"]
 size = Vector3(100, 0.1, 0.5)
@@ -96,6 +96,7 @@ shape = SubResource("CapsuleShape3D_no1hh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51495653, 0.70507455)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("2_uepp0")]

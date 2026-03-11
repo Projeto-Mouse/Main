@@ -22,7 +22,7 @@ func _ready() -> void:
 	debug_menu.hide()
 	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
 
-	playlist_script = preload("res://Cenas/CenaDebug/MusicasCenaDebug/PlaylistScript.gd").new()
+	playlist_script = preload("res://Menus/Menu Debug/MusicasCenaDebug/PlaylistScript.gd").new()
 	playlist_script.carregar_musicas()
 	ControladorMusica.volume_alvo_db = -30
 	ControladorMusica.tocar_varias(playlist_script.musicas)

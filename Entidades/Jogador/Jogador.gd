@@ -62,9 +62,11 @@ func _physics_process(delta):
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
-	atualizar_estado(esta_no_chao, movimento_x)
+	atualizar_estado(esta_no_chao)
+
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
+	position.z = 0
 	atualizar_posicao_luz_jogador()
 
 
@@ -77,6 +79,7 @@ func movimentacao() -> void:
 	velocity.x = movimento_x
 	velocity.y = movimento_y
 
+	position.z = 0
 	move_and_slide()
 
 
@@ -118,7 +121,7 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 var estado_anterior = estado_atual
 
 
-func atualizar_estado(no_chao: bool, movimento_x: float) -> void:
+func atualizar_estado(no_chao: bool) -> void:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return
 
