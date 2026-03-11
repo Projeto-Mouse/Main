@@ -1,4 +1,4 @@
-class_name Jogador
+class_name ScriptJogadorDebug
 extends Entidade
 
 enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
@@ -39,6 +39,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
+
+	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
+	if Input.is_key_pressed(KEY_P):
+		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
+		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
 
 	if Input.is_action_just_pressed("Interagir"):
 		pegar_item()
