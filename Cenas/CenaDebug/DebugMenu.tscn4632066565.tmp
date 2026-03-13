@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://2pxrxfap3mea"]
+
+[ext_resource type="Script" uid="uid://b65sk0ybme8qf" path="res://Cenas/CenaDebug/DebugIluminacao.gd" id="1_38tfp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0avig"]
+bg_color = Color(0, 0, 0, 0.19607843)
+
+[node name="DebugMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 651.0
+offset_top = -2.0
+offset_right = 1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0avig")
+
+[node name="DebugIluminacao" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+offset_left = 2.0
+offset_top = 35.0
+offset_right = 200.0
+offset_bottom = 148.0
+script = ExtResource("1_38tfp")
+
+[node name="Label" type="Label" parent="Panel/DebugIluminacao"]
+layout_mode = 2
+text = "Mudar Tempo:"
+
+[node name="MudarTempo" type="HSlider" parent="Panel/DebugIluminacao"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Panel/DebugIluminacao"]
+layout_mode = 2
+text = "Fase do dia: DIA"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/DebugIluminacao"]
+layout_mode = 2
+
+[node name="TrocarDiaNoite" type="CheckButton" parent="Panel/DebugIluminacao"]
+layout_mode = 2
+text = "Trocar Dia/Noite"
+
+[node name="Separador 1" type="HSeparator" parent="Panel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 154.0
+offset_right = 254.0
+offset_bottom = 166.0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 0.14117648, 1)
+text = "Debug Iluminação:"
+
+[node name="VSeparator" type="VSeparator" parent="."]
+layout_mode = 1
+offset_left = 904.0
+offset_top = -1.0
+offset_right = 908.0
+offset_bottom = 582.0
