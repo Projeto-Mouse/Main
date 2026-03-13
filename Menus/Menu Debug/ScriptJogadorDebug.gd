@@ -1,8 +1,5 @@
-class_name Jogador
+class_name ScriptJogadorDebug
 extends Entidade
-
-# flags 
-var em_teste: bool = false
 
 enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
 
@@ -14,10 +11,10 @@ const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
 const PITCH_SOM_PASSO_NORMAL = 1.0
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
+@onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
+
 @onready var mao: Node3D = $Mao
 
 var som_passos: AudioStreamPlayer
@@ -27,10 +24,10 @@ var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
-var pos_hot_bar_controle = 1
 
 var movimento_x: float
 var movimento_y: float
+
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -40,7 +37,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("AplicarDano"):
+	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
 
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
@@ -49,7 +46,7 @@ func _process(_delta: float) -> void:
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
 
-	if Input.is_action_just_pressed("PegarItem"):
+	if Input.is_action_just_pressed("Interagir"):
 		pegar_item()
 
 
@@ -65,8 +62,9 @@ func _physics_process(delta):
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
-	estado_atual = obter_novo_estado(esta_no_chao)
 
+	estado_atual = obter_novo_estado(esta_no_chao)
+			 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
 	position.z = 0
@@ -114,6 +112,8 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 	
 	return velocity.y + ( gravidade * delta )
 
+var estado_anterior = estado_atual
+
 func obter_novo_estado(no_chao: bool) -> estados_jogador:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return estados_jogador.ESCALANDO
@@ -126,8 +126,13 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 		
 	if movimento_x != 0:
 		return estados_jogador.DEVAGAR if Input.is_action_pressed("Devagar") else estados_jogador.ANDANDO
-	
+		
+	if estado_atual != estado_anterior:
+		print("Mudou para:", estados_jogador.keys()[estado_atual])
+		estado_anterior = estado_atual
+
 	return estados_jogador.PARADO
+
 
 func criar_luz_jogador() -> void:
 	print("Luz jogado criada.")
@@ -183,12 +188,11 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
-		print("Jogador Morreu")
-		if !em_teste:
-			get_tree().change_scene_to_packed(cena_morte)
 
 	print("vida atual = ", vida_atual)
 
+	if vida_atual == 0:
+		print("Jogador Morreu")
 
 
 func arredondar_dano(dano_recebido: float) -> float:
@@ -257,17 +261,8 @@ func esconder_item_rastejando() -> void:
 
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
-	if Input.is_action_pressed("TrocarHotBarControle"):
-		pos_hot_bar_controle += 1
-		if pos_hot_bar_controle > 11:
-			pos_hot_bar_controle = 1
-		else:
-			item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
-			
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao()
 			break
-
-	

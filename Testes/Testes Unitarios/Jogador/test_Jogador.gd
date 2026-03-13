@@ -108,31 +108,33 @@ func test_calcular_movimento_vertical_fora_chao_sem_apertar_nada() -> void:
 	assert_eq(resultado, jogador.gravidade)
 	
 func test_atualizar_estado_andando_direita() -> void:
-	jogador.atualizar_estado(true, 1.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.ANDANDO)
+	jogador.movimento_x = 1.0
+	var resultado = jogador.obter_novo_estado(true)
+	assert_eq(resultado, jogador.estados_jogador.ANDANDO)
 
 func test_atualizar_estado_pulando_vs_caindo() -> void:
 	jogador.velocity.y = 1.0
-	jogador.atualizar_estado(false, 0.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.PULANDO)
+	var resultado = jogador.obter_novo_estado(false)
+	assert_eq(resultado, jogador.estados_jogador.PULANDO)
 	
 	jogador.velocity.y = -1.0
-	jogador.atualizar_estado(false, 0.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.CAINDO)
+	resultado = jogador.obter_novo_estado(false)
+	assert_eq(resultado, jogador.estados_jogador.CAINDO)
 
 func test_atualizar_estado_devagar() -> void:
+	jogador.movimento_x = 1.0
 	sender.action_down("Devagar")
-	jogador.atualizar_estado(true, 1.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.DEVAGAR)
+	var resultado = jogador.obter_novo_estado(true)
+	assert_eq(resultado, jogador.estados_jogador.DEVAGAR)
 
 func test_atualizar_estado_rastejando() -> void:
 	sender.action_down("Rastejar")
-	jogador.atualizar_estado(true, 1.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.RASTEJANDO)
+	var resultado = jogador.obter_novo_estado(true)
+	assert_eq(resultado, jogador.estados_jogador.RASTEJANDO)
 
 func test_atualizar_estado_parado() -> void:
-	jogador.atualizar_estado(true, 0.0)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.PARADO)
+	var resultado = jogador.obter_novo_estado(true)
+	assert_eq(resultado, jogador.estados_jogador.PARADO)
 	
 func test_tocar_som_passos_tocando() -> void:
 	jogador.som_passos.stream = AudioStreamPolyphonic.new()

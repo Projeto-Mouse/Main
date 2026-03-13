@@ -21,17 +21,22 @@ func _physics_process(_delta: float) -> void:
 		if velocity.y > 0:
 			velocity.y = 0
 
+	position.z = 0.0
+
 
 func movimento_voo() -> void:
 	velocity.y = 0
+	position.z = 0.0
 
 
 func movimento_pouso() -> void:
 	velocity.y -= gravidade * 0.5
+	position.z = 0.0
 
 
 func movimentacao() -> void:
 	velocity.x = direcao_atual.x * velocidade_base
+	position.z = 0.0
 
 
 func gerar_movimento_aleatorio() -> void:
@@ -54,7 +59,9 @@ func gerar_movimento_aleatorio() -> void:
 	elif estado_atual == EstadoVoo.POUSANDO:
 		movimento_pouso()
 		velocity.x = 0
+		position.z = 0.0
 
+	position.z = 0.0
 	move_and_slide()
 
 
