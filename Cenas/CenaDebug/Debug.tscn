@@ -1,13 +1,13 @@
 [gd_scene load_steps=15 format=3 uid="uid://c30so6kdawvgx"]
 
-[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="1_pvfj2"]
 [ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_uepp0"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="3_kfvfk"]
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="5_eyvbi"]
+[ext_resource type="Script" uid="uid://dn7yv8e0iqe64" path="res://Menus/Menu Debug/ScriptJogadorDebug.gd" id="6_kfvfk"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="6_rk7pk"]
-[ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Cenas/CenaDebug/DebugMenu.tscn" id="8_kfvfk"]
+[ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Menus/Menu Debug/DebugMenu.tscn" id="8_kfvfk"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_mpjjm"]
 size = Vector3(100, 0.1, 0.5)
@@ -75,11 +75,11 @@ sprite_vida_vazia = ExtResource("6_rk7pk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.017691612, 0.37358946, 0.06114167)
 collision_layer = 3
 collision_mask = 3
-script = ExtResource("1_pvfj2")
+script = ExtResource("6_kfvfk")
 velocidade_base = 3.0
 gravidade = -10.0
 forca_pulo = 5.0
-nome = "Ratinho"
+nome = "RatinhoDebug"
 vida_max = 10.0
 vida_atual = 10.0
 dano = 1.0
@@ -96,6 +96,7 @@ shape = SubResource("CapsuleShape3D_no1hh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
 [node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51495653, 0.70507455)
 fov = 89.5799
 
 [node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("2_uepp0")]
@@ -126,9 +127,26 @@ offset_bottom = 20.0
 text = "Abrir Menu Debug
 "
 
+[node name="TrocarMusica" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BotaoTrocarMusica" type="Button" parent="TrocarMusica"]
+layout_mode = 0
+offset_left = 848.0
+offset_top = 8.0
+offset_right = 965.0
+offset_bottom = 39.0
+text = "Trocar Musica
+"
+
 [node name="MenuDebug" type="CanvasLayer" parent="."]
 
 [node name="DebugMenu" parent="MenuDebug" instance=ExtResource("8_kfvfk")]
 offset_top = 50.0
 offset_right = -7.0
 offset_bottom = -13.0
+
+[connection signal="pressed" from="TrocarMusica/BotaoTrocarMusica" to="." method="_on_botao_trocar_musica_pressed"]
