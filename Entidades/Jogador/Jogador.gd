@@ -57,7 +57,7 @@ func _physics_process(delta):
 
 	tocar_som_passos(esta_no_chao)
 	estado_atual = obter_novo_estado(esta_no_chao)
-
+		
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
 	position.z = 0
@@ -117,7 +117,7 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 		
 	if movimento_x != 0:
 		return estados_jogador.DEVAGAR if Input.is_action_pressed("Devagar") else estados_jogador.ANDANDO
-	
+
 	return estados_jogador.PARADO
 
 func criar_luz_jogador() -> void:

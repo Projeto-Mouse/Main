@@ -51,6 +51,7 @@ func _ao_apertar_botao_spawnar_voador() -> void:
 
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
 	print("Spawnar terrestre chamado")
+	DebugConsole.add_text_console_sem_cor("Spawnar terrestre chamado")
 	var terrestre: Inimigo = InimigoTerrestre.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.1
@@ -65,6 +66,7 @@ func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
 
 func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
 	print("Spawnar voador chamado")
+	DebugConsole.add_text_console_sem_cor("Spawnar voador chamado")
 	var voador: Inimigo = InimigoVoador.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.1
@@ -122,6 +124,7 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 
 	if !camera:
 		print("nao pegou camera")
+		DebugConsole.add_text_console_sem_cor("nao pegou camera")
 		return Vector3.ZERO
 
 	var raio = 500
