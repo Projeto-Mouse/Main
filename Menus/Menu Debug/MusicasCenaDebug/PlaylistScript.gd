@@ -5,7 +5,7 @@ var musicas: Array[AudioStream] = []
 
 
 func carregar_musicas():
-	var dir = DirAccess.open("res://Cenas/CenaDebug/MusicasCenaDebug/")
+	var dir = DirAccess.open("res://Menus/Menu Debug/MusicasCenaDebug/")
 	var arquivos: Array[String] = []
 
 	if dir:
@@ -30,6 +30,6 @@ func carregar_musicas():
 
 	# carregar na ordem
 	for file_name in arquivos:
-		var caminho = "res://Cenas/CenaDebug/MusicasCenaDebug/" + file_name
+		var caminho = "res://Menus/Menu Debug/MusicasCenaDebug/" + file_name
 		var audio = load(caminho)
 		musicas.append(audio)
