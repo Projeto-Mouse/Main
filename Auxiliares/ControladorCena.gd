@@ -12,7 +12,7 @@ func inicializar(world_node: Node3D):
 	jogador = get_tree().get_first_node_in_group("Jogador")
 
 
-func trocar_mapa(cena: PackedScene, spawn: String = "", usar_jogador := true):
+func trocar_mapa(cena: PackedScene, usar_jogador: bool, spawn: String = ""):
 
 	if mapa_atual:
 		mapa_atual.queue_free()

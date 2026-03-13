@@ -463,22 +463,27 @@ shape = SubResource("BoxShape3D_4udsb")
 debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
 
 [node name="ColisãoPlatEstátua2" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.089504, 1.1111317, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.029037, 1.1111317, 0)
 shape = SubResource("BoxShape3D_h0w4g")
 debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
 
 [node name="ColisãoBaseEstátua2" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.075851, 0.24404907, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.015385, 0.24404907, 0)
 shape = SubResource("BoxShape3D_4udsb")
 debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
 
 [node name="ColisãoPlatParaVila01" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.852821, 0.91931343, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.792355, 0.91931343, 0)
 shape = SubResource("BoxShape3D_ccs8p")
 debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
 
 [node name="ColisãoPlatParaVila02" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.29264, 0.2764492, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.232174, 0.2764492, 0)
+shape = SubResource("BoxShape3D_ccs8p")
+debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
+
+[node name="PlataformaParaTestes" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.140194, 0.2764492, 0)
 shape = SubResource("BoxShape3D_ccs8p")
 debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
 
@@ -526,7 +531,7 @@ light_color = Color(1, 0.6, 0.2, 1)
 script = ExtResource("11_hss4k")
 
 [node name="AreaEntradaVilaDosRatos" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.58566, 17.518267, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.4324, 17.518267, 0)
 
 [node name="ColisãoEntradaVila" type="CollisionShape3D" parent="AreaEntradaVilaDosRatos"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0040664673, 0.13009644, 0)
@@ -539,4 +544,4 @@ debug_color = Color(0.3368608, 0.622321, 3.85046e-07, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.011919, 1.0282176, 0)
 
 [node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.57766, 17.752892, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.45568, 17.752892, 0)
