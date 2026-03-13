@@ -101,22 +101,15 @@ func calcular_movimento_horizontal(direcao: float) -> float:
 
 
 func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, delta: float) -> float:
-	var velocidade_final_y = velocity.y
-
 	if estado_atual == estados_jogador.ESCALANDO:
-		velocidade_final_y = direcao * velocidade_base
-		if direcao <= 0:
-			velocidade_final_y -= 0.25
-	elif no_chao:
-		if pular and not Input.is_action_pressed("Rastejar"):
-			velocidade_final_y = forca_pulo
-		else:
-			velocidade_final_y = 0
-	else:
-		velocidade_final_y += gravidade * delta
-
-	return velocidade_final_y
-
+		var velocidade_final_y = -0.25 if direcao <= 0 else direcao * velocidade_base
+		return velocidade_final_y
+		
+	if no_chao:
+		var pode_pular = pular and not Input.is_action_pressed("Rastejar")
+		return forca_pulo if pode_pular else 0.0
+	
+	return velocity.y + ( gravidade * delta )
 
 var estado_anterior = estado_atual
 
