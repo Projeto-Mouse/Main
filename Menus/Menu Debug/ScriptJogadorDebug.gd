@@ -62,8 +62,9 @@ func _physics_process(delta):
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
-	atualizar_estado(esta_no_chao)
 
+	estado_atual = obter_novo_estado(esta_no_chao)
+			 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
 	position.z = 0
@@ -113,26 +114,24 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 
 var estado_anterior = estado_atual
 
-
-func atualizar_estado(no_chao: bool) -> void:
+func obter_novo_estado(no_chao: bool) -> estados_jogador:
 	if estado_atual == estados_jogador.ESCALANDO:
-		return
-
+		return estados_jogador.ESCALANDO
+			
 	if not no_chao:
-		estado_atual = estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
-	elif Input.is_action_pressed("Rastejar"):
-		estado_atual = estados_jogador.RASTEJANDO
-	elif movimento_x != 0:
-		if Input.is_action_pressed("Devagar"):
-			estado_atual = estados_jogador.DEVAGAR
-		else:
-			estado_atual = estados_jogador.ANDANDO
-	else:
-		estado_atual = estados_jogador.PARADO
-
+		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
+		
+	if Input.is_action_pressed("Rastejar"):
+		return estados_jogador.RASTEJANDO
+		
+	if movimento_x != 0:
+		return estados_jogador.DEVAGAR if Input.is_action_pressed("Devagar") else estados_jogador.ANDANDO
+		
 	if estado_atual != estado_anterior:
-		print("Mudou para:", estado_atual)
+		print("Mudou para:", estados_jogador.keys()[estado_atual])
 		estado_anterior = estado_atual
+
+	return estados_jogador.PARADO
 
 
 func criar_luz_jogador() -> void:
