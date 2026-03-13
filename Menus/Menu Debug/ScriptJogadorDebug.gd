@@ -201,10 +201,11 @@ func arredondar_dano(dano_recebido: float) -> float:
 
 	if parte_decimal > 0.5:
 		return parte_inteira + 1
-	elif parte_decimal > 0 and parte_decimal <= 0.5:
+		
+	if parte_decimal > 0 and parte_decimal <= 0.5:
 		return parte_inteira + 0.5
-	else:
-		return parte_inteira
+		
+	return parte_inteira
 
 
 func atualizar_interacao(item: ItemMundo, ativo: bool):
