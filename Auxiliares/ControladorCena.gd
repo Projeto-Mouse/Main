@@ -14,6 +14,10 @@ func inicializar(world_node: Node3D):
 
 func trocar_mapa(cena: PackedScene, usar_jogador: bool, spawn: String = ""):
 
+	if usar_jogador:
+		if jogador.get_parent():
+			jogador.get_parent().remove_child(jogador)
+
 	if mapa_atual:
 		mapa_atual.queue_free()
 
@@ -25,14 +29,9 @@ func trocar_mapa(cena: PackedScene, usar_jogador: bool, spawn: String = ""):
 	set_jogador_ativo(usar_jogador)
 
 	if usar_jogador:
-		if jogador.get_parent():
-			jogador.get_parent().remove_child(jogador)
-
 		mapa_atual.add_child(jogador)
 		posicionar_jogador(spawn)
-	
-	elif jogador.get_parent():
-		jogador.get_parent().remove_child(jogador)
+		set_jogador_ativo(usar_jogador)
 
 func erro_critico(mensagem: String):
 
