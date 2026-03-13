@@ -15,9 +15,12 @@ func _physics_process(delta: float) -> void:
 	gerar_movimento_aleatorio()
 	verificar_dano_contato()
 
+	position.z = 0.0
+
 
 func movimentacao() -> void:
 	velocity.x = move_dir * velocidade_base
+	position.z = 0.0
 	move_and_slide()
 
 
@@ -36,6 +39,8 @@ func gerar_movimento_aleatorio() -> void:
 		else:
 			move_dir = 0.0
 
+	position.z = 0.0
+	velocity.z = 0
 	movimentacao()
 
 

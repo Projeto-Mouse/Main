@@ -7,7 +7,6 @@ var item_data
 func before_each():
 	inventario = script_inventario.new()
 	inventario.parte_livre = 1
-	item_data = ItemData.new()
 	
 func test_adicionar_item_com_espaco_e_sem_espaco() -> void:
 	var retorno1 = inventario.adicionar_item(item_data)

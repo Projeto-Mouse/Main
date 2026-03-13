@@ -1,4 +1,4 @@
-class_name Jogador
+class_name ScriptJogadorDebug
 extends Entidade
 
 enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
@@ -40,6 +40,12 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
 
+	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
+	if Input.is_key_pressed(KEY_P):
+		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
+		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+
 	if Input.is_action_just_pressed("Interagir"):
 		pegar_item()
 
@@ -56,8 +62,9 @@ func _physics_process(delta):
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
-	estado_atual = obter_novo_estado(esta_no_chao)
 
+	estado_atual = obter_novo_estado(esta_no_chao)
+			 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
 	position.z = 0
@@ -105,6 +112,8 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 	
 	return velocity.y + ( gravidade * delta )
 
+var estado_anterior = estado_atual
+
 func obter_novo_estado(no_chao: bool) -> estados_jogador:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return estados_jogador.ESCALANDO
@@ -117,8 +126,13 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 		
 	if movimento_x != 0:
 		return estados_jogador.DEVAGAR if Input.is_action_pressed("Devagar") else estados_jogador.ANDANDO
-	
+		
+	if estado_atual != estado_anterior:
+		print("Mudou para:", estados_jogador.keys()[estado_atual])
+		estado_anterior = estado_atual
+
 	return estados_jogador.PARADO
+
 
 func criar_luz_jogador() -> void:
 	print("Luz jogado criada.")
@@ -179,7 +193,6 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual == 0:
 		print("Jogador Morreu")
-
 
 
 func arredondar_dano(dano_recebido: float) -> float:
