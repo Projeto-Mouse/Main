@@ -155,4 +155,4 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 		var posicao = resultado["position"]
 		return posicao
 
-	return destino
+	return Vector3.ZERO
