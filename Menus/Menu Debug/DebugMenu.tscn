@@ -104,6 +104,10 @@ text = "Spawnar Inimigo Voador"
 layout_mode = 2
 text = "Spawnar Aliado"
 
+[node name="QtdEntidades" type="Label" parent="Panel/DebugSpawn"]
+layout_mode = 2
+text = "Entidades: "
+
 [node name="VSeparator" type="VSeparator" parent="."]
 layout_mode = 1
 offset_left = 904.0

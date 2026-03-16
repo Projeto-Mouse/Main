@@ -13,9 +13,11 @@ enum tipo_spawn {
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
 @onready var botao_spawnar_aliado = $Aliado
+@onready var quantidade_entidades_texto = $QtdEntidades
 
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
+var quantidade_entidades = 0
 
 func _ready() -> void:
 	posicao_spawnar = Vector3.ZERO
@@ -34,10 +36,15 @@ func _input(event: InputEvent) -> void:
 		match spawn_atual:
 			tipo_spawn.TERRESTRE:
 				spawnar_inimigo_terrestre(get_viewport().get_mouse_position())
+				quantidade_entidades += 1
 			tipo_spawn.VOADOR:
 				spawnar_inimigo_voador(get_viewport().get_mouse_position())
+				quantidade_entidades += 1
 			tipo_spawn.ALIADO:
 				spawnar_aliado(get_viewport().get_mouse_position())
+				quantidade_entidades += 1
+		
+		quantidade_entidades_texto.text = "Entidades spawnadas: " + str(quantidade_entidades)
 		spawn_atual = tipo_spawn.NENHUM
 
 func _ao_apertar_botao_spawnar_terrestre() -> void:
