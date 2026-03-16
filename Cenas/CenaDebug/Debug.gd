@@ -32,6 +32,7 @@ func _ready() -> void:
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Pausar"):
+		debug_menu.hide()
 		mostrar_menu_de_pausa()
 	
 	fps_text.text = "FPS: " + str(Engine.get_frames_per_second())
