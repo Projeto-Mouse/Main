@@ -40,6 +40,12 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Dano"):
 		computar_dano(dano)
 
+	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
+	if Input.is_key_pressed(KEY_P):
+		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
+		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+
 	if Input.is_action_just_pressed("Interagir"):
 		pegar_item()
 
@@ -56,8 +62,14 @@ func _physics_process(delta):
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
+	
+	var estado_antigo = estado_atual
 	estado_atual = obter_novo_estado(esta_no_chao)
-		
+	var estado_texto = "Estado Atual: " + estados_jogador.keys()[estado_atual]
+	if estado_antigo != estado_atual:
+		print(estado_texto)
+		DebugConsole.add_text_console_sem_cor(estado_texto)
+			 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
 	position.z = 0
@@ -117,11 +129,13 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 		
 	if movimento_x != 0:
 		return estados_jogador.DEVAGAR if Input.is_action_pressed("Devagar") else estados_jogador.ANDANDO
-
+		
 	return estados_jogador.PARADO
 
+
 func criar_luz_jogador() -> void:
-	print("Luz jogado criada.")
+	print("Luz jogador criada.")
+	DebugConsole.add_text_console_sem_cor("Luz jogador criada")
 	luz_natural_personagem = OmniLight3D.new()
 	luz_natural_personagem.light_energy = ENERGIA_LUZ_JOGADOR
 	luz_natural_personagem.omni_range = RANGE_LUZ_JOGADOR
@@ -130,6 +144,7 @@ func criar_luz_jogador() -> void:
 
 func criar_som_passos() -> void:
 	print("Som de passo criado")
+	DebugConsole.add_text_console_sem_cor("Som de passo criado")
 	som_passos = AudioStreamPlayer.new()
 	add_child(som_passos)
 	som_passos.stream = load("res://Sons/SFX/Jogador/Passos ( pedra ).wav")
@@ -175,12 +190,17 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		vida_atual = 0
 
-	print("vida atual = ", vida_atual)
+	var vida_atual_texto = "Vida atual = " + str(vida_atual)
+	var dano_texto = "Dano tomado = " + str(dano_arredondado)
+	
+	print(vida_atual_texto)
+	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
+	print(dano_texto)
+	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
 
 	if vida_atual == 0:
 		print("Jogador Morreu")
-
-
+		DebugConsole.add_text_console_sem_cor("Jogador Morreu")
 
 func arredondar_dano(dano_recebido: float) -> float:
 	var parte_inteira = int(dano_recebido)
@@ -216,7 +236,8 @@ func pegar_item() -> void:
 		return
 
 	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
-		print("Inventário cheio")
+		print("Inventario cheio")
+		DebugConsole.add_text_console_sem_cor("Inventario cheio")
 		return
 
 	item_equipado_na_mao = item_da_area_atual.item_data
