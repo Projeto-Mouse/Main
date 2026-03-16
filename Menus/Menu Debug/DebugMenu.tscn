@@ -100,6 +100,10 @@ text = "Spawnar Inimigo Terrestre"
 layout_mode = 2
 text = "Spawnar Inimigo Voador"
 
+[node name="Aliado" type="Button" parent="Panel/DebugSpawn"]
+layout_mode = 2
+text = "Spawnar Aliado"
+
 [node name="VSeparator" type="VSeparator" parent="."]
 layout_mode = 1
 offset_left = 904.0

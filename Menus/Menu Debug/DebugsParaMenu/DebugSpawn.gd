@@ -5,28 +5,35 @@ const SCALE_INIMIGO = 0.15
 
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
+@onready var botao_spawnar_aliado = $Aliado
 
 var posicao_spawnar: Vector3
 var click_spawnar_terrestre: bool = false
 var click_spawnar_voador: bool = false
-
+var click_spawnar_aliado: bool = false
 
 func _ready() -> void:
 	posicao_spawnar = Vector3.ZERO
 
 	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
 	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
+	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
 
 	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
 	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
-
+	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
 
 func _process(delta: float) -> void:
-	if click_spawnar_terrestre and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	var botao_mouse_apertado = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	
+	if click_spawnar_terrestre and botao_mouse_apertado:
 		spawnar_terrestre_na_pos_click()
 
-	if click_spawnar_voador and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if click_spawnar_voador and botao_mouse_apertado:
 		spawnar_voador_na_pos_click()
+	
+	if click_spawnar_aliado and botao_mouse_apertado:
+		spawnar_aliado_na_pos_click()
 
 
 func spawnar_terrestre_na_pos_click() -> void:
@@ -41,6 +48,12 @@ func spawnar_voador_na_pos_click() -> void:
 	spawnar_inimigo_voador(posicao_click)
 
 
+func spawnar_aliado_na_pos_click() -> void:
+	var posicao_click = get_viewport().get_mouse_position()
+	click_spawnar_voador = false
+	spawnar_aliado(posicao_click)
+
+
 func _ao_apertar_botao_spawnar_terrestre() -> void:
 	click_spawnar_terrestre = true
 
@@ -49,12 +62,16 @@ func _ao_apertar_botao_spawnar_voador() -> void:
 	click_spawnar_voador = true
 
 
+func _ao_apertar_botao_spawnar_alidao() -> void:
+	click_spawnar_aliado = true
+
+
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
 	print("Spawnar terrestre chamado")
 	DebugConsole.add_text_console_sem_cor("Spawnar terrestre chamado")
 	var terrestre: Inimigo = InimigoTerrestre.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	posicao_spawnar.z = 0.1
+	posicao_spawnar.z = 0.0
 	terrestre.name = "InimigoTerrestreTeste"
 	terrestre.position = posicao_spawnar
 	terrestre.velocidade_base = 2.0
@@ -69,7 +86,7 @@ func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
 	DebugConsole.add_text_console_sem_cor("Spawnar voador chamado")
 	var voador: Inimigo = InimigoVoador.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	posicao_spawnar.z = 0.1
+	posicao_spawnar.z = 0.0
 	voador.name = "InimigoVoadorTeste"
 	voador.position = posicao_spawnar
 	voador.velocidade_base = 2.0
@@ -118,6 +135,17 @@ func adicionar_sensor_auditivo(inimigo: CharacterBody3D) -> void:
 
 	inimigo.add_child(sensor)
 
+func spawnar_aliado(posicao_click: Vector2) -> void:
+	DebugConsole.add_text_console_sem_cor("Aliado Adicionado")
+	var aliado: Aliados = AliadoInterativo.new()
+	posicao_spawnar = normalizar_pos_3d(posicao_click)
+	posicao_spawnar.z = 0.0
+	aliado.name = "AliadoInterativoTeste"
+	aliado.lealdade = 10.0
+	aliado.position = posicao_spawnar
+	aliado.velocidade_base = 2.0
+	setup_inimigo_visual(aliado, Color.GREEN, 0.15)
+	add_child(aliado)
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	var camera = get_viewport().get_camera_3d()
