@@ -3,14 +3,19 @@ extends Control
 
 const SCALE_INIMIGO = 0.15
 
+enum tipo_spawn {
+	NENHUM,
+	VOADOR,
+	TERRESTRE,
+	ALIADO
+}
+
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
 @onready var botao_spawnar_aliado = $Aliado
 
 var posicao_spawnar: Vector3
-var click_spawnar_terrestre: bool = false
-var click_spawnar_voador: bool = false
-var click_spawnar_aliado: bool = false
+var spawn_atual = tipo_spawn.NENHUM
 
 func _ready() -> void:
 	posicao_spawnar = Vector3.ZERO
@@ -24,46 +29,26 @@ func _ready() -> void:
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
 
 func _process(delta: float) -> void:
-	var botao_mouse_apertado = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 	
-	if click_spawnar_terrestre and botao_mouse_apertado:
-		spawnar_terrestre_na_pos_click()
-
-	if click_spawnar_voador and botao_mouse_apertado:
-		spawnar_voador_na_pos_click()
-	
-	if click_spawnar_aliado and botao_mouse_apertado:
-		spawnar_aliado_na_pos_click()
-
-
-func spawnar_terrestre_na_pos_click() -> void:
-	var posicao_click = get_viewport().get_mouse_position()
-	click_spawnar_terrestre = false
-	spawnar_inimigo_terrestre(posicao_click)
-
-
-func spawnar_voador_na_pos_click() -> void:
-	var posicao_click = get_viewport().get_mouse_position()
-	click_spawnar_voador = false
-	spawnar_inimigo_voador(posicao_click)
-
-
-func spawnar_aliado_na_pos_click() -> void:
-	var posicao_click = get_viewport().get_mouse_position()
-	click_spawnar_voador = false
-	spawnar_aliado(posicao_click)
-
+		match spawn_atual:
+			tipo_spawn.TERRESTRE:
+				spawnar_inimigo_terrestre(get_viewport().get_mouse_position())
+			tipo_spawn.VOADOR:
+				spawnar_inimigo_voador(get_viewport().get_mouse_position())
+			tipo_spawn.ALIADO:
+				spawnar_aliado(get_viewport().get_mouse_position())
 
 func _ao_apertar_botao_spawnar_terrestre() -> void:
-	click_spawnar_terrestre = true
+	spawn_atual = tipo_spawn.TERRESTRE
 
 
 func _ao_apertar_botao_spawnar_voador() -> void:
-	click_spawnar_voador = true
+	spawn_atual = tipo_spawn.VOADOR
 
 
 func _ao_apertar_botao_spawnar_alidao() -> void:
-	click_spawnar_aliado = true
+	spawn_atual = tipo_spawn.ALIADO
 
 
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
