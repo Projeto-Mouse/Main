@@ -1,13 +1,8 @@
 class_name Console
 extends RichTextLabel
 
-# Esse script trata de todas as funcoes pro log
-# Funcoes como adicionar um texto
-# limpar o log
-# Adicionar um texto com cor
-# Como ele vai ser so um script usado em algo, nao vai ser criado no mundo
-# Creio que nao precisamos botar class_name nele
-# Me corrigam se eu estiver errado
+@onready var botao_limpar = $"../LimparButton"
+@onready var botao_ir_para_final = $"../IrParaFinalButton"
 
 func _ready() -> void:
 	DebugConsole.registrar_console(self)
@@ -15,6 +10,10 @@ func _ready() -> void:
 	scroll_active = true
 	scroll_following = true
 	
+	botao_limpar.pressed.connect(limpar_console)
+	botao_ir_para_final.pressed.connect(ir_para_final)
+	botao_limpar.focus_mode = Control.FOCUS_NONE
+	botao_ir_para_final.focus_mode = Control.FOCUS_NONE
 	
 func add_text_console_sem_cor(texto: String) -> void:
 	append_text("[color=#ffffff]%s[/color]\n" % [texto])
