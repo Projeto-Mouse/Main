@@ -1,3 +1,5 @@
 class_name SaidaVilaDosRatos
-extends Node3D
+extends World
 
+func _ready() -> void:
+    setup_iluminacao()

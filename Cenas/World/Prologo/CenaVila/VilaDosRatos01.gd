@@ -1,4 +1,7 @@
 class_name CenaVilaDosRatos
-extends Node3D
+extends World
+
+func _ready() -> void:
+    setup_iluminacao()
 
 

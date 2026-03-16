@@ -26,8 +26,6 @@ func trocar_mapa(cena: PackedScene, usar_jogador: bool, spawn: String = ""):
 
 	await get_tree().process_frame
 
-	set_jogador_ativo(usar_jogador)
-
 	if usar_jogador:
 		mapa_atual.add_child(jogador)
 		posicionar_jogador(spawn)
