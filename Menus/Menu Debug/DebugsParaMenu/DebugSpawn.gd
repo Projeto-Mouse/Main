@@ -28,8 +28,8 @@ func _ready() -> void:
 	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
 
-func _process(delta: float) -> void:
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 	
 		match spawn_atual:
 			tipo_spawn.TERRESTRE:
@@ -38,6 +38,7 @@ func _process(delta: float) -> void:
 				spawnar_inimigo_voador(get_viewport().get_mouse_position())
 			tipo_spawn.ALIADO:
 				spawnar_aliado(get_viewport().get_mouse_position())
+		spawn_atual = tipo_spawn.NENHUM
 
 func _ao_apertar_botao_spawnar_terrestre() -> void:
 	spawn_atual = tipo_spawn.TERRESTRE
@@ -56,7 +57,7 @@ func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
 	DebugConsole.add_text_console_sem_cor("Spawnar terrestre chamado")
 	var terrestre: Inimigo = InimigoTerrestre.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	posicao_spawnar.z = 0.0
+	posicao_spawnar.z = 0.1
 	terrestre.name = "InimigoTerrestreTeste"
 	terrestre.position = posicao_spawnar
 	terrestre.velocidade_base = 2.0
@@ -71,7 +72,7 @@ func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
 	DebugConsole.add_text_console_sem_cor("Spawnar voador chamado")
 	var voador: Inimigo = InimigoVoador.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	posicao_spawnar.z = 0.0
+	posicao_spawnar.z = 0.1
 	voador.name = "InimigoVoadorTeste"
 	voador.position = posicao_spawnar
 	voador.velocidade_base = 2.0
@@ -129,7 +130,7 @@ func spawnar_aliado(posicao_click: Vector2) -> void:
 	aliado.lealdade = 10.0
 	aliado.position = posicao_spawnar
 	aliado.velocidade_base = 2.0
-	setup_inimigo_visual(aliado, Color.GREEN, 0.15)
+	setup_inimigo_visual(aliado, Color.GREEN, SCALE_INIMIGO)
 	add_child(aliado)
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
@@ -143,14 +144,15 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	var raio = 500
 
 	var origem = camera.project_ray_origin(pos_click)
-	var destino = (camera.project_ray_normal(pos_click) * raio) + origem
+	var direcao = camera.project_ray_normal(pos_click)
+	var destino = origem + direcao * raio
 
 	var estado_espaco = camera.get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.create(origem, destino)
-
 	var resultado = estado_espaco.intersect_ray(query)
-
+	
 	if resultado:
-		return resultado.position
+		var posicao = resultado["position"]
+		return posicao
 
-	return Vector3.ZERO
+	return destino
