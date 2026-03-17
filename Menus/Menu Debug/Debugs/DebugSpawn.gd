@@ -3,12 +3,7 @@ extends Control
 
 const SCALE_INIMIGO = 0.15
 
-enum tipo_spawn {
-	NENHUM,
-	VOADOR,
-	TERRESTRE,
-	ALIADO
-}
+enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO }
 
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
@@ -18,6 +13,7 @@ enum tipo_spawn {
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
 var quantidade_entidades = 0
+
 
 func _ready() -> void:
 	posicao_spawnar = Vector3.ZERO
@@ -30,9 +26,9 @@ func _ready() -> void:
 	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
 
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-	
 		match spawn_atual:
 			tipo_spawn.TERRESTRE:
 				spawnar_inimigo_terrestre(get_viewport().get_mouse_position())
@@ -43,9 +39,10 @@ func _input(event: InputEvent) -> void:
 			tipo_spawn.ALIADO:
 				spawnar_aliado(get_viewport().get_mouse_position())
 				quantidade_entidades += 1
-		
+
 		quantidade_entidades_texto.text = "Entidades spawnadas: " + str(quantidade_entidades)
 		spawn_atual = tipo_spawn.NENHUM
+
 
 func _ao_apertar_botao_spawnar_terrestre() -> void:
 	spawn_atual = tipo_spawn.TERRESTRE
@@ -128,6 +125,7 @@ func adicionar_sensor_auditivo(inimigo: CharacterBody3D) -> void:
 
 	inimigo.add_child(sensor)
 
+
 func spawnar_aliado(posicao_click: Vector2) -> void:
 	DebugConsole.add_text_console_sem_cor("Aliado Adicionado")
 	var aliado: Aliados = AliadoInterativo.new()
@@ -139,6 +137,7 @@ func spawnar_aliado(posicao_click: Vector2) -> void:
 	aliado.velocidade_base = 2.0
 	setup_inimigo_visual(aliado, Color.GREEN, SCALE_INIMIGO)
 	add_child(aliado)
+
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	var camera = get_viewport().get_camera_3d()
@@ -157,7 +156,7 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	var estado_espaco = camera.get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.create(origem, destino)
 	var resultado = estado_espaco.intersect_ray(query)
-	
+
 	if resultado:
 		var posicao = resultado["position"]
 		return posicao
