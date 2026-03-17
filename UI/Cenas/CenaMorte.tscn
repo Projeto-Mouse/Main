@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccfmottgtm4g1"]
+
+[ext_resource type="Script" uid="uid://blqm7xix61138" path="res://UI/TelaMorteScript.gd" id="1_kxpjv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qs8jf"]
+bg_color = Color(0, 0, 0, 0.30980393)
+
+[node name="CenaMorte" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kxpjv")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+offset_left = 197.0
+offset_top = 61.0
+offset_right = 934.0
+offset_bottom = 367.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qs8jf")
+
+[node name="Murreu" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 22.0
+offset_right = 541.0
+offset_bottom = 105.0
+theme_override_font_sizes/font_size = 60
+text = "Tu murreste"
+
+[node name="Brincadeira" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 125.0
+offset_right = 482.0
+offset_bottom = 174.0
+text = "Apenas uma cena teste, -_-
+Nada aqui vai ser permanente. É apenas para ressucitarmos."
+
+[node name="ClickAqui" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 222.0
+offset_right = 254.0
+offset_bottom = 245.0
+text = "Clica aqui para renascer ->>"
+
+[node name="BotaoReviver" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 266.0
+offset_top = 220.0
+offset_right = 418.0
+offset_bottom = 251.0
+text = "Botao para reviver
+"
