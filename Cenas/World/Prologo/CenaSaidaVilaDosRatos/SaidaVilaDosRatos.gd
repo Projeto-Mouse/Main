@@ -1,3 +1,3 @@
 class_name SaidaVilaDosRatos
-extends Node
+extends Node3D
 
