@@ -14,7 +14,7 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-
+@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
 @onready var mao: Node3D = $Mao
 
 var som_passos: AudioStreamPlayer
@@ -24,11 +24,8 @@ var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
-var pos_hot_bar_controle = 1
-
-var movimento_x: float
-var movimento_y: float
-
+var movimento_x: float = 0.0
+var movimento_y: float = 0.0
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -180,6 +177,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 		tempo_proximo_passo = 0  # Reseta timer ao parar
 
 
+
 func atualizar_posicao_luz_jogador() -> void:
 	var posicao_nova_luz = global_transform.origin
 	posicao_nova_luz.y += 0.3
@@ -194,11 +192,10 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
+		print("Jogador Morreu")
+		get_tree().change_scene_to_packed(cena_morte)
 
 	print("vida atual = ", vida_atual)
-
-	if vida_atual == 0:
-		print("Jogador Morreu")
 
 
 func arredondar_dano(dano_recebido: float) -> float:
@@ -258,7 +255,7 @@ func posicionar_item_na_mao() -> void:
 func criar_cena_item() -> void:
 	var visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
-	visual.transform = Transform3D.IDENTITY  #alinha com a mao
+	visual.transform = Transform3D.IDENTITY # alinha com a mao
 
 
 func esconder_item_rastejando() -> void:
