@@ -33,7 +33,7 @@ var modo_god: bool = false
 
 # CENAS
 
-@onready var cena_morte = preload("res://UI/Cenas/CenaMorte.tscn")
+@onready var cena_morte = preload("res://UI/Cenas/CenaTelaMorte.tscn")
 
 
 func _ready() -> void:
@@ -204,6 +204,8 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
+		print("Jogador Morreu")
+		DebugConsole.add_text_console_sem_cor("Jogador Morreu")
 		get_tree().change_scene_to_packed(cena_morte)
 
 	var vida_atual_texto = "Vida atual = " + str(vida_atual)
@@ -213,10 +215,6 @@ func computar_dano(dano_recebido: float) -> void:
 	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
 	print(dano_texto)
 	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
-
-	if vida_atual == 0:
-		print("Jogador Morreu")
-		DebugConsole.add_text_console_sem_cor("Jogador Morreu")
 
 
 func arredondar_dano(dano_recebido: float) -> float:
