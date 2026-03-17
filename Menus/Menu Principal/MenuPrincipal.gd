@@ -17,7 +17,7 @@ extends Control
 
 # Leva o jogador para o começo do jogo.
 # TODO: altere depois o diretório para abrir a cena correta
-@onready var começar_jogo = preload("res://Cenas/Game.tscn") as PackedScene
+@onready var começar_jogo = preload("res://Cenas/Prologo/Prologo.tscn") as PackedScene
 @onready var cena_debug = preload("res://Cenas/CenaDebug/Debug.tscn") as PackedScene
 
 func _ready():
@@ -40,10 +40,10 @@ func on_jogar_pressed() -> void:
 	get_tree().paused = false
 	Engine.time_scale = 1
 	
-	if ControladorDebug.is_dev():
+	if Engine.has_singleton("ControladorDebug") and ControladorDebug.is_dev():
 		get_tree().change_scene_to_packed(cena_debug)
-	else:
-		get_tree().change_scene_to_packed(começar_jogo)
+	
+	get_tree().change_scene_to_packed(começar_jogo)
 
 func on_carregar_pressed() -> void:
 	print("Botão carregar pressionado!")

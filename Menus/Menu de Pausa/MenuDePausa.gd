@@ -20,7 +20,6 @@ var animation_target_x: float = 0.0
 var animation_callback: Callable = Callable()
 
 func _ready():
-	process_mode = Node.PROCESS_MODE_ALWAYS
 	print("MENU PAUSA: Ready started")
 	
 	# Espera layout
@@ -91,10 +90,10 @@ func _on_sair_do_jogo_pressed() -> void:
 		print("ERRO: MenuPrincipal.tscn não encontrado!")
 
 func conectar_signals() -> void:
-	voltar_ao_jogo.pressed.connect(_on_voltar_ao_jogo_pressed)
-	opcoes_in_game.pressed.connect(_on_opcoes_in_game_pressed)
-	salvar.pressed.connect(_on_salvar_pressed)
-	sair_do_jogo.pressed.connect(_on_sair_do_jogo_pressed)
+	voltar_ao_jogo.button_down.connect(_on_voltar_ao_jogo_pressed)
+	opcoes_in_game.button_down.connect(_on_opcoes_in_game_pressed)
+	salvar.button_down.connect(_on_salvar_pressed)
+	sair_do_jogo.button_down.connect(_on_sair_do_jogo_pressed)
 	
 	if not menu_de_opcoes.sair_das_opcoes.is_connected(_on_menu_de_opcoes_sai_das_opcoes):
 		menu_de_opcoes.sair_das_opcoes.connect(_on_menu_de_opcoes_sai_das_opcoes)

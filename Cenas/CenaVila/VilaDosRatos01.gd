@@ -1,4 +1,4 @@
 class_name CenaVilaDosRatos
-extends Node3D
+extends Prologo
 
 

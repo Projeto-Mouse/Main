@@ -11,9 +11,10 @@ const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
 const PITCH_SOM_PASSO_NORMAL = 1.0
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
+@onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+
 @onready var mao: Node3D = $Mao
 
 var som_passos: AudioStreamPlayer
@@ -27,10 +28,7 @@ var pos_hot_bar_controle = 1
 
 var movimento_x: float
 var movimento_y: float
-<<<<<<< HEAD
-=======
 
->>>>>>> PMDT-125-Refatorar-estrutura-das-cenas
 
 func _ready() -> void:
 	add_to_group("Jogador")

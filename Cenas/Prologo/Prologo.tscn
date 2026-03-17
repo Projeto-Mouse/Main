@@ -1,6 +1,12 @@
-[gd_scene load_steps=57 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=65 format=3 uid="uid://ykuee7nx2fiu"]
 
-[ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
+[ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
+[ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="2_ftip3"]
+[ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="3_03pyc"]
+[ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="3_rlofj"]
+[ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="4_4yqau"]
+[ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="5_mt6og"]
 [ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="6_3kemy"]
 [ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/ItemMundo.gd" id="8_ppn7s"]
 [ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
@@ -145,6 +151,10 @@ size = Vector3(4.345886, 1.4880981, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ccs8p"]
 size = Vector3(1, 0.2055664, 1)
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r4mej"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
 size = Vector3(2.747838, 1.5853786, 0.17651367)
 
@@ -154,8 +164,24 @@ size = Vector3(0.11230469, 0.44714355, 0.17469788)
 [sub_resource type="BoxShape3D" id="BoxShape3D_g6w1d"]
 size = Vector3(0.7122803, 1.2601929, 1)
 
-[node name="SalaDeSacrificio" type="Node3D"]
+[node name="Prologo" type="Node3D"]
 script = ExtResource("1_jsoku")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819132, 0, 0.573605, -0.22069249, 0.9230223, 0.31515813, -0.52945024, -0.38474643, 0.7560771, 0, 0, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BarraVida" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_03pyc")
+player = NodePath("../../Jogador")
+sprite_vida_cheia = ExtResource("3_rlofj")
+sprite_vida_meio = ExtResource("4_4yqau")
+sprite_vida_vazia = ExtResource("5_mt6og")
 
 [node name="CenaSalaDoSacrificio" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.287596, 0, 0)
@@ -482,6 +508,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.29264, 0.2764492, 0)
 shape = SubResource("BoxShape3D_ccs8p")
 debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
 
+[node name="Jogador" type="CharacterBody3D" parent="." groups=["Entidades"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9941854, 0.8309181, 0)
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("2_ftip3")
+velocidade_base = 3.0
+gravidade = -10.0
+forca_pulo = 5.0
+nome = "Ratinho"
+vida_max = 10.0
+vida_atual = 10.0
+dano = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Jogador"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_spau7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Jogador"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_r4mej")
+
+[node name="pivo_Camera" type="Node3D" parent="Jogador"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
+
+[node name="Camera" type="Camera3D" parent="Jogador/pivo_Camera"]
+fov = 89.5799
+
+[node name="MenuDePausa" parent="Jogador/pivo_Camera/Camera" instance=ExtResource("3_03pyc")]
+visible = false
+
+[node name="Mao" type="Node3D" parent="Jogador"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.21806717)
+
 [node name="Pau" type="RigidBody3D" parent="." groups=["ItensInterativos"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8299198, 0.95736516, 0)
 script = ExtResource("8_ppn7s")
@@ -533,10 +592,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0040664673, 0.13009644, 0)
 shape = SubResource("BoxShape3D_g6w1d")
 debug_color = Color(0.3368608, 0.622321, 3.85046e-07, 0.41960785)
 
-[node name="SpawnPoints" type="Node3D" parent="."]
-
-[node name="SpawnPadrao" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.011919, 1.0282176, 0)
-
-[node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="SpawnPoints"]
+[node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.57766, 17.752892, 0)
