@@ -14,8 +14,11 @@ var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
 var quantidade_entidades = 0
 
+var cena_debug: Node3D
+
 
 func _ready() -> void:
+	cena_debug = get_tree().get_first_node_in_group("debug")
 	posicao_spawnar = Vector3.ZERO
 
 	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
@@ -62,13 +65,14 @@ func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
 	var terrestre: Inimigo = InimigoTerrestre.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.1
+	posicao_spawnar.y += 1.0
 	terrestre.name = "InimigoTerrestreTeste"
 	terrestre.position = posicao_spawnar
 	terrestre.velocidade_base = 2.0
 	terrestre.gravidade = 9.8
 	setup_inimigo_visual(terrestre, Color.BLUE, SCALE_INIMIGO)
 	adicionar_sensor_auditivo(terrestre)
-	add_child(terrestre)
+	cena_debug.add_child(terrestre)
 
 
 func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
@@ -77,12 +81,13 @@ func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
 	var voador: Inimigo = InimigoVoador.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.1
+	posicao_spawnar.y += 1.0
 	voador.name = "InimigoVoadorTeste"
 	voador.position = posicao_spawnar
 	voador.velocidade_base = 2.0
 	setup_inimigo_visual(voador, Color.RED, SCALE_INIMIGO)
 	adicionar_sensor_auditivo(voador)  # Sistema deteccao de som
-	add_child(voador)
+	cena_debug.add_child(voador)
 
 
 func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -> void:
@@ -131,12 +136,13 @@ func spawnar_aliado(posicao_click: Vector2) -> void:
 	var aliado: Aliados = AliadoInterativo.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.0
+	posicao_spawnar.y += 1.0
 	aliado.name = "AliadoInterativoTeste"
 	aliado.lealdade = 10.0
 	aliado.position = posicao_spawnar
 	aliado.velocidade_base = 2.0
 	setup_inimigo_visual(aliado, Color.GREEN, SCALE_INIMIGO)
-	add_child(aliado)
+	cena_debug.add_child(aliado)
 
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:

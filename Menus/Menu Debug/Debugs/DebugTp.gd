@@ -26,6 +26,8 @@ func teletransportar_jogador() -> void:
 	DebugConsole.add_text_console_com_cor(texto_debug, Color.GREEN)
 	jogador.position = nova_posicao
 	jogador.position.z = 0.0
+	# SOLUCAO PROVISORIA PARA ELE NAO FICAR NA PAREDE
+	jogador.position.y += 1.0
 
 
 func apertou_botao_tp() -> void:
