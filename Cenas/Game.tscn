@@ -12,11 +12,11 @@
 [node name="Game" type="Node3D"]
 script = ExtResource("1_7t40e")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.81913203, -2.4412039e-08, 0.57360506, -0.2206925, 0.92302233, 0.31515813, -0.5294503, -0.38474643, 0.7560772, 0, 0, 0)
+
 [node name="World" type="Node3D" parent="."]
 script = ExtResource("2_2uwyn")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
-transform = Transform3D(0.81913203, -2.4412039e-08, 0.57360506, -0.2206925, 0.92302233, 0.31515813, -0.5294503, -0.38474643, 0.7560772, 0, 0, 0)
 
 [node name="Jogador" parent="." instance=ExtResource("2_d5ttk")]
 

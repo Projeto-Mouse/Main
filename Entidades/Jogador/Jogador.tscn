@@ -29,7 +29,7 @@ shape = SubResource("CapsuleShape3D_r4mej")
 [node name="pivo_Camera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 
-[node name="Camera" type="Camera3D" parent="pivo_Camera"]
+[node name="Camera" type="Camera3D" parent="pivo_Camera" groups=["CameraJogador"]]
 fov = 89.5799
 
 [node name="Mao" type="Node3D" parent="."]

@@ -4,7 +4,6 @@ extends World
 func _ready() -> void:
 	spawn_inimigos_teste()
 	spawn_aliado_teste()
-	setup_iluminacao()
 
 func spawn_inimigos_teste() -> void:
 	var scale_inimigo = 0.15
