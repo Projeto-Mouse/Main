@@ -14,7 +14,7 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 @onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-
+@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
 @onready var mao: Node3D = $Mao
 
 var som_passos: AudioStreamPlayer
@@ -28,7 +28,6 @@ var pos_hot_bar_controle = 1
 
 var movimento_x: float
 var movimento_y: float
-
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -194,11 +193,10 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
+		print("Jogador Morreu")
+		get_tree().change_scene_to_packed(cena_morte)
 
 	print("vida atual = ", vida_atual)
-
-	if vida_atual == 0:
-		print("Jogador Morreu")
 
 
 func arredondar_dano(dano_recebido: float) -> float:
