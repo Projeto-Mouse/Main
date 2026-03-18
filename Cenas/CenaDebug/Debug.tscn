@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c30so6kdawvgx"]
+[gd_scene load_steps=17 format=3 uid="uid://c30so6kdawvgx"]
 
 [ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_uepp0"]
@@ -20,6 +20,12 @@ size = Vector3(0.1, 10, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvqsq"]
 size = Vector3(0.1, 10, 0.49)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kfvfk"]
+size = Vector3(2, 0.9, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7qkyi"]
+size = Vector3(2, 0.9, 0.5)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2jmgn"]
 
@@ -57,6 +63,17 @@ mesh = SubResource("BoxMesh_vjcbb")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Parede Esquerda"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, -0.461, 0.054)
 shape = SubResource("BoxShape3D_uvqsq")
+
+[node name="Parede" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9079541, 0.62641674, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14462101, 0)
+mesh = SubResource("BoxMesh_kfvfk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1444925, 0)
+shape = SubResource("BoxShape3D_7qkyi")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

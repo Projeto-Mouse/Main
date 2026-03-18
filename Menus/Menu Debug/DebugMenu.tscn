@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://2pxrxfap3mea"]
+[gd_scene load_steps=10 format=3 uid="uid://2pxrxfap3mea"]
 
-[ext_resource type="Script" uid="uid://b65sk0ybme8qf" path="res://Menus/Menu Debug/DebugsParaMenu/DebugIluminacao.gd" id="1_38tfp"]
-[ext_resource type="Script" uid="uid://dnw1wu5dy6a8t" path="res://Menus/Menu Debug/DebugsParaMenu/DebugSpawn.gd" id="2_0avig"]
-[ext_resource type="Script" uid="uid://d3b0xhh0paxtq" path="res://Menus/Menu Debug/DebugsParaMenu/DebugConsole.gd" id="3_tf4n7"]
+[ext_resource type="Script" uid="uid://b65sk0ybme8qf" path="res://Menus/Menu Debug/Debugs/DebugIluminacao.gd" id="1_38tfp"]
+[ext_resource type="Script" uid="uid://dnw1wu5dy6a8t" path="res://Menus/Menu Debug/Debugs/DebugSpawn.gd" id="2_0avig"]
+[ext_resource type="Script" uid="uid://d3b0xhh0paxtq" path="res://Menus/Menu Debug/Debugs/DebugConsole.gd" id="3_tf4n7"]
 [ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/ConsoleLogInGame/Console.gd" id="4_8w8bs"]
-[ext_resource type="Script" uid="uid://ie5qlbt38851" path="res://Menus/Menu Debug/DebugsParaMenu/DebugGodMode.gd" id="5_7d5d8"]
+[ext_resource type="Script" uid="uid://ie5qlbt38851" path="res://Menus/Menu Debug/Debugs/DebugGodMode.gd" id="5_7d5d8"]
+[ext_resource type="Script" uid="uid://5dbndcgg1gqq" path="res://Menus/Menu Debug/Debugs/DebugTp.gd" id="6_55byo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0avig"]
 bg_color = Color(0, 0, 0, 0.19607843)
@@ -178,6 +179,31 @@ offset_right = 745.0
 offset_bottom = 412.0
 text = "God Mode"
 script = ExtResource("5_7d5d8")
+
+[node name="Separador 4" type="HSeparator" parent="."]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 419.0
+offset_right = 903.0
+offset_bottom = 431.0
+
+[node name="TPjogador" type="Label" parent="."]
+layout_mode = 0
+offset_left = 658.0
+offset_top = 435.0
+offset_right = 803.0
+offset_bottom = 458.0
+theme_override_colors/font_color = Color(1, 1, 0.14117648, 1)
+text = "TP Jogador"
+
+[node name="TpJogador" type="Button" parent="."]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 473.0
+offset_right = 809.0
+offset_bottom = 504.0
+text = "Teleportar Jogador"
+script = ExtResource("6_55byo")
 
 [node name="VSeparator" type="VSeparator" parent="."]
 layout_mode = 1
