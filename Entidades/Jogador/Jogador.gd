@@ -269,3 +269,5 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao()
 			break
+
+	

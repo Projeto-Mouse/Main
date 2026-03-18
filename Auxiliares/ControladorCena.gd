@@ -12,7 +12,7 @@ func inicializar(world_node: Node3D):
 	jogador = get_tree().get_first_node_in_group("Jogador")
 
 
-func trocar_mapa(cena: PackedScene, usar_jogador: bool, spawn: String = ""):
+func trocar_mapa(cena: String, usar_jogador: bool, spawn: String = ""):
 
 	if usar_jogador:
 		if jogador.get_parent():
@@ -21,7 +21,13 @@ func trocar_mapa(cena: PackedScene, usar_jogador: bool, spawn: String = ""):
 	if mapa_atual:
 		mapa_atual.queue_free()
 
-	mapa_atual = cena.instantiate()
+	var cena_carregada = load(cena) as PackedScene
+
+	if cena_carregada == null:
+		print("Fudeu!")
+		return
+		
+	mapa_atual = cena_carregada.instantiate()
 	world.add_child(mapa_atual)
 
 	await get_tree().process_frame
@@ -78,4 +84,3 @@ func toggle_pause():
 	pausado = !pausado
 	menu_de_pause.visible = pausado
 	get_tree().paused = pausado
-

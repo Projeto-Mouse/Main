@@ -1,9 +1,10 @@
-[gd_scene load_steps=57 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=58 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="6_3kemy"]
 [ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/ItemMundo.gd" id="8_ppn7s"]
 [ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
+[ext_resource type="Script" uid="uid://bsjapjrq4fgqe" path="res://Componentes/ScriptAreaTransicao.gd" id="9_771pa"]
 [ext_resource type="Resource" uid="uid://1o5h1otp6fto" path="res://Itens/Equipamentos/Armas/Pau/pau_data.tres" id="10_tai6l"]
 [ext_resource type="Texture2D" uid="uid://c1kdktb5onab2" path="res://Sprites/Itens/Armas/Pau.png" id="11_fk2ij"]
 [ext_resource type="Script" uid="uid://gmvyhdrpxya3" path="res://Itens/Equipamentos/Ferramentas/Tocha/LuzTocha.gd" id="11_hss4k"]
@@ -131,7 +132,7 @@ size = Vector3(3.087738, 0.46679688, 1)
 size = Vector3(0.16918945, 0.15475464, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tai6l"]
-size = Vector3(0.2722168, 1.5717773, 1)
+size = Vector3(0.2722168, 1.81604, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fk2ij"]
 size = Vector3(5.0296936, 1, 1)
@@ -424,7 +425,7 @@ debug_color = Color(0.85490197, 0, 0.8901961, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.618916, 17.533024, 0)
 
 [node name="SubidaCandelabro" type="Area3D" parent="ParteCimaMesa(MiniBoss)" groups=["Escalaveis"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1601219, 1.0638008, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3788643, 1.2534103, 0)
 script = ExtResource("6_3kemy")
 
 [node name="ColisãoSubidaCandelabro" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)/SubidaCandelabro"]
@@ -433,17 +434,17 @@ shape = SubResource("BoxShape3D_xfbn7")
 debug_color = Color(0.9977191, 0, 0.16986793, 0.41960785)
 
 [node name="ColisãoCandelaPart01" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.94203186, 0.28588867, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1784401, 0.3826027, 0)
 shape = SubResource("BoxShape3D_tai6l")
 debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
 
 [node name="ColisãoCandelaPart02" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.009536743, 0.28588867, 0)
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.112594604, 0.38822746, 0)
 shape = SubResource("BoxShape3D_tai6l")
 debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
 
 [node name="ColisãoCandelaPart03" type="CollisionShape3D" parent="ParteCimaMesa(MiniBoss)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9630432, 0.28588867, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9630432, 0.39869308, 0)
 shape = SubResource("BoxShape3D_tai6l")
 debug_color = Color(0.48572308, 0.5861383, 3.85046e-07, 0.41960785)
 
@@ -532,6 +533,10 @@ script = ExtResource("11_hss4k")
 
 [node name="AreaEntradaVilaDosRatos" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.4324, 17.518267, 0)
+script = ExtResource("9_771pa")
+caminho_cena = "uid://b8dn5uq0taedw"
+usar_jogador = true
+spawn = "Spawn01EntradaVilaPart01"
 
 [node name="ColisãoEntradaVila" type="CollisionShape3D" parent="AreaEntradaVilaDosRatos"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0040664673, 0.13009644, 0)

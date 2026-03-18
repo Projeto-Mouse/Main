@@ -3,14 +3,14 @@ extends Node3D
 
 @onready var world = $World
 @onready var menu_de_pausa = $MenuDePausa
-var cena_inicial = preload("res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.tscn")
+var cena_inicial = "res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.tscn"
 
 func _ready():
 
-	setup_iluminacao()
 	ControladorCena.registrar_menu(menu_de_pausa)
 	ControladorCena.inicializar(world)
-	ControladorCena.trocar_mapa(cena_inicial, true, "SpawnPadrao")
+	await ControladorCena.trocar_mapa(cena_inicial, true, "SpawnPadrao")
+	setup_iluminacao()
 	
 func setup_iluminacao() -> void:
 	var ScriptIluminacao = load("res://Auxiliares/ControladorIluminacao.gd")
@@ -27,15 +27,18 @@ func setup_iluminacao() -> void:
 	var camera: Camera3D = null
 
 	if jogador:
+		print("Passou1")
 		camera = jogador.get_tree().get_first_node_in_group("CameraJogador")
 		
 	if camera:
+		print("Passou2")
 		controlador.camera_alvo = camera
 	else:
 		push_warning("Camera do jogador não encontrada.")
 
 	var sol = get_node_or_null("DirectionalLight3D")
 	if sol:
+		print("Passou3")
 		controlador.luz_direcional = sol
 	else:
 		push_warning("DirectionalLight3D não encontrada na raiz da cena")
@@ -50,6 +53,7 @@ func setup_iluminacao() -> void:
 
 	var env = get_node_or_null("WorldEnvironment")
 	if env:
+		print("Passou4")
 		controlador.ambiente_mundial = env
 	else:
 		var novo_env = WorldEnvironment.new()
