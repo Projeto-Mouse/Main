@@ -5,6 +5,7 @@ extends Node3D
 @onready var botao_abrir_fechar_menu_debug = $AbrirMenuDebug/BotaoAbrirMenu
 @onready var debug_menu = $MenuDebug
 @onready var botao_trocar_musica = $TrocarMusica/BotaoTrocarMusica
+@onready var fps_text = $FPS
 
 var controlador_iluminacao = Node3D.new()
 var nao_pausado = false
@@ -31,7 +32,10 @@ func _ready() -> void:
 # Essa funcao da godot eh chamada em todos os frames. Atenção ao uso da mesma, pode pesar o código
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Pausar"):
+		debug_menu.hide()
 		mostrar_menu_de_pausa()
+	
+	fps_text.text = "FPS: " + str(Engine.get_frames_per_second())
 
 
 func setup_iluminacao() -> void:

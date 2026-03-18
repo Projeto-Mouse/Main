@@ -1,11 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://c30so6kdawvgx"]
+[gd_scene load_steps=17 format=3 uid="uid://c30so6kdawvgx"]
 
 [ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_uepp0"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="3_kfvfk"]
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="5_eyvbi"]
-[ext_resource type="Script" uid="uid://dn7yv8e0iqe64" path="res://Menus/Menu Debug/ScriptJogadorDebug.gd" id="6_kfvfk"]
+[ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="6_kfvfk"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="6_rk7pk"]
 [ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Menus/Menu Debug/DebugMenu.tscn" id="8_kfvfk"]
 
@@ -20,6 +20,12 @@ size = Vector3(0.1, 10, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvqsq"]
 size = Vector3(0.1, 10, 0.49)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kfvfk"]
+size = Vector3(2, 0.9, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7qkyi"]
+size = Vector3(2, 0.9, 0.5)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2jmgn"]
 
@@ -58,6 +64,17 @@ mesh = SubResource("BoxMesh_vjcbb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, -0.461, 0.054)
 shape = SubResource("BoxShape3D_uvqsq")
 
+[node name="Parede" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9079541, 0.62641674, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14462101, 0)
+mesh = SubResource("BoxMesh_kfvfk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1444925, 0)
+shape = SubResource("BoxShape3D_7qkyi")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="BarraVida" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player")]
@@ -79,7 +96,7 @@ script = ExtResource("6_kfvfk")
 velocidade_base = 3.0
 gravidade = -10.0
 forca_pulo = 5.0
-nome = "RatinhoDebug"
+nome = "Debug"
 vida_max = 10.0
 vida_atual = 10.0
 dano = 1.0
@@ -148,5 +165,11 @@ text = "Trocar Musica
 offset_top = 50.0
 offset_right = -7.0
 offset_bottom = -13.0
+
+[node name="FPS" type="Label" parent="."]
+offset_left = 726.0
+offset_top = 13.0
+offset_right = 766.0
+offset_bottom = 36.0
 
 [connection signal="pressed" from="TrocarMusica/BotaoTrocarMusica" to="." method="_on_botao_trocar_musica_pressed"]

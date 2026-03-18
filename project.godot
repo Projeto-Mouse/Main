@@ -28,10 +28,7 @@ ControladorTraducao="*res://Auxiliares/ControladorTraducao.gd"
 ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 ControladorMusica="*res://Auxiliares/ControladorMusica.gd"
 ControladorDebug="*res://Auxiliares/ControladorDebug.gd"
-
-[debug]
-
-settings/stdout/print_fps=true
+DebugConsole="*res://Menus/Menu Debug/Debugs/DebugConsole.gd"
 
 [display]
 
