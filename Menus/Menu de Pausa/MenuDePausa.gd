@@ -81,6 +81,7 @@ func _on_salvar_pressed() -> void:
 
 func _on_sair_do_jogo_pressed() -> void:
 	print("MENU PAUSA: Sair do jogo pressionado")
+	ControladorDebug.dev_mode = false
 	get_tree().paused = false
 	Engine.time_scale = 1
 	var menu_scene = ResourceLoader.load("res://Menus/Menu Principal/MenuPrincipal.tscn") as PackedScene
