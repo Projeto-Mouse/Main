@@ -147,24 +147,18 @@ func spawnar_aliado(posicao_click: Vector2) -> void:
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	var camera = get_viewport().get_camera_3d()
-
 	if !camera:
 		print("nao pegou camera")
 		DebugConsole.add_text_console_sem_cor("nao pegou camera")
 		return Vector3.ZERO
 
-	var raio = 500
-
 	var origem = camera.project_ray_origin(pos_click)
 	var direcao = camera.project_ray_normal(pos_click)
-	var destino = origem + direcao * raio
 
-	var estado_espaco = camera.get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(origem, destino)
-	var resultado = estado_espaco.intersect_ray(query)
+	var plano_z_zero = Plane(Vector3(0, 0, 1), 0.0)
 
-	if resultado:
-		var posicao = resultado["position"]
-		return posicao
+	var posicao_intersecao = plano_z_zero.intersects_ray(origem, direcao)
 
+	if posicao_intersecao != null:
+		return posicao_intersecao
 	return Vector3.ZERO
