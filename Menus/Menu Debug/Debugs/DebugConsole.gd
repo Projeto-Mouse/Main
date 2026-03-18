@@ -17,12 +17,14 @@ func registrar_console(console_param: Console) -> void:
 func add_text_console_sem_cor(texto: String) -> void:
 	if console:
 		console.add_text_console_sem_cor(texto)
-	else:
-		buffer.append(texto)
+		return
+
+	buffer.append(texto)
 
 
 func add_text_console_com_cor(texto: String, cor: Color) -> void:
 	if console:
 		console.add_text_console_com_cor(texto, cor)
-	else:
-		buffer.append(texto)
+		return
+
+	buffer.append(texto)
