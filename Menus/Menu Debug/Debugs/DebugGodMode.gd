@@ -21,5 +21,5 @@ func ativar_modo_god() -> void:
 
 	if jogador.modo_god:
 		DebugConsole.add_text_console_sem_cor("Modo god ativado")
-	
-    DebugConsole.add_text_console_sem_cor("Modo god desativado")
+	else:  # Deixei o else por que se nao ele printa modo god ativado e desativado tbm
+		DebugConsole.add_text_console_sem_cor("Modo god desativado")
