@@ -28,6 +28,9 @@ var tempo_proximo_passo: float = 0.0
 var movimento_x: float
 var movimento_y: float
 
+# VARIAVEIS DEBUG
+var modo_god: bool = false
+
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -183,6 +186,9 @@ func atualizar_posicao_luz_jogador() -> void:
 
 # Isso e um override da funcao que esta em entidade
 func computar_dano(dano_recebido: float) -> void:
+	if modo_god:
+		dano_recebido = 0.0
+		
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
 	vida_atual -= dano_arredondado

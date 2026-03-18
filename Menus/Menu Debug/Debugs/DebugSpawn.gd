@@ -3,21 +3,22 @@ extends Control
 
 const SCALE_INIMIGO = 0.15
 
-enum tipo_spawn {
-	NENHUM,
-	VOADOR,
-	TERRESTRE,
-	ALIADO
-}
+enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO }
 
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
 @onready var botao_spawnar_aliado = $Aliado
+@onready var quantidade_entidades_texto = $QtdEntidades
 
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
+var quantidade_entidades = 0
+
+var cena_debug: Node3D
+
 
 func _ready() -> void:
+	cena_debug = get_tree().get_first_node_in_group("debug")
 	posicao_spawnar = Vector3.ZERO
 
 	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
@@ -28,17 +29,23 @@ func _ready() -> void:
 	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
 
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-	
 		match spawn_atual:
 			tipo_spawn.TERRESTRE:
 				spawnar_inimigo_terrestre(get_viewport().get_mouse_position())
+				quantidade_entidades += 1
 			tipo_spawn.VOADOR:
 				spawnar_inimigo_voador(get_viewport().get_mouse_position())
+				quantidade_entidades += 1
 			tipo_spawn.ALIADO:
 				spawnar_aliado(get_viewport().get_mouse_position())
+				quantidade_entidades += 1
+
+		quantidade_entidades_texto.text = "Entidades spawnadas: " + str(quantidade_entidades)
 		spawn_atual = tipo_spawn.NENHUM
+
 
 func _ao_apertar_botao_spawnar_terrestre() -> void:
 	spawn_atual = tipo_spawn.TERRESTRE
@@ -58,13 +65,14 @@ func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
 	var terrestre: Inimigo = InimigoTerrestre.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.1
+	posicao_spawnar.y += 1.0
 	terrestre.name = "InimigoTerrestreTeste"
 	terrestre.position = posicao_spawnar
 	terrestre.velocidade_base = 2.0
 	terrestre.gravidade = 9.8
 	setup_inimigo_visual(terrestre, Color.BLUE, SCALE_INIMIGO)
 	adicionar_sensor_auditivo(terrestre)
-	add_child(terrestre)
+	cena_debug.add_child(terrestre)
 
 
 func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
@@ -73,12 +81,13 @@ func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
 	var voador: Inimigo = InimigoVoador.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.1
+	posicao_spawnar.y += 1.0
 	voador.name = "InimigoVoadorTeste"
 	voador.position = posicao_spawnar
 	voador.velocidade_base = 2.0
 	setup_inimigo_visual(voador, Color.RED, SCALE_INIMIGO)
 	adicionar_sensor_auditivo(voador)  # Sistema deteccao de som
-	add_child(voador)
+	cena_debug.add_child(voador)
 
 
 func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -> void:
@@ -121,38 +130,35 @@ func adicionar_sensor_auditivo(inimigo: CharacterBody3D) -> void:
 
 	inimigo.add_child(sensor)
 
+
 func spawnar_aliado(posicao_click: Vector2) -> void:
 	DebugConsole.add_text_console_sem_cor("Aliado Adicionado")
 	var aliado: Aliados = AliadoInterativo.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.0
+	posicao_spawnar.y += 1.0
 	aliado.name = "AliadoInterativoTeste"
 	aliado.lealdade = 10.0
 	aliado.position = posicao_spawnar
 	aliado.velocidade_base = 2.0
 	setup_inimigo_visual(aliado, Color.GREEN, SCALE_INIMIGO)
-	add_child(aliado)
+	cena_debug.add_child(aliado)
+
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	var camera = get_viewport().get_camera_3d()
-
 	if !camera:
 		print("nao pegou camera")
 		DebugConsole.add_text_console_sem_cor("nao pegou camera")
 		return Vector3.ZERO
 
-	var raio = 500
-
 	var origem = camera.project_ray_origin(pos_click)
 	var direcao = camera.project_ray_normal(pos_click)
-	var destino = origem + direcao * raio
 
-	var estado_espaco = camera.get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(origem, destino)
-	var resultado = estado_espaco.intersect_ray(query)
-	
-	if resultado:
-		var posicao = resultado["position"]
-		return posicao
+	var plano_z_zero = Plane(Vector3(0, 0, 1), 0.0)
 
+	var posicao_intersecao = plano_z_zero.intersects_ray(origem, direcao)
+
+	if posicao_intersecao != null:
+		return posicao_intersecao
 	return Vector3.ZERO
