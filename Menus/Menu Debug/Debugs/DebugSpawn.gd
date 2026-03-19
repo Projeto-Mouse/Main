@@ -9,6 +9,8 @@ enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO }
 @onready var botao_spawnar_voador = $Voador
 @onready var botao_spawnar_aliado = $Aliado
 @onready var quantidade_entidades_texto = $QtdEntidades
+@onready var botao_spawn_item = $Item
+@onready var explorer = $Explorador
 
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
@@ -28,6 +30,8 @@ func _ready() -> void:
 	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
 	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
+	
+	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
 
 
 func _input(event: InputEvent) -> void:
@@ -57,6 +61,9 @@ func _ao_apertar_botao_spawnar_voador() -> void:
 
 func _ao_apertar_botao_spawnar_alidao() -> void:
 	spawn_atual = tipo_spawn.ALIADO
+	
+func _ao_apertar_botao_spawnar_item() -> void:
+	var cena_item_para_spawnar = explorer.retornar_cena_item()
 
 
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:

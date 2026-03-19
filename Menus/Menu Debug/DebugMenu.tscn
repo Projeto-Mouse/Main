@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://b65sk0ybme8qf" path="res://Menus/Menu Debug/Debugs/DebugIluminacao.gd" id="1_38tfp"]
 [ext_resource type="Script" uid="uid://dnw1wu5dy6a8t" path="res://Menus/Menu Debug/Debugs/DebugSpawn.gd" id="2_0avig"]
-[ext_resource type="Script" uid="uid://cuf58lg8txj06" path="res://Menus/Menu Debug/Debugs/DebugSpawnItem.gd" id="3_fedqc"]
+[ext_resource type="Script" uid="uid://cuf58lg8txj06" path="res://Menus/Menu Debug/Scripts/ScriptFileExplore.gd" id="3_fedqc"]
 [ext_resource type="Script" uid="uid://d3b0xhh0paxtq" path="res://Menus/Menu Debug/Debugs/DebugConsole.gd" id="3_tf4n7"]
-[ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/ConsoleLogInGame/Console.gd" id="4_8w8bs"]
+[ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/Scripts/Console.gd" id="4_8w8bs"]
 [ext_resource type="Script" uid="uid://ie5qlbt38851" path="res://Menus/Menu Debug/Debugs/DebugGodMode.gd" id="5_7d5d8"]
 [ext_resource type="Script" uid="uid://5dbndcgg1gqq" path="res://Menus/Menu Debug/Debugs/DebugTp.gd" id="6_55byo"]
 
@@ -98,6 +98,7 @@ script = ExtResource("2_0avig")
 [node name="Explorador" type="FileDialog" parent="Panel/DebugSpawn"]
 oversampling_override = 1.0
 position = Vector2i(250, 130)
+script = ExtResource("3_fedqc")
 
 [node name="Terrestre" type="Button" parent="Panel/DebugSpawn"]
 layout_mode = 2
@@ -114,7 +115,6 @@ text = "Spawnar Aliado"
 [node name="Item" type="Button" parent="Panel/DebugSpawn"]
 layout_mode = 2
 text = "Spawnar Item"
-script = ExtResource("3_fedqc")
 
 [node name="QtdEntidades" type="Label" parent="Panel/DebugSpawn"]
 layout_mode = 2

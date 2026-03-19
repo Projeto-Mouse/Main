@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=64 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://1glwil2n62df" path="res://Cenas/Prologo/Prologo.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="2_03pyc"]
@@ -157,9 +157,6 @@ size = Vector3(1, 0.2055664, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
 size = Vector3(2.747838, 1.5853786, 0.17651367)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
-size = Vector3(0.11230469, 0.44714355, 0.17469788)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g6w1d"]
 size = Vector3(0.7122803, 1.2601929, 1)
@@ -541,7 +538,7 @@ visible = false
 [node name="Mao" type="Node3D" parent="Jogador"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.1225425, 0.21806717)
 
-[node name="Pau" type="RigidBody3D" parent="." groups=["ItensInterativos"]]
+[node name="Pau" type="Node3D" parent="." groups=["ItensInterativos"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8299198, 0.95736516, 0)
 script = ExtResource("8_ppn7s")
 item_data = ExtResource("10_tai6l")
@@ -557,11 +554,7 @@ shape = SubResource("BoxShape3D_r8c7y")
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.041650414, 0)
 texture = ExtResource("11_fk2ij")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Pau"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
-shape = SubResource("BoxShape3D_rteev")
-
-[node name="Tocha" type="RigidBody3D" parent="." groups=["ItensInterativos"]]
+[node name="Tocha" type="Node3D" parent="." groups=["ItensInterativos"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9596558, 0.97325134, 0)
 script = ExtResource("8_ppn7s")
 item_data = ExtResource("12_h0w4g")
@@ -575,9 +568,6 @@ shape = SubResource("BoxShape3D_r8c7y")
 [node name="Sprite3D" type="Sprite3D" parent="Tocha"]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.02846694, -0.041650414, 0)
 texture = ExtResource("8_r4mej")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
-shape = SubResource("BoxShape3D_rteev")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Tocha"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013459682, 0.11840665, 0)
