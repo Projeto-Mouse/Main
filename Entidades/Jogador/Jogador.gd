@@ -14,6 +14,7 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 @onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
 @onready var mao: Node3D = $Mao
 
 var som_passos: AudioStreamPlayer
@@ -23,10 +24,10 @@ var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
+var pos_hot_bar_controle = 1
 
 var movimento_x: float
 var movimento_y: float
-
 
 func _ready() -> void:
 	add_to_group("Jogador")
@@ -36,7 +37,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Dano"):
+	if Input.is_action_just_pressed("AplicarDano"):
 		computar_dano(dano)
 
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
@@ -45,7 +46,7 @@ func _process(_delta: float) -> void:
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
 
-	if Input.is_action_just_pressed("Interagir"):
+	if Input.is_action_just_pressed("PegarItem"):
 		pegar_item()
 
 
@@ -192,11 +193,10 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
+		print("Jogador Morreu")
+		get_tree().change_scene_to_packed(cena_morte)
 
 	print("vida atual = ", vida_atual)
-
-	if vida_atual == 0:
-		print("Jogador Morreu")
 
 
 func arredondar_dano(dano_recebido: float) -> float:
@@ -264,6 +264,13 @@ func esconder_item_rastejando() -> void:
 
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
+	if Input.is_action_pressed("TrocarHotBarControle"):
+		pos_hot_bar_controle += 1
+		if pos_hot_bar_controle > 11:
+			pos_hot_bar_controle = 1
+		else:
+			item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
+			
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
