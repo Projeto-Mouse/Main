@@ -31,13 +31,14 @@ func _ready() -> void:
 	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
 	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
 	botao_spawn_item.focus_mode = Control.FOCUS_NONE
-	
+
 	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
 	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
-	
+
 	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
 	explorer.cena_item_selecionada.connect(trocar_estado_para_spawnar_item)
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -53,7 +54,7 @@ func _input(event: InputEvent) -> void:
 				quantidade_entidades += 1
 			tipo_spawn.ITEM:
 				spawnar_item(get_viewport().get_mouse_position())
-				
+
 		quantidade_entidades_texto.text = "Entidades spawnadas: " + str(quantidade_entidades)
 		spawn_atual = tipo_spawn.NENHUM
 
@@ -64,30 +65,33 @@ func _ao_apertar_botao_spawnar_terrestre() -> void:
 
 func _ao_apertar_botao_spawnar_voador() -> void:
 	spawn_atual = tipo_spawn.VOADOR
-	
-	
+
+
 func _ao_apertar_botao_spawnar_alidao() -> void:
 	spawn_atual = tipo_spawn.ALIADO
-	
+
+
 func _ao_apertar_botao_spawnar_item() -> void:
 	explorer.abrir_explorador()
+
 
 func trocar_estado_para_spawnar_item(cena_item: PackedScene) -> void:
 	spawn_atual = tipo_spawn.ITEM
 	item_para_spawnar = cena_item
-	
+
+
 func spawnar_item(posicao_click: Vector2) -> void:
 	if item_para_spawnar == null:
 		return
-		
+
 	var item_para_spawnar_instancia = item_para_spawnar.instantiate()
-	
+
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	
+
+	cena_debug.add_child(item_para_spawnar_instancia)
+
 	item_para_spawnar_instancia.global_position = posicao_spawnar
 	item_para_spawnar_instancia.global_position.z = 0
-	
-	cena_debug.add_child(item_para_spawnar_instancia)
 
 
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
