@@ -8,7 +8,6 @@ extends Control
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var botoes_vbox = $MarginContainer/VBoxContainer
 @onready var menu_de_opcoes = $MenuDeOpcoes
-@onready var cena_principal: Node3D = $"../../../.."
 
 var posicao_original_x: float = 0.0
 
@@ -72,10 +71,7 @@ func start_wall_tween(target_x: float, callback: Callable = Callable()):
 
 func _on_voltar_ao_jogo_pressed() -> void:
 	print("MENU PAUSA: Voltar ao jogo pressionado")
-	if cena_principal:
-		cena_principal.mostrar_menu_de_pausa()
-	else:
-		print("ERRO: cena_principal não encontrada!")
+	ControladorCena.toggle_pause()
 
 func _on_salvar_pressed() -> void:
 	print("Botão salvar pressionado!")
