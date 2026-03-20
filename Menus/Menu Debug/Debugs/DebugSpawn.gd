@@ -25,19 +25,8 @@ func _ready() -> void:
 	cena_debug = get_tree().get_first_node_in_group("debug")
 	posicao_spawnar = Vector3.ZERO
 
-	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
-	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
-	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
-	botao_spawn_item.focus_mode = Control.FOCUS_NONE
-
-	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
-	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
-	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
-
-	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
-
-	explorer.cena_selecionada.connect(trocar_estado_para_spawnar_item)
-
+	bloquear_foco_botao()
+	conectar_sinais()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -196,3 +185,18 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	if posicao_intersecao != null:
 		return posicao_intersecao
 	return Vector3.ZERO
+
+func bloquear_foco_botao() -> void:
+	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
+	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
+	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
+	botao_spawn_item.focus_mode = Control.FOCUS_NONE
+	
+func conectar_sinais() -> void:
+	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
+	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
+	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
+
+	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
+
+	explorer.cena_selecionada.connect(trocar_estado_para_spawnar_item)
