@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://2pxrxfap3mea"]
+[gd_scene load_steps=11 format=3 uid="uid://2pxrxfap3mea"]
 
 [ext_resource type="Script" uid="uid://b65sk0ybme8qf" path="res://Menus/Menu Debug/Debugs/DebugIluminacao.gd" id="1_38tfp"]
 [ext_resource type="Script" uid="uid://dnw1wu5dy6a8t" path="res://Menus/Menu Debug/Debugs/DebugSpawn.gd" id="2_0avig"]
+[ext_resource type="Script" uid="uid://cuf58lg8txj06" path="res://Menus/Menu Debug/Scripts/ScriptFileExplore.gd" id="3_fedqc"]
 [ext_resource type="Script" uid="uid://d3b0xhh0paxtq" path="res://Menus/Menu Debug/Debugs/DebugConsole.gd" id="3_tf4n7"]
-[ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/ConsoleLogInGame/Console.gd" id="4_8w8bs"]
+[ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/Scripts/Console.gd" id="4_8w8bs"]
 [ext_resource type="Script" uid="uid://ie5qlbt38851" path="res://Menus/Menu Debug/Debugs/DebugGodMode.gd" id="5_7d5d8"]
 [ext_resource type="Script" uid="uid://5dbndcgg1gqq" path="res://Menus/Menu Debug/Debugs/DebugTp.gd" id="6_55byo"]
 
@@ -94,6 +95,11 @@ offset_right = 202.0
 offset_bottom = 233.0
 script = ExtResource("2_0avig")
 
+[node name="Explorador" type="FileDialog" parent="Panel/DebugSpawn"]
+oversampling_override = 1.0
+position = Vector2i(250, 130)
+script = ExtResource("3_fedqc")
+
 [node name="Terrestre" type="Button" parent="Panel/DebugSpawn"]
 layout_mode = 2
 text = "Spawnar Inimigo Terrestre"
@@ -105,6 +111,10 @@ text = "Spawnar Inimigo Voador"
 [node name="Aliado" type="Button" parent="Panel/DebugSpawn"]
 layout_mode = 2
 text = "Spawnar Aliado"
+
+[node name="Item" type="Button" parent="Panel/DebugSpawn"]
+layout_mode = 2
+text = "Spawnar Item"
 
 [node name="QtdEntidades" type="Label" parent="Panel/DebugSpawn"]
 layout_mode = 2
@@ -157,51 +167,51 @@ text = "Ir para o final"
 
 [node name="Separador 3" type="HSeparator" parent="."]
 layout_mode = 0
-offset_left = 653.0
-offset_top = 333.0
-offset_right = 906.0
-offset_bottom = 345.0
+offset_left = 652.0
+offset_top = 372.0
+offset_right = 905.0
+offset_bottom = 384.0
 
 [node name="DebugGodMode" type="Label" parent="."]
 layout_mode = 0
 offset_left = 656.0
-offset_top = 346.0
+offset_top = 389.0
 offset_right = 801.0
-offset_bottom = 369.0
+offset_bottom = 412.0
 theme_override_colors/font_color = Color(1, 1, 0.14117648, 1)
 text = "Debug God Mode:"
 
 [node name="GodMode" type="Button" parent="."]
 layout_mode = 0
-offset_left = 657.0
-offset_top = 381.0
-offset_right = 745.0
-offset_bottom = 412.0
+offset_left = 659.0
+offset_top = 429.0
+offset_right = 747.0
+offset_bottom = 460.0
 text = "God Mode"
 script = ExtResource("5_7d5d8")
 
 [node name="Separador 4" type="HSeparator" parent="."]
 layout_mode = 0
-offset_left = 650.0
-offset_top = 419.0
-offset_right = 903.0
-offset_bottom = 431.0
+offset_left = 652.0
+offset_top = 469.0
+offset_right = 905.0
+offset_bottom = 481.0
 
 [node name="TPjogador" type="Label" parent="."]
 layout_mode = 0
-offset_left = 658.0
-offset_top = 435.0
-offset_right = 803.0
-offset_bottom = 458.0
+offset_left = 656.0
+offset_top = 494.0
+offset_right = 801.0
+offset_bottom = 517.0
 theme_override_colors/font_color = Color(1, 1, 0.14117648, 1)
 text = "TP Jogador"
 
 [node name="TpJogador" type="Button" parent="."]
 layout_mode = 0
 offset_left = 656.0
-offset_top = 473.0
+offset_top = 538.0
 offset_right = 809.0
-offset_bottom = 504.0
+offset_bottom = 569.0
 text = "Teleportar Jogador"
 script = ExtResource("6_55byo")
 
