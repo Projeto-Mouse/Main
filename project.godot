@@ -28,10 +28,7 @@ ControladorTraducao="*res://Auxiliares/ControladorTraducao.gd"
 ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 ControladorMusica="*res://Auxiliares/ControladorMusica.gd"
 ControladorDebug="*res://Auxiliares/ControladorDebug.gd"
-<<<<<<< HEAD
 ControladorCena="*res://Auxiliares/ControladorCena.gd"
-=======
->>>>>>> 48203d73e7ba8f26805a6af9747b9c9e201b7570
 DebugConsole="*res://Menus/Menu Debug/Debugs/DebugConsole.gd"
 
 [display]
