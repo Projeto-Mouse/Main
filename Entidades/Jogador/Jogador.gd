@@ -1,6 +1,9 @@
 class_name Jogador
 extends Entidade
 
+# flags 
+var em_teste: bool = false
+
 enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
 
 const INTERVALO_PASSOS: float = 0.4
@@ -194,7 +197,8 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
-		get_tree().change_scene_to_packed(cena_morte)
+		if !em_teste:
+			get_tree().change_scene_to_packed(cena_morte)
 
 	print("vida atual = ", vida_atual)
 
