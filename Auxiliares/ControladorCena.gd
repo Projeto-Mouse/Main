@@ -75,7 +75,7 @@ func posicionar_jogador(nome_spawn: String):
 	var spawn_node: Marker3D = mapa_atual.get_node_or_null("SpawnPoints/" + nome_spawn)
 
 	if spawn_node == null:
-		erro_critico("SpawnPadrao não existe no mapa atual.")
+		push_error("Spawn '%s' não existe no mapa atual." % nome_spawn)
 
 	print("Movendo Jogador para " + nome_spawn)
 	jogador.global_position = spawn_node.global_position
