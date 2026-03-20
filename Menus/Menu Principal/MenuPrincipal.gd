@@ -42,8 +42,9 @@ func on_jogar_pressed() -> void:
 	
 	if ControladorDebug.is_dev():
 		get_tree().change_scene_to_packed(cena_debug)
-	else:
-		get_tree().change_scene_to_packed(começar_jogo)
+		return
+	
+	get_tree().change_scene_to_packed(começar_jogo)
 
 func on_carregar_pressed() -> void:
 	print("Botão carregar pressionado!")

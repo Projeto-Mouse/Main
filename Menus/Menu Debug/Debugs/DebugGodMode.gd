@@ -5,7 +5,8 @@ var jogador
 
 
 func _ready() -> void:
-	jogador = get_tree().get_first_node_in_group("Jogador")
+	# mesma coisa aqui, temporario, dar uma ajeitada
+	jogador = $"../../../JogadorDebug"
 
 	focus_mode = Control.FOCUS_NONE
 

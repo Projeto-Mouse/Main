@@ -6,7 +6,8 @@ var apertou_tp: bool = false
 
 
 func _ready() -> void:
-	jogador = get_tree().get_first_node_in_group("Jogador")
+	# Pensar num jeito melhor de fazer isso dps
+	jogador = $"../../../JogadorDebug"
 
 	pressed.connect(apertou_botao_tp)
 	focus_mode = Control.FOCUS_NONE

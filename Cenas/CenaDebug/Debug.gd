@@ -1,7 +1,7 @@
 class_name Debug
 extends Node3D
 
-@onready var menu_de_pause: Control = $Jogador/pivo_Camera/Camera/MenuDePausa
+@onready var menu_de_pause: Control = $MenuDePausa
 @onready var botao_abrir_fechar_menu_debug = $AbrirMenuDebug/BotaoAbrirMenu
 @onready var debug_menu = $MenuDebug
 @onready var botao_trocar_musica = $TrocarMusica/BotaoTrocarMusica
@@ -48,7 +48,7 @@ func setup_iluminacao() -> void:
 	controlador_iluminacao.set_script(ScriptIluminacao)
 	# add_child movido para o final da função setup_iluminacao para evitar warnings no _ready
 
-	var camera = $Jogador/pivo_Camera/Camera
+	var camera = $JogadorDebug/pivo_Camera/Camera
 	if camera:
 		controlador_iluminacao.camera_alvo = camera
 	else:
