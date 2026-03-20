@@ -9,7 +9,7 @@ var direcao_atual = Vector2.ZERO
 var altura_maxima_voo = 6.0
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	atualizar_raycast_direcao_movimento()
 	target()
 	atualizar_linha_debug()

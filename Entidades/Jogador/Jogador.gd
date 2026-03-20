@@ -11,7 +11,7 @@ const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
 const PITCH_SOM_PASSO_NORMAL = 1.0
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../CanvasLayer/BarraVida"
+@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
@@ -276,3 +276,5 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao()
 			break
+
+	

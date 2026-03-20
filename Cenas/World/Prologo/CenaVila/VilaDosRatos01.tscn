@@ -1,17 +1,18 @@
-[gd_scene load_steps=27 format=3 uid="uid://b8dn5uq0taedw"]
+[gd_scene load_steps=28 format=3 uid="uid://b8dn5uq0taedw"]
 
 [ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="1_wj5a5"]
+[ext_resource type="Script" uid="uid://bsjapjrq4fgqe" path="res://Componentes/ScriptAreaTransicao.gd" id="2_i0u5g"]
 
 [sub_resource type="GDScript" id="GDScript_nw1u0"]
 script/source = "class_name CenaVilaDosRatos01
-extends Prologo
+extends World
 "
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f2jvw"]
 size = Vector3(0.25500488, 29.826973, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i4wga"]
-size = Vector3(120.37263, 1, 1)
+size = Vector3(111.96744, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f2tbk"]
 size = Vector3(14.079353, 0.41723633, 1)
@@ -80,6 +81,7 @@ size = Vector3(0.19650269, 6.3322773, 0.001)
 size = Vector3(0.5941162, 1.4586792, 1)
 
 [node name="VilaDosRatos" type="Node3D"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 script = SubResource("GDScript_nw1u0")
 
 [node name="BlocoDoMapa" type="StaticBody3D" parent="."]
@@ -90,15 +92,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.006268, 14.913336, 0)
 shape = SubResource("BoxShape3D_f2jvw")
 
 [node name="ColisãoParedeDireitoVila01" type="CollisionShape3D" parent="BlocoDoMapa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.140594, 14.819193, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.688385, 14.819193, 0)
 shape = SubResource("BoxShape3D_f2jvw")
 
 [node name="ColisãoChãoVila01" type="CollisionShape3D" parent="BlocoDoMapa"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.044144, -0.25981092, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.84155, -0.25981092, 0)
 shape = SubResource("BoxShape3D_i4wga")
 
 [node name="TorreVigia" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 113.86467, 6.7709208, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.33355, 6.7709208, 0)
 
 [node name="ColisãoTorreVigia01" type="CollisionShape3D" parent="TorreVigia"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4441147, 3.6837473, 0)
@@ -189,7 +191,7 @@ shape = SubResource("BoxShape3D_tp548")
 debug_color = Color(0.99936324, 0.02633255, 0, 0.41960785)
 
 [node name="PlataformaTemplo" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75.122765, 5.039978, 0)
+transform = Transform3D(0.8000001, 0, 0, 0, 0.8000001, 0, 0, 0, 0.8000001, 64.22965, 4.37126, 0)
 
 [node name="ColisãoPlataformaTemplo" type="CollisionShape3D" parent="PlataformaTemplo"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.380104, 4.1680136, 0)
@@ -225,44 +227,44 @@ shape = SubResource("BoxShape3D_c1elu")
 debug_color = Color(0.9999998, 0, 0.10456676, 0.41960785)
 
 [node name="EntradaDaVila" type="StaticBody3D" parent="."]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 
 [node name="ColisãoEntrada01DaVila01" type="CollisionPolygon3D" parent="EntradaDaVila"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.7304115, 0, 0)
 polygon = PackedVector2Array(-7.9950037, 17.224321, -3.1725426, 17.0357, -2.9319668, 14.571815, 2.2198029, 14.34453, 3.2671623, 8.095876, 7.585554, 8.020116, 8.646212, 2.7168283, 9.858389, 1.3531284, 13.722212, 1.0500832, 21.449858, 0.5955143, 28.894852, 0.20718265, 28.692005, -0.23464966, -7.941699, -0.3505125)
 
 [node name="ColisãoEntrada02DaVila01" type="CollisionPolygon3D" parent="EntradaDaVila"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.937521, -0.19305897, 0)
-polygon = PackedVector2Array(7.1115627, 19.001392, 16.466917, 19.001392, 17.326408, 12.494747, 21.483406, 12.429795, 21.678267, 7.688217, 26.744612, 7.5583115, 26.87451, 4.050844, 19.386457, 4.196415, 9.89661, 5.3170166, 9.142315, 8.207843, 14.143705, 8.272797, 13.818939, 13.079325, 7.755085, 14.660849)
+transform = Transform3D(0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 8.139832, -0.19305895, 0)
+polygon = PackedVector2Array(4.7553787, 20.486803, 16.878529, 20.476078, 17.326408, 12.494747, 21.483406, 12.429795, 21.678267, 7.688217, 26.744612, 7.5583115, 27.27589, 2.4843385, 18.0568, 3.070524, 10.018689, 4.04825, 9.142315, 8.207843, 14.143705, 8.272797, 13.818939, 13.079325, 5.142374, 14.735979)
 
 [node name="AreaEntradaSalaDeSacrificio" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29690742, 17.921928, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.29690742, 14.586962, 0)
+script = ExtResource("2_i0u5g")
+caminho_cena = "uid://ykuee7nx2fiu"
+usar_jogador = true
+spawn = "SpawnEntradaMesaSalaSacrificio"
 
 [node name="ColisãoEntradaSalaSacrificio" type="CollisionShape3D" parent="AreaEntradaSalaDeSacrificio"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1604743, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
-[node name="AreaEntradaVilaPart02" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.4361, 0.9821172, 0)
-
-[node name="ColisãoEntradaVilaPart02" type="CollisionShape3D" parent="AreaEntradaVilaPart02"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
-shape = SubResource("BoxShape3D_hw0x5")
-debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
-
 [node name="AreaSaídaDaVilaPart01" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.45685, 0.9757402, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.96666, 0.9757402, 0)
+script = ExtResource("2_i0u5g")
+caminho_cena = "uid://d0te6a84wjms8"
+usar_jogador = true
+spawn = "SpawnSaídaVilaDosRatos"
 
 [node name="ColisãoSaídaVila" type="CollisionShape3D" parent="AreaSaídaDaVilaPart01"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00611639, -0.008140564, 0)
 shape = SubResource("BoxShape3D_hw0x5")
 debug_color = Color(1.5883148e-06, 0.64554995, 0.26434672, 0.41960785)
 
-[node name="Spawn01EntradaVilaPart01" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6759615, 17.986897, 0)
+[node name="SpawnPoints" type="Node3D" parent="."]
 
-[node name="Spawn02EntradaVilaPart01" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.45267, 1.00402, 0)
+[node name="Spawn01EntradaVilaPart01" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6759615, 14.679676, 0)
 
-[node name="Spawn03EntradaVilaPart01" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.413055, 1.0193546, 0)
+[node name="Spawn02EntradaVilaPart01" type="Marker3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.72545, 1.0193546, 0)

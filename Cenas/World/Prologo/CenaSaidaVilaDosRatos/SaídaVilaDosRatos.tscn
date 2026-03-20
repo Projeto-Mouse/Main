@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0te6a84wjms8"]
+[gd_scene load_steps=5 format=3 uid="uid://d0te6a84wjms8"]
+
+[ext_resource type="Script" uid="uid://bsjapjrq4fgqe" path="res://Componentes/ScriptAreaTransicao.gd" id="1_4ingd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6twvr"]
 size = Vector3(23.990479, 0.14666748, 1)
@@ -23,11 +25,17 @@ shape = SubResource("BoxShape3D_16but")
 
 [node name="EntradaParaVilaDosRatos" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45183325, 0.64386165, 0)
+script = ExtResource("1_4ingd")
+caminho_cena = "uid://b8dn5uq0taedw"
+usar_jogador = true
+spawn = "Spawn02EntradaVilaPart01"
 
 [node name="ColisãoEntradaVilaDosRatos" type="CollisionShape3D" parent="EntradaParaVilaDosRatos"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.031801224, 0.059768677, 0)
 shape = SubResource("BoxShape3D_x551k")
 debug_color = Color(0.2147251, 0.63987774, 1.347661e-06, 0.41960785)
 
-[node name="SpawnSaídaVilaDosRatos" type="Marker3D" parent="."]
+[node name="SpawnPoints" type="Node3D" parent="."]
+
+[node name="SpawnSaídaVilaDosRatos" type="Marker3D" parent="SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0549241, 0.8544313, 0)

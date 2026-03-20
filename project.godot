@@ -28,10 +28,7 @@ ControladorTraducao="*res://Auxiliares/ControladorTraducao.gd"
 ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 ControladorMusica="*res://Auxiliares/ControladorMusica.gd"
 ControladorDebug="*res://Auxiliares/ControladorDebug.gd"
-
-[debug]
-
-settings/stdout/print_fps=true
+ControladorCena="*res://Auxiliares/ControladorCena.gd"
 
 [display]
 
@@ -52,6 +49,7 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 Escalaveis="Objetos Escalaveis"
 ItensInterativos="Grupo de itens interativos"
 Entidades=""
+CameraJogador=""
 
 [input]
 

@@ -33,7 +33,7 @@ func iniciar_tween(target_pos: Vector2, target_alpha: float, callback: Callable 
 	alpha_alvo_anim = target_alpha
 	callback_anim = callback
 
-func processar(real_delta: float) -> void:
+func processar(_real_delta: float) -> void:
 	if not esta_animando:
 		return
 

@@ -8,7 +8,6 @@ extends Control
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var botoes_vbox = $MarginContainer/VBoxContainer
 @onready var menu_de_opcoes = $MenuDeOpcoes
-@onready var cena_principal: Node3D = $"../../../.."
 
 var posicao_original_x: float = 0.0
 
@@ -20,6 +19,7 @@ var animation_target_x: float = 0.0
 var animation_callback: Callable = Callable()
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	print("MENU PAUSA: Ready started")
 	
 	# Espera layout
@@ -71,10 +71,7 @@ func start_wall_tween(target_x: float, callback: Callable = Callable()):
 
 func _on_voltar_ao_jogo_pressed() -> void:
 	print("MENU PAUSA: Voltar ao jogo pressionado")
-	if cena_principal:
-		cena_principal.mostrar_menu_de_pausa()
-	else:
-		print("ERRO: cena_principal não encontrada!")
+	ControladorCena.toggle_pause()
 
 func _on_salvar_pressed() -> void:
 	print("Botão salvar pressionado!")
@@ -90,10 +87,10 @@ func _on_sair_do_jogo_pressed() -> void:
 		print("ERRO: MenuPrincipal.tscn não encontrado!")
 
 func conectar_signals() -> void:
-	voltar_ao_jogo.button_down.connect(_on_voltar_ao_jogo_pressed)
-	opcoes_in_game.button_down.connect(_on_opcoes_in_game_pressed)
-	salvar.button_down.connect(_on_salvar_pressed)
-	sair_do_jogo.button_down.connect(_on_sair_do_jogo_pressed)
+	voltar_ao_jogo.pressed.connect(_on_voltar_ao_jogo_pressed)
+	opcoes_in_game.pressed.connect(_on_opcoes_in_game_pressed)
+	salvar.pressed.connect(_on_salvar_pressed)
+	sair_do_jogo.pressed.connect(_on_sair_do_jogo_pressed)
 	
 	if not menu_de_opcoes.sair_das_opcoes.is_connected(_on_menu_de_opcoes_sai_das_opcoes):
 		menu_de_opcoes.sair_das_opcoes.connect(_on_menu_de_opcoes_sai_das_opcoes)
