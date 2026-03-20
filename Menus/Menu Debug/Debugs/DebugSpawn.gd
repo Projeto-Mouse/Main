@@ -12,15 +12,13 @@ enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO, ITEM }
 @onready var botao_spawn_item = $Item
 @onready var explorer = $Explorador
 
-var script_para_cena_item = load("res://Itens/ItemMundo.gd")
-
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
 var quantidade_entidades = 0
 
 var cena_debug: Node3D
 
-var item_para_spawnar
+var cena_item_para_spawnar
 
 
 func _ready() -> void:
@@ -37,7 +35,8 @@ func _ready() -> void:
 	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
 
 	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
-	explorer.cena_item_selecionada.connect(trocar_estado_para_spawnar_item)
+
+	explorer.cena_selecionada.connect(trocar_estado_para_spawnar_item)
 
 
 func _input(event: InputEvent) -> void:
@@ -75,16 +74,16 @@ func _ao_apertar_botao_spawnar_item() -> void:
 	explorer.abrir_explorador()
 
 
-func trocar_estado_para_spawnar_item(cena_item: PackedScene) -> void:
+func trocar_estado_para_spawnar_item(cena_item_selecionado: PackedScene) -> void:
 	spawn_atual = tipo_spawn.ITEM
-	item_para_spawnar = cena_item
+	cena_item_para_spawnar = cena_item_selecionado
 
 
 func spawnar_item(posicao_click: Vector2) -> void:
-	if item_para_spawnar == null:
+	if cena_item_para_spawnar == null:
 		return
 
-	var item_para_spawnar_instancia = item_para_spawnar.instantiate()
+	var item_para_spawnar_instancia = cena_item_para_spawnar.instantiate()
 
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 

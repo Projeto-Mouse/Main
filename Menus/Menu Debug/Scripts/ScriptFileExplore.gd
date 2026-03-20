@@ -1,7 +1,8 @@
 class_name DebugSpawnItem
 extends FileDialog
 
-signal cena_item_selecionada(cena: PackedScene)
+signal cena_selecionada(cena_item_selecionado: PackedScene)
+
 
 func _ready() -> void:
 	file_mode = FileDialog.FILE_MODE_OPEN_FILE
@@ -9,16 +10,18 @@ func _ready() -> void:
 	current_dir = "res://Itens/Cenas/CenasMundo"
 	file_selected.connect(salvar_cena_selecionada)
 
+
 func abrir_explorador() -> void:
 	popup_centered()
 
-func salvar_cena_selecionada(path: String) -> void:
-	var cena = load(path)
-	
-	if not (cena is PackedScene):
+
+func salvar_cena_selecionada(caminho_da_cena: String) -> void:
+	var cena_item_selecionado = load(caminho_da_cena)
+
+	if not (cena_item_selecionado is PackedScene):
 		push_warning("O arquivo selecionado não é uma cena válida")
-		cena = null
+		cena_item_selecionado = null
 		return
-	
-	print("pegou o arquivo")
-	emit_signal("cena_item_selecionada", cena)
+
+	DebugConsole.add_text_console_sem_cor("pegou o arquivo")
+	emit_signal("cena_selecionada", cena_item_selecionado)
