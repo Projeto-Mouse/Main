@@ -41,10 +41,13 @@ func _on_body_exited(body: Node3D) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if pode_interagir and event.is_action_pressed("Interagir"):
+	## Comentado pq ainda nao tem interagir com aliado
+	## Trocado para PegarItem
+	##if pode_interagir and event.is_action_pressed("Interagir"):
 		# Sem InputMap configurado, check da tecla 'E' diretamente visto que n setamos um InputMap ainda
 		# Precisamos discutir funcionalidades e um InputMap
-		interagir()
+		##interagir()
+	pass
 
 
 func _unhandled_key_input(event: InputEvent) -> void:  # Sera removido futuramente

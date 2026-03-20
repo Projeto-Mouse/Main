@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bgjin2o8j0cqj"
+path="res://.godot/imported/3.mp3-003c6a6b390079f2b6f46d3104299753.mp3str"
+
+[deps]
+
+source_file="res://Menus/Menu Debug/MusicasCenaDebug/3.mp3"
+dest_files=["res://.godot/imported/3.mp3-003c6a6b390079f2b6f46d3104299753.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

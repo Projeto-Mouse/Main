@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://jcbke0af5ohl"]
+
+[ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/ItemMundo.gd" id="1_1q5bm"]
+[ext_resource type="Texture2D" uid="uid://c1kdktb5onab2" path="res://Sprites/Itens/Armas/Pau.png" id="1_xogb3"]
+[ext_resource type="Resource" uid="uid://1o5h1otp6fto" path="res://Itens/Equipamentos/Armas/Pau/pau_data.tres" id="2_id2xw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0da0"]
+size = Vector3(2.747838, 1.5853786, 0.17651367)
+
+[node name="PauMundo" type="Node3D"]
+script = ExtResource("1_1q5bm")
+item_data = ExtResource("2_id2xw")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -0.030865788, 0.020081162, 0)
+texture = ExtResource("1_xogb3")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031174421, 0.5445826, -0.024536133)
+shape = SubResource("BoxShape3D_a0da0")
