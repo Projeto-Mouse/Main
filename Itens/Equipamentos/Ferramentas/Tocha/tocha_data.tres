@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TochaData" load_steps=3 format=3 uid="uid://bola6l4gtaha4"]
 
 [ext_resource type="Script" uid="uid://00k7t6k256og" path="res://Itens/Equipamentos/Ferramentas/Tocha/TochaData.gd" id="1_2wiqm"]
-[ext_resource type="PackedScene" uid="uid://cbttvartqc71d" path="res://Itens/Equipamentos/Ferramentas/Tocha/Tocha.tscn" id="1_xn7sq"]
+[ext_resource type="PackedScene" uid="uid://cbttvartqc71d" path="res://Itens/Cenas/CenasMaoJogador/TochaMao.tscn" id="1_xn7sq"]
 
 [resource]
 script = ExtResource("1_2wiqm")
