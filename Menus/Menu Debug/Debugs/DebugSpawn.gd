@@ -3,12 +3,14 @@ extends Control
 
 const SCALE_INIMIGO = 0.15
 
-enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO }
+enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO, ITEM }
 
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
 @onready var botao_spawnar_aliado = $Aliado
 @onready var quantidade_entidades_texto = $QtdEntidades
+@onready var botao_spawn_item = $Item
+@onready var explorer = $Explorador
 
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
@@ -16,19 +18,15 @@ var quantidade_entidades = 0
 
 var cena_debug: Node3D
 
+var cena_item_para_spawnar
+
 
 func _ready() -> void:
 	cena_debug = get_tree().get_first_node_in_group("debug")
 	posicao_spawnar = Vector3.ZERO
 
-	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
-	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
-	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
-
-	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
-	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
-	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
-
+	bloquear_foco_botao()
+	conectar_sinais()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -42,6 +40,8 @@ func _input(event: InputEvent) -> void:
 			tipo_spawn.ALIADO:
 				spawnar_aliado(get_viewport().get_mouse_position())
 				quantidade_entidades += 1
+			tipo_spawn.ITEM:
+				spawnar_item(get_viewport().get_mouse_position())
 
 		quantidade_entidades_texto.text = "Entidades spawnadas: " + str(quantidade_entidades)
 		spawn_atual = tipo_spawn.NENHUM
@@ -57,6 +57,29 @@ func _ao_apertar_botao_spawnar_voador() -> void:
 
 func _ao_apertar_botao_spawnar_alidao() -> void:
 	spawn_atual = tipo_spawn.ALIADO
+
+
+func _ao_apertar_botao_spawnar_item() -> void:
+	explorer.abrir_explorador()
+
+
+func trocar_estado_para_spawnar_item(cena_item_selecionado: PackedScene) -> void:
+	spawn_atual = tipo_spawn.ITEM
+	cena_item_para_spawnar = cena_item_selecionado
+
+
+func spawnar_item(posicao_click: Vector2) -> void:
+	if cena_item_para_spawnar == null:
+		return
+
+	var item_para_spawnar_instancia = cena_item_para_spawnar.instantiate()
+
+	posicao_spawnar = normalizar_pos_3d(posicao_click)
+
+	cena_debug.add_child(item_para_spawnar_instancia)
+
+	item_para_spawnar_instancia.global_position = posicao_spawnar
+	item_para_spawnar_instancia.global_position.z = 0
 
 
 func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
@@ -162,3 +185,18 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 	if posicao_intersecao != null:
 		return posicao_intersecao
 	return Vector3.ZERO
+
+func bloquear_foco_botao() -> void:
+	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
+	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
+	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
+	botao_spawn_item.focus_mode = Control.FOCUS_NONE
+	
+func conectar_sinais() -> void:
+	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
+	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
+	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
+
+	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
+
+	explorer.cena_selecionada.connect(trocar_estado_para_spawnar_item)
