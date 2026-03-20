@@ -43,7 +43,6 @@ func before_each():
 	add_child_autofree(item)
 	
 	var root = Node3D.new()
-	add_child_autofree(root)
 	
 	var Mao = Node3D.new()
 	Mao.name = "Mao"
@@ -66,14 +65,17 @@ func before_each():
 	jogador.add_child(col)
 
 	var canvas = CanvasLayer.new()
-	canvas.name = "CanvasLayer"
+	canvas.name = "BarraVida"
 
 	var barra = Control.new()
 	barra.name = "BarraVida"
 	canvas.add_child(barra)
 
+	jogador.em_teste = true
+	
 	root.add_child(canvas)
 	root.add_child(jogador)
+	add_child_autofree(root)
 	
 func test_calcular_movimento_horizontal_direita() -> void:
 	var resultado = jogador.calcular_movimento_horizontal(1.0)
