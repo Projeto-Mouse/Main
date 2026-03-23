@@ -1,7 +1,7 @@
 class_name Debug
 extends Node3D
 
-@onready var menu_de_pause: Control = $Jogador/pivo_Camera/Camera/MenuDePausa
+@onready var menu_de_pause: Control = $MenuDePausa
 @onready var botao_abrir_fechar_menu_debug = $AbrirMenuDebug/BotaoAbrirMenu
 @onready var debug_menu = $MenuDebug
 @onready var botao_trocar_musica = $TrocarMusica/BotaoTrocarMusica
