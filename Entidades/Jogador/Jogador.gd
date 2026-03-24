@@ -1,7 +1,7 @@
 class_name Jogador
 extends Entidade
 
-# flags 
+# flags
 var em_teste: bool = false
 
 enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
@@ -37,7 +37,6 @@ var modo_god: bool = false
 
 
 func _ready() -> void:
-	add_to_group("Jogador")
 	criar_luz_jogador()
 	criar_som_passos()
 	inventario_temp = InventarioTemp.new()
@@ -69,14 +68,14 @@ func _physics_process(delta):
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
-	
+
 	var estado_antigo = estado_atual
 	estado_atual = obter_novo_estado(esta_no_chao)
 	var estado_texto = "Estado Atual: " + estados_jogador.keys()[estado_atual]
 	if estado_antigo != estado_atual:
 		print(estado_texto)
 		DebugConsole.add_text_console_sem_cor(estado_texto)
-			 
+
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
 	position.z = 0
@@ -117,26 +116,31 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 	if estado_atual == estados_jogador.ESCALANDO:
 		var velocidade_final_y = -0.25 if direcao <= 0 else direcao * velocidade_base
 		return velocidade_final_y
-		
+
 	if no_chao:
 		var pode_pular = pular and not Input.is_action_pressed("Rastejar")
 		return forca_pulo if pode_pular else 0.0
-	
-	return velocity.y + ( gravidade * delta )
+
+	return velocity.y + (gravidade * delta)
+
 
 func obter_novo_estado(no_chao: bool) -> estados_jogador:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return estados_jogador.ESCALANDO
-			
+
 	if not no_chao:
 		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
-		
+
 	if Input.is_action_pressed("Rastejar"):
 		return estados_jogador.RASTEJANDO
-		
+
 	if movimento_x != 0:
-		return estados_jogador.DEVAGAR if Input.is_action_pressed("Devagar") else estados_jogador.ANDANDO
-		
+		return (
+			estados_jogador.DEVAGAR
+			if Input.is_action_pressed("Devagar")
+			else estados_jogador.ANDANDO
+		)
+
 	return estados_jogador.PARADO
 
 
@@ -192,7 +196,7 @@ func atualizar_posicao_luz_jogador() -> void:
 func computar_dano(dano_recebido: float) -> void:
 	if modo_god:
 		dano_recebido = 0.0
-		
+
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
 	vida_atual -= dano_arredondado
@@ -205,7 +209,7 @@ func computar_dano(dano_recebido: float) -> void:
 
 	var vida_atual_texto = "Vida atual = " + str(vida_atual)
 	var dano_texto = "Dano tomado = " + str(dano_arredondado)
-	
+
 	print(vida_atual_texto)
 	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
 	print(dano_texto)
@@ -215,16 +219,17 @@ func computar_dano(dano_recebido: float) -> void:
 		print("Jogador Morreu")
 		DebugConsole.add_text_console_sem_cor("Jogador Morreu")
 
+
 func arredondar_dano(dano_recebido: float) -> float:
 	var parte_inteira = int(dano_recebido)
 	var parte_decimal = dano_recebido - parte_inteira
 
 	if parte_decimal > 0.5:
 		return parte_inteira + 1
-		
+
 	if parte_decimal > 0 and parte_decimal <= 0.5:
 		return parte_inteira + 0.5
-		
+
 	return parte_inteira
 
 
@@ -288,11 +293,9 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 			pos_hot_bar_controle = 1
 		else:
 			item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
-			
+
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao()
 			break
-
-	

@@ -28,14 +28,15 @@ func _ready() -> void:
 	bloquear_foco_botao()
 	conectar_sinais()
 
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		match spawn_atual:
 			tipo_spawn.TERRESTRE:
-				spawnar_inimigo_terrestre(get_viewport().get_mouse_position())
+				spawnar_inimigo(get_viewport().get_mouse_position(), tipo_spawn.TERRESTRE)
 				quantidade_entidades += 1
 			tipo_spawn.VOADOR:
-				spawnar_inimigo_voador(get_viewport().get_mouse_position())
+				spawnar_inimigo(get_viewport().get_mouse_position(), tipo_spawn.VOADOR)
 				quantidade_entidades += 1
 			tipo_spawn.ALIADO:
 				spawnar_aliado(get_viewport().get_mouse_position())
@@ -47,16 +48,10 @@ func _input(event: InputEvent) -> void:
 		spawn_atual = tipo_spawn.NENHUM
 
 
-func _ao_apertar_botao_spawnar_terrestre() -> void:
-	spawn_atual = tipo_spawn.TERRESTRE
-
-
-func _ao_apertar_botao_spawnar_voador() -> void:
-	spawn_atual = tipo_spawn.VOADOR
-
-
-func _ao_apertar_botao_spawnar_alidao() -> void:
-	spawn_atual = tipo_spawn.ALIADO
+func _ao_apertar_botao_spawn(tipo_nome: String) -> void:
+	DebugConsole.add_text_console_sem_cor("Botao apertado")
+	if tipo_nome in tipo_spawn:
+		spawn_atual = tipo_spawn[tipo_nome]
 
 
 func _ao_apertar_botao_spawnar_item() -> void:
@@ -82,35 +77,38 @@ func spawnar_item(posicao_click: Vector2) -> void:
 	item_para_spawnar_instancia.global_position.z = 0
 
 
-func spawnar_inimigo_terrestre(posicao_click: Vector2) -> void:
-	print("Spawnar terrestre chamado")
-	DebugConsole.add_text_console_sem_cor("Spawnar terrestre chamado")
-	var terrestre: Inimigo = InimigoTerrestre.new()
-	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	posicao_spawnar.z = 0.1
-	posicao_spawnar.y += 1.0
-	terrestre.name = "InimigoTerrestreTeste"
-	terrestre.position = posicao_spawnar
-	terrestre.velocidade_base = 2.0
-	terrestre.gravidade = 9.8
-	setup_inimigo_visual(terrestre, Color.BLUE, SCALE_INIMIGO)
-	adicionar_sensor_auditivo(terrestre)
-	cena_debug.add_child(terrestre)
+func spawnar_inimigo(posicao_click: Vector2, tipo: tipo_spawn) -> void:
+	var inimigo: Inimigo
+	var cor: Color
+	var nome_debug: String
 
+	# 1. Define o que eh especifico de cada tipo
+	match tipo:
+		tipo_spawn.TERRESTRE:
+			inimigo = InimigoTerrestre.new()
+			inimigo.gravidade = 9.8
+			cor = Color.BLUE
+			nome_debug = "Terrestre"
+		tipo_spawn.VOADOR:
+			inimigo = InimigoVoador.new()
+			cor = Color.RED
+			nome_debug = "Voador"
 
-func spawnar_inimigo_voador(posicao_click: Vector2) -> void:
-	print("Spawnar voador chamado")
-	DebugConsole.add_text_console_sem_cor("Spawnar voador chamado")
-	var voador: Inimigo = InimigoVoador.new()
-	posicao_spawnar = normalizar_pos_3d(posicao_click)
-	posicao_spawnar.z = 0.1
-	posicao_spawnar.y += 1.0
-	voador.name = "InimigoVoadorTeste"
-	voador.position = posicao_spawnar
-	voador.velocidade_base = 2.0
-	setup_inimigo_visual(voador, Color.RED, SCALE_INIMIGO)
-	adicionar_sensor_auditivo(voador)  # Sistema deteccao de som
-	cena_debug.add_child(voador)
+	# 2. Unifica o resto
+	print("Spawnar %s chamado" % nome_debug)
+	DebugConsole.add_text_console_sem_cor("Spawnar %s chamado" % nome_debug)
+
+	var pos = normalizar_pos_3d(posicao_click)
+	pos.z = 0.1
+	pos.y += 1.0
+
+	inimigo.name = "Inimigo" + nome_debug + "Teste"
+	inimigo.position = pos
+	inimigo.velocidade_base = 2.0
+
+	setup_inimigo_visual(inimigo, cor, SCALE_INIMIGO)
+	adicionar_sensor_auditivo(inimigo)
+	cena_debug.add_child(inimigo)
 
 
 func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -> void:
@@ -186,16 +184,18 @@ func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
 		return posicao_intersecao
 	return Vector3.ZERO
 
+
 func bloquear_foco_botao() -> void:
 	botao_spawnar_terrestre.focus_mode = Control.FOCUS_NONE
 	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
 	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
 	botao_spawn_item.focus_mode = Control.FOCUS_NONE
-	
+
+
 func conectar_sinais() -> void:
-	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawnar_terrestre)
-	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawnar_voador)
-	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawnar_alidao)
+	botao_spawnar_aliado.pressed.connect(_ao_apertar_botao_spawn.bind("ALIADO"))
+	botao_spawnar_terrestre.pressed.connect(_ao_apertar_botao_spawn.bind("TERRESTRE"))
+	botao_spawnar_voador.pressed.connect(_ao_apertar_botao_spawn.bind("VOADOR"))
 
 	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
 
