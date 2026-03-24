@@ -1,9 +1,6 @@
 class_name Jogador
 extends Entidade
 
-# flags 
-var em_teste: bool = false
-
 enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
 
 const INTERVALO_PASSOS: float = 0.4
@@ -20,6 +17,7 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
 @onready var mao: Node3D = $Mao
 
+var raycast_cima: RayCast3D
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
@@ -28,7 +26,7 @@ var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
-
+ 
 var movimento_x: float
 var movimento_y: float
 
@@ -36,9 +34,11 @@ func _ready() -> void:
 	add_to_group("Jogador")
 	criar_luz_jogador()
 	criar_som_passos()
+	criar_no_filho_raycast_cima()
 	inventario_temp = InventarioTemp.new()
 
-
+var bloqueio_em_cima = raycast_cima.is_colliding()
+	
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("AplicarDano"):
 		computar_dano(dano)
@@ -60,7 +60,7 @@ func _physics_process(delta):
 	var direcao_y = Input.get_axis("Baixo", "Cima")
 	var apertou_pular = Input.is_action_just_pressed("Pular")
 
-	movimento_x = calcular_movimento_horizontal(direcao_x)
+	movimento_x = calcular_movimento_horizontal(direcao_x, esta_no_chao)
 
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
@@ -74,6 +74,11 @@ func _physics_process(delta):
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
 
+func criar_no_filho_raycast_cima() -> void:
+	raycast_cima = criar_raycast()
+	configurar_raycast(raycast_cima, true, 1, true)
+	raycast_cima.target_position = Vector3(0, 0.45, 0)
+	add_child(raycast_cima)
 
 func movimentacao() -> void:
 	velocity.z = 0
@@ -82,14 +87,13 @@ func movimentacao() -> void:
 
 	move_and_slide()
 
-
-func calcular_movimento_horizontal(direcao: float) -> float:
+func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 	var velocidade_final = velocidade_base
 
 	if Input.is_action_pressed("Devagar"):
 		velocidade_final *= 0.4
 
-	if Input.is_action_pressed("Rastejar"):
+	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_final *= 0.3
@@ -124,11 +128,15 @@ var estado_anterior = estado_atual
 func atualizar_estado(no_chao: bool, movimento_x: float) -> void:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return
-
+	
 	if not no_chao:
 		estado_atual = estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
 	elif Input.is_action_pressed("Rastejar"):
 		estado_atual = estados_jogador.RASTEJANDO
+		if not bloqueio_em_cima:
+			pass
+		else:
+			estado_atual = estados_jogador.RASTEJANDO
 	elif movimento_x != 0:
 		if Input.is_action_pressed("Devagar"):
 			estado_atual = estados_jogador.DEVAGAR
@@ -197,8 +205,7 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
-		if !em_teste:
-			get_tree().change_scene_to_packed(cena_morte)
+		get_tree().change_scene_to_packed(cena_morte)
 
 	print("vida atual = ", vida_atual)
 
