@@ -37,7 +37,6 @@ func _ready() -> void:
 	criar_no_filho_raycast_cima()
 	inventario_temp = InventarioTemp.new()
 
-var bloqueio_em_cima = raycast_cima.is_colliding()
 	
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("AplicarDano"):
@@ -77,8 +76,9 @@ func _input(event: InputEvent) -> void:
 func criar_no_filho_raycast_cima() -> void:
 	raycast_cima = criar_raycast()
 	configurar_raycast(raycast_cima, true, 1, true)
-	raycast_cima.target_position = Vector3(0, 0.45, 0)
+	raycast_cima.target_position = Vector3(0, 0.35, 0)
 	add_child(raycast_cima)
+	raycast_cima.enabled = false
 
 func movimentacao() -> void:
 	velocity.z = 0
@@ -93,13 +93,22 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 	if Input.is_action_pressed("Devagar"):
 		velocidade_final *= 0.4
 
-	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima:
+	if Input.is_action_pressed("Rastejar"):
+		raycast_cima.enabled = true
+		collision_shape.rotation_degrees.x = 90
+		mesh_instance.rotation_degrees.x = 90
+		velocidade_final *= 0.3
+	
+	if raycast_cima.enabled == true and raycast_cima.is_colliding():
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_final *= 0.3
 	else:
+		raycast_cima.enabled = false
 		collision_shape.rotation_degrees.x = 0
 		mesh_instance.rotation_degrees.x = 0
+
+		
 
 	return direcao * velocidade_final
 
@@ -128,15 +137,15 @@ var estado_anterior = estado_atual
 func atualizar_estado(no_chao: bool, movimento_x: float) -> void:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return
+
+	var bloqueio_em_cima = raycast_cima.is_colliding()
 	
 	if not no_chao:
 		estado_atual = estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
+	if bloqueio_em_cima and no_chao:
+		estado_atual = estados_jogador.RASTEJANDO
 	elif Input.is_action_pressed("Rastejar"):
 		estado_atual = estados_jogador.RASTEJANDO
-		if not bloqueio_em_cima:
-			pass
-		else:
-			estado_atual = estados_jogador.RASTEJANDO
 	elif movimento_x != 0:
 		if Input.is_action_pressed("Devagar"):
 			estado_atual = estados_jogador.DEVAGAR
