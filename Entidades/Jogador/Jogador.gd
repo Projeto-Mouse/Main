@@ -76,7 +76,7 @@ func _input(event: InputEvent) -> void:
 func criar_no_filho_raycast_cima() -> void:
 	raycast_cima = criar_raycast()
 	configurar_raycast(raycast_cima, true, 1, true)
-	raycast_cima.target_position = Vector3(0, 0.35, 0)
+	raycast_cima.target_position = Vector3(0, 0.45, 0)
 	add_child(raycast_cima)
 	raycast_cima.enabled = false
 
@@ -94,20 +94,18 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 		velocidade_final *= 0.4
 
 	if Input.is_action_pressed("Rastejar"):
-		raycast_cima.enabled = true
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_final *= 0.3
-	
-	if raycast_cima.enabled == true and raycast_cima.is_colliding():
+		raycast_cima.enabled = true
+	elif raycast_cima.is_colliding() and no_chao:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_final *= 0.3
 	else:
-		raycast_cima.enabled = false
 		collision_shape.rotation_degrees.x = 0
 		mesh_instance.rotation_degrees.x = 0
-
+		raycast_cima.enabled = false
 		
 
 	return direcao * velocidade_final
