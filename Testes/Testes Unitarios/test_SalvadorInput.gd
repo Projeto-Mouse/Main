@@ -3,9 +3,10 @@ extends GutTest
 ## Testes unitarios para o SalvadorInput.
 ## Verifica que remapeamentos sao persistidos corretamente e o reset funciona.
 
-var salvador: SalvadorInput
 const ACAO_TESTE: String = "Pular"
 const CAMINHO_ARQUIVO: String = "user://input_settings.cfg"
+
+var salvador: SalvadorInput
 
 
 func before_each() -> void:

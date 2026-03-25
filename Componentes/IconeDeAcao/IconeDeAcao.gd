@@ -4,13 +4,13 @@ extends HBoxContainer
 ## Componente de UI reutilizavel que exibe o icone de input correto para uma acao.
 ## Se conecta ao ControladorInput e atualiza a textura em tempo real ao trocar periferico.
 
+const FONTE := preload("res://Fontes/Teste/terminal-grotesque.ttf")
+
 ## Nome da acao do InputMap (ex: "PegarItem", "Pular")
 @export var acao: String = ""
 
 ## Texto opcional exibido ao lado do icone (ex: "para abrir")
 @export var texto_label: String = ""
-
-const FONTE := preload("res://Fontes/Teste/terminal-grotesque.ttf")
 
 @onready var _icone: TextureRect = $IconeRect
 @onready var _label: Label = $LabelTexto

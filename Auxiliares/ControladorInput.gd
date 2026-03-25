@@ -4,6 +4,8 @@ extends Node
 ## e identificar o layout do gamepad (Xbox ou PS5/DualSense).
 ## Emite o sinal [dispositivo_alterado] sempre que houver uma troca de periferico.
 
+signal dispositivo_alterado(tipo: TipoDispositivo, layout: LayoutGamepad)
+
 enum TipoDispositivo {
 	TECLADO_MOUSE,
 	GAMEPAD,
@@ -13,8 +15,6 @@ enum LayoutGamepad {
 	XBOX,
 	PS,
 }
-
-signal dispositivo_alterado(tipo: TipoDispositivo, layout: LayoutGamepad)
 
 var dispositivo_atual: TipoDispositivo = TipoDispositivo.TECLADO_MOUSE
 var layout_atual: LayoutGamepad = LayoutGamepad.XBOX

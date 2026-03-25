@@ -1,14 +1,6 @@
 class_name MenuDePausa
 extends Control
 
-@onready var voltar_ao_jogo: Button = $MarginContainer/VBoxContainer/voltar_ao_jogo
-@onready var opcoes_in_game: Button = $MarginContainer/VBoxContainer/opcoes_in_game
-@onready var salvar: Button = $MarginContainer/VBoxContainer/salvar
-@onready var sair_do_jogo: Button = $MarginContainer/VBoxContainer/sair_do_jogo
-@onready var margin_container = $MarginContainer as MarginContainer
-@onready var botoes_vbox = $MarginContainer/VBoxContainer
-@onready var menu_de_opcoes = $MenuDeOpcoes
-
 var posicao_original_x: float = 0.0
 
 var is_animating: bool = false
@@ -17,6 +9,14 @@ var animation_duration_ms: int = 400
 var animation_start_x: float = 0.0
 var animation_target_x: float = 0.0
 var animation_callback: Callable = Callable()
+
+@onready var voltar_ao_jogo: Button = $MarginContainer/VBoxContainer/voltar_ao_jogo
+@onready var opcoes_in_game: Button = $MarginContainer/VBoxContainer/opcoes_in_game
+@onready var salvar: Button = $MarginContainer/VBoxContainer/salvar
+@onready var sair_do_jogo: Button = $MarginContainer/VBoxContainer/sair_do_jogo
+@onready var margin_container = $MarginContainer as MarginContainer
+@onready var botoes_vbox = $MarginContainer/VBoxContainer
+@onready var menu_de_opcoes = $MenuDeOpcoes
 
 
 func _ready():

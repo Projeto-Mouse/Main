@@ -30,8 +30,8 @@ func carregar_remapeamentos() -> void:
 	var erro := config.load(CAMINHO_ARQUIVO)
 
 	if erro == ERR_FILE_NOT_FOUND:
-		return  # Nenhum arquivo salvo ainda — usa os padroes do projeto
-	elif erro != OK:
+		return # Nenhum arquivo salvo ainda — usa os padroes do projeto
+	if erro != OK:
 		push_error("[SalvadorInput] Falha ao carregar remapeamentos: %s" % error_string(erro))
 		return
 
@@ -68,18 +68,18 @@ func _serializar_evento(evento: InputEvent) -> Dictionary:
 			"ctrl": evento.ctrl_pressed,
 			"alt": evento.alt_pressed,
 		}
-	elif evento is InputEventJoypadButton:
+	if evento is InputEventJoypadButton:
 		return {
 			"tipo": "joypad_button",
 			"button_index": evento.button_index,
 		}
-	elif evento is InputEventJoypadMotion:
+	if evento is InputEventJoypadMotion:
 		return {
 			"tipo": "joypad_motion",
 			"axis": evento.axis,
 			"axis_value": evento.axis_value,
 		}
-	elif evento is InputEventMouseButton:
+	if evento is InputEventMouseButton:
 		return {
 			"tipo": "mouse_button",
 			"button_index": evento.button_index,
