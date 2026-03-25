@@ -1,3 +1,144 @@
-[gd_scene format=3 uid="uid://c30so6kdawvgx"]
+[gd_scene load_steps=15 format=3 uid="uid://c30so6kdawvgx"]
 
-[node name="Debug" type="Node3D"]
+[ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
+[ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_uepp0"]
+[ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="3_kfvfk"]
+[ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
+[ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="5_eyvbi"]
+[ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="6_rk7pk"]
+[ext_resource type="PackedScene" uid="uid://b4vfiwl5jri1" path="res://Entidades/Jogador/Jogador.tscn" id="7_uepp0"]
+[ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Menus/Menu Debug/DebugMenu.tscn" id="8_kfvfk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mpjjm"]
+size = Vector3(100, 0.1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vjcbb"]
+size = Vector3(100, 0.1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vjcbb"]
+size = Vector3(0.1, 10, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uvqsq"]
+size = Vector3(0.1, 10, 0.49)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kfvfk"]
+size = Vector3(2, 0.9, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7qkyi"]
+size = Vector3(2, 0.9, 0.5)
+
+[node name="Debug" type="Node3D" groups=["debug"]]
+script = ExtResource("1_uepp0")
+
+[node name="Chao" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Chao"]
+mesh = SubResource("BoxMesh_mpjjm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Chao"]
+shape = SubResource("BoxShape3D_vjcbb")
+
+[node name="Parede Direita" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.467834, 0.550025, -0.051152825)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede Direita"]
+transform = Transform3D(1, 0, 0, 0, 1.2693205, 0, 0, 0, 1, 0.4796791, -0.46078765, 0.05448033)
+mesh = SubResource("BoxMesh_vjcbb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede Direita"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, -0.461, 0.054)
+shape = SubResource("BoxShape3D_uvqsq")
+
+[node name="Parede Esquerda" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.441364, 0.55, -0.051)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede Esquerda"]
+transform = Transform3D(1, 0, 0, 0, 1.2693205, 0, 0, 0, 1, 0.4796791, -0.46078765, 0.05448033)
+mesh = SubResource("BoxMesh_vjcbb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede Esquerda"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, -0.461, 0.054)
+shape = SubResource("BoxShape3D_uvqsq")
+
+[node name="Parede" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9079541, 0.62641674, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14462101, 0)
+mesh = SubResource("BoxMesh_kfvfk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1444925, 0)
+shape = SubResource("BoxShape3D_7qkyi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+
+[node name="AbrirMenuDebug" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -188.0
+offset_top = 19.0
+offset_right = -9.0
+offset_bottom = 107.0
+grow_horizontal = 0
+
+[node name="BotaoAbrirMenu" type="Button" parent="AbrirMenuDebug"]
+layout_mode = 1
+offset_left = 23.0
+offset_top = -11.0
+offset_right = 173.0
+offset_bottom = 20.0
+text = "Abrir Menu Debug
+"
+
+[node name="TrocarMusica" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BotaoTrocarMusica" type="Button" parent="TrocarMusica"]
+layout_mode = 0
+offset_left = 848.0
+offset_top = 8.0
+offset_right = 965.0
+offset_bottom = 39.0
+text = "Trocar Musica
+"
+
+[node name="FPS" type="Label" parent="."]
+offset_left = 726.0
+offset_top = 13.0
+offset_right = 766.0
+offset_bottom = 36.0
+
+[node name="MenuDebug" type="CanvasLayer" parent="."]
+
+[node name="DebugMenu" parent="MenuDebug" instance=ExtResource("8_kfvfk")]
+offset_top = 50.0
+offset_right = -7.0
+offset_bottom = -13.0
+
+[node name="Jogador" parent="." instance=ExtResource("7_uepp0")]
+nome = "Debug"
+
+[node name="BarraVida" type="CanvasLayer" parent="."]
+
+[node name="BarraVida" type="Control" parent="BarraVida" node_paths=PackedStringArray("player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_kfvfk")
+player = NodePath("../../Jogador")
+sprite_vida_cheia = ExtResource("4_7qkyi")
+sprite_vida_meio = ExtResource("5_eyvbi")
+sprite_vida_vazia = ExtResource("6_rk7pk")
+
+[node name="MenuDePausa" parent="." instance=ExtResource("2_uepp0")]
+process_mode = 0
+visible = false
+
+[connection signal="pressed" from="TrocarMusica/BotaoTrocarMusica" to="." method="_on_botao_trocar_musica_pressed"]

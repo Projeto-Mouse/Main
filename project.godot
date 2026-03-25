@@ -29,6 +29,7 @@ ControladorRuido="*res://Auxiliares/ControladorRuido.gd"
 ControladorMusica="*res://Auxiliares/ControladorMusica.gd"
 ControladorDebug="*res://Auxiliares/ControladorDebug.gd"
 ControladorCena="*res://Auxiliares/ControladorCena.gd"
+DebugConsole="*res://Menus/Menu Debug/Debugs/DebugConsole.gd"
 
 [display]
 
@@ -50,6 +51,7 @@ Escalaveis="Objetos Escalaveis"
 ItensInterativos="Grupo de itens interativos"
 Entidades=""
 CameraJogador=""
+Jogador="Grupo que fica o jogador"
 
 [input]
 

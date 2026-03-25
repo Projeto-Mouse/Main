@@ -40,8 +40,9 @@ func on_jogar_pressed() -> void:
 	get_tree().paused = false
 	Engine.time_scale = 1
 	
-	if Engine.has_singleton("ControladorDebug") and ControladorDebug.is_dev():
+	if ControladorDebug.is_dev():
 		get_tree().change_scene_to_packed(cena_debug)
+		return
 	
 	get_tree().change_scene_to_packed(começar_jogo)
 
