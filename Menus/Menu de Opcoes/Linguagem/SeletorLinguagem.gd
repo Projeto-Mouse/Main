@@ -8,10 +8,12 @@ var botoes_linguagem: Array = []
 
 signal linguagem_selecionada
 
+
 func inicializar() -> void:
 	if botoes_linguagem.is_empty():
 		_criar_botoes()
 		atualizar_estado_botoes()
+
 
 func _criar_botoes() -> void:
 	var langs = [
@@ -23,12 +25,14 @@ func _criar_botoes() -> void:
 	for lang_data in langs:
 		var btn = _criar_botao(lang_data["name"], lang_data["node_name"])
 		var locale_str = lang_data["locale"]
-		btn.pressed.connect(func():
-			ControladorTraducao.set_traducao(locale_str)
-			atualizar_estado_botoes()
-			linguagem_selecionada.emit()
+		btn.pressed.connect(
+			func():
+				ControladorTraducao.set_traducao(locale_str)
+				atualizar_estado_botoes()
+				linguagem_selecionada.emit()
 		)
 		botoes_linguagem.append(btn)
+
 
 func _criar_botao(texto: String, nome: String) -> Button:
 	var btn = Button.new()
@@ -45,6 +49,7 @@ func _criar_botao(texto: String, nome: String) -> Button:
 	btn.add_theme_color_override("font_pressed_color", Color.WHITE)
 	return btn
 
+
 func atualizar_estado_botoes() -> void:
 	var locale_atual = TranslationServer.get_locale()
 	for btn in botoes_linguagem:
@@ -53,13 +58,17 @@ func atualizar_estado_botoes() -> void:
 
 		var is_active = false
 		match btn.name:
-			"BtnPtBR": is_active = (locale_atual == "pt_BR")
-			"BtnEnUS": is_active = (locale_atual == "en_US")
-			"BtnEsES": is_active = (locale_atual == "es_ES")
+			"BtnPtBR":
+				is_active = (locale_atual == "pt_BR")
+			"BtnEnUS":
+				is_active = (locale_atual == "en_US")
+			"BtnEsES":
+				is_active = (locale_atual == "es_ES")
 
 		if is_active:
 			btn.disabled = true
 			btn.add_theme_color_override("font_disabled_color", Color.WHITE)
+
 
 func obter_botoes() -> Array:
 	return botoes_linguagem

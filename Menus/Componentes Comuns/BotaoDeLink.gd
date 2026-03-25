@@ -3,8 +3,10 @@ extends Button
 
 @export var url_destino: String = ""
 
+
 func _ready() -> void:
 	pressed.connect(_on_pressed)
+
 
 func _on_pressed() -> void:
 	if url_destino.begins_with("http"):

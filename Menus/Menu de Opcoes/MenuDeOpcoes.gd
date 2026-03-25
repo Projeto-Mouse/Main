@@ -23,6 +23,7 @@ var itens_menu_apoio: Array = []
 
 var ultimo_processo_msec: int = 0
 
+
 func _ready() -> void:
 	visible = false
 	modulate.a = 0.0
@@ -44,9 +45,10 @@ func _ready() -> void:
 	carrossel.carregar_itens(itens_menu_principal)
 
 	animacao = AnimacaoDeMenu.new()
-	animacao.inicializar(self , container_principal)
+	animacao.inicializar(self, container_principal)
 
 	_conectar_botoes_principais()
+
 
 func _conectar_botoes_principais() -> void:
 	var mapa = {
@@ -67,47 +69,55 @@ func _conectar_botoes_principais() -> void:
 				btn.pressed.connect(mapa[btn_name])
 				btn.pressed.connect(func(): carrossel.indice_alvo = carrossel.encontrar_indice(btn))
 
+
 func _encontrar_botao(nome: String) -> Control:
 	for b in carrossel.botoes:
 		if b.name == nome:
 			return b
 	return null
 
+
 func mostrar_menu_principal() -> void:
 	carrossel.carregar_itens(itens_menu_principal)
+
 
 func mostrar_menu_graficos() -> void:
 	_carregar_graficos_se_necessario()
 	carrossel.carregar_itens(itens_menu_graficos)
 
+
 func mostrar_menu_som() -> void:
 	_carregar_som_se_necessario()
 	carrossel.carregar_itens(itens_menu_som)
+
 
 func mostrar_menu_linguagens() -> void:
 	_carregar_linguagens_se_necessario()
 	carrossel.carregar_itens(itens_menu_linguagens)
 
+
 func _carregar_linguagens_se_necessario() -> void:
 	if itens_menu_linguagens.size() > 0:
 		return
-	
+
 	var seletor = SeletorLinguagem.new()
 	seletor.inicializar()
 	var itens = seletor.obter_botoes()
 	for item in itens:
 		itens_menu_linguagens.append(item)
-		
+
 	itens_menu_linguagens.append(_criar_botao_voltar())
+
 
 func mostrar_menu_apoio() -> void:
 	_carregar_apoio_se_necessario()
 	carrossel.carregar_itens(itens_menu_apoio)
 
+
 func _carregar_apoio_se_necessario() -> void:
 	if itens_menu_apoio.size() > 0:
 		return
-		
+
 	var redes = [
 		{"nome": "YouTube", "url": "https://www.youtube.com/@mouseproject"},
 		{"nome": "X (Twitter)", "url": "https://x.com/mousegame_ofc"},
@@ -116,7 +126,7 @@ func _carregar_apoio_se_necessario() -> void:
 		{"nome": "Ko-fi", "url": "https://ko-fi.com/mousegameproject"},
 		{"nome": "Instagram", "url": "https://instagram.com/"}
 	]
-	
+
 	for l in redes:
 		var btn = BotaoDeLink.new()
 		btn.text = l["nome"]
@@ -131,13 +141,14 @@ func _carregar_apoio_se_necessario() -> void:
 		btn.add_theme_color_override("font_hover_color", Color.WHITE)
 		btn.add_theme_color_override("font_focus_color", Color.WHITE)
 		btn.add_theme_color_override("font_pressed_color", Color.WHITE)
-		
+
 		# Opcional: Adicionar um mouse_default_cursor_shape para indicar que é clicável
 		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		
+
 		itens_menu_apoio.append(btn)
-		
+
 	itens_menu_apoio.append(_criar_botao_voltar())
+
 
 func _carregar_graficos_se_necessario() -> void:
 	if itens_menu_graficos.size() > 0:
@@ -157,6 +168,7 @@ func _carregar_graficos_se_necessario() -> void:
 		itens_menu_graficos.append(_criar_btn_placeholder(p_name))
 
 	itens_menu_graficos.append(_criar_botao_voltar())
+
 
 func _carregar_som_se_necessario() -> void:
 	if itens_menu_som.size() > 0:
@@ -194,6 +206,7 @@ func _carregar_som_se_necessario() -> void:
 
 	itens_menu_som.append(_criar_botao_voltar())
 
+
 func _criar_botao_voltar() -> Button:
 	var btn = Button.new()
 	btn.name = "Voltar"
@@ -209,6 +222,7 @@ func _criar_botao_voltar() -> Button:
 	btn.pressed.connect(mostrar_menu_principal)
 	return btn
 
+
 func _criar_btn_placeholder(nome: String) -> Button:
 	var btn = Button.new()
 	btn.text = nome
@@ -221,10 +235,12 @@ func _criar_btn_placeholder(nome: String) -> Button:
 	btn.add_theme_color_override("font_hover_color", Color.WHITE)
 	return btn
 
+
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
 	carrossel.processar_scroll(event)
+
 
 func _process(delta: float) -> void:
 	var current_msec = Time.get_ticks_msec()
@@ -235,6 +251,7 @@ func _process(delta: float) -> void:
 
 	animacao.processar(real_delta)
 	carrossel.atualizar(anim_delta)
+
 
 func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 	menu_origem = origem
@@ -251,15 +268,18 @@ func abrir_menu_opcoes(origem: Control, container_ref: Control = null) -> void:
 		var local_target = animacao.calcular_posicao_central()
 		animacao.animar_entrada(local_target)
 
+
 func _on_voltar_pressed() -> void:
-	animacao.animar_saida(func():
-		visible = false
-		sair_das_opcoes.emit()
-		if menu_origem and menu_origem.has_method("grab_focus_on_return"):
-			menu_origem.grab_focus_on_return()
-		elif menu_origem and menu_origem is Control:
-			menu_origem.grab_focus()
+	animacao.animar_saida(
+		func():
+			visible = false
+			sair_das_opcoes.emit()
+			if menu_origem and menu_origem.has_method("grab_focus_on_return"):
+				menu_origem.grab_focus_on_return()
+			elif menu_origem and menu_origem is Control:
+				menu_origem.grab_focus()
 	)
+
 
 func abrir_tela_de_creditos() -> void:
 	var cena_creditos = load("res://Menus/Menu de Opcoes/Creditos/MenuCreditos.tscn")
