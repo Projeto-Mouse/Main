@@ -1,8 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjw1fvk3twwwa"]
+[gd_scene load_steps=5 format=3 uid="uid://cjw1fvk3twwwa"]
 
 [ext_resource type="Texture2D" uid="uid://c1kdktb5onab2" path="res://Sprites/Itens/Armas/Pau.png" id="1_2rthh"]
+[ext_resource type="Script" uid="uid://cn7brdfphanjw" path="res://Itens/Equipamentos/Armas/Pau/PauScript.gd" id="1_rtdh3"]
+[ext_resource type="Resource" uid="uid://1o5h1otp6fto" path="res://Itens/Equipamentos/Armas/Pau/pau_data.tres" id="2_lvby6"]
 
-[node name="Pau" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_0xt2l"]
+size = Vector3(0.5, 1, 0.05)
+
+[node name="Pau" type="Node3D" node_paths=PackedStringArray("hitbox", "area_3d_ataque")]
+script = ExtResource("1_rtdh3")
+hitbox = NodePath("area3dataque/hitbox")
+area_3d_ataque = NodePath("area3dataque")
+data = ExtResource("2_lvby6")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 texture = ExtResource("1_2rthh")
+
+[node name="area3dataque" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25116715, 0, 0)
+
+[node name="hitbox" type="CollisionShape3D" parent="area3dataque"]
+shape = SubResource("BoxShape3D_0xt2l")

@@ -5,6 +5,8 @@
 
 [resource]
 script = ExtResource("1_pgbve")
+dano = 1.0
 nome = "Pau"
+tipo = "Arma"
 cena_3d = ExtResource("1_b0ebi")
 metadata/_custom_type_script = "uid://i8rre581034j"
