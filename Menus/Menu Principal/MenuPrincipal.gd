@@ -1,6 +1,12 @@
 class_name MenuPrincipal
 extends Control
 
+const MUSICA_MENU = preload("res://Sons/Musicas/Menu/Main Menu.wav")
+# Leva o jogador para o começo do jogo.
+# TODO: altere depois o diretório para abrir a cena correta
+const COMECAR_JOGO = preload("res://Cenas/Game.tscn")
+const CENA_DEBUG = preload("res://Cenas/CenaDebug/Debug.tscn")
+
 @onready var jogar_button = $MarginContainer/HBoxContainer/VBoxContainer/jogar_Button as Button
 @onready var carregar_button = $MarginContainer/HBoxContainer/VBoxContainer/carregar_Button as Button
 @onready var opcao_button = $MarginContainer/HBoxContainer/VBoxContainer/opcao_Button as Button
@@ -9,18 +15,11 @@ extends Control
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var video_player = $VideoMenu
 @onready var botoes_vbox = $MarginContainer/HBoxContainer/VBoxContainer
-# Preload de música permanece no mesmo local (Sons não foi movido)
-@onready var musica_menu = preload("res://Sons/Musicas/Menu/Main Menu.wav")
-
-# Leva o jogador para o começo do jogo.
-# TODO: altere depois o diretório para abrir a cena correta
-@onready var começar_jogo = preload("res://Cenas/Game.tscn") as PackedScene
-@onready var cena_debug = preload("res://Cenas/CenaDebug/Debug.tscn") as PackedScene
 
 
 func _ready():
 	video_player.play()
-	ControladorMusica.tocar_musica(musica_menu, true)
+	ControladorMusica.tocar_musica(MUSICA_MENU, true)
 
 	# Garante que o MarginContainer tenha exatamente o mesmo tamanho e posição do VideoMenu
 	# Isso corrige inconsistências visuais onde o container de UI não alinhava com o fundo
@@ -40,10 +39,10 @@ func on_jogar_pressed() -> void:
 	Engine.time_scale = 1
 
 	if ControladorDebug.is_dev():
-		get_tree().change_scene_to_packed(cena_debug)
+		get_tree().change_scene_to_packed(CENA_DEBUG)
 		return
 
-	get_tree().change_scene_to_packed(começar_jogo)
+	get_tree().change_scene_to_packed(COMECAR_JOGO)
 
 
 func on_carregar_pressed() -> void:

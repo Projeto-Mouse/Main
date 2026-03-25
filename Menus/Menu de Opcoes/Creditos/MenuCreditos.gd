@@ -4,9 +4,8 @@ extends Control
 signal ao_fechar
 
 const SCROLL_SPEED = 60.0
-
-@onready var scroll_container = $ScrollArea
-@onready var vbox = $ScrollArea/VBoxContainer
+const FONT = preload("res://Fontes/Teste/terminal-grotesque.ttf")
+const LOGO_TEX = preload("res://addons/gut/icon.png")
 
 var rolando = true
 var posicao_atual = 0.0
@@ -107,6 +106,9 @@ var credits_data = [
 	}
 ]
 
+@onready var scroll_container = $ScrollArea
+@onready var vbox = $ScrollArea/VBoxContainer
+
 
 func _ready() -> void:
 	modulate.a = 0.0
@@ -121,13 +123,10 @@ func _ready() -> void:
 
 
 func _construir_creditos() -> void:
-	var font = preload("res://Fontes/Teste/terminal-grotesque.ttf")
-
 	for section in credits_data:
 		var title_label = Label.new()
 		title_label.text = tr(section["title"])
-		if font:
-			title_label.add_theme_font_override("font", font)
+		title_label.add_theme_font_override("font", FONT)
 		title_label.add_theme_font_size_override("font_size", 64)
 		title_label.add_theme_color_override("font_color", Color(1, 0.8, 0))  # Amarelo para destacar
 		title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -140,8 +139,7 @@ func _construir_creditos() -> void:
 		for r in section["roles"]:
 			var role_label = Label.new()
 			role_label.text = tr(r["role"])
-			if font:
-				role_label.add_theme_font_override("font", font)
+			role_label.add_theme_font_override("font", FONT)
 			role_label.add_theme_font_size_override("font_size", 40)
 			role_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))  # Cinza claro
 			role_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -150,8 +148,7 @@ func _construir_creditos() -> void:
 			for n in r["names"]:
 				var name_label = Label.new()
 				name_label.text = tr(n)
-				if font:
-					name_label.add_theme_font_override("font", font)
+				name_label.add_theme_font_override("font", FONT)
 				name_label.add_theme_font_size_override("font_size", 48)
 				name_label.add_theme_color_override("font_color", Color(1, 1, 1))  # Branco
 				name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -166,19 +163,16 @@ func _construir_creditos() -> void:
 		vbox.add_child(spacer_section)
 
 	# Logo da Godot
-	# Segundo a documentação era pra ir assim automaticamente mas nao rolou
 	# Depois vamos ter que adicionar manualmente
-	var logo_tex = preload("res://addons/gut/icon.png")
-	if logo_tex:
+	if LOGO_TEX:
 		var tex_rect = TextureRect.new()
-		tex_rect.texture = logo_tex
+		tex_rect.texture = LOGO_TEX
 		tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 		vbox.add_child(tex_rect)
 
 		var msg_logo = Label.new()
 		msg_logo.text = "Powered by Godot Engine"
-		if font:
-			msg_logo.add_theme_font_override("font", font)
+		msg_logo.add_theme_font_override("font", FONT)
 		msg_logo.add_theme_font_size_override("font_size", 32)
 		msg_logo.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
 		msg_logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

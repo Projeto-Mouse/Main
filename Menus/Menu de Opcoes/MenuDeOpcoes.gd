@@ -7,11 +7,10 @@ extends Control
 
 signal sair_das_opcoes
 
-@onready var container_principal: Container = $MarginContainer
+const FONTE = preload("res://Fontes/Teste/terminal-grotesque.ttf")
 
 var carrossel: CarrosselDeItens
 var animacao: AnimacaoDeMenu
-
 var menu_origem: Control = null
 
 # Listas de itens por submenu
@@ -20,8 +19,9 @@ var itens_menu_graficos: Array = []
 var itens_menu_som: Array = []
 var itens_menu_linguagens: Array = []
 var itens_menu_apoio: Array = []
-
 var ultimo_processo_msec: int = 0
+
+@onready var container_principal: Container = $MarginContainer
 
 
 func _ready() -> void:
@@ -132,7 +132,7 @@ func _carregar_apoio_se_necessario() -> void:
 		btn.text = l["nome"]
 		btn.url_destino = l["url"]
 		btn.name = "BtnApoio_" + l["nome"].replace(" ", "")
-		btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+		btn.add_theme_font_override("font", FONTE)
 		btn.add_theme_font_size_override("font_size", 48)
 		btn.flat = true
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -211,7 +211,7 @@ func _criar_botao_voltar() -> Button:
 	var btn = Button.new()
 	btn.name = "Voltar"
 	btn.text = "Voltar"
-	btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn.add_theme_font_override("font", FONTE)
 	btn.add_theme_font_size_override("font_size", 48)
 	btn.flat = true
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -226,7 +226,7 @@ func _criar_botao_voltar() -> Button:
 func _criar_btn_placeholder(nome: String) -> Button:
 	var btn = Button.new()
 	btn.text = nome
-	btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn.add_theme_font_override("font", FONTE)
 	btn.add_theme_font_size_override("font_size", 48)
 	btn.flat = true
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT

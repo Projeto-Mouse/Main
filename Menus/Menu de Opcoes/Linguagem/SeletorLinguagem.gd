@@ -4,9 +4,9 @@ extends RefCounted
 ## Componente self-contained de selecao de idioma para o Menu de Opcoes
 ## Cria e gerencia os botoes de linguagem dinamicamente
 
-var botoes_linguagem: Array = []
-
 signal linguagem_selecionada
+
+var botoes_linguagem: Array = []
 
 
 func inicializar() -> void:
