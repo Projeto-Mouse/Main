@@ -52,6 +52,7 @@ ItensInterativos="Grupo de itens interativos"
 Entidades=""
 CameraJogador=""
 Jogador="Grupo que fica o jogador"
+Escudo=""
 
 [input]
 

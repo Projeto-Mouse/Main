@@ -19,6 +19,7 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
 @onready var mao: Node3D = $Mao
+@onready var posicao_escudo = $PosicaoEscudo
 
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
@@ -202,26 +203,21 @@ func computar_dano(dano_recebido: float) -> void:
 
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
+	var porcentagem_tirada = randf()
+	
+	if(porcentagem_tirada < escudo_equipado.porcentagem_acerto):
+		DebugConsole.add_text_console_com_cor("PARABENS DEFENDEU", Color.GREEN)
+		dano_arredondado -= escudo_equipado.dano_defendido
+	
 	vida_atual -= dano_arredondado
+
+	printar_vida_e_dano(vida_atual, dano_arredondado)
 
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
 		if !em_teste:
 			get_tree().change_scene_to_packed(cena_morte)
-
-	var vida_atual_texto = "Vida atual = " + str(vida_atual)
-	var dano_texto = "Dano tomado = " + str(dano_arredondado)
-
-	print(vida_atual_texto)
-	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
-	print(dano_texto)
-	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
-
-	if vida_atual == 0:
-		print("Jogador Morreu")
-		DebugConsole.add_text_console_sem_cor("Jogador Morreu")
-
 
 func arredondar_dano(dano_recebido: float) -> float:
 	var parte_inteira = int(dano_recebido)
@@ -235,19 +231,19 @@ func arredondar_dano(dano_recebido: float) -> float:
 
 	return parte_inteira
 
-
+func printar_vida_e_dano(vida_atual: float, dano_tomado: float) -> void:
+	var vida_atual_texto = "Vida atual = " + str(vida_atual)
+	var dano_texto = "Dano tomado = " + str(dano_tomado)
+	
+	print(vida_atual_texto)
+	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
+	print(dano_texto)
+	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
+	
 func atualizar_interacao(item: ItemMundo, ativo: bool):
 	item_da_area_atual = (
 		item if ativo else (null if item_da_area_atual == item else item_da_area_atual)
 	)
-
-
-func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
-	if esta_tocando_escalavel:
-		estado_atual = estados_jogador.ESCALANDO
-	else:
-		estado_atual = estados_jogador.PARADO
-
 
 func pegar_item() -> void:
 	if item_da_area_atual == null:
@@ -256,33 +252,58 @@ func pegar_item() -> void:
 	if not item_da_area_atual.is_in_group("ItensInterativos"):
 		return
 
+	if item_da_area_atual.is_in_group("Escudo"):
+		escudo_equipado = item_da_area_atual.item_data
+		limpar_item_na_area_atual()
+		posicionar_item_na_mao(escudo_equipado)
+		posicionar_item_na_mao(item_equipado_na_mao) # mantenho o item da mao tbm posicionado
+		return
+		
 	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
 		print("Inventario cheio")
 		DebugConsole.add_text_console_sem_cor("Inventario cheio")
 		return
-
+		
 	item_equipado_na_mao = item_da_area_atual.item_data
+	limpar_item_na_area_atual()
+	posicionar_item_na_mao(item_equipado_na_mao)
+
+func limpar_item_na_area_atual() -> void:
 	item_da_area_atual.queue_free()
 	item_da_area_atual = null
+	
+func posicionar_item_na_mao(item) -> void:
+	for filhos in mao.get_children():
+		filhos.queue_free()
 
-	posicionar_item_na_mao()
-
-
-func posicionar_item_na_mao() -> void:
-	for filho in mao.get_children():
-		filho.queue_free()
-
-	if item_equipado_na_mao == null:
+	if item == null:
 		return
-
+		
+	if item is EscudoData and item.cena_3d:
+		DebugConsole.add_text_console_sem_cor("Criando Cena Escudo")
+		criar_cena_escudo()
+		return
+		
 	if item_equipado_na_mao.cena_3d:
+		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
 		criar_cena_item()
-
+		return
 
 func criar_cena_item() -> void:
 	var visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
 	visual.transform = Transform3D.IDENTITY  #alinha com a mao
+
+func criar_cena_escudo() -> void:
+	var visual = escudo_equipado.cena_3d.instantiate()
+	posicao_escudo.add_child(visual)
+	visual.transform = Transform3D.IDENTITY
+	
+func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
+	if esta_tocando_escalavel:
+		estado_atual = estados_jogador.ESCALANDO
+	else:
+		estado_atual = estados_jogador.PARADO
 
 
 func esconder_item_rastejando() -> void:
@@ -300,5 +321,5 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
-			posicionar_item_na_mao()
+			posicionar_item_na_mao(item_equipado_na_mao)
 			break
