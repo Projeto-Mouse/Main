@@ -111,6 +111,7 @@ var credits_data = [
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	modulate.a = 0.0
 	var tween = create_tween()
 	tween.tween_property(self, "modulate:a", 1.0, 0.5)

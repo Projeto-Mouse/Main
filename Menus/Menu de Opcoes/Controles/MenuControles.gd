@@ -49,6 +49,7 @@ var _tween_piscar: Tween = null
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_aviso_label.visible = false
 	_popular_lista()
 	_btn_resetar.pressed.connect(_on_resetar_pressed)
