@@ -54,7 +54,7 @@ func _conectar_botoes_principais() -> void:
 	var mapa = {
 		"BtnSom": mostrar_menu_som,
 		"BtnGraficos": mostrar_menu_graficos,
-		"BtnControles": func(): print("Categoria Controles selecionada"),
+		"BtnControles": mostrar_menu_controles,
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
 		"BtnLinguagens": mostrar_menu_linguagens,
 		"BtnCreditos": abrir_tela_de_creditos,
@@ -279,6 +279,15 @@ func _on_voltar_pressed() -> void:
 			elif menu_origem and menu_origem is Control:
 				menu_origem.grab_focus()
 	)
+
+
+func mostrar_menu_controles() -> void:
+	var cena_controles = load("res://Menus/Menu de Opcoes/Controles/MenuControles.tscn")
+	if cena_controles:
+		var instancia = cena_controles.instantiate()
+		get_tree().root.add_child(instancia)
+		visible = false
+		instancia.ao_fechar.connect(func(): visible = true)
 
 
 func abrir_tela_de_creditos() -> void:

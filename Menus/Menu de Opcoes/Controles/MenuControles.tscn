@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://menu_controles"]
+
+[ext_resource type="Script" path="res://Menus/Menu de Opcoes/Controles/MenuControles.gd" id="1_ctrl"]
+
+[node name="MenuControles" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_ctrl")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+theme_override_constants/separation = 16
+
+[node name="Lista" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+theme_override_constants/separation = 8
+
+[node name="AvisoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 0.7, 0, 1)
+
+[node name="BtnResetar" type="Button" parent="MarginContainer/VBoxContainer"]
+
+[node name="BtnFechar" type="Button" parent="MarginContainer/VBoxContainer"]
