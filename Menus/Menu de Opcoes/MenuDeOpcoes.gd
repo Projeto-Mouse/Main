@@ -19,6 +19,7 @@ var itens_menu_principal: Array = []
 var itens_menu_graficos: Array = []
 var itens_menu_som: Array = []
 var itens_menu_linguagens: Array = []
+var itens_menu_apoio: Array = []
 
 var ultimo_processo_msec: int = 0
 
@@ -55,7 +56,7 @@ func _conectar_botoes_principais() -> void:
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
 		"BtnLinguagens": mostrar_menu_linguagens,
 		"BtnCreditos": func(): print("Categoria Creditos selecionada"),
-		"BtnApoio": func(): print("Categoria Apoio selecionada"),
+		"BtnApoio": mostrar_menu_apoio,
 		"BtnVoltar": _on_voltar_pressed
 	}
 
@@ -98,6 +99,45 @@ func _carregar_linguagens_se_necessario() -> void:
 		itens_menu_linguagens.append(item)
 		
 	itens_menu_linguagens.append(_criar_botao_voltar())
+
+func mostrar_menu_apoio() -> void:
+	_carregar_apoio_se_necessario()
+	carrossel.carregar_itens(itens_menu_apoio)
+
+func _carregar_apoio_se_necessario() -> void:
+	if itens_menu_apoio.size() > 0:
+		return
+		
+	var redes = [
+		{"nome": "YouTube", "url": "https://www.youtube.com/@mouseproject"},
+		{"nome": "X (Twitter)", "url": "https://x.com/mousegame_ofc"},
+		{"nome": "Reddit", "url": "https://www.reddit.com/r/ProjectMouse/"},
+		{"nome": "GitHub", "url": "https://github.com/Projeto-Mouse"},
+		{"nome": "Ko-fi", "url": "https://ko-fi.com/mousegameproject"},
+		{"nome": "Instagram", "url": "https://instagram.com/"}
+	]
+	
+	for l in redes:
+		var btn = BotaoDeLink.new()
+		btn.text = l["nome"]
+		btn.url_destino = l["url"]
+		btn.name = "BtnApoio_" + l["nome"].replace(" ", "")
+		btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+		btn.add_theme_font_size_override("font_size", 48)
+		btn.flat = true
+		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		btn.custom_minimum_size = Vector2(250, 60)
+		btn.add_theme_color_override("font_color", Color("7d7d7d"))
+		btn.add_theme_color_override("font_hover_color", Color.WHITE)
+		btn.add_theme_color_override("font_focus_color", Color.WHITE)
+		btn.add_theme_color_override("font_pressed_color", Color.WHITE)
+		
+		# Opcional: Adicionar um mouse_default_cursor_shape para indicar que é clicável
+		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		
+		itens_menu_apoio.append(btn)
+		
+	itens_menu_apoio.append(_criar_botao_voltar())
 
 func _carregar_graficos_se_necessario() -> void:
 	if itens_menu_graficos.size() > 0:
