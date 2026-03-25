@@ -2,7 +2,7 @@ class_name MenuPrincipal
 extends Control
 
 
-@onready var pagar_button: Button = $MarginContainer/HBoxContainer/VBoxContainer2/pagar_Button
+@onready var pagar_button: Button = $pagar_Button
 @onready var jogar_button = $MarginContainer/HBoxContainer/VBoxContainer/jogar_Button as Button
 @onready var carregar_button = $MarginContainer/HBoxContainer/VBoxContainer/carregar_Button as Button
 @onready var opcao_button = \
@@ -54,9 +54,9 @@ func on_opcao_pressed() -> void:
 	# Passa referência do container de BOTÕES para alinhar corretamente ao lado deles
 	# Usar margin_container (Full Screen) causava posicionamento fora da tela
 	if botoes_vbox:
-		menu_de_opcoes.abrir_menu_opcoes(self, botoes_vbox)
+		menu_de_opcoes.abrir_menu_opcoes(self , botoes_vbox)
 	else:
-		menu_de_opcoes.abrir_menu_opcoes(self, margin_container)
+		menu_de_opcoes.abrir_menu_opcoes(self , margin_container)
 
 func on_sair_das_opcoes_pressed() -> void:
 	if margin_container:

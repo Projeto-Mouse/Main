@@ -103,19 +103,24 @@ theme_override_font_sizes/font_size = 48
 text = "Sair"
 flat = true
 
-[node name="Spacer" type="Control" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.76
+[node name="MenuDeOpcoes" parent="." instance=ExtResource("3_andfb")]
+visible = false
+layout_mode = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-alignment = 2
-
-[node name="pagar_Button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
-show_behind_parent = true
+[node name="pagar_Button" type="Button" parent="."]
 custom_minimum_size = Vector2(400, 32)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -410.0
+offset_top = -42.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.489622, 0.489622, 0.489622, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -125,10 +130,6 @@ text = "Nos pague uma breja"
 flat = true
 alignment = 2
 autowrap_mode = 3
-
-[node name="MenuDeOpcoes" parent="." instance=ExtResource("3_andfb")]
-visible = false
-layout_mode = 1
 
 [node name="ControladorMusica" type="Control" parent="."]
 anchors_preset = 0
