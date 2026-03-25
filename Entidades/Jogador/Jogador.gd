@@ -93,21 +93,21 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 	if Input.is_action_pressed("Devagar"):
 		velocidade_final *= 0.4
 
-	if Input.is_action_pressed("Rastejar"):
+	var input_abaixar = Input.is_action_pressed("Rastejar")
+	var bloqueio_em_cima = raycast_cima.is_colliding()
+	var pode_levantar = !bloqueio_em_cima and !input_abaixar
+
+	if input_abaixar or bloqueio_em_cima and no_chao:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		velocidade_final *= 0.3
 		raycast_cima.enabled = true
-	elif raycast_cima.is_colliding() and no_chao:
-		collision_shape.rotation_degrees.x = 90
-		mesh_instance.rotation_degrees.x = 90
-		velocidade_final *= 0.3
-	else:
+
+	if pode_levantar :
 		collision_shape.rotation_degrees.x = 0
 		mesh_instance.rotation_degrees.x = 0
 		raycast_cima.enabled = false
 		
-
 	return direcao * velocidade_final
 
 
@@ -118,8 +118,8 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 		velocidade_final_y = direcao * velocidade_base
 		if direcao <= 0:
 			velocidade_final_y -= 0.25
-	elif no_chao:
-		if pular and not Input.is_action_pressed("Rastejar"):
+	elif no_chao and !estado_atual == estados_jogador.RASTEJANDO:
+		if pular:
 			velocidade_final_y = forca_pulo
 		else:
 			velocidade_final_y = 0
@@ -137,12 +137,11 @@ func atualizar_estado(no_chao: bool, movimento_x: float) -> void:
 		return
 
 	var bloqueio_em_cima = raycast_cima.is_colliding()
+	var jogador_abaixado = Input.is_action_pressed("Rastejar") or bloqueio_em_cima and no_chao
 	
-	if not no_chao:
+	if !no_chao and !jogador_abaixado:
 		estado_atual = estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
-	if bloqueio_em_cima and no_chao:
-		estado_atual = estados_jogador.RASTEJANDO
-	elif Input.is_action_pressed("Rastejar"):
+	elif jogador_abaixado:
 		estado_atual = estados_jogador.RASTEJANDO
 	elif movimento_x != 0:
 		if Input.is_action_pressed("Devagar"):
@@ -278,7 +277,7 @@ func criar_cena_item() -> void:
 
 
 func esconder_item_rastejando() -> void:
-	mao.visible = not Input.is_action_pressed("Rastejar")
+	mao.visible = !Input.is_action_pressed("Rastejar") and !raycast_cima.is_colliding()
 
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
