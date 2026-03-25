@@ -55,7 +55,7 @@ func _conectar_botoes_principais() -> void:
 		"BtnControles": func(): print("Categoria Controles selecionada"),
 		"BtnAcessibilidade": func(): print("Categoria Acessibilidade selecionada"),
 		"BtnLinguagens": mostrar_menu_linguagens,
-		"BtnCreditos": func(): print("Categoria Creditos selecionada"),
+		"BtnCreditos": abrir_tela_de_creditos,
 		"BtnApoio": mostrar_menu_apoio,
 		"BtnVoltar": _on_voltar_pressed
 	}
@@ -260,3 +260,13 @@ func _on_voltar_pressed() -> void:
 		elif menu_origem and menu_origem is Control:
 			menu_origem.grab_focus()
 	)
+
+func abrir_tela_de_creditos() -> void:
+	var cena_creditos = load("res://Menus/Menu de Opcoes/Creditos/MenuCreditos.tscn")
+	if cena_creditos:
+		var instancia = cena_creditos.instantiate()
+		get_tree().root.add_child(instancia)
+		# Esconde o menu de opções enquanto os créditos estão abertos
+		visible = false
+		# Restaura visibilidade quando os créditos fecharem
+		instancia.ao_fechar.connect(func(): visible = true)

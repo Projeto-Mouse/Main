@@ -153,3 +153,120 @@ msgstr "VSync"
 
 msgid "Sombras"
 msgstr "Sombras"
+
+msgid "CREDITS_TITLE_LEADERSHIP"
+msgstr "Liderazgo y Producción"
+
+msgid "CREDITS_EXEC_PRODUCER"
+msgstr "Productor Ejecutivo:"
+
+msgid "CREDITS_PRODUCERS"
+msgstr "Productores:"
+
+msgid "CREDITS_PM"
+msgstr "Gestión de Proyectos (PM):"
+
+msgid "CREDITS_MARKETING"
+msgstr "Marketing y Relaciones Públicas:"
+
+msgid "CREDITS_TITLE_NARRATIVE"
+msgstr "Narrativa y Guión"
+
+msgid "CREDITS_LEAD_WRITER"
+msgstr "Escritor Principal:"
+
+msgid "CREDITS_CO_WRITERS"
+msgstr "Co-escritores:"
+
+msgid "CREDITS_TITLE_ENGINEERING"
+msgstr "Ingeniería y Programación"
+
+msgid "CREDITS_LEAD_PROGRAMMING"
+msgstr "Programación Principal:"
+
+msgid "CREDITS_GAMEPLAY_PHYSICS"
+msgstr "Jugabilidad y Física:"
+
+msgid "CREDITS_GAMEPLAY_PHYSICS_NAMES"
+msgstr "Sistemas de Movimiento y Física por el equipo PMDT"
+
+msgid "CREDITS_AI_SYSTEMS"
+msgstr "Sistemas de IA:"
+
+msgid "CREDITS_AI_SYSTEMS_NAMES"
+msgstr "IA de Enemigos y Jefes por el equipo PMDT"
+
+msgid "CREDITS_SYSTEM_ARCH"
+msgstr "Arquitectura del Sistema:"
+
+msgid "CREDITS_SYSTEM_ARCH_NAMES"
+msgstr "Integración de Guardado y Menús por el equipo PMDT"
+
+msgid "CREDITS_TITLE_ART"
+msgstr "Arte y Visual"
+
+msgid "CREDITS_CONCEPT_ARTIST"
+msgstr "Artista Conceptual:"
+
+msgid "CREDITS_3D_MODELING"
+msgstr "Modelado 3D (Personaje y Entorno):"
+
+msgid "CREDITS_TEXTURE_VFX"
+msgstr "Artistas de Texturas y VFX:"
+
+msgid "CREDITS_ANIMATION"
+msgstr "Animación:"
+
+msgid "CREDITS_ANIMATION_NAMES"
+msgstr "Animación Procedural por el equipo PMDT"
+
+msgid "CREDITS_TITLE_AUDIO"
+msgstr "Audio y Doblaje"
+
+msgid "CREDITS_AUDIO_DIRECTOR"
+msgstr "Director de Audio y Compositor:"
+
+msgid "CREDITS_SOUND_DESIGN"
+msgstr "Diseño de Sonido:"
+
+msgid "CREDITS_FOLEY"
+msgstr "Foley y Audio Ambiental:"
+
+msgid "CREDITS_VOICE_ACTING"
+msgstr "Doblaje:"
+
+msgid "CREDITS_TITLE_QA"
+msgstr "Calidad y Localización"
+
+msgid "CREDITS_QA_LEAD"
+msgstr "Líder de QA:"
+
+msgid "CREDITS_QA_TESTERS"
+msgstr "Probadores de QA:"
+
+msgid "CREDITS_LOCALIZATION"
+msgstr "Localización (L10n):"
+
+msgid "CREDITS_CUSTOMER_SUPPORT"
+msgstr "Soporte al Cliente:"
+
+msgid "CREDITS_TITLE_TECHNOLOGY"
+msgstr "Tecnología"
+
+msgid "CREDITS_GAME_ENGINE"
+msgstr "Motor del Juego:"
+
+msgid "CREDITS_GAME_ENGINE_NAMES"
+msgstr "Hecho con Godot Engine"
+
+msgid "CREDITS_TESTING_TOOLS"
+msgstr "Herramientas de Prueba:"
+
+msgid "CREDITS_TITLE_THANKS"
+msgstr "Agradecimientos y En Memoria"
+
+msgid "CREDITS_SPECIAL_THANKS"
+msgstr "Agradecimientos Especiales:"
+
+msgid "CREDITS_IN_MEMORIAM"
+msgstr "En Memoria:"
