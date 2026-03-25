@@ -75,10 +75,9 @@ func _input(event: InputEvent) -> void:
 
 func criar_no_filho_raycast_cima() -> void:
 	raycast_cima = criar_raycast()
-	configurar_raycast(raycast_cima, true, 1, true)
+	configurar_raycast(raycast_cima, false, 1, true)
 	raycast_cima.target_position = Vector3(0, 0.45, 0)
 	add_child(raycast_cima)
-	raycast_cima.enabled = false
 
 func movimentacao() -> void:
 	velocity.z = 0
