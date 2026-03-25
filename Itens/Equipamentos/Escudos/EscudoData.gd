@@ -2,5 +2,5 @@
 class_name EscudoData
 extends EquipamentosData
 
-var dano_a_diminuir
-var porcentagem_defesa
+@export var dano_defendido: float
+@export var porcentagem_acerto: float

@@ -23,18 +23,21 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
-var item_da_area_atual: ItemMundo = null
-var item_equipado_na_mao: ItemData = null
-var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
 
+# MOVIMENTACAO
 var movimento_x: float
 var movimento_y: float
 
 # VARIAVEIS DEBUG
 var modo_god: bool = false
 
+# ITENS / INVENTARIO
+var item_da_area_atual: ItemMundo = null
+var item_equipado_na_mao: ItemData = null
+var inventario_temp: InventarioTemp
+var escudo_equipado: EscudoData
 
 func _ready() -> void:
 	criar_luz_jogador()

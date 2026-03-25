@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://75yjdvg2oi8e"]
+
+[ext_resource type="Texture2D" uid="uid://ron1dmwievkf" path="res://Sprites/Itens/Escudos/EscudoMadeira.png" id="1_olta8"]
+
+[node name="EscudoMadeira" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("1_olta8")
