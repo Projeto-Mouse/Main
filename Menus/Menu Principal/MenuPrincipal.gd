@@ -2,7 +2,6 @@ class_name MenuPrincipal
 extends Control
 
 
-@onready var pagar_button: Button = $pagar_Button
 @onready var jogar_button = $MarginContainer/HBoxContainer/VBoxContainer/jogar_Button as Button
 @onready var carregar_button = $MarginContainer/HBoxContainer/VBoxContainer/carregar_Button as Button
 @onready var opcao_button = \
@@ -72,18 +71,12 @@ func on_sair_pressed() -> void:
 func grab_focus_on_return() -> void:
 	if opcao_button:
 		opcao_button.grab_focus()
-
-func on_pagar_pressed() -> void:
-	print("Botão pagar pressionado!")
-
-# Função responsável por vincular os conectores (signals).
 func segurar_conectores_signals() -> void:
 	jogar_button.button_down.connect(on_jogar_pressed)
 	carregar_button.button_down.connect(on_carregar_pressed)
 	opcao_button.button_down.connect(on_opcao_pressed)
 	menu_de_opcoes.sair_das_opcoes.connect(on_sair_das_opcoes_pressed)
 	sair_button.button_down.connect(on_sair_pressed)
-	pagar_button.button_down.connect(on_pagar_pressed)
 
 func _input(event):
 	ControladorDebug.registrar_tecla(event)
