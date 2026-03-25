@@ -161,7 +161,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _verificar_conflito(evento: InputEvent, acao_ignorar: String) -> String:
-	for acao in InputMap.get_actions():
+	for acao in ACOES_REMAPEAVEIS:
 		if acao == acao_ignorar:
 			continue
 		for e in InputMap.action_get_events(acao):
