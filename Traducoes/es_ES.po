@@ -120,3 +120,36 @@ msgstr "Créditos"
 
 msgid "Apoio"
 msgstr "Apoyo"
+
+msgid "Volume Geral"
+msgstr "Volumen General"
+
+msgid "Volume de Objetos"
+msgstr "Volumen de Objetos"
+
+msgid "Volume de Entidades"
+msgstr "Volumen de Entidades"
+
+msgid "Volume de SFX"
+msgstr "Volumen de SFX"
+
+msgid "Volume da UI"
+msgstr "Volumen de la Interfaz"
+
+msgid "Som Surround"
+msgstr "Sonido Envolvente"
+
+msgid "Áudio Mono"
+msgstr "Audio Mono"
+
+msgid "Voltar"
+msgstr "Volver"
+
+msgid "Qualidade"
+msgstr "Calidad"
+
+msgid "VSync"
+msgstr "VSync"
+
+msgid "Sombras"
+msgstr "Sombras"

@@ -1,5 +1,5 @@
 class_name SeletorLinguagem
-extends Control
+extends RefCounted
 
 ## Componente self-contained de selecao de idioma para o Menu de Opcoes
 ## Cria e gerencia os botoes de linguagem dinamicamente
@@ -8,9 +8,10 @@ var botoes_linguagem: Array = []
 
 signal linguagem_selecionada
 
-func _ready() -> void:
-	_criar_botoes()
-	atualizar_estado_botoes()
+func inicializar() -> void:
+	if botoes_linguagem.is_empty():
+		_criar_botoes()
+		atualizar_estado_botoes()
 
 func _criar_botoes() -> void:
 	var langs = [
@@ -42,7 +43,6 @@ func _criar_botao(texto: String, nome: String) -> Button:
 	btn.add_theme_color_override("font_hover_color", Color.WHITE)
 	btn.add_theme_color_override("font_focus_color", Color.WHITE)
 	btn.add_theme_color_override("font_pressed_color", Color.WHITE)
-	add_child(btn)
 	return btn
 
 func atualizar_estado_botoes() -> void:

@@ -18,8 +18,7 @@ var menu_origem: Control = null
 var itens_menu_principal: Array = []
 var itens_menu_graficos: Array = []
 var itens_menu_som: Array = []
-# Linguagem passou a ser gerenciada pelo SeletorLinguagem diretamente
-# Faz mais sentido mas podemos ver se isso pode dar problemas no futuro
+var itens_menu_linguagens: Array = []
 
 var ultimo_processo_msec: int = 0
 
@@ -85,14 +84,20 @@ func mostrar_menu_som() -> void:
 	carrossel.carregar_itens(itens_menu_som)
 
 func mostrar_menu_linguagens() -> void:
+	_carregar_linguagens_se_necessario()
+	carrossel.carregar_itens(itens_menu_linguagens)
+
+func _carregar_linguagens_se_necessario() -> void:
+	if itens_menu_linguagens.size() > 0:
+		return
+	
 	var seletor = SeletorLinguagem.new()
-	seletor.ready.connect(func():
-		var itens = seletor.obter_botoes()
-		var btn_voltar = _criar_botao_voltar()
-		itens.append(btn_voltar)
-		carrossel.carregar_itens(itens)
-	)
-	add_child(seletor)
+	seletor.inicializar()
+	var itens = seletor.obter_botoes()
+	for item in itens:
+		itens_menu_linguagens.append(item)
+		
+	itens_menu_linguagens.append(_criar_botao_voltar())
 
 func _carregar_graficos_se_necessario() -> void:
 	if itens_menu_graficos.size() > 0:
