@@ -287,7 +287,14 @@ func mostrar_menu_controles() -> void:
 		var instancia = cena_controles.instantiate()
 		get_tree().root.add_child(instancia)
 		visible = false
-		instancia.ao_fechar.connect(func(): visible = true)
+		if menu_origem and menu_origem.has_method("esconder_botoes"):
+			menu_origem.esconder_botoes()
+		instancia.ao_fechar.connect(
+			func():
+				visible = true
+				if menu_origem and menu_origem.has_method("mostrar_botoes"):
+					menu_origem.mostrar_botoes()
+		)
 
 
 func abrir_tela_de_creditos() -> void:

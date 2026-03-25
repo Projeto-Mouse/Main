@@ -15,6 +15,7 @@ const CENA_DEBUG = preload("res://Cenas/CenaDebug/Debug.tscn")
 @onready var margin_container = $MarginContainer as MarginContainer
 @onready var video_player = $VideoMenu
 @onready var botoes_vbox = $MarginContainer/HBoxContainer/VBoxContainer
+@onready var pagar_button = $pagar_Button as Button
 
 
 func _ready():
@@ -75,6 +76,18 @@ func on_sair_pressed() -> void:
 func grab_focus_on_return() -> void:
 	if opcao_button:
 		opcao_button.grab_focus()
+
+
+func esconder_botoes() -> void:
+	margin_container.visible = false
+	if pagar_button:
+		pagar_button.visible = false
+
+
+func mostrar_botoes() -> void:
+	margin_container.visible = true
+	if pagar_button:
+		pagar_button.visible = true
 
 
 func segurar_conectores_signals() -> void:

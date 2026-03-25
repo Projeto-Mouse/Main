@@ -18,30 +18,32 @@ var animation_start_x: float = 0.0
 var animation_target_x: float = 0.0
 var animation_callback: Callable = Callable()
 
+
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	print("MENU PAUSA: Ready started")
-	
+
 	# Espera layout
 	await get_tree().process_frame
-	
+
 	var viewport_size = get_viewport_rect().size
 	var container_size = margin_container.size
-	
+
 	margin_container.position.x = (viewport_size.x / 2) - (container_size.x / 2)
 	margin_container.position.y = (viewport_size.y / 2) - (container_size.y / 2)
-	
+
 	posicao_original_x = margin_container.position.x
 	print("MENU PAUSA: Posicao Original X: ", posicao_original_x)
-	
+
 	conectar_signals()
+
 
 func _process(_delta):
 	if is_animating:
 		var current_time = Time.get_ticks_msec()
 		var elapsed = current_time - animation_start_time
 		var t = float(elapsed) / float(animation_duration_ms)
-		
+
 		if t >= 1.0:
 			t = 1.0
 			is_animating = false
@@ -57,10 +59,11 @@ func _process(_delta):
 			var ease_t = 1.0 - pow(1.0 - t, 5)
 			var new_x = lerp(animation_start_x, animation_target_x, ease_t)
 			margin_container.position.x = new_x
-		
+
 		if int(Engine.get_frames_drawn()) % 60 == 0:
 			pass
-		
+
+
 func start_wall_tween(target_x: float, callback: Callable = Callable()):
 	is_animating = true
 	animation_start_time = Time.get_ticks_msec()
@@ -69,54 +72,68 @@ func start_wall_tween(target_x: float, callback: Callable = Callable()):
 	animation_callback = callback
 	print("MENU PAUSA: Iniciando Wall Tween de ", animation_start_x, " para ", target_x)
 
+
 func _on_voltar_ao_jogo_pressed() -> void:
 	print("MENU PAUSA: Voltar ao jogo pressionado")
 	ControladorCena.toggle_pause()
 
+
 func _on_salvar_pressed() -> void:
 	print("Botão salvar pressionado!")
+
 
 func _on_sair_do_jogo_pressed() -> void:
 	print("MENU PAUSA: Sair do jogo pressionado")
 	ControladorDebug.dev_mode = false
 	get_tree().paused = false
 	Engine.time_scale = 1
-	var menu_scene = ResourceLoader.load("res://Menus/Menu Principal/MenuPrincipal.tscn") as PackedScene
+	var menu_scene = (
+		ResourceLoader.load("res://Menus/Menu Principal/MenuPrincipal.tscn") as PackedScene
+	)
 	if menu_scene:
 		get_tree().change_scene_to_packed(menu_scene)
 	else:
 		print("ERRO: MenuPrincipal.tscn não encontrado!")
+
 
 func conectar_signals() -> void:
 	voltar_ao_jogo.pressed.connect(_on_voltar_ao_jogo_pressed)
 	opcoes_in_game.pressed.connect(_on_opcoes_in_game_pressed)
 	salvar.pressed.connect(_on_salvar_pressed)
 	sair_do_jogo.pressed.connect(_on_sair_do_jogo_pressed)
-	
+
 	if not menu_de_opcoes.sair_das_opcoes.is_connected(_on_menu_de_opcoes_sai_das_opcoes):
 		menu_de_opcoes.sair_das_opcoes.connect(_on_menu_de_opcoes_sai_das_opcoes)
-		
+
 	if not visibility_changed.is_connected(_on_visibility_changed):
 		visibility_changed.connect(_on_visibility_changed)
+
 
 func _on_opcoes_in_game_pressed() -> void:
 	print("MENU PAUSA: Opcoes pressionado")
 	var destino_x = 60
-	
-	start_wall_tween(destino_x, func():
-		menu_de_opcoes.abrir_menu_opcoes(self , botoes_vbox)
-	)
+
+	start_wall_tween(destino_x, func(): menu_de_opcoes.abrir_menu_opcoes(self, botoes_vbox))
+
 
 func grab_focus_on_return() -> void:
 	if opcoes_in_game:
 		opcoes_in_game.grab_focus()
 
+
+func esconder_botoes() -> void:
+	margin_container.visible = false
+
+
+func mostrar_botoes() -> void:
+	margin_container.visible = true
+
+
 func _on_menu_de_opcoes_sai_das_opcoes() -> void:
 	print("MENU PAUSA: Sair das Opcoes")
 	menu_de_opcoes.visible = false
-	start_wall_tween(posicao_original_x, func():
-		grab_focus_on_return()
-	)
+	start_wall_tween(posicao_original_x, func(): grab_focus_on_return())
+
 
 func _on_visibility_changed() -> void:
 	if visible:
@@ -124,10 +141,10 @@ func _on_visibility_changed() -> void:
 		if margin_container:
 			if menu_de_opcoes.visible:
 				menu_de_opcoes.visible = false
-				
+
 			margin_container.position.x = posicao_original_x
 			margin_container.visible = true
-			
+
 	else:
 		if menu_de_opcoes:
 			menu_de_opcoes.visible = false

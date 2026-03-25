@@ -9,7 +9,6 @@ signal ao_fechar
 
 const FONTE := preload("res://Fontes/Teste/terminal-grotesque.ttf")
 
-## Acoes que o usuario pode remaepear (em ordem de exibicao)
 const ACOES_REMAPEAVEIS: Array[String] = [
 	"Pular",
 	"PegarItem",
@@ -23,24 +22,39 @@ const ACOES_REMAPEAVEIS: Array[String] = [
 	"Direita",
 ]
 
+## Nomes traduzidos por chave de acao (msgid nos arquivos .po)
+const NOMES_DAS_ACOES: Dictionary = {
+	"Pular": "ACTION_PULAR",
+	"PegarItem": "ACTION_PEGAR_ITEM",
+	"AplicarDano": "ACTION_APLICAR_DANO",
+	"Rastejar": "ACTION_RASTEJAR",
+	"Devagar": "ACTION_DEVAGAR",
+	"Pausar": "ACTION_PAUSAR",
+	"Cima": "ACTION_CIMA",
+	"Baixo": "ACTION_BAIXO",
+	"Esquerda": "ACTION_ESQUERDA",
+	"Direita": "ACTION_DIREITA",
+}
+
 var _aguardando_input: bool = false
 var _acao_atual: String = ""
 var _botao_atual: Button = null
 var _tween_piscar: Tween = null
 
-@onready var _lista: VBoxContainer = $MarginContainer/VBoxContainer/Lista
+@onready var _scroll: ScrollContainer = $MarginContainer/VBoxContainer/Scroll
+@onready var _lista: VBoxContainer = $MarginContainer/VBoxContainer/Scroll/Lista
 @onready var _aviso_label: Label = $MarginContainer/VBoxContainer/AvisoLabel
-@onready var _btn_resetar: Button = $MarginContainer/VBoxContainer/BtnResetar
-@onready var _btn_fechar: Button = $MarginContainer/VBoxContainer/BtnFechar
+@onready var _btn_resetar: Button = $MarginContainer/VBoxContainer/Rodape/BtnResetar
+@onready var _btn_voltar: Button = $MarginContainer/VBoxContainer/Rodape/BtnVoltar
 
 
 func _ready() -> void:
 	_aviso_label.visible = false
 	_popular_lista()
 	_btn_resetar.pressed.connect(_on_resetar_pressed)
-	_btn_fechar.pressed.connect(_on_fechar_pressed)
-	_estilizar_btn(_btn_resetar, "Resetar Padroes")
-	_estilizar_btn(_btn_fechar, "Fechar")
+	_btn_voltar.pressed.connect(_on_fechar_pressed)
+	_estilizar_btn(_btn_resetar, tr("ACTION_RESETAR_PADRAO"))
+	_estilizar_btn(_btn_voltar, tr("Voltar"))
 
 
 func _popular_lista() -> void:
@@ -51,8 +65,10 @@ func _popular_lista() -> void:
 		var linha := HBoxContainer.new()
 
 		var nome_label := Label.new()
-		nome_label.text = acao
-		nome_label.custom_minimum_size = Vector2(200, 0)
+		var msgid: String = NOMES_DAS_ACOES.get(acao, acao)
+		var texto_traduzido: String = tr(msgid)
+		nome_label.text = texto_traduzido if texto_traduzido != msgid else acao
+		nome_label.custom_minimum_size = Vector2(220, 0)
 		nome_label.add_theme_font_override("font", FONTE)
 		nome_label.add_theme_font_size_override("font_size", 32)
 		nome_label.add_theme_color_override("font_color", Color("7d7d7d"))
@@ -97,9 +113,8 @@ func _iniciar_captura(acao: String, btn: Button) -> void:
 	_acao_atual = acao
 	_botao_atual = btn
 
-	btn.text = "Aguardando..."
+	btn.text = tr("ACTION_AGUARDANDO")
 
-	# Feedback visual: piscar em amarelo
 	if _tween_piscar:
 		_tween_piscar.kill()
 	_tween_piscar = create_tween().set_loops()
@@ -113,7 +128,6 @@ func _input(event: InputEvent) -> void:
 	if not _aguardando_input:
 		return
 
-	# Ignorar eventos que nao sejam acoes concretas
 	var evento_valido := false
 	if event is InputEventKey and event.pressed and not event.echo:
 		evento_valido = true
@@ -129,21 +143,20 @@ func _input(event: InputEvent) -> void:
 
 	get_viewport().set_input_as_handled()
 
-	# Verificar conflito
 	var conflito := _verificar_conflito(event, _acao_atual)
 	if conflito != "":
-		_aviso_label.text = 'Conflito com "%s"!' % conflito
+		var nome_conflito: String = tr(NOMES_DAS_ACOES.get(conflito, conflito))
+		_aviso_label.text = tr("ACTION_CONFLITO") % nome_conflito
 		_aviso_label.visible = true
 		_cancelar_captura()
 		return
 
-	# Aplicar remapeamento
 	InputMap.action_erase_events(_acao_atual)
 	InputMap.action_add_event(_acao_atual, event)
 	ControladorInput.salvar_remapeamentos()
 
 	_cancelar_captura()
-	_popular_lista()  # Recarrega textos dos botoes
+	_popular_lista()
 
 
 func _verificar_conflito(evento: InputEvent, acao_ignorar: String) -> String:
@@ -174,7 +187,7 @@ func _cancelar_captura() -> void:
 func _on_resetar_pressed() -> void:
 	ControladorInput.resetar_para_padrao()
 	_popular_lista()
-	_aviso_label.text = "Configuracoes resetadas para o padrao."
+	_aviso_label.text = tr("ACTION_RESETADO")
 	_aviso_label.visible = true
 
 

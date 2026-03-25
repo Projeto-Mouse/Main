@@ -270,3 +270,45 @@ msgstr "Agradecimientos Especiales:"
 
 msgid "CREDITS_IN_MEMORIAM"
 msgstr "En Memoria:"
+
+msgid "ACTION_PULAR"
+msgstr "Saltar"
+
+msgid "ACTION_PEGAR_ITEM"
+msgstr "Recoger Objeto"
+
+msgid "ACTION_APLICAR_DANO"
+msgstr "Atacar"
+
+msgid "ACTION_RASTEJAR"
+msgstr "Arrastrarse"
+
+msgid "ACTION_DEVAGAR"
+msgstr "Caminar Lento"
+
+msgid "ACTION_PAUSAR"
+msgstr "Pausa"
+
+msgid "ACTION_CIMA"
+msgstr "Moverse Arriba"
+
+msgid "ACTION_BAIXO"
+msgstr "Moverse Abajo"
+
+msgid "ACTION_ESQUERDA"
+msgstr "Moverse a la Izquierda"
+
+msgid "ACTION_DIREITA"
+msgstr "Moverse a la Derecha"
+
+msgid "ACTION_AGUARDANDO"
+msgstr "Esperando..."
+
+msgid "ACTION_CONFLITO"
+msgstr "¡Conflicto con \"%s\"!"
+
+msgid "ACTION_RESETADO"
+msgstr "Configuración restablecida al valor predeterminado."
+
+msgid "ACTION_RESETAR_PADRAO"
+msgstr "Restablecer Valores"
