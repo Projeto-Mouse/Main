@@ -17,6 +17,9 @@ func aplicar_dano(area_hurtbox: Area3D) -> void:
 	if area_hurtbox is Hurtbox:
 		if area_hurtbox.dono == dono_do_ataque:
 			return
+			
+		if area_hurtbox.dono in inimigos_acertados:
+			return
 		
 		inimigos_acertados.append(area_hurtbox)
 		area_hurtbox.receber_dano(dano_a_dar)

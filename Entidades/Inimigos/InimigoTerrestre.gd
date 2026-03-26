@@ -70,10 +70,4 @@ func computar_dano(dano_recebido: float) -> void:
 
 
 func aplicar_dano(alvo: Node) -> void:
-	if alvo.name == "Jogador" or alvo.is_in_group("Jogador"):
-		print("Inimigo colidiu com Jogador! Causando dano...")
-		var texto_debug = "Pode Dar Dano" + str(pode_dar_dano)
-		DebugConsole.add_text_console_sem_cor(texto_debug)
-		if alvo.has_method("computar_dano") and pode_dar_dano >= COOLDOWN:
-			alvo.computar_dano(dano)
-			pode_dar_dano = 0.0
+	pass

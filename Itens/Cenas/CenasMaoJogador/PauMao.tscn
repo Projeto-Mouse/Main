@@ -8,15 +8,15 @@ size = Vector3(0.53751266, 0.6350171, 1)
 
 [node name="Pau" type="Node3D" node_paths=PackedStringArray("hitbox", "area_3d_ataque")]
 script = ExtResource("1_rtdh3")
-hitbox = NodePath("area3dataque/hitbox")
-area_3d_ataque = NodePath("area3dataque")
+hitbox = NodePath("AreaHitbox/ColisaoHitbox")
+area_3d_ataque = NodePath("AreaHitbox")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 texture = ExtResource("1_2rthh")
 
-[node name="area3dataque" type="Area3D" parent="."]
+[node name="AreaHitbox" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25116715, 0, 0)
 
-[node name="hitbox" type="CollisionShape3D" parent="area3dataque"]
+[node name="ColisaoHitbox" type="CollisionShape3D" parent="AreaHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21939418, 0.011287838, 0)
 shape = SubResource("BoxShape3D_0xt2l")
