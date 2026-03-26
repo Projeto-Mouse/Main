@@ -14,7 +14,6 @@ func _physics_process(_delta: float) -> void:
 	target()
 	atualizar_linha_debug()
 	gerar_movimento_aleatorio()
-	verificar_dano_contato()
 
 	if global_position.y > altura_maxima_voo:
 		global_position.y = altura_maxima_voo
@@ -69,5 +68,5 @@ func computar_dano(dano_recebido: float) -> void:
 	pass
 
 
-func aplicar_dano(alvo: Node) -> void:
+func aplicar_dano() -> void:
 	pass

@@ -152,6 +152,7 @@ func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -
 	arma_inimigo.hitbox = hitbox
 	arma_inimigo.area_3d_ataque = area_hitbox
 	inimigo.add_child(arma_inimigo)
+	inimigo.arma = arma_inimigo
 
 
 func adicionar_sensor_auditivo(inimigo: CharacterBody3D) -> void:

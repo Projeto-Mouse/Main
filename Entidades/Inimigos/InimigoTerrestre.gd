@@ -8,6 +8,7 @@ var move_dir = 0.0
 var pode_dar_dano = 0.0
 var multiplicador_tempo_dano = 5.0
 
+var arma: ArmasScript
 
 func _ready():
 	super()
@@ -25,9 +26,10 @@ func _physics_process(delta: float) -> void:
 	target()
 	atualizar_linha_debug()
 	gerar_movimento_aleatorio()
-	verificar_dano_contato()
 
 	position.z = 0.0
+	
+	aplicar_dano()
 
 
 func movimentacao() -> void:
@@ -69,5 +71,9 @@ func computar_dano(dano_recebido: float) -> void:
 	DebugConsole.add_text_console_com_cor(dano_texto, Color.SKY_BLUE)
 
 
-func aplicar_dano(alvo: Node) -> void:
-	pass
+func aplicar_dano() -> void:
+	arma.ativar_hitbox(dano, self)
+	await get_tree().create_timer(0.2).timeout
+	arma.desativar_hitbox()
+
+	await get_tree().create_timer(5.0).timeout

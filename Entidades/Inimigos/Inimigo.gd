@@ -91,20 +91,8 @@ func target() -> void:
 			print("DEBUG...Achei você...", collider.name)
 
 	raycast.target_position = vetor_para(alvo_target)
-
-
-func verificar_dano_contato() -> void:
-	for i in get_slide_collision_count():
-		var colisao = get_slide_collision(i)
-		var colisor = colisao.get_collider()
-		aplicar_dano(colisor)
-
-
-func _on_body_entered(body: Node) -> void:
-	aplicar_dano(body)
-
-
-@abstract func aplicar_dano(alvo: Node)
+	
+@abstract func aplicar_dano()
 
 
 func gerar_movimento_aleatorio() -> void:
