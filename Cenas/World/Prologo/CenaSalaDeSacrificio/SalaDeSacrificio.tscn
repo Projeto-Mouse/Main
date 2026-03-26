@@ -1,14 +1,9 @@
-[gd_scene load_steps=58 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=51 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
+[ext_resource type="PackedScene" uid="uid://jcbke0af5ohl" path="res://Itens/Cenas/CenasMundo/PauMundo.tscn" id="4_56ste"]
 [ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="6_3kemy"]
-[ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/ItemMundo.gd" id="8_ppn7s"]
-[ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
 [ext_resource type="Script" uid="uid://bsjapjrq4fgqe" path="res://Componentes/ScriptAreaTransicao.gd" id="9_771pa"]
-[ext_resource type="Resource" uid="uid://1o5h1otp6fto" path="res://Itens/Equipamentos/Armas/Pau/pau_data.tres" id="10_tai6l"]
-[ext_resource type="Texture2D" uid="uid://c1kdktb5onab2" path="res://Sprites/Itens/Armas/Pau.png" id="11_fk2ij"]
-[ext_resource type="Script" uid="uid://gmvyhdrpxya3" path="res://Itens/Equipamentos/Ferramentas/Tocha/LuzTocha.gd" id="11_hss4k"]
-[ext_resource type="Resource" uid="uid://bola6l4gtaha4" path="res://Itens/Equipamentos/Ferramentas/Tocha/tocha_data.tres" id="12_h0w4g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spau7"]
 size = Vector3(44.599907, 0.21289063, 1)
@@ -145,12 +140,6 @@ size = Vector3(4.345886, 1.4880981, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ccs8p"]
 size = Vector3(1, 0.2055664, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
-size = Vector3(2.747838, 1.5853786, 0.17651367)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
-size = Vector3(0.11230469, 0.44714355, 0.17469788)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g6w1d"]
 size = Vector3(0.7122803, 1.2601929, 1)
@@ -507,3 +496,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.011919, 1.0282176, 0)
 
 [node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.45568, 17.752892, 0)
+
+[node name="PauMundo" parent="." instance=ExtResource("4_56ste")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.276746, 0, 0)

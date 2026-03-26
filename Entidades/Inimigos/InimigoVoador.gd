@@ -67,3 +67,7 @@ func gerar_movimento_aleatorio() -> void:
 
 func computar_dano(dano_recebido: float) -> void:
 	pass
+
+
+func aplicar_dano(alvo: Node) -> void:
+	pass

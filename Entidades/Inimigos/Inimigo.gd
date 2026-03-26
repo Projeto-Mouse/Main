@@ -8,9 +8,6 @@ var debug_linha_ativa: bool = false
 
 
 func _ready() -> void:
-	if dano == 0:
-		dano = 1.0
-
 	raycast = criar_raycast()
 	configurar_raycast(raycast, true, 2, true)
 	raycast.target_position = Vector3.ZERO
@@ -107,11 +104,7 @@ func _on_body_entered(body: Node) -> void:
 	aplicar_dano(body)
 
 
-func aplicar_dano(alvo: Node) -> void:
-	if alvo.name == "Jogador" or alvo.is_in_group("Jogador"):
-		print("Inimigo colidiu com Jogador! Causando dano...")
-		if alvo.has_method("computar_dano"):
-			alvo.computar_dano(dano)
+@abstract func aplicar_dano(alvo: Node)
 
 
 func gerar_movimento_aleatorio() -> void:

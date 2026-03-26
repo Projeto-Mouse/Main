@@ -1,13 +1,25 @@
 class_name InimigoTerrestre
 extends Inimigo
 
+const COOLDOWN = 2.0
+
 var tempo_mudanca_direcao = 0.0
 var move_dir = 0.0
+var pode_dar_dano = 0.0
+var multiplicador_tempo_dano = 5.0
+
+
+func _ready():
+	super()
+	if dano == 0.0:
+		dano = 1.0
 
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= gravidade * delta
+
+	pode_dar_dano += delta * multiplicador_tempo_dano
 
 	atualizar_raycast_direcao_movimento()
 	target()
@@ -45,4 +57,23 @@ func gerar_movimento_aleatorio() -> void:
 
 
 func computar_dano(dano_recebido: float) -> void:
-	pass
+	print("entrou computadr inimigo")
+	DebugConsole.add_text_console_sem_cor("Entrou computar dano inimigo")
+	vida_atual -= dano_recebido
+	if vida_atual <= 0:
+		self.queue_free()
+
+	var vida_atual_texto = "Vida atual inimigo = " + str(vida_atual)
+	var dano_texto = "Dano tomado inimigo = " + str(dano_recebido)
+	DebugConsole.add_text_console_com_cor(vida_atual_texto, Color.BLUE)
+	DebugConsole.add_text_console_com_cor(dano_texto, Color.SKY_BLUE)
+
+
+func aplicar_dano(alvo: Node) -> void:
+	if alvo.name == "Jogador" or alvo.is_in_group("Jogador"):
+		print("Inimigo colidiu com Jogador! Causando dano...")
+		var texto_debug = "Pode Dar Dano" + str(pode_dar_dano)
+		DebugConsole.add_text_console_sem_cor(texto_debug)
+		if alvo.has_method("computar_dano") and pode_dar_dano >= COOLDOWN:
+			alvo.computar_dano(dano)
+			pode_dar_dano = 0.0

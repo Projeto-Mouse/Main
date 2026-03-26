@@ -3,19 +3,28 @@ extends Node3D
 
 @export var hitbox: CollisionShape3D
 @export var area_3d_ataque: Area3D
-@export var data: ArmasData
+
+var inimigos_acertados = []
 
 
-func aplicar_dano() -> void:
+func _ready():
+	hitbox.disabled = true
+
+
+func aplicar_dano(dano: float) -> void:
 	for body in area_3d_ataque.get_overlapping_bodies():
-		if body is Inimigo:
-			body.aplicar_dano(data.dano)
+		if body is Inimigo and body not in inimigos_acertados:
+			if body.has_method("computar_dano"):
+				body.computar_dano(dano)
+			inimigos_acertados.append(body)
 
 
-func fazer_ataque() -> void:
+func ativar_hitbox(dano_arma: float) -> void:
+	inimigos_acertados.clear()
 	hitbox.disabled = false
+	await get_tree().physics_frame
+	aplicar_dano(dano_arma)
 
-	aplicar_dano()
-	await get_tree().create_timer(0.2).timeout
 
+func desativar_hitbox() -> void:
 	hitbox.disabled = true

@@ -10,8 +10,9 @@ const INTERVALO_PASSOS: float = 0.4
 const ENERGIA_LUZ_JOGADOR: float = 0.05
 const RANGE_LUZ_JOGADOR: float = 0.8
 const ALTURA_VOLUME_PASSOS: int = -5
-const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
-const PITCH_SOM_PASSO_NORMAL = 1.0
+const ESCALA_PITCH_SOM_PASSO_DEVAGAR: float = 0.4
+const PITCH_SOM_PASSO_NORMAL: float = 1.0
+const COOLDOWN: float = 0.5
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
@@ -26,6 +27,7 @@ var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
 var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
+var cooldown_atual = 0
 
 # MOVIMENTACAO
 var movimento_x: float
@@ -40,6 +42,7 @@ var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var escudo_equipado: EscudoData
 
+
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
@@ -47,9 +50,6 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("AplicarDano"):
-		computar_dano(dano)
-
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
 	if Input.is_key_pressed(KEY_P):
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
@@ -79,6 +79,9 @@ func _physics_process(delta):
 	if estado_antigo != estado_atual:
 		print(estado_texto)
 		DebugConsole.add_text_console_sem_cor(estado_texto)
+
+	if Input.is_action_just_pressed("AplicarDano"):
+		fazer_ataque()
 
 	# Chama o método para mover, presente na classe Personagem
 	movimentacao()
@@ -203,21 +206,23 @@ func computar_dano(dano_recebido: float) -> void:
 
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
-	var porcentagem_tirada = randf()
-	
-	if(porcentagem_tirada < escudo_equipado.porcentagem_acerto):
-		DebugConsole.add_text_console_com_cor("PARABENS DEFENDEU", Color.GREEN)
-		dano_arredondado -= escudo_equipado.dano_defendido
-	
+	if escudo_equipado != null:
+		var porcentagem_tirada = randf()
+
+		if porcentagem_tirada < escudo_equipado.porcentagem_acerto:
+			DebugConsole.add_text_console_com_cor("PARABENS DEFENDEU", Color.GREEN)
+			dano_arredondado -= escudo_equipado.dano_defendido
+
 	vida_atual -= dano_arredondado
 
-	printar_vida_e_dano(vida_atual, dano_arredondado)
+	printar_vida_e_dano(dano_arredondado)
 
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
 		if !em_teste:
 			get_tree().change_scene_to_packed(cena_morte)
+
 
 func arredondar_dano(dano_recebido: float) -> float:
 	var parte_inteira = int(dano_recebido)
@@ -231,19 +236,36 @@ func arredondar_dano(dano_recebido: float) -> float:
 
 	return parte_inteira
 
-func printar_vida_e_dano(vida_atual: float, dano_tomado: float) -> void:
+
+func fazer_ataque() -> void:
+	if mao.get_child_count() == 0 or not (item_equipado_na_mao is ArmasData):
+		return
+
+	var arma = mao.get_child(0)
+	var dano_arma = item_equipado_na_mao.dano
+
+	arma.ativar_hitbox(dano_arma)
+	await get_tree().create_timer(0.2).timeout
+	arma.desativar_hitbox()
+
+	await get_tree().create_timer(COOLDOWN).timeout
+
+
+func printar_vida_e_dano(dano_tomado: float) -> void:
 	var vida_atual_texto = "Vida atual = " + str(vida_atual)
 	var dano_texto = "Dano tomado = " + str(dano_tomado)
-	
+
 	print(vida_atual_texto)
 	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
 	print(dano_texto)
 	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
-	
+
+
 func atualizar_interacao(item: ItemMundo, ativo: bool):
 	item_da_area_atual = (
 		item if ativo else (null if item_da_area_atual == item else item_da_area_atual)
 	)
+
 
 func pegar_item() -> void:
 	if item_da_area_atual == null:
@@ -256,49 +278,54 @@ func pegar_item() -> void:
 		escudo_equipado = item_da_area_atual.item_data
 		limpar_item_na_area_atual()
 		posicionar_item_na_mao(escudo_equipado)
-		posicionar_item_na_mao(item_equipado_na_mao) # mantenho o item da mao tbm posicionado
+		posicionar_item_na_mao(item_equipado_na_mao)  # mantenho o item da mao tbm posicionado
 		return
-		
+
 	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
 		print("Inventario cheio")
 		DebugConsole.add_text_console_sem_cor("Inventario cheio")
 		return
-		
+
 	item_equipado_na_mao = item_da_area_atual.item_data
 	limpar_item_na_area_atual()
 	posicionar_item_na_mao(item_equipado_na_mao)
 
+
 func limpar_item_na_area_atual() -> void:
 	item_da_area_atual.queue_free()
 	item_da_area_atual = null
-	
+
+
 func posicionar_item_na_mao(item) -> void:
 	for filhos in mao.get_children():
 		filhos.queue_free()
 
 	if item == null:
 		return
-		
+
 	if item is EscudoData and item.cena_3d:
 		DebugConsole.add_text_console_sem_cor("Criando Cena Escudo")
 		criar_cena_escudo()
 		return
-		
+
 	if item_equipado_na_mao.cena_3d:
 		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
 		criar_cena_item()
 		return
+
 
 func criar_cena_item() -> void:
 	var visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
 	visual.transform = Transform3D.IDENTITY  #alinha com a mao
 
+
 func criar_cena_escudo() -> void:
 	var visual = escudo_equipado.cena_3d.instantiate()
 	posicao_escudo.add_child(visual)
 	visual.transform = Transform3D.IDENTITY
-	
+
+
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 	if esta_tocando_escalavel:
 		estado_atual = estados_jogador.ESCALANDO

@@ -105,6 +105,8 @@ func spawnar_inimigo(posicao_click: Vector2, tipo: tipo_spawn) -> void:
 	inimigo.name = "Inimigo" + nome_debug + "Teste"
 	inimigo.position = pos
 	inimigo.velocidade_base = 2.0
+	inimigo.vida_atual = 10.0
+	inimigo.vida_max = 10.0
 
 	setup_inimigo_visual(inimigo, cor, SCALE_INIMIGO)
 	adicionar_sensor_auditivo(inimigo)

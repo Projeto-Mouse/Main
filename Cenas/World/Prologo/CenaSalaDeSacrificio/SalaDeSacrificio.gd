@@ -1,9 +1,11 @@
 class_name SalaDeSacrificio
 extends World
 
+
 func _ready() -> void:
 	spawn_inimigos_teste()
 	spawn_aliado_teste()
+
 
 func spawn_inimigos_teste() -> void:
 	var scale_inimigo = 0.15
@@ -20,6 +22,7 @@ func spawn_inimigos_teste() -> void:
 	terrestre.position = Vector3(6, 1.5, 0)
 	terrestre.velocidade_base = 2.0
 	terrestre.gravidade = 9.8
+	terrestre.vida_max = 10.0
 	setup_inimigo_visual(terrestre, Color.BLUE, scale_inimigo)
 	adicionar_sensor_auditivo(terrestre)
 	add_child(terrestre)
