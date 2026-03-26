@@ -316,25 +316,27 @@ func posicionar_item_na_mao(item) -> void:
 
 	if item is EscudoData and item.cena_3d:
 		DebugConsole.add_text_console_sem_cor("Criando Cena Escudo")
-		criar_cena_escudo()
+		criar_cena_item(escudo_equipado)
 		return
 
 	if item_equipado_na_mao.cena_3d:
 		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
-		criar_cena_item()
+		criar_cena_item(item_equipado_na_mao)
 		return
 
 
-func criar_cena_item() -> void:
-	var visual = item_equipado_na_mao.cena_3d.instantiate()
+func criar_cena_item(item: ItemData) -> void:
+	var visual
+	
+	if item is EscudoData:
+		visual = escudo_equipado.cena_3d.instantiate()
+		posicao_escudo.add_child(visual)
+		visual.transform = Transform3D.IDENTITY  #alinha com a mao
+		return
+		
+	visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
 	visual.transform = Transform3D.IDENTITY  #alinha com a mao
-
-
-func criar_cena_escudo() -> void:
-	var visual = escudo_equipado.cena_3d.instantiate()
-	posicao_escudo.add_child(visual)
-	visual.transform = Transform3D.IDENTITY
 
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
