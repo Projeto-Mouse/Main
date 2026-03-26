@@ -68,5 +68,5 @@ func gerar_movimento_aleatorio() -> void:
 	move_and_slide()
 
 
-func computar_dano(dano_recebido: float) -> void:
+func computar_dano(_dano_recebido: float) -> void:
 	pass
