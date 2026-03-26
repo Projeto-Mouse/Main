@@ -8,7 +8,6 @@ extends Node3D
 @onready var fps_text = $FPS
 
 var controlador_iluminacao = Node3D.new()
-var nao_pausado = false
 var menu_aberto: bool = false
 
 var playlist_script
@@ -23,6 +22,8 @@ func _ready() -> void:
 	debug_menu.hide()
 	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
 
+	ControladorCena.registrar_menu(menu_de_pause)
+
 	playlist_script = preload("res://Menus/Menu Debug/MusicasCenaDebug/PlaylistScript.gd").new()
 	playlist_script.carregar_musicas()
 	ControladorMusica.volume_alvo_db = -30
@@ -33,7 +34,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Pausar"):
 		debug_menu.hide()
-		mostrar_menu_de_pausa()
 	
 	fps_text.text = "FPS: " + str(Engine.get_frames_per_second())
 
@@ -89,15 +89,6 @@ func setup_iluminacao() -> void:
 	add_child(controlador_iluminacao)
 
 
-func mostrar_menu_de_pausa():
-	if nao_pausado:
-		menu_de_pause.hide()
-		Engine.time_scale = 1
-	else:
-		menu_de_pause.show()
-		Engine.time_scale = 0
-
-	nao_pausado = !nao_pausado
 
 
 func _abrir_e_fechar_menu_debug() -> void:
