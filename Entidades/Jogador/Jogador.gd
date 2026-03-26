@@ -220,7 +220,7 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
-		if !em_teste:
+		if not em_teste:
 			get_tree().change_scene_to_packed(cena_morte)
 
 
