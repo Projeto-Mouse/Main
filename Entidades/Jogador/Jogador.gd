@@ -1,10 +1,7 @@
 class_name Jogador
 extends Entidade
 
-# flags
-var em_teste: bool = false
-
-enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
+enum EstadosJogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
 
 const INTERVALO_PASSOS: float = 0.4
 const ENERGIA_LUZ_JOGADOR: float = 0.05
@@ -13,16 +10,12 @@ const ALTURA_VOLUME_PASSOS: int = -5
 const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
 const PITCH_SOM_PASSO_NORMAL = 1.0
 
-@onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
-@onready var collision_shape: CollisionShape3D = $CollisionShape3D
-@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
-@onready var mao: Node3D = $Mao
+# flags
+var em_teste: bool = false
 
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
-var estado_atual = estados_jogador.PARADO
+var estado_atual = EstadosJogador.PARADO
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
@@ -34,6 +27,14 @@ var movimento_y: float
 
 # VARIAVEIS DEBUG
 var modo_god: bool = false
+var esta_morto: bool = false
+
+@onready var camera: Camera3D = $pivo_Camera/Camera
+@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
+@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
+@onready var mao: Node3D = $Mao
 
 
 func _ready() -> void:
@@ -71,7 +72,7 @@ func _physics_process(delta):
 
 	var estado_antigo = estado_atual
 	estado_atual = obter_novo_estado(esta_no_chao)
-	var estado_texto = "Estado Atual: " + estados_jogador.keys()[estado_atual]
+	var estado_texto = "Estado Atual: " + EstadosJogador.keys()[estado_atual]
 	if estado_antigo != estado_atual:
 		print(estado_texto)
 		DebugConsole.add_text_console_sem_cor(estado_texto)
@@ -113,7 +114,7 @@ func calcular_movimento_horizontal(direcao: float) -> float:
 
 
 func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, delta: float) -> float:
-	if estado_atual == estados_jogador.ESCALANDO:
+	if estado_atual == EstadosJogador.ESCALANDO:
 		var velocidade_final_y = -0.25 if direcao <= 0 else direcao * velocidade_base
 		return velocidade_final_y
 
@@ -124,24 +125,22 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 	return velocity.y + (gravidade * delta)
 
 
-func obter_novo_estado(no_chao: bool) -> estados_jogador:
-	if estado_atual == estados_jogador.ESCALANDO:
-		return estados_jogador.ESCALANDO
+func obter_novo_estado(no_chao: bool) -> EstadosJogador:
+	if estado_atual == EstadosJogador.ESCALANDO:
+		return EstadosJogador.ESCALANDO
 
 	if not no_chao:
-		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
+		return EstadosJogador.PULANDO if velocity.y > 0 else EstadosJogador.CAINDO
 
 	if Input.is_action_pressed("Rastejar"):
-		return estados_jogador.RASTEJANDO
+		return EstadosJogador.RASTEJANDO
 
 	if movimento_x != 0:
 		return (
-			estados_jogador.DEVAGAR
-			if Input.is_action_pressed("Devagar")
-			else estados_jogador.ANDANDO
+			EstadosJogador.DEVAGAR if Input.is_action_pressed("Devagar") else EstadosJogador.ANDANDO
 		)
 
-	return estados_jogador.PARADO
+	return EstadosJogador.PARADO
 
 
 func criar_luz_jogador() -> void:
@@ -163,7 +162,7 @@ func criar_som_passos() -> void:
 
 
 func tocar_som_passos(esta_no_chao: bool) -> void:
-	if estado_atual == estados_jogador.ANDANDO and esta_no_chao:
+	if estado_atual == EstadosJogador.ANDANDO and esta_no_chao:
 		som_passos.pitch_scale = PITCH_SOM_PASSO_NORMAL
 		if not som_passos.playing:
 			som_passos.play()
@@ -175,7 +174,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
 
-	elif estado_atual == estados_jogador.DEVAGAR:
+	elif estado_atual == EstadosJogador.DEVAGAR:
 		som_passos.pitch_scale = ESCALA_PITCH_SOM_PASSO_DEVAGAR
 		if not som_passos.playing:
 			som_passos.play()
@@ -194,6 +193,9 @@ func atualizar_posicao_luz_jogador() -> void:
 
 # Isso e um override da funcao que esta em entidade
 func computar_dano(dano_recebido: float) -> void:
+	if esta_morto:
+		return
+
 	if modo_god:
 		dano_recebido = 0.0
 
@@ -203,6 +205,7 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
+		esta_morto = true
 		print("Jogador Morreu")
 		if !em_teste:
 			get_tree().change_scene_to_packed(cena_morte)
@@ -241,9 +244,9 @@ func atualizar_interacao(item: ItemMundo, ativo: bool):
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 	if esta_tocando_escalavel:
-		estado_atual = estados_jogador.ESCALANDO
+		estado_atual = EstadosJogador.ESCALANDO
 	else:
-		estado_atual = estados_jogador.PARADO
+		estado_atual = EstadosJogador.PARADO
 
 
 func pegar_item() -> void:
