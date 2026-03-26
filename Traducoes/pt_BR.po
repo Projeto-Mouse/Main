@@ -131,3 +131,195 @@ msgstr "Créditos"
 
 msgid "Apoio"
 msgstr "Apoio"
+
+msgid "Volume Geral"
+msgstr "Volume Geral"
+
+msgid "Volume de Objetos"
+msgstr "Volume de Objetos"
+
+msgid "Volume de Entidades"
+msgstr "Volume de Entidades"
+
+msgid "Volume de SFX"
+msgstr "Volume de SFX"
+
+msgid "Volume da UI"
+msgstr "Volume da UI"
+
+msgid "Som Surround"
+msgstr "Som Surround"
+
+msgid "Áudio Mono"
+msgstr "Áudio Mono"
+
+msgid "Voltar"
+msgstr "Voltar"
+
+msgid "Qualidade"
+msgstr "Qualidade"
+
+msgid "VSync"
+msgstr "VSync"
+
+msgid "Sombras"
+msgstr "Sombras"
+
+msgid "CREDITS_TITLE_LEADERSHIP"
+msgstr "Liderança e Produção"
+
+msgid "CREDITS_EXEC_PRODUCER"
+msgstr "Executive Producer:"
+
+msgid "CREDITS_PRODUCERS"
+msgstr "Producers:"
+
+msgid "CREDITS_PM"
+msgstr "Project Management (PM):"
+
+msgid "CREDITS_MARKETING"
+msgstr "Marketing & PR:"
+
+msgid "CREDITS_TITLE_NARRATIVE"
+msgstr "Narrativa e Roteiro"
+
+msgid "CREDITS_LEAD_WRITER"
+msgstr "Lead Writer:"
+
+msgid "CREDITS_CO_WRITERS"
+msgstr "Co-Writers:"
+
+msgid "CREDITS_TITLE_ENGINEERING"
+msgstr "Engenharia e Programação"
+
+msgid "CREDITS_LEAD_PROGRAMMING"
+msgstr "Lead Programming:"
+
+msgid "CREDITS_GAMEPLAY_PHYSICS"
+msgstr "Gameplay & Physics:"
+
+msgid "CREDITS_GAMEPLAY_PHYSICS_NAMES"
+msgstr "Sistemas de Movimentação e Física por PMDT Team"
+
+msgid "CREDITS_AI_SYSTEMS"
+msgstr "AI Systems:"
+
+msgid "CREDITS_AI_SYSTEMS_NAMES"
+msgstr "IA de Inimigos e Chefes por PMDT Team"
+
+msgid "CREDITS_SYSTEM_ARCH"
+msgstr "System Architecture:"
+
+msgid "CREDITS_SYSTEM_ARCH_NAMES"
+msgstr "Integração de Save e Menus por PMDT Team"
+
+msgid "CREDITS_TITLE_ART"
+msgstr "Arte e Visual"
+
+msgid "CREDITS_CONCEPT_ARTIST"
+msgstr "Concept Artist:"
+
+msgid "CREDITS_3D_MODELING"
+msgstr "3D Modeling (Character & Environment):"
+
+msgid "CREDITS_TEXTURE_VFX"
+msgstr "Texture & VFX Artists:"
+
+msgid "CREDITS_ANIMATION"
+msgstr "Animation:"
+
+msgid "CREDITS_ANIMATION_NAMES"
+msgstr "Animação Procedural por PMDT Team"
+
+msgid "CREDITS_TITLE_AUDIO"
+msgstr "Áudio e Dublagem"
+
+msgid "CREDITS_AUDIO_DIRECTOR"
+msgstr "Audio Director & Composer:"
+
+msgid "CREDITS_SOUND_DESIGN"
+msgstr "Sound Design:"
+
+msgid "CREDITS_FOLEY"
+msgstr "Foley & Environmental Audio:"
+
+msgid "CREDITS_VOICE_ACTING"
+msgstr "Voice Acting:"
+
+msgid "CREDITS_TITLE_QA"
+msgstr "Qualidade e Localização"
+
+msgid "CREDITS_QA_LEAD"
+msgstr "QA Lead:"
+
+msgid "CREDITS_QA_TESTERS"
+msgstr "QA Testers:"
+
+msgid "CREDITS_LOCALIZATION"
+msgstr "Localization (L10n):"
+
+msgid "CREDITS_CUSTOMER_SUPPORT"
+msgstr "Customer Support:"
+
+msgid "CREDITS_TITLE_TECHNOLOGY"
+msgstr "Tecnologia"
+
+msgid "CREDITS_GAME_ENGINE"
+msgstr "Game Engine:"
+
+msgid "CREDITS_GAME_ENGINE_NAMES"
+msgstr "Criado com Godot Engine"
+
+msgid "CREDITS_TESTING_TOOLS"
+msgstr "Testing Tools:"
+
+msgid "CREDITS_TITLE_THANKS"
+msgstr "Agradecimentos e Memória"
+
+msgid "CREDITS_SPECIAL_THANKS"
+msgstr "Special Thanks:"
+
+msgid "CREDITS_IN_MEMORIAM"
+msgstr "In Memoriam:"
+
+msgid "ACTION_PULAR"
+msgstr "Pular"
+
+msgid "ACTION_PEGAR_ITEM"
+msgstr "Pegar Item"
+
+msgid "ACTION_APLICAR_DANO"
+msgstr "Aplicar Dano"
+
+msgid "ACTION_RASTEJAR"
+msgstr "Rastejar"
+
+msgid "ACTION_DEVAGAR"
+msgstr "Devagar"
+
+msgid "ACTION_PAUSAR"
+msgstr "Pausar"
+
+msgid "ACTION_CIMA"
+msgstr "Cima"
+
+msgid "ACTION_BAIXO"
+msgstr "Baixo"
+
+msgid "ACTION_ESQUERDA"
+msgstr "Esquerda"
+
+msgid "ACTION_DIREITA"
+msgstr "Direita"
+
+msgid "ACTION_AGUARDANDO"
+msgstr "Aguardando..."
+
+msgid "ACTION_CONFLITO"
+msgstr "Conflito com \"%s\"!"
+
+msgid "ACTION_RESETADO"
+msgstr "Configurações resetadas para o padrão."
+
+msgid "ACTION_RESETAR_PADRAO"
+msgstr "Resetar Padrões"
