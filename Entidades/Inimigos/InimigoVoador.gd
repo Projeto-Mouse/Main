@@ -10,6 +10,9 @@ var altura_maxima_voo = 6.0
 
 
 func _physics_process(_delta: float) -> void:
+	if not is_inside_tree():
+		return
+
 	atualizar_raycast_direcao_movimento()
 	target()
 	atualizar_linha_debug()
