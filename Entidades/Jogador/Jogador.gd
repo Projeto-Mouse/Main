@@ -221,7 +221,7 @@ func computar_dano(dano_recebido: float) -> void:
 		vida_atual = 0
 		print("Jogador Morreu")
 		if not em_teste:
-			get_tree().change_scene_to_packed(cena_morte)
+			get_tree().call_deferred("change_scene_to_packed", cena_morte)
 
 
 func arredondar_dano(dano_recebido: float) -> float:
@@ -244,7 +244,7 @@ func fazer_ataque() -> void:
 	var arma = mao.get_child(0)
 	var dano_arma = item_equipado_na_mao.dano
 
-	arma.ativar_hitbox(dano_arma)
+	arma.ativar_hitbox(dano_arma, self)
 	await get_tree().create_timer(0.2).timeout
 	arma.desativar_hitbox()
 

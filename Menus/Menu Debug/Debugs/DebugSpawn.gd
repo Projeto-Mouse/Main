@@ -15,7 +15,7 @@ enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO, ITEM }
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
 var quantidade_entidades = 0
-
+var script_hurtbox = load("res://Entidades/ScriptsGerais/Hurtbox.gd")
 var cena_debug: Node3D
 
 var cena_item_para_spawnar
@@ -123,6 +123,8 @@ func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -
 	box_shape_hurtbox.size = Vector3(0.2, 0.3, 0.2)
 	colision_hurtbox.shape = box_shape_hurtbox
 	hurtbox.add_child(colision_hurtbox)
+	hurtbox.set_script(script_hurtbox)
+	hurtbox.dono = inimigo
 	hurtbox.name = "hurtbox"
 	inimigo.add_child(hurtbox)
 	material_inimigo.albedo_color = cor

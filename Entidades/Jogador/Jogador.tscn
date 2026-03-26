@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4vfiwl5jri1"]
+[gd_scene load_steps=6 format=3 uid="uid://b4vfiwl5jri1"]
 
 [ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="1_o2fes"]
+[ext_resource type="Script" uid="uid://cobqo3bydgu14" path="res://Entidades/ScriptsGerais/Hurtbox.gd" id="2_o2fes"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
@@ -41,7 +42,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.02382332, -0.0
 [node name="PosicaoEscudo" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2502799, 0.015957594, 0)
 
-[node name="hurbox" type="Area3D" parent="."]
+[node name="hurbox" type="Area3D" parent="." node_paths=PackedStringArray("dono")]
+script = ExtResource("2_o2fes")
+dono = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hurbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0014648288, 0, 0)
