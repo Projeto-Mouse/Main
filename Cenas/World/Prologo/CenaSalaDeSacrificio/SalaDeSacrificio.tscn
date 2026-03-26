@@ -488,49 +488,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.140194, 0.2764492, 0)
 shape = SubResource("BoxShape3D_ccs8p")
 debug_color = Color(0.4862745, 0.58431375, 0, 0.41960785)
 
-[node name="Pau" type="RigidBody3D" parent="." groups=["ItensInterativos"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8299198, 0.95736516, 0)
-script = ExtResource("8_ppn7s")
-item_data = ExtResource("10_tai6l")
-
-[node name="Area3D" type="Area3D" parent="Pau"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Pau/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031174421, 0.5445826, -0.024536133)
-shape = SubResource("BoxShape3D_r8c7y")
-
-[node name="Sprite3D" type="Sprite3D" parent="Pau"]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.041650414, 0)
-texture = ExtResource("11_fk2ij")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Pau"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.031255007, 0.03717041, 0)
-shape = SubResource("BoxShape3D_rteev")
-
-[node name="Tocha" type="RigidBody3D" parent="." groups=["ItensInterativos"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9596558, 0.97325134, 0)
-script = ExtResource("8_ppn7s")
-item_data = ExtResource("12_h0w4g")
-
-[node name="Area3D" type="Area3D" parent="Tocha"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.030865788, 0.061731577, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha/Area3D"]
-shape = SubResource("BoxShape3D_r8c7y")
-
-[node name="Sprite3D" type="Sprite3D" parent="Tocha"]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.02846694, -0.041650414, 0)
-texture = ExtResource("8_r4mej")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Tocha"]
-shape = SubResource("BoxShape3D_rteev")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="Tocha"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013459682, 0.11840665, 0)
-light_color = Color(1, 0.6, 0.2, 1)
-script = ExtResource("11_hss4k")
-
 [node name="AreaEntradaVilaDosRatos" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.4324, 17.518267, 0)
 script = ExtResource("9_771pa")
