@@ -34,6 +34,7 @@ var movimento_y: float
 
 # VARIAVEIS DEBUG
 var modo_god: bool = false
+var esta_morto: bool = false
 
 
 func _ready() -> void:
@@ -194,6 +195,9 @@ func atualizar_posicao_luz_jogador() -> void:
 
 # Isso e um override da funcao que esta em entidade
 func computar_dano(dano_recebido: float) -> void:
+	if esta_morto:
+		return
+
 	if modo_god:
 		dano_recebido = 0.0
 
@@ -203,6 +207,7 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
+		esta_morto = true
 		print("Jogador Morreu")
 		if !em_teste:
 			get_tree().change_scene_to_packed(cena_morte)
