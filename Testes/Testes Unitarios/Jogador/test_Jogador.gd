@@ -58,11 +58,9 @@ func before_each():
 
 	var Mao = Node3D.new()
 	Mao.name = "Mao"
-	jogador.add_child(Mao)
 
 	var posicao_escudo = Node3D.new()
 	posicao_escudo.name = "PosicaoEscudo"
-	jogador.add_child(posicao_escudo)
 
 	var pivo = Node3D.new()
 	pivo.name = "pivo_Camera"
@@ -86,7 +84,13 @@ func before_each():
 	var barra = Control.new()
 	barra.name = "BarraVida"
 	canvas.add_child(barra)
-
+	
+	var pivo_personagem = Node3D.new()
+	pivo_personagem.name = "PivoPersonagem"
+	pivo_personagem.add_child(Mao)
+	pivo_personagem.add_child(posicao_escudo)
+	jogador.add_child(pivo_personagem)
+	
 	jogador.em_teste = true
 
 	root.add_child(canvas)
