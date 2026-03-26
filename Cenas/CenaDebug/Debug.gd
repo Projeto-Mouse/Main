@@ -34,7 +34,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Pausar"):
 		debug_menu.hide()
-	
+
 	fps_text.text = "FPS: " + str(Engine.get_frames_per_second())
 
 
@@ -87,8 +87,6 @@ func setup_iluminacao() -> void:
 		print("WorldEnvironment criado automaticamente.")
 
 	add_child(controlador_iluminacao)
-
-
 
 
 func _abrir_e_fechar_menu_debug() -> void:
