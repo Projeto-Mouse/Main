@@ -90,7 +90,7 @@ func _input(event: InputEvent) -> void:
 func criar_no_filho_raycast_cima() -> void:
 	raycast_cima = criar_raycast()
 	configurar_raycast(raycast_cima, false, 1, true)
-	raycast_cima.target_position = Vector3(0, 0.45, 0)
+	raycast_cima.target_position = Vector3(0, 0.40, 0)
 	add_child(raycast_cima)
 
 func movimentacao() -> void:
@@ -112,15 +112,11 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 	var pode_levantar = !bloqueio_em_cima and !input_abaixar
 
 	if input_abaixar or bloqueio_em_cima and no_chao:
-		collision_shape.rotation_degrees.x = 90
-		mesh_instance.rotation_degrees.x = 90
+		setar_rastejando(true)
 		velocidade_final *= 0.3
-		raycast_cima.enabled = true
 
 	if pode_levantar :
-		collision_shape.rotation_degrees.x = 0
-		mesh_instance.rotation_degrees.x = 0
-		raycast_cima.enabled = false
+		setar_rastejando(false)
 		
 	return direcao * velocidade_final
 
@@ -130,8 +126,11 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 		var velocidade_final_y = -0.25 if direcao <= 0 else direcao * velocidade_base
 		return velocidade_final_y
 
-	if no_chao:
-		var pode_pular = pular and not Input.is_action_pressed("Rastejar")
+	# raycast_cima só está ativo quando jogador está rastejando, possível ver na linha 164
+	var jogador_rastejando = Input.is_action_pressed("Rastejar") or raycast_cima.is_colliding()
+
+	if no_chao and !jogador_rastejando:
+		var pode_pular = pular
 		return forca_pulo if pode_pular else 0.0
 
 	return velocity.y + (gravidade * delta)
@@ -141,10 +140,12 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 	if estado_atual == estados_jogador.ESCALANDO:
 		return estados_jogador.ESCALANDO
 
-	if not no_chao:
+	if !no_chao and !estado_atual == estados_jogador.RASTEJANDO:
 		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
+	
+	var bloqueio_em_cima = raycast_cima.is_colliding()
 
-	if Input.is_action_pressed("Rastejar"):
+	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima and no_chao:
 		return estados_jogador.RASTEJANDO
 
 	if movimento_x != 0:
@@ -155,6 +156,17 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 		)
 
 	return estados_jogador.PARADO
+
+func setar_rastejando(esta_rastejando: bool) -> void:
+	if esta_rastejando:
+		collision_shape.rotation_degrees.x = 90
+		mesh_instance.rotation_degrees.x = 90
+		raycast_cima.enabled = true
+		return
+	
+	collision_shape.rotation_degrees.x = 0
+	mesh_instance.rotation_degrees.x = 0
+	raycast_cima.enabled = false
 
 
 func criar_luz_jogador() -> void:
@@ -217,7 +229,8 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
-		get_tree().change_scene_to_packed(cena_morte)
+		if not em_teste:
+			get_tree().change_scene_to_packed(cena_morte)
 
 	var vida_atual_texto = "Vida atual = " + str(vida_atual)
 	var dano_texto = "Dano tomado = " + str(dano_arredondado)

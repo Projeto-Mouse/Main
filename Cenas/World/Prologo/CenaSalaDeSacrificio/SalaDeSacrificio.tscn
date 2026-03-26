@@ -1,14 +1,8 @@
-[gd_scene load_steps=58 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=50 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
 [ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="6_3kemy"]
-[ext_resource type="Script" uid="uid://ylcb3w3jkvi6" path="res://Itens/ItemMundo.gd" id="8_ppn7s"]
-[ext_resource type="Texture2D" uid="uid://dxerjji7eaiq0" path="res://Sprites/Itens/Ferramentas/Tocha.png" id="8_r4mej"]
 [ext_resource type="Script" uid="uid://bsjapjrq4fgqe" path="res://Componentes/ScriptAreaTransicao.gd" id="9_771pa"]
-[ext_resource type="Resource" uid="uid://1o5h1otp6fto" path="res://Itens/Equipamentos/Armas/Pau/pau_data.tres" id="10_tai6l"]
-[ext_resource type="Texture2D" uid="uid://c1kdktb5onab2" path="res://Sprites/Itens/Armas/Pau.png" id="11_fk2ij"]
-[ext_resource type="Script" uid="uid://gmvyhdrpxya3" path="res://Itens/Equipamentos/Ferramentas/Tocha/LuzTocha.gd" id="11_hss4k"]
-[ext_resource type="Resource" uid="uid://bola6l4gtaha4" path="res://Itens/Equipamentos/Ferramentas/Tocha/tocha_data.tres" id="12_h0w4g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_spau7"]
 size = Vector3(44.599907, 0.21289063, 1)
@@ -146,12 +140,6 @@ size = Vector3(4.345886, 1.4880981, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ccs8p"]
 size = Vector3(1, 0.2055664, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_r8c7y"]
-size = Vector3(2.747838, 1.5853786, 0.17651367)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_rteev"]
-size = Vector3(0.11230469, 0.44714355, 0.17469788)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_g6w1d"]
 size = Vector3(0.7122803, 1.2601929, 1)
 
@@ -168,7 +156,7 @@ debug_color = Color(0, 0.6357732, 0.40352643, 0.41960785)
 
 [node name="ColisãoArvore01" type="CollisionPolygon3D" parent="CenaSalaDoSacrificio"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -2.6876678, -0.5413351, 0)
-polygon = PackedVector2Array(5.575194, 1.4237863, 6.931255, 2.095929, 7.596382, 2.7723303, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.42477, 4.058466, 17.29542, 4.1352882, 17.372244, 3.6615522, 20.635363, 4.0280833, 22.042429, 4.7034755, 21.992666, 3.2489753, 9.472828, 2.638252, 7.1341753, 1.588628)
+polygon = PackedVector2Array(5.5736837, 1.293467, 6.931255, 2.095929, 7.596382, 2.7723303, 9.062485, 3.2675598, 15.936167, 3.4472077, 16.42477, 4.058466, 17.29542, 4.1352882, 17.372244, 3.6615522, 20.635363, 4.0280833, 22.042429, 4.7034755, 21.992666, 3.2489753, 9.472828, 2.638252, 7.062638, 1.3139374)
 margin = 0.001
 debug_color = Color(0.9188645, 5.833447e-05, 0.6933957, 0.41960785)
 

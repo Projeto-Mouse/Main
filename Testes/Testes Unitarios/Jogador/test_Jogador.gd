@@ -78,15 +78,15 @@ func before_each():
 	add_child_autofree(root)
 	
 func test_calcular_movimento_horizontal_direita() -> void:
-	var resultado = jogador.calcular_movimento_horizontal(1.0)
+	var resultado = jogador.calcular_movimento_horizontal(1.0, true)
 	assert_gt(resultado, 0.0)
 
 func test_calcular_movimento_horizontal_esquerda() -> void:
-	var resultado = jogador.calcular_movimento_horizontal(-1.0)
+	var resultado = jogador.calcular_movimento_horizontal(-1.0, true)
 	assert_lt(resultado, 0.0)
 
 func test_calcular_movimento_horizontal_esquerda_e_direita_juntos() -> void:
-	var resultado = jogador.calcular_movimento_horizontal(0.0)
+	var resultado = jogador.calcular_movimento_horizontal(0.0, true)
 	assert_eq(resultado, 0.0)
 
 func test_calcular_movimento_vertical_escalando_cima() -> void:
