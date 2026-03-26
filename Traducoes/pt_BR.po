@@ -281,3 +281,45 @@ msgstr "Special Thanks:"
 
 msgid "CREDITS_IN_MEMORIAM"
 msgstr "In Memoriam:"
+
+msgid "ACTION_PULAR"
+msgstr "Pular"
+
+msgid "ACTION_PEGAR_ITEM"
+msgstr "Pegar Item"
+
+msgid "ACTION_APLICAR_DANO"
+msgstr "Aplicar Dano"
+
+msgid "ACTION_RASTEJAR"
+msgstr "Rastejar"
+
+msgid "ACTION_DEVAGAR"
+msgstr "Devagar"
+
+msgid "ACTION_PAUSAR"
+msgstr "Pausar"
+
+msgid "ACTION_CIMA"
+msgstr "Cima"
+
+msgid "ACTION_BAIXO"
+msgstr "Baixo"
+
+msgid "ACTION_ESQUERDA"
+msgstr "Esquerda"
+
+msgid "ACTION_DIREITA"
+msgstr "Direita"
+
+msgid "ACTION_AGUARDANDO"
+msgstr "Aguardando..."
+
+msgid "ACTION_CONFLITO"
+msgstr "Conflito com \"%s\"!"
+
+msgid "ACTION_RESETADO"
+msgstr "Configurações resetadas para o padrão."
+
+msgid "ACTION_RESETAR_PADRAO"
+msgstr "Resetar Padrões"

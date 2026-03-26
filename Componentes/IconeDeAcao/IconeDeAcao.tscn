@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://icone_de_acao"]
+
+[ext_resource type="Script" path="res://Componentes/IconeDeAcao/IconeDeAcao.gd" id="1_acao"]
+
+[node name="IconeDeAcao" type="HBoxContainer"]
+script = ExtResource("1_acao")
+
+[node name="IconeRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+stretch_mode = 2
+
+[node name="LabelTexto" type="Label" parent="."]
+vertical_alignment = 1

@@ -288,3 +288,45 @@ msgstr "Special Thanks:"
 
 msgid "CREDITS_IN_MEMORIAM"
 msgstr "In Memoriam:"
+
+msgid "ACTION_PULAR"
+msgstr "Jump"
+
+msgid "ACTION_PEGAR_ITEM"
+msgstr "Pick Up Item"
+
+msgid "ACTION_APLICAR_DANO"
+msgstr "Attack"
+
+msgid "ACTION_RASTEJAR"
+msgstr "Crawl"
+
+msgid "ACTION_DEVAGAR"
+msgstr "Walk Slow"
+
+msgid "ACTION_PAUSAR"
+msgstr "Pause"
+
+msgid "ACTION_CIMA"
+msgstr "Move Up"
+
+msgid "ACTION_BAIXO"
+msgstr "Move Down"
+
+msgid "ACTION_ESQUERDA"
+msgstr "Move Left"
+
+msgid "ACTION_DIREITA"
+msgstr "Move Right"
+
+msgid "ACTION_AGUARDANDO"
+msgstr "Waiting..."
+
+msgid "ACTION_CONFLITO"
+msgstr "Conflict with \"%s\"!"
+
+msgid "ACTION_RESETADO"
+msgstr "Settings reset to default."
+
+msgid "ACTION_RESETAR_PADRAO"
+msgstr "Reset Defaults"
