@@ -5,6 +5,7 @@ extends CharacterBody3D
 @export var velocidade_base: float
 @export var gravidade: float
 @export var forca_pulo: float
+@export var forca_rolada: float
 
 # Variaveis nao-fisicas
 @export var nome: String

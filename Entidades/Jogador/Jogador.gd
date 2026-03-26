@@ -35,6 +35,7 @@ var movimento_x: float
 var movimento_y: float
 var ultimo_lado_olhado: float
 
+
 # VARIAVEIS DEBUG
 var modo_god: bool = false
 
@@ -85,7 +86,7 @@ func _physics_process(delta):
 	if direcao_x != 0:
 		ultimo_lado_olhado = sign(direcao_x)
 		rotacionar_personagem_ultimo_lado_olhado(ultimo_lado_olhado)
-	
+		
 	movimentacao()
 	position.z = 0
 	atualizar_posicao_luz_jogador()
@@ -93,8 +94,12 @@ func _physics_process(delta):
 
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
+	
 	if Input.is_action_just_pressed("AplicarDano"):
 		fazer_ataque()
+	
+	if Input.is_action_just_pressed("Rolar"):
+		fazer_rolagem()
 
 func rotacionar_personagem_ultimo_lado_olhado(ultima_dir: float = 1.0) -> void:
 	pivo_personagem.scale.x = ultima_dir
@@ -356,3 +361,14 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao(item_equipado_na_mao)
 			break
+
+func fazer_rolagem() -> void:
+	var x_para_rolada = forca_rolada * ultimo_lado_olhado
+	
+	var posicao_final_rolada = Vector3(x_para_rolada, 0.0, 0.0)
+	
+	var verificador_colisao = move_and_collide(posicao_final_rolada)
+
+	if verificador_colisao:
+		var texto_print = "Você foi para " + str(verificador_colisao.get_position())
+		DebugConsole.add_text_console_sem_cor(texto_print)
