@@ -305,10 +305,11 @@ func test_criar_cena_item() -> void:
 	var cena_fake := PackedScene.new()
 	cena_fake.pack(node_para_pack)
 	node_para_pack.free()
+	var item_mock = MockItemData.new(cena_fake)
+	
+	jogador.item_equipado_na_mao = item_mock
 
-	jogador.item_equipado_na_mao = MockItemData.new(cena_fake)
-
-	jogador.criar_cena_item()
+	jogador.criar_cena_item(item_mock)
 
 	assert_eq(jogador.mao.get_child_count(), 1)
 
