@@ -2,6 +2,7 @@ class_name InimigoTerrestre
 extends Inimigo
 
 const COOLDOWN = 2.0
+const OFF_SET_HITBOX: float = 0.3
 
 var tempo_mudanca_direcao = 0.0
 var move_dir = 0.0
@@ -50,7 +51,7 @@ func gerar_movimento_aleatorio() -> void:
 	tempo_mudanca_direcao -= delta
 
 	if tempo_mudanca_direcao <= 0:
-		tempo_mudanca_direcao = randf_range(1.0, 4.0)
+		tempo_mudanca_direcao = randf_range(1.0, 2.0)
 		# Escolhe: esquerda, direita ou parado
 		var r = randf()
 		if r < 0.33:
@@ -72,15 +73,15 @@ func computar_dano(dano_recebido: float) -> void:
 	if vida_atual <= 0:
 		self.queue_free()
 
-	var vida_atual_texto = "Vida atual inimigo = " + str(vida_atual)
-	var dano_texto = "Dano tomado inimigo = " + str(dano_recebido)
+	var vida_atual_texto = "Vida atual inimigo TERRESTRE = " + str(vida_atual)
+	var dano_texto = "Dano tomado inimigo TERRESTRE = " + str(dano_recebido)
 	DebugConsole.add_text_console_com_cor(vida_atual_texto, Color.BLUE)
 	DebugConsole.add_text_console_com_cor(dano_texto, Color.SKY_BLUE)
 
 
 func aplicar_dano() -> void:
 	if cooldown_atual >= COOLDOWN:
-		arma.hitbox.scale.x = ultimo_lado_olhado
+		arma.scale.x = ultimo_lado_olhado
 		arma.ativar_hitbox(dano, self)
 		await get_tree().create_timer(0.2).timeout
 		arma.desativar_hitbox()
