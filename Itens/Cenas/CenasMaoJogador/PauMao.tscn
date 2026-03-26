@@ -20,3 +20,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25116715, 0, 0)
 [node name="ColisaoHitbox" type="CollisionShape3D" parent="AreaHitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21939418, 0.011287838, 0)
 shape = SubResource("BoxShape3D_0xt2l")
+debug_color = Color(1, 0, 0.06100855, 0.823)

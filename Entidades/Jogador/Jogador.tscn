@@ -36,10 +36,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0010924339, 2.1714563)
 [node name="Camera" type="Camera3D" parent="pivo_Camera" groups=["CameraJogador"]]
 fov = 89.5799
 
-[node name="Mao" type="Node3D" parent="."]
+[node name="PivoPersonagem" type="Node3D" parent="."]
+
+[node name="Mao" type="Node3D" parent="PivoPersonagem"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32392848, -0.02382332, -0.008357644)
 
-[node name="PosicaoEscudo" type="Node3D" parent="."]
+[node name="PosicaoEscudo" type="Node3D" parent="PivoPersonagem"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2502799, 0.015957594, 0)
 
 [node name="hurbox" type="Area3D" parent="." node_paths=PackedStringArray("dono")]

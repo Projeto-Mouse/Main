@@ -7,8 +7,11 @@ var tempo_mudanca_direcao = 0.0
 var move_dir = 0.0
 var pode_dar_dano = 0.0
 var multiplicador_tempo_dano = 5.0
+var cooldown_atual = 0.0
 
 var arma: ArmasScript
+
+var ultimo_lado_olhado: float
 
 func _ready():
 	super()
@@ -29,6 +32,10 @@ func _physics_process(delta: float) -> void:
 
 	position.z = 0.0
 	
+	if move_dir != 0:
+		ultimo_lado_olhado = sign(move_dir)
+	
+	cooldown_atual += delta * 1.5
 	aplicar_dano()
 
 
@@ -72,8 +79,9 @@ func computar_dano(dano_recebido: float) -> void:
 
 
 func aplicar_dano() -> void:
-	arma.ativar_hitbox(dano, self)
-	await get_tree().create_timer(0.2).timeout
-	arma.desativar_hitbox()
-
-	await get_tree().create_timer(5.0).timeout
+	if cooldown_atual >= COOLDOWN:
+		arma.hitbox.scale.x = ultimo_lado_olhado
+		arma.ativar_hitbox(dano, self)
+		await get_tree().create_timer(0.2).timeout
+		arma.desativar_hitbox()
+		cooldown_atual = 0.0

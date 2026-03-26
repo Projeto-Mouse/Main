@@ -19,8 +19,9 @@ const COOLDOWN: float = 0.5
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
-@onready var mao: Node3D = $Mao
-@onready var posicao_escudo = $PosicaoEscudo
+@onready var mao: Node3D = $PivoPersonagem/Mao
+@onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
+@onready var pivo_personagem = $PivoPersonagem
 
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
@@ -32,6 +33,7 @@ var cooldown_atual = 0
 # MOVIMENTACAO
 var movimento_x: float
 var movimento_y: float
+var ultimo_lado_olhado: float
 
 # VARIAVEIS DEBUG
 var modo_god: bool = false
@@ -80,10 +82,10 @@ func _physics_process(delta):
 		print(estado_texto)
 		DebugConsole.add_text_console_sem_cor(estado_texto)
 
-	if Input.is_action_just_pressed("AplicarDano"):
-		fazer_ataque()
-
-	# Chama o método para mover, presente na classe Personagem
+	if direcao_x != 0:
+		ultimo_lado_olhado = sign(direcao_x)
+		rotacionar_personagem_ultimo_lado_olhado(ultimo_lado_olhado)
+	
 	movimentacao()
 	position.z = 0
 	atualizar_posicao_luz_jogador()
@@ -91,7 +93,11 @@ func _physics_process(delta):
 
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
+	if Input.is_action_just_pressed("AplicarDano"):
+		fazer_ataque()
 
+func rotacionar_personagem_ultimo_lado_olhado(ultima_dir: float = 1.0) -> void:
+	pivo_personagem.scale.x = ultima_dir
 
 func movimentacao() -> void:
 	velocity.z = 0

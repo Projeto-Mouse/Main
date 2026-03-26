@@ -144,8 +144,10 @@ func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -
 	var colisao_hitbox_forma = BoxShape3D.new()
 	var hitbox = CollisionShape3D.new()
 	
-	colisao_hitbox_forma.size = Vector3(1.0, 0.1, 0.1)
+	colisao_hitbox_forma.size = Vector3(0.7, 0.1, 0.1)
 	hitbox.shape = colisao_hitbox_forma
+	hitbox.global_position.x = 0.3
+	hitbox.debug_color = Vector4(1.0, 0.0, 0.06, 0.82)
 	area_hitbox.add_child(hitbox)
 	arma_inimigo.set_script(script_arma_inimigo)
 	arma_inimigo.add_child(area_hitbox)
