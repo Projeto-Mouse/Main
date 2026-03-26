@@ -117,6 +117,14 @@ func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -
 	var mesh_instance = MeshInstance3D.new()
 	var mesh = CapsuleMesh.new()
 	var material_inimigo = StandardMaterial3D.new()
+	var hurtbox = Area3D.new()
+	var colision_hurtbox = CollisionShape3D.new()
+	var box_shape_hurtbox = BoxShape3D.new()
+	box_shape_hurtbox.size = Vector3(0.2, 0.3, 0.2)
+	colision_hurtbox.shape = box_shape_hurtbox
+	hurtbox.add_child(colision_hurtbox)
+	hurtbox.name = "hurtbox"
+	inimigo.add_child(hurtbox)
 	material_inimigo.albedo_color = cor
 	mesh.material = material_inimigo
 	mesh_instance.mesh = mesh
