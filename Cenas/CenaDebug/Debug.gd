@@ -19,6 +19,7 @@ func _ready() -> void:
 	botao_trocar_musica.focus_mode = Control.FOCUS_NONE
 
 	debug_menu.hide()
+	
 	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
 
 	ControladorCena.registrar_menu(menu_de_pause)
