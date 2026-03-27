@@ -10,7 +10,7 @@ var dono_do_ataque: Entidade
 
 
 func _ready():
-	hitbox.disabled = true
+	hitbox.set_deferred("disabled", true)
 	area_3d_ataque.area_entered.connect(aplicar_dano)
 
 

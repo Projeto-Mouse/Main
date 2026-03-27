@@ -19,11 +19,12 @@ var arma: ArmasScript
 
 var ultimo_lado_olhado: float
 
+
 func _ready():
 	super()
 	if dano == 0.0:
 		dano = 1
-		
+
 
 func _physics_process(_delta: float) -> void:
 	if not is_inside_tree():
@@ -34,19 +35,19 @@ func _physics_process(_delta: float) -> void:
 	atualizar_linha_debug()
 	gerar_movimento_aleatorio()
 
-	pode_dar_dano += delta * multiplicador_tempo_dano
-	
+	pode_dar_dano += _delta * multiplicador_tempo_dano
+
 	if global_position.y > altura_maxima_voo:
 		global_position.y = altura_maxima_voo
 		if velocity.y > 0:
 			velocity.y = 0
 
 	position.z = 0.0
-	
+
 	if direcao_atual.x != 0:
 		ultimo_lado_olhado = sign(direcao_atual.x)
-	
-	cooldown_atual += delta * 1.5
+
+	cooldown_atual += _delta * 1.5
 	aplicar_dano()
 
 
@@ -102,6 +103,7 @@ func computar_dano(dano_recebido: float) -> void:
 	var dano_texto = "Dano tomado inimigo VOADOR = " + str(dano_recebido)
 	DebugConsole.add_text_console_com_cor(vida_atual_texto, Color.PURPLE)
 	DebugConsole.add_text_console_com_cor(dano_texto, Color.PURPLE)
+
 
 func aplicar_dano() -> void:
 	if cooldown_atual >= COOLDOWN:

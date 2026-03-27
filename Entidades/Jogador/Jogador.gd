@@ -17,9 +17,6 @@ var em_teste: bool = false
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = EstadosJogador.PARADO
-var item_da_area_atual: ItemMundo = null
-var item_equipado_na_mao: ItemData = null
-var inventario_temp: InventarioTemp
 var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
 var cooldown_atual = 0
@@ -28,7 +25,6 @@ var cooldown_atual = 0
 var movimento_x: float
 var movimento_y: float
 var ultimo_lado_olhado: float
-
 
 # VARIAVEIS DEBUG
 var modo_god: bool = false
@@ -39,7 +35,9 @@ var esta_morto: bool = false
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
-@onready var mao: Node3D = $Mao
+@onready var mao: Node3D = $PivoPersonagem/Mao
+@onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
+@onready var pivo_personagem = $PivoPersonagem
 
 # ITENS / INVENTARIO
 var item_da_area_atual: ItemMundo = null
@@ -88,7 +86,7 @@ func _physics_process(delta):
 	if direcao_x != 0:
 		ultimo_lado_olhado = sign(direcao_x)
 		rotacionar_personagem_ultimo_lado_olhado(ultimo_lado_olhado)
-		
+
 	movimentacao()
 	position.z = 0
 	atualizar_posicao_luz_jogador()
@@ -96,15 +94,17 @@ func _physics_process(delta):
 
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
-	
+
 	if Input.is_action_just_pressed("AplicarDano"):
 		fazer_ataque()
-	
+
 	if Input.is_action_just_pressed("Rolar"):
 		fazer_rolagem()
 
+
 func rotacionar_personagem_ultimo_lado_olhado(ultima_dir: float = 1.0) -> void:
 	pivo_personagem.scale.x = ultima_dir
+
 
 func movimentacao() -> void:
 	velocity.z = 0
@@ -330,13 +330,13 @@ func posicionar_item_na_mao(item) -> void:
 
 func criar_cena_item(item: ItemData) -> void:
 	var visual
-	
+
 	if item is EscudoData:
 		visual = escudo_equipado.cena_3d.instantiate()
 		posicao_escudo.add_child(visual)
 		visual.transform = Transform3D.IDENTITY  #alinha com a mao
 		return
-		
+
 	visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
 	visual.transform = Transform3D.IDENTITY  #alinha com a mao
@@ -344,9 +344,9 @@ func criar_cena_item(item: ItemData) -> void:
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 	if esta_tocando_escalavel:
-		estado_atual = estados_jogador.ESCALANDO
+		estado_atual = EstadosJogador.ESCALANDO
 	else:
-		estado_atual = estados_jogador.PARADO
+		estado_atual = EstadosJogador.PARADO
 
 
 func esconder_item_rastejando() -> void:
@@ -367,11 +367,12 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 			posicionar_item_na_mao(item_equipado_na_mao)
 			break
 
+
 func fazer_rolagem() -> void:
 	var x_para_rolada = forca_rolada * ultimo_lado_olhado
-	
+
 	var posicao_final_rolada = Vector3(x_para_rolada, 0.0, 0.0)
-	
+
 	var verificador_colisao = move_and_collide(posicao_final_rolada)
 
 	if verificador_colisao:
