@@ -20,7 +20,7 @@ const PITCH_SOM_PASSO_NORMAL = 1.0
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
 @onready var mao: Node3D = $Mao
 
-var raycast_cima: RayCast3D
+var shapecast_cima: ShapeCast3D
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = estados_jogador.PARADO
@@ -40,7 +40,7 @@ var modo_god: bool = false
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
-	criar_no_filho_raycast_cima()
+	criar_no_filho_shapecast_cima()
 	inventario_temp = InventarioTemp.new()
 
 	
@@ -87,11 +87,11 @@ func _physics_process(delta):
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
 
-func criar_no_filho_raycast_cima() -> void:
-	raycast_cima = criar_raycast()
-	configurar_raycast(raycast_cima, false, 1, true)
-	raycast_cima.target_position = Vector3(0, 0.40, 0)
-	add_child(raycast_cima)
+func criar_no_filho_shapecast_cima() -> void:
+	shapecast_cima = criar_shapecast_capsula(1.0, 0.3)
+	shapecast_cima.position.y = 0.04
+	add_child(shapecast_cima)
+	configurar_shapecast(shapecast_cima, false, 1, true, Vector3.UP, 0.25)
 
 func movimentacao() -> void:
 	velocity.z = 0
@@ -108,7 +108,7 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 		velocidade_final *= 0.4
 
 	var input_abaixar = Input.is_action_pressed("Rastejar")
-	var bloqueio_em_cima = raycast_cima.is_colliding()
+	var bloqueio_em_cima = shapecast_cima.is_colliding()
 	var pode_levantar = !bloqueio_em_cima and !input_abaixar
 
 	if input_abaixar or bloqueio_em_cima and no_chao:
@@ -127,7 +127,7 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 		return velocidade_final_y
 
 	# raycast_cima só está ativo quando jogador está rastejando, possível ver na linha 164
-	var jogador_rastejando = Input.is_action_pressed("Rastejar") or raycast_cima.is_colliding()
+	var jogador_rastejando = Input.is_action_pressed("Rastejar") or shapecast_cima.is_colliding()
 
 	if no_chao and !jogador_rastejando:
 		var pode_pular = pular
@@ -143,7 +143,7 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 	if !no_chao and !estado_atual == estados_jogador.RASTEJANDO:
 		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
 	
-	var bloqueio_em_cima = raycast_cima.is_colliding()
+	var bloqueio_em_cima = shapecast_cima.is_colliding()
 
 	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima and no_chao:
 		return estados_jogador.RASTEJANDO
@@ -161,12 +161,12 @@ func setar_rastejando(esta_rastejando: bool) -> void:
 	if esta_rastejando:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
-		raycast_cima.enabled = true
+		shapecast_cima.enabled = true
 		return
 	
 	collision_shape.rotation_degrees.x = 0
 	mesh_instance.rotation_degrees.x = 0
-	raycast_cima.enabled = false
+	shapecast_cima.enabled = false
 
 
 func criar_luz_jogador() -> void:
@@ -308,7 +308,7 @@ func criar_cena_item() -> void:
 
 
 func esconder_item_rastejando() -> void:
-	mao.visible = !Input.is_action_pressed("Rastejar") and !raycast_cima.is_colliding()
+	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
 
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
