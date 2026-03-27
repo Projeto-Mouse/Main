@@ -25,7 +25,10 @@ func _ready():
 		dano = 1
 		
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
+	if not is_inside_tree():
+		return
+
 	atualizar_raycast_direcao_movimento()
 	target()
 	atualizar_linha_debug()
