@@ -22,6 +22,7 @@ var cena_item_para_spawnar
 var script_hurtbox = load("res://Entidades/ScriptsGerais/Hurtbox.gd")
 var script_arma_inimigo = load("res://Itens/Equipamentos/Armas/ArmasScript.gd")
 
+
 func _ready() -> void:
 	cena_debug = get_tree().get_first_node_in_group("debug")
 	posicao_spawnar = Vector3.ZERO
@@ -138,12 +139,15 @@ func setup_inimigo_visual(inimigo: CharacterBody3D, cor: Color, escala: float) -
 	collision.shape = CapsuleShape3D.new()
 	collision.scale = Vector3(escala, escala, escala)
 	inimigo.add_child(collision)
-	
+
+	if inimigo is Aliados:
+		return
+
 	var arma_inimigo = Node3D.new()
 	var area_hitbox = Area3D.new()
 	var colisao_hitbox_forma = BoxShape3D.new()
 	var hitbox = CollisionShape3D.new()
-	
+
 	colisao_hitbox_forma.size = Vector3(0.7, 0.1, 0.1)
 	hitbox.shape = colisao_hitbox_forma
 	hitbox.position.x = 0.3
