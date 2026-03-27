@@ -8,21 +8,23 @@ var inimigos_acertados = []
 var dano_a_dar: float
 var dono_do_ataque: Entidade
 
+
 func _ready():
 	hitbox.disabled = true
 	area_3d_ataque.area_entered.connect(aplicar_dano)
 
 
 func aplicar_dano(area_hurtbox: Area3D) -> void:
-	if area_hurtbox is Hurtbox:
-		if area_hurtbox.dono == dono_do_ataque:
-			return
-			
-		if area_hurtbox.dono in inimigos_acertados:
-			return
-		
-		inimigos_acertados.append(area_hurtbox)
-		area_hurtbox.receber_dano(dano_a_dar)
+	if not area_hurtbox is Hurtbox:
+		return
+
+	var alvo = area_hurtbox.dono
+
+	if alvo == dono_do_ataque or alvo in inimigos_acertados:
+		return
+
+	inimigos_acertados.append(alvo)
+	area_hurtbox.receber_dano(dano_a_dar)
 
 
 func ativar_hitbox(dano_arma: float, dono_ataque: Entidade) -> void:
