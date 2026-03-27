@@ -12,7 +12,7 @@ var cooldown_atual = 0.0
 
 var arma: ArmasScript
 
-var ultimo_lado_olhado: float
+var ultimo_lado_olhado: float = 1.0
 
 
 func _ready():
