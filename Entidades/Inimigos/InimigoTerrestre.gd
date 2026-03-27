@@ -14,6 +14,7 @@ var arma: ArmasScript
 
 var ultimo_lado_olhado: float
 
+
 func _ready():
 	super()
 	if dano == 0.0:
@@ -32,10 +33,10 @@ func _physics_process(delta: float) -> void:
 	gerar_movimento_aleatorio()
 
 	position.z = 0.0
-	
+
 	if move_dir != 0:
 		ultimo_lado_olhado = sign(move_dir)
-	
+
 	cooldown_atual += delta * 1.5
 	aplicar_dano()
 
@@ -51,7 +52,7 @@ func gerar_movimento_aleatorio() -> void:
 	tempo_mudanca_direcao -= delta
 
 	if tempo_mudanca_direcao <= 0:
-		tempo_mudanca_direcao = randf_range(1.0, 2.0)
+		tempo_mudanca_direcao = randf_range(1.0, 4.0)
 		# Escolhe: esquerda, direita ou parado
 		var r = randf()
 		if r < 0.33:
