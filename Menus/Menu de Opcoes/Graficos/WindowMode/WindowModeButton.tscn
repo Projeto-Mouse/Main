@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3a5mc8mm2rb7"]
 
 [ext_resource type="Script" path="res://Menus/Menu de Opcoes/Graficos/WindowMode/WindowModeButton.gd" id="1_2ow0f"]
-[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="2_7picw"]
+[ext_resource type="FontFile" uid="uid://bu6t1nk1x6817" path="res://Fontes/ArgentPixelCF-Italic.otf" id="2_7picw"]
 
 [node name="window_mode_button" type="Control"]
 custom_minimum_size = Vector2(250, 60)

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://clajdkve1cci4"
+path="res://.godot/imported/Efeito Sonoro - Acendendo Fosforo 2.wav-d6cdc67155c2b15b97d03a8122e6c555.sample"
+
+[deps]
+
+source_file="res://Sons/SFX/Abertura/Efeito Sonoro - Acendendo Fosforo 2.wav"
+dest_files=["res://.godot/imported/Efeito Sonoro - Acendendo Fosforo 2.wav-d6cdc67155c2b15b97d03a8122e6c555.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

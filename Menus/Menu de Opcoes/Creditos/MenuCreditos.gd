@@ -4,7 +4,7 @@ extends Control
 signal ao_fechar
 
 const SCROLL_SPEED = 60.0
-const FONT = preload("res://Fontes/Teste/terminal-grotesque.ttf")
+const FONT_NORMAL = preload("res://Fontes/ArgentPixelCF-Italic.otf")
 const LOGO_TEX = preload("res://addons/gut/icon.png")
 
 var rolando = true
@@ -21,7 +21,7 @@ var credits_data = [
 				"names":
 				[
 					"Matheus Araujo Pinheiro",
-					"Pedro Henrique Gonçalves de Paula",
+					"Pedro Henrique Goncalves de Paula",
 					"Wesley Heringer de Brito",
 					"Vinicius"
 				]
@@ -38,7 +38,7 @@ var credits_data = [
 			{
 				"role": "CREDITS_CO_WRITERS",
 				"names":
-				["Matheus Araujo Pinheiro", "Pedro Henrique Gonçalves de Paula", "Vinicius"]
+				["Matheus Araujo Pinheiro", "Pedro Henrique Goncalves de Paula", "Vinicius"]
 			}
 		]
 	},
@@ -72,9 +72,9 @@ var credits_data = [
 		"title": "CREDITS_TITLE_AUDIO",
 		"roles":
 		[
-			{"role": "CREDITS_AUDIO_DIRECTOR", "names": ["Pedro Henrique Gonçalves de Paula"]},
+			{"role": "CREDITS_AUDIO_DIRECTOR", "names": ["Pedro Henrique Goncalves de Paula"]},
 			{"role": "CREDITS_SOUND_DESIGN", "names": ["PMDT Team"]},
-			{"role": "CREDITS_FOLEY", "names": ["Pedro Henrique Gonçalves de Paula"]},
+			{"role": "CREDITS_FOLEY", "names": ["Pedro Henrique Goncalves de Paula"]},
 			{"role": "CREDITS_VOICE_ACTING", "names": ["PMDT Team"]}
 		]
 	},
@@ -127,7 +127,7 @@ func _construir_creditos() -> void:
 	for section in credits_data:
 		var title_label = Label.new()
 		title_label.text = tr(section["title"])
-		title_label.add_theme_font_override("font", FONT)
+		title_label.add_theme_font_override("font", FONT_NORMAL)
 		title_label.add_theme_font_size_override("font_size", 64)
 		title_label.add_theme_color_override("font_color", Color(1, 0.8, 0))  # Amarelo para destacar
 		title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -140,7 +140,7 @@ func _construir_creditos() -> void:
 		for r in section["roles"]:
 			var role_label = Label.new()
 			role_label.text = tr(r["role"])
-			role_label.add_theme_font_override("font", FONT)
+			role_label.add_theme_font_override("font", FONT_NORMAL)
 			role_label.add_theme_font_size_override("font_size", 40)
 			role_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))  # Cinza claro
 			role_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -149,7 +149,7 @@ func _construir_creditos() -> void:
 			for n in r["names"]:
 				var name_label = Label.new()
 				name_label.text = tr(n)
-				name_label.add_theme_font_override("font", FONT)
+				name_label.add_theme_font_override("font", FONT_NORMAL)
 				name_label.add_theme_font_size_override("font_size", 48)
 				name_label.add_theme_color_override("font_color", Color(1, 1, 1))  # Branco
 				name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -173,7 +173,7 @@ func _construir_creditos() -> void:
 
 		var msg_logo = Label.new()
 		msg_logo.text = "Powered by Godot Engine"
-		msg_logo.add_theme_font_override("font", FONT)
+		msg_logo.add_theme_font_override("font", FONT_NORMAL)
 		msg_logo.add_theme_font_size_override("font_size", 32)
 		msg_logo.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
 		msg_logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
