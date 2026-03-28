@@ -1,40 +1,51 @@
 class_name Jogador
 extends Entidade
 
-# flags
-var em_teste: bool = false
-
-enum estados_jogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
+enum EstadosJogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
 
 const INTERVALO_PASSOS: float = 0.4
 const ENERGIA_LUZ_JOGADOR: float = 0.05
 const RANGE_LUZ_JOGADOR: float = 0.8
 const ALTURA_VOLUME_PASSOS: int = -5
-const ESCALA_PITCH_SOM_PASSO_DEVAGAR = 0.4
-const PITCH_SOM_PASSO_NORMAL = 1.0
+const ESCALA_PITCH_SOM_PASSO_DEVAGAR: float = 0.4
+const PITCH_SOM_PASSO_NORMAL: float = 1.0
+const COOLDOWN: float = 0.5
+
+# flags
+var em_teste: bool = false
+
+var shapecast_cima: ShapeCast3D
+var som_passos: AudioStreamPlayer
+var luz_natural_personagem: OmniLight3D
+var estado_atual = EstadosJogador.PARADO
+var tempo_proximo_passo: float = 0.0
+var pos_hot_bar_controle = 1
+var cooldown_atual = 0
+
+# MOVIMENTACAO
+var movimento_x: float
+var movimento_y: float
+var ultimo_lado_olhado: float
+
+# VARIAVEIS DEBUG
+var modo_god: bool = false
+var esta_morto: bool = false
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
 @onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
-@onready var mao: Node3D = $Mao
+@onready var mao: Node3D = $PivoPersonagem/Mao
+@onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
+@onready var pivo_personagem = $PivoPersonagem
 
-var shapecast_cima: ShapeCast3D
-var som_passos: AudioStreamPlayer
-var luz_natural_personagem: OmniLight3D
-var estado_atual = estados_jogador.PARADO
+
+# ITENS / INVENTARIO
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
-var tempo_proximo_passo: float = 0.0
-var pos_hot_bar_controle = 1
- 
-var movimento_x: float
-var movimento_y: float
-
-# VARIAVEIS DEBUG
-var modo_god: bool = false
+var escudo_equipado: EscudoData
 
 
 func _ready() -> void:
@@ -45,9 +56,6 @@ func _ready() -> void:
 
 	
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("AplicarDano"):
-		computar_dano(dano)
-
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
 	if Input.is_key_pressed(KEY_P):
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
@@ -73,12 +81,15 @@ func _physics_process(delta):
 
 	var estado_antigo = estado_atual
 	estado_atual = obter_novo_estado(esta_no_chao)
-	var estado_texto = "Estado Atual: " + estados_jogador.keys()[estado_atual]
+	var estado_texto = "Estado Atual: " + EstadosJogador.keys()[estado_atual]
 	if estado_antigo != estado_atual:
 		print(estado_texto)
 		DebugConsole.add_text_console_sem_cor(estado_texto)
 
-	# Chama o método para mover, presente na classe Personagem
+	if direcao_x != 0:
+		ultimo_lado_olhado = sign(direcao_x)
+		rotacionar_personagem_ultimo_lado_olhado(ultimo_lado_olhado)
+
 	movimentacao()
 	position.z = 0
 	atualizar_posicao_luz_jogador()
@@ -87,11 +98,23 @@ func _physics_process(delta):
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
 
+	if Input.is_action_just_pressed("AplicarDano"):
+		fazer_ataque()
+
+	if Input.is_action_just_pressed("Rolar"):
+		fazer_rolagem()
+
+
 func criar_no_filho_shapecast_cima() -> void:
 	shapecast_cima = criar_shapecast_capsula(1.0, 0.3)
 	shapecast_cima.position.y = 0.04
 	add_child(shapecast_cima)
 	configurar_shapecast(shapecast_cima, false, 1, true, Vector3.UP, 0.25)
+
+
+func rotacionar_personagem_ultimo_lado_olhado(ultima_dir: float = 1.0) -> void:
+	pivo_personagem.scale.x = ultima_dir
+
 
 func movimentacao() -> void:
 	velocity.z = 0
@@ -122,7 +145,7 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 
 
 func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, delta: float) -> float:
-	if estado_atual == estados_jogador.ESCALANDO:
+	if estado_atual == EstadosJogador.ESCALANDO:
 		var velocidade_final_y = -0.25 if direcao <= 0 else direcao * velocidade_base
 		return velocidade_final_y
 
@@ -136,9 +159,9 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 	return velocity.y + (gravidade * delta)
 
 
-func obter_novo_estado(no_chao: bool) -> estados_jogador:
-	if estado_atual == estados_jogador.ESCALANDO:
-		return estados_jogador.ESCALANDO
+func obter_novo_estado(no_chao: bool) -> EstadosJogador:
+	if estado_atual == EstadosJogador.ESCALANDO:
+		return EstadosJogador.ESCALANDO
 
 	if !no_chao and !estado_atual == estados_jogador.RASTEJANDO:
 		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
@@ -150,12 +173,10 @@ func obter_novo_estado(no_chao: bool) -> estados_jogador:
 
 	if movimento_x != 0:
 		return (
-			estados_jogador.DEVAGAR
-			if Input.is_action_pressed("Devagar")
-			else estados_jogador.ANDANDO
+			EstadosJogador.DEVAGAR if Input.is_action_pressed("Devagar") else EstadosJogador.ANDANDO
 		)
 
-	return estados_jogador.PARADO
+	return EstadosJogador.PARADO
 
 func setar_rastejando(esta_rastejando: bool) -> void:
 	if esta_rastejando:
@@ -188,7 +209,7 @@ func criar_som_passos() -> void:
 
 
 func tocar_som_passos(esta_no_chao: bool) -> void:
-	if estado_atual == estados_jogador.ANDANDO and esta_no_chao:
+	if estado_atual == EstadosJogador.ANDANDO and esta_no_chao:
 		som_passos.pitch_scale = PITCH_SOM_PASSO_NORMAL
 		if not som_passos.playing:
 			som_passos.play()
@@ -200,7 +221,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
 
-	elif estado_atual == estados_jogador.DEVAGAR:
+	elif estado_atual == EstadosJogador.DEVAGAR:
 		som_passos.pitch_scale = ESCALA_PITCH_SOM_PASSO_DEVAGAR
 		if not som_passos.playing:
 			som_passos.play()
@@ -219,30 +240,30 @@ func atualizar_posicao_luz_jogador() -> void:
 
 # Isso e um override da funcao que esta em entidade
 func computar_dano(dano_recebido: float) -> void:
+	if esta_morto:
+		return
+
 	if modo_god:
 		dano_recebido = 0.0
 
 	var dano_arredondado = arredondar_dano(dano_recebido)
 
+	if escudo_equipado != null:
+		var porcentagem_tirada = randf()
+
+		if porcentagem_tirada < escudo_equipado.porcentagem_acerto:
+			DebugConsole.add_text_console_com_cor("PARABENS DEFENDEU", Color.GREEN)
+			dano_arredondado -= escudo_equipado.dano_defendido
+
 	vida_atual -= dano_arredondado
+
+	printar_vida_e_dano(dano_arredondado)
 
 	if vida_atual <= 0:
 		vida_atual = 0
 		print("Jogador Morreu")
 		if not em_teste:
-			get_tree().change_scene_to_packed(cena_morte)
-
-	var vida_atual_texto = "Vida atual = " + str(vida_atual)
-	var dano_texto = "Dano tomado = " + str(dano_arredondado)
-
-	print(vida_atual_texto)
-	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
-	print(dano_texto)
-	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
-
-	if vida_atual == 0:
-		print("Jogador Morreu")
-		DebugConsole.add_text_console_sem_cor("Jogador Morreu")
+			get_tree().call_deferred("change_scene_to_packed", cena_morte)
 
 
 func arredondar_dano(dano_recebido: float) -> float:
@@ -258,17 +279,34 @@ func arredondar_dano(dano_recebido: float) -> float:
 	return parte_inteira
 
 
+func fazer_ataque() -> void:
+	if mao.get_child_count() == 0 or not (item_equipado_na_mao is ArmasData):
+		return
+
+	var arma = mao.get_child(0)
+	var dano_arma = item_equipado_na_mao.dano
+
+	arma.ativar_hitbox(dano_arma, self)
+	await get_tree().create_timer(0.2).timeout
+	arma.desativar_hitbox()
+
+	await get_tree().create_timer(COOLDOWN).timeout
+
+
+func printar_vida_e_dano(dano_tomado: float) -> void:
+	var vida_atual_texto = "Vida atual = " + str(vida_atual)
+	var dano_texto = "Dano tomado = " + str(dano_tomado)
+
+	print(vida_atual_texto)
+	DebugConsole.add_text_console_sem_cor(vida_atual_texto)
+	print(dano_texto)
+	DebugConsole.add_text_console_com_cor(dano_texto, Color.RED)
+
+
 func atualizar_interacao(item: ItemMundo, ativo: bool):
 	item_da_area_atual = (
 		item if ativo else (null if item_da_area_atual == item else item_da_area_atual)
 	)
-
-
-func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
-	if esta_tocando_escalavel:
-		estado_atual = estados_jogador.ESCALANDO
-	else:
-		estado_atual = estados_jogador.PARADO
 
 
 func pegar_item() -> void:
@@ -278,33 +316,65 @@ func pegar_item() -> void:
 	if not item_da_area_atual.is_in_group("ItensInterativos"):
 		return
 
+	if item_da_area_atual.is_in_group("Escudo"):
+		escudo_equipado = item_da_area_atual.item_data
+		limpar_item_na_area_atual()
+		posicionar_item_na_mao(escudo_equipado)
+		posicionar_item_na_mao(item_equipado_na_mao)  # mantenho o item da mao tbm posicionado
+		return
+
 	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
 		print("Inventario cheio")
 		DebugConsole.add_text_console_sem_cor("Inventario cheio")
 		return
 
 	item_equipado_na_mao = item_da_area_atual.item_data
+	limpar_item_na_area_atual()
+	posicionar_item_na_mao(item_equipado_na_mao)
+
+
+func limpar_item_na_area_atual() -> void:
 	item_da_area_atual.queue_free()
 	item_da_area_atual = null
 
-	posicionar_item_na_mao()
 
+func posicionar_item_na_mao(item) -> void:
+	for filhos in mao.get_children():
+		filhos.queue_free()
 
-func posicionar_item_na_mao() -> void:
-	for filho in mao.get_children():
-		filho.queue_free()
+	if item == null:
+		return
 
-	if item_equipado_na_mao == null:
+	if item is EscudoData and item.cena_3d:
+		DebugConsole.add_text_console_sem_cor("Criando Cena Escudo")
+		criar_cena_item(escudo_equipado)
 		return
 
 	if item_equipado_na_mao.cena_3d:
-		criar_cena_item()
+		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
+		criar_cena_item(item_equipado_na_mao)
+		return
 
 
-func criar_cena_item() -> void:
-	var visual = item_equipado_na_mao.cena_3d.instantiate()
+func criar_cena_item(item: ItemData) -> void:
+	var visual
+
+	if item is EscudoData:
+		visual = escudo_equipado.cena_3d.instantiate()
+		posicao_escudo.add_child(visual)
+		visual.transform = Transform3D.IDENTITY  #alinha com a mao
+		return
+
+	visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
 	visual.transform = Transform3D.IDENTITY  #alinha com a mao
+
+
+func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
+	if esta_tocando_escalavel:
+		estado_atual = EstadosJogador.ESCALANDO
+	else:
+		estado_atual = EstadosJogador.PARADO
 
 
 func esconder_item_rastejando() -> void:
@@ -322,5 +392,17 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
-			posicionar_item_na_mao()
+			posicionar_item_na_mao(item_equipado_na_mao)
 			break
+
+
+func fazer_rolagem() -> void:
+	var x_para_rolada = forca_rolada * ultimo_lado_olhado
+
+	var posicao_final_rolada = Vector3(x_para_rolada, 0.0, 0.0)
+
+	var verificador_colisao = move_and_collide(posicao_final_rolada)
+
+	if verificador_colisao:
+		var texto_print = "Você foi para " + str(verificador_colisao.get_position())
+		DebugConsole.add_text_console_sem_cor(texto_print)

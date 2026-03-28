@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EscudoMadeiraData" load_steps=3 format=3 uid="uid://dw1s42bk7pguv"]
+
+[ext_resource type="Script" uid="uid://23nc8w03oyti" path="res://Itens/Equipamentos/Escudos/EscudoMadeira/EscudoMadeiraData.gd" id="1_cf0xn"]
+[ext_resource type="PackedScene" uid="uid://75yjdvg2oi8e" path="res://Itens/Cenas/CenasMaoJogador/EscudoMadeiraMao.tscn" id="1_rbkqf"]
+
+[resource]
+script = ExtResource("1_cf0xn")
+dano_defendido = 0.5
+porcentagem_acerto = 0.4
+durabilidade = 20
+nome = "EscudoMadeira"
+tipo = "Escudo"
+descricao = "Escudo de madeira"
+cena_3d = ExtResource("1_rbkqf")
+metadata/_custom_type_script = "uid://23nc8w03oyti"

@@ -1,6 +1,7 @@
-[gd_scene load_steps=50 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=51 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
+[ext_resource type="PackedScene" uid="uid://jcbke0af5ohl" path="res://Itens/Cenas/CenasMundo/PauMundo.tscn" id="4_56ste"]
 [ext_resource type="Script" uid="uid://du3fpl4gdo631" path="res://Componentes/ScriptObjEscalavel.gd" id="6_3kemy"]
 [ext_resource type="Script" uid="uid://bsjapjrq4fgqe" path="res://Componentes/ScriptAreaTransicao.gd" id="9_771pa"]
 
@@ -495,3 +496,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.011919, 1.0282176, 0)
 
 [node name="SpawnEntradaMesaSalaSacrificio" type="Marker3D" parent="SpawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.45568, 17.752892, 0)
+
+[node name="PauMundo" parent="." instance=ExtResource("4_56ste")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.276746, 0, 0)

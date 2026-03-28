@@ -1,5 +1,4 @@
-@abstract
-class_name ArmasData
+@abstract class_name ArmasData
 extends EquipamentosData
 
-var dano: float
+@export var dano: float
