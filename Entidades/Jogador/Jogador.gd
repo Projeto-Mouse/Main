@@ -163,13 +163,13 @@ func obter_novo_estado(no_chao: bool) -> EstadosJogador:
 	if estado_atual == EstadosJogador.ESCALANDO:
 		return EstadosJogador.ESCALANDO
 
-	if !no_chao and !estado_atual == estados_jogador.RASTEJANDO:
-		return estados_jogador.PULANDO if velocity.y > 0 else estados_jogador.CAINDO
+	if !no_chao and !estado_atual == EstadosJogador.RASTEJANDO:
+		return EstadosJogador.PULANDO if velocity.y > 0 else EstadosJogador.CAINDO
 	
 	var bloqueio_em_cima = shapecast_cima.is_colliding()
 
 	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima and no_chao:
-		return estados_jogador.RASTEJANDO
+		return EstadosJogador.RASTEJANDO
 
 	if movimento_x != 0:
 		return (
