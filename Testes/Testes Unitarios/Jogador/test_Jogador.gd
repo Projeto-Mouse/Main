@@ -47,7 +47,7 @@ func before_each():
 	jogador.velocidade_base = 3.0
 	jogador.forca_pulo = 2.0
 	jogador.gravidade = 10
-	jogador.estado_atual = jogador.estados_jogador.PARADO
+	jogador.estado_atual = jogador.EstadosJogador.PARADO
 	jogador.criar_som_passos()
 	jogador.criar_luz_jogador()
 
@@ -84,13 +84,13 @@ func before_each():
 	var barra = Control.new()
 	barra.name = "BarraVida"
 	canvas.add_child(barra)
-	
+
 	var pivo_personagem = Node3D.new()
 	pivo_personagem.name = "PivoPersonagem"
 	pivo_personagem.add_child(Mao)
 	pivo_personagem.add_child(posicao_escudo)
 	jogador.add_child(pivo_personagem)
-	
+
 	jogador.em_teste = true
 
 	root.add_child(canvas)
@@ -114,13 +114,13 @@ func test_calcular_movimento_horizontal_esquerda_e_direita_juntos() -> void:
 
 
 func test_calcular_movimento_vertical_escalando_cima() -> void:
-	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
+	jogador.estado_atual = jogador.EstadosJogador.ESCALANDO
 	var resultado = jogador.calcular_movimento_vertical(false, 1.0, false, 3.0)
 	assert_gt(resultado, 0.0)
 
 
 func test_calcular_movimento_vertical_escalando_descendo() -> void:
-	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
+	jogador.estado_atual = jogador.EstadosJogador.ESCALANDO
 	var resultado = jogador.calcular_movimento_vertical(false, -1.0, false, 3.0)
 	assert_lt(resultado, 0.0)
 
@@ -138,40 +138,40 @@ func test_calcular_movimento_vertical_fora_chao_sem_apertar_nada() -> void:
 func test_atualizar_estado_andando_direita() -> void:
 	jogador.movimento_x = 1.0
 	var resultado = jogador.obter_novo_estado(true)
-	assert_eq(resultado, jogador.estados_jogador.ANDANDO)
+	assert_eq(resultado, jogador.EstadosJogador.ANDANDO)
 
 
 func test_atualizar_estado_pulando_vs_caindo() -> void:
 	jogador.velocity.y = 1.0
 	var resultado = jogador.obter_novo_estado(false)
-	assert_eq(resultado, jogador.estados_jogador.PULANDO)
+	assert_eq(resultado, jogador.EstadosJogador.PULANDO)
 
 	jogador.velocity.y = -1.0
 	resultado = jogador.obter_novo_estado(false)
-	assert_eq(resultado, jogador.estados_jogador.CAINDO)
+	assert_eq(resultado, jogador.EstadosJogador.CAINDO)
 
 
 func test_atualizar_estado_devagar() -> void:
 	jogador.movimento_x = 1.0
 	sender.action_down("Devagar")
 	var resultado = jogador.obter_novo_estado(true)
-	assert_eq(resultado, jogador.estados_jogador.DEVAGAR)
+	assert_eq(resultado, jogador.EstadosJogador.DEVAGAR)
 
 
 func test_atualizar_estado_rastejando() -> void:
 	sender.action_down("Rastejar")
 	var resultado = jogador.obter_novo_estado(true)
-	assert_eq(resultado, jogador.estados_jogador.RASTEJANDO)
+	assert_eq(resultado, jogador.EstadosJogador.RASTEJANDO)
 
 
 func test_atualizar_estado_parado() -> void:
 	var resultado = jogador.obter_novo_estado(true)
-	assert_eq(resultado, jogador.estados_jogador.PARADO)
+	assert_eq(resultado, jogador.EstadosJogador.PARADO)
 
 
 func test_tocar_som_passos_tocando() -> void:
 	jogador.som_passos.stream = AudioStreamPolyphonic.new()
-	jogador.estado_atual = jogador.estados_jogador.ANDANDO
+	jogador.estado_atual = jogador.EstadosJogador.ANDANDO
 
 	jogador.tocar_som_passos(true)
 	assert_true(jogador.som_passos.playing, "O audio deveria estar tocando no estado ANDANDO")
@@ -180,7 +180,7 @@ func test_tocar_som_passos_tocando() -> void:
 func test_tocar_som_passos_para_quando_parado() -> void:
 	jogador.som_passos.stream = AudioStreamPolyphonic.new()
 	jogador.som_passos.play()
-	jogador.estado_atual = jogador.estados_jogador.PARADO
+	jogador.estado_atual = jogador.EstadosJogador.PARADO
 
 	jogador.tocar_som_passos(true)
 
@@ -194,13 +194,13 @@ func test_tocar_som_passos_ponto_emissao() -> void:
 
 
 func test_tocar_som_passos_devagar() -> void:
-	jogador.estado_atual = jogador.estados_jogador.DEVAGAR
+	jogador.estado_atual = jogador.EstadosJogador.DEVAGAR
 	jogador.tocar_som_passos(true)
 	assert_almost_eq(jogador.som_passos.pitch_scale, 0.4, 0.001)
 
 
 func test_tocar_som_passos_sinal_sem_tocar() -> void:
-	jogador.estado_atual = jogador.estados_jogador.PULANDO
+	jogador.estado_atual = jogador.EstadosJogador.PULANDO
 	jogador.tocar_som_passos(true)
 	assert_false(jogador.som_passos.playing)
 
@@ -254,13 +254,13 @@ func test_atualizar_interacao() -> void:
 
 func test_setar_esta_em_escalavel_para_quando_entrar_em_escalavel() -> void:
 	jogador.setar_esta_em_escalavel(true)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.ESCALANDO)
+	assert_eq(jogador.estado_atual, jogador.EstadosJogador.ESCALANDO)
 
 
 func test_setar_esta_em_escalavel_para_quando_sair_escalavel() -> void:
-	jogador.estado_atual = jogador.estados_jogador.ESCALANDO
+	jogador.estado_atual = jogador.EstadosJogador.ESCALANDO
 	jogador.setar_esta_em_escalavel(false)
-	assert_eq(jogador.estado_atual, jogador.estados_jogador.PARADO)
+	assert_eq(jogador.estado_atual, jogador.EstadosJogador.PARADO)
 
 
 func test_pegar_item_sucesso() -> void:
@@ -306,7 +306,7 @@ func test_criar_cena_item() -> void:
 	cena_fake.pack(node_para_pack)
 	node_para_pack.free()
 	var item_mock = MockItemData.new(cena_fake)
-	
+
 	jogador.item_equipado_na_mao = item_mock
 
 	jogador.criar_cena_item(item_mock)
