@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3u2b7q8r9w1a"]
 
 [ext_resource type="Script" path="res://Menus/Menu de Opcoes/Som/SomToggleButton.gd" id="1_toggle"]
-[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fontes/Teste/terminal-grotesque.ttf" id="2_font"]
+[ext_resource type="FontFile" uid="uid://bu6t1nk1x6817" path="res://Fontes/ArgentPixelCF-Italic.otf" id="2_font"]
 
 [node name="SomToggleButton" type="Control"]
 custom_minimum_size = Vector2(250, 60)

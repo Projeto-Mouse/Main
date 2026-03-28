@@ -7,7 +7,7 @@ extends Control
 
 signal sair_das_opcoes
 
-const FONTE = preload("res://Fontes/Teste/terminal-grotesque.ttf")
+const FONTE = preload("res://Fontes/ArgentPixelCF-Italic.otf")
 
 var carrossel: CarrosselDeItens
 var animacao: AnimacaoDeMenu

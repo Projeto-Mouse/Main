@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cop1g3lxprhax"]
 
 [ext_resource type="Script" uid="uid://8pn28ga4u8yn" path="res://Menus/Menu de Opcoes/MenuDeOpcoes.gd" id="1_kappg"]
-[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fontes/Teste/terminal-grotesque.ttf" id="2_8t75p"]
+[ext_resource type="FontFile" uid="uid://bu6t1nk1x6817" path="res://Fontes/ArgentPixelCF-Italic.otf" id="2_8t75p"]
 
 [node name="MenuDeOpcoes" type="Control"]
 process_mode = 3
