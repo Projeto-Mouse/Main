@@ -36,6 +36,23 @@ func configurar_raycast(
 	raycast_visao.collision_mask = mascara
 	raycast_visao.exclude_parent = ignorar_pai
 
+func criar_shapecast_capsula(radius: float, height: float) -> ShapeCast3D:
+	var sc := ShapeCast3D.new()
+	
+	var shape := CapsuleShape3D.new()
+	shape.radius = radius
+	shape.height = height
+	
+	sc.shape = shape
+	return sc
+
+func configurar_shapecast(shapecast: ShapeCast3D, ativo: bool, mascara: int, ignorar_pai: bool, direcao: Vector3, distancia: float) -> void:
+	shapecast.enabled = ativo
+	shapecast.collision_mask = mascara
+	shapecast.exclude_parent = ignorar_pai
+	shapecast.target_position = direcao.normalized() * distancia
+	# Atualiza imediatamente (evita frame atrasado)
+	shapecast.force_shapecast_update()
 
 func vetor_para(entidade: Entidade) -> Vector3:
 	return entidade.global_position - global_position

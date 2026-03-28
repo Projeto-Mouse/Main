@@ -14,6 +14,7 @@ const COOLDOWN: float = 0.5
 # flags
 var em_teste: bool = false
 
+var shapecast_cima: ShapeCast3D
 var som_passos: AudioStreamPlayer
 var luz_natural_personagem: OmniLight3D
 var estado_atual = EstadosJogador.PARADO
@@ -49,6 +50,7 @@ var escudo_equipado: EscudoData
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
+	criar_no_filho_shapecast_cima()
 	inventario_temp = InventarioTemp.new()
 
 
@@ -70,7 +72,7 @@ func _physics_process(delta):
 	var direcao_y = Input.get_axis("Baixo", "Cima")
 	var apertou_pular = Input.is_action_just_pressed("Pular")
 
-	movimento_x = calcular_movimento_horizontal(direcao_x)
+	movimento_x = calcular_movimento_horizontal(direcao_x, esta_no_chao)
 
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
@@ -102,6 +104,13 @@ func _input(event: InputEvent) -> void:
 		fazer_rolagem()
 
 
+func criar_no_filho_shapecast_cima() -> void:
+	shapecast_cima = criar_shapecast_capsula(1.0, 0.3)
+	shapecast_cima.position.y = 0.04
+	add_child(shapecast_cima)
+	configurar_shapecast(shapecast_cima, false, 1, true, Vector3.UP, 0.25)
+
+
 func rotacionar_personagem_ultimo_lado_olhado(ultima_dir: float = 1.0) -> void:
 	pivo_personagem.scale.x = ultima_dir
 
@@ -115,19 +124,22 @@ func movimentacao() -> void:
 	move_and_slide()
 
 
-func calcular_movimento_horizontal(direcao: float) -> float:
+func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 	var velocidade_final = velocidade_base
 
 	if Input.is_action_pressed("Devagar"):
 		velocidade_final *= 0.4
 
-	if Input.is_action_pressed("Rastejar"):
-		collision_shape.rotation_degrees.x = 90
-		mesh_instance.rotation_degrees.x = 90
+	var input_abaixar = Input.is_action_pressed("Rastejar")
+	var bloqueio_em_cima = shapecast_cima.is_colliding()
+	var pode_levantar = !bloqueio_em_cima and !input_abaixar
+
+	if input_abaixar or bloqueio_em_cima and no_chao:
+		setar_rastejando(true)
 		velocidade_final *= 0.3
-	else:
-		collision_shape.rotation_degrees.x = 0
-		mesh_instance.rotation_degrees.x = 0
+
+	if pode_levantar:
+		setar_rastejando(false)
 
 	return direcao * velocidade_final
 
@@ -137,8 +149,11 @@ func calcular_movimento_vertical(no_chao: bool, direcao: float, pular: bool, del
 		var velocidade_final_y = -0.25 if direcao <= 0 else direcao * velocidade_base
 		return velocidade_final_y
 
-	if no_chao:
-		var pode_pular = pular and not Input.is_action_pressed("Rastejar")
+	# raycast_cima só está ativo quando jogador está rastejando, possível ver na linha 164
+	var jogador_rastejando = Input.is_action_pressed("Rastejar") or shapecast_cima.is_colliding()
+
+	if no_chao and !jogador_rastejando:
+		var pode_pular = pular
 		return forca_pulo if pode_pular else 0.0
 
 	return velocity.y + (gravidade * delta)
@@ -148,10 +163,12 @@ func obter_novo_estado(no_chao: bool) -> EstadosJogador:
 	if estado_atual == EstadosJogador.ESCALANDO:
 		return EstadosJogador.ESCALANDO
 
-	if not no_chao:
+	if !no_chao and !estado_atual == EstadosJogador.RASTEJANDO:
 		return EstadosJogador.PULANDO if velocity.y > 0 else EstadosJogador.CAINDO
 
-	if Input.is_action_pressed("Rastejar"):
+	var bloqueio_em_cima = shapecast_cima.is_colliding()
+
+	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima and no_chao:
 		return EstadosJogador.RASTEJANDO
 
 	if movimento_x != 0:
@@ -160,6 +177,18 @@ func obter_novo_estado(no_chao: bool) -> EstadosJogador:
 		)
 
 	return EstadosJogador.PARADO
+
+
+func setar_rastejando(esta_rastejando: bool) -> void:
+	if esta_rastejando:
+		collision_shape.rotation_degrees.x = 90
+		mesh_instance.rotation_degrees.x = 90
+		shapecast_cima.enabled = true
+		return
+
+	collision_shape.rotation_degrees.x = 0
+	mesh_instance.rotation_degrees.x = 0
+	shapecast_cima.enabled = false
 
 
 func criar_luz_jogador() -> void:
@@ -350,7 +379,7 @@ func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 
 
 func esconder_item_rastejando() -> void:
-	mao.visible = not Input.is_action_pressed("Rastejar")
+	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
 
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
