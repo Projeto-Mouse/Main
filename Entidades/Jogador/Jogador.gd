@@ -40,7 +40,6 @@ var esta_morto: bool = false
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
 @onready var pivo_personagem = $PivoPersonagem
 
-
 # ITENS / INVENTARIO
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
@@ -54,7 +53,7 @@ func _ready() -> void:
 	criar_no_filho_shapecast_cima()
 	inventario_temp = InventarioTemp.new()
 
-	
+
 func _process(_delta: float) -> void:
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
 	if Input.is_key_pressed(KEY_P):
@@ -124,6 +123,7 @@ func movimentacao() -> void:
 	position.z = 0
 	move_and_slide()
 
+
 func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 	var velocidade_final = velocidade_base
 
@@ -138,9 +138,9 @@ func calcular_movimento_horizontal(direcao: float, no_chao: bool) -> float:
 		setar_rastejando(true)
 		velocidade_final *= 0.3
 
-	if pode_levantar :
+	if pode_levantar:
 		setar_rastejando(false)
-		
+
 	return direcao * velocidade_final
 
 
@@ -165,7 +165,7 @@ func obter_novo_estado(no_chao: bool) -> EstadosJogador:
 
 	if !no_chao and !estado_atual == EstadosJogador.RASTEJANDO:
 		return EstadosJogador.PULANDO if velocity.y > 0 else EstadosJogador.CAINDO
-	
+
 	var bloqueio_em_cima = shapecast_cima.is_colliding()
 
 	if Input.is_action_pressed("Rastejar") or bloqueio_em_cima and no_chao:
@@ -178,13 +178,14 @@ func obter_novo_estado(no_chao: bool) -> EstadosJogador:
 
 	return EstadosJogador.PARADO
 
+
 func setar_rastejando(esta_rastejando: bool) -> void:
 	if esta_rastejando:
 		collision_shape.rotation_degrees.x = 90
 		mesh_instance.rotation_degrees.x = 90
 		shapecast_cima.enabled = true
 		return
-	
+
 	collision_shape.rotation_degrees.x = 0
 	mesh_instance.rotation_degrees.x = 0
 	shapecast_cima.enabled = false
