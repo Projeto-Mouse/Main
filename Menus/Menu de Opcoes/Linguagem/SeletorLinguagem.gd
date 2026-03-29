@@ -17,9 +17,9 @@ func inicializar() -> void:
 
 func _criar_botoes() -> void:
 	var langs = [
-		{"name": "Português", "locale": "pt_BR", "node_name": "BtnPtBR"},
+		{"name": "Portugues", "locale": "pt_BR", "node_name": "BtnPtBR"},
 		{"name": "English", "locale": "en_US", "node_name": "BtnEnUS"},
-		{"name": "Español", "locale": "es_ES", "node_name": "BtnEsES"}
+		{"name": "Espanol", "locale": "es_ES", "node_name": "BtnEsES"}
 	]
 
 	for lang_data in langs:
@@ -38,7 +38,7 @@ func _criar_botao(texto: String, nome: String) -> Button:
 	var btn = Button.new()
 	btn.name = nome
 	btn.text = texto
-	btn.add_theme_font_override("font", load("res://Fontes/Teste/terminal-grotesque.ttf"))
+	btn.add_theme_font_override("font", load("res://Fontes/ArgentPixelCF-Italic.otf"))
 	btn.add_theme_font_size_override("font_size", 48)
 	btn.flat = true
 	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT

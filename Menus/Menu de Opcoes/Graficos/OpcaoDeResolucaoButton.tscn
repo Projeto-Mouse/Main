@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0vuo2ehrwvbs"]
 
 [ext_resource type="Script" path="res://Menus/Menu de Opcoes/Graficos/OpcaoDeResolucaoButton.gd" id="1_bt5wt"]
-[ext_resource type="FontFile" uid="uid://cfhb28salhxn" path="res://Fonts/terminal-grotesque.ttf" id="2_gy65r"]
+[ext_resource type="FontFile" uid="uid://bu6t1nk1x6817" path="res://Fontes/ArgentPixelCF-Italic.otf" id="2_gy65r"]
 
 [node name="opcao_resolucao_button" type="Control"]
 custom_minimum_size = Vector2(250, 60)

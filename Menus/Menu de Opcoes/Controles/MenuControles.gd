@@ -7,7 +7,7 @@ extends Control
 
 signal ao_fechar
 
-const FONTE := preload("res://Fontes/Teste/terminal-grotesque.ttf")
+const FONTE := preload("res://Fontes/ArgentPixelCF-Italic.otf")
 
 const ACOES_REMAPEAVEIS: Array[String] = [
 	"Pular",
