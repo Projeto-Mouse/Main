@@ -15,7 +15,7 @@ enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO, ITEM }
 var posicao_spawnar: Vector3
 var spawn_atual = tipo_spawn.NENHUM
 var quantidade_entidades = 0
-var cena_debug: Node3D
+var cena_debug: Node
 
 var cena_item_para_spawnar
 
@@ -24,7 +24,8 @@ var script_arma_inimigo = load("res://Itens/Equipamentos/Armas/ArmasScript.gd")
 
 
 func _ready() -> void:
-	cena_debug = get_tree().get_first_node_in_group("debug")
+	var debug_root = get_tree().get_first_node_in_group("debug")
+	cena_debug = debug_root.get_node("WorldLayer/SubViewportContainer/SubViewport")
 	posicao_spawnar = Vector3.ZERO
 
 	bloquear_foco_botao()

@@ -1,6 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://c30so6kdawvgx"]
+[gd_scene load_steps=21 format=3 uid="uid://c30so6kdawvgx"]
 
 [ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
+[ext_resource type="Script" path="res://Cenas/Efeitos/ProporcaoDinamica.gd" id="2_prop"]
+[ext_resource type="Shader" path="res://Cenas/Efeitos/dithering.gdshader" id="3_shader"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_uepp0"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="3_kfvfk"]
 [ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
@@ -35,53 +37,97 @@ bg_color = Color(0.37118948, 0.37118948, 0.37118948, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_no1hh"]
 bg_color = Color(0, 0, 0, 0.47058824)
 
-[node name="Debug" type="Node3D" groups=["debug"]]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x"]
+shader = ExtResource("3_shader")
+shader_parameter/dither_size = 1.0
+shader_parameter/color_precision = 64.0
+
+[node name="Debug" type="Node" groups=["debug"]]
 script = ExtResource("1_uepp0")
 
-[node name="Chao" type="StaticBody3D" parent="."]
+[node name="WorldLayer" type="CanvasLayer" parent="."]
+layer = -1
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Chao"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="WorldLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+script = ExtResource("2_prop")
+
+[node name="SubViewport" type="SubViewport" parent="WorldLayer/SubViewportContainer"]
+handle_input_locally = false
+msaa_3d = 0
+screen_space_aa = 0
+use_taa = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="Chao" type="StaticBody3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldLayer/SubViewportContainer/SubViewport/Chao"]
 mesh = SubResource("BoxMesh_mpjjm")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Chao"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldLayer/SubViewportContainer/SubViewport/Chao"]
 shape = SubResource("BoxShape3D_vjcbb")
 
-[node name="Parede Direita" type="StaticBody3D" parent="."]
+[node name="Parede Direita" type="StaticBody3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.467834, 0.550025, -0.051152825)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede Direita"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldLayer/SubViewportContainer/SubViewport/Parede Direita"]
 transform = Transform3D(1, 0, 0, 0, 1.2693205, 0, 0, 0, 1, 0.4796791, -0.46078765, 0.05448033)
 mesh = SubResource("BoxMesh_vjcbb")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede Direita"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldLayer/SubViewportContainer/SubViewport/Parede Direita"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, -0.461, 0.054)
 shape = SubResource("BoxShape3D_uvqsq")
 
-[node name="Parede Esquerda" type="StaticBody3D" parent="."]
+[node name="Parede Esquerda" type="StaticBody3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.441364, 0.55, -0.051)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede Esquerda"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldLayer/SubViewportContainer/SubViewport/Parede Esquerda"]
 transform = Transform3D(1, 0, 0, 0, 1.2693205, 0, 0, 0, 1, 0.4796791, -0.46078765, 0.05448033)
 mesh = SubResource("BoxMesh_vjcbb")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede Esquerda"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldLayer/SubViewportContainer/SubViewport/Parede Esquerda"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, -0.461, 0.054)
 shape = SubResource("BoxShape3D_uvqsq")
 
-[node name="Parede" type="StaticBody3D" parent="."]
+[node name="Parede" type="StaticBody3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9079541, 0.62641674, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Parede"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldLayer/SubViewportContainer/SubViewport/Parede"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.14462101, 0)
 mesh = SubResource("BoxMesh_kfvfk")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Parede"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldLayer/SubViewportContainer/SubViewport/Parede"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1444925, 0)
 shape = SubResource("BoxShape3D_7qkyi")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
 
-[node name="AbrirMenuDebug" type="Control" parent="."]
+[node name="Jogador" parent="WorldLayer/SubViewportContainer/SubViewport" instance=ExtResource("7_uepp0")]
+nome = "Debug"
+
+[node name="PostProcessEffect" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="PostProcessEffect"]
+material = SubResource("ShaderMaterial_x")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="AbrirMenuDebug" type="Control" parent="UILayer"]
 layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
@@ -92,75 +138,68 @@ offset_right = -9.0
 offset_bottom = 107.0
 grow_horizontal = 0
 
-[node name="BotaoAbrirMenu" type="Button" parent="AbrirMenuDebug"]
+[node name="BotaoAbrirMenu" type="Button" parent="UILayer/AbrirMenuDebug"]
 layout_mode = 1
 offset_left = 23.0
 offset_top = -11.0
 offset_right = 173.0
 offset_bottom = 20.0
-text = "Abrir Menu Debug
-"
+text = "Abrir Menu Debug"
 
-[node name="TrocarMusica" type="Control" parent="."]
+[node name="TrocarMusica" type="Control" parent="UILayer"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="BotaoTrocarMusica" type="Button" parent="TrocarMusica"]
+[node name="BotaoTrocarMusica" type="Button" parent="UILayer/TrocarMusica"]
 layout_mode = 0
 offset_left = 848.0
 offset_top = 8.0
 offset_right = 965.0
 offset_bottom = 39.0
-text = "Trocar Musica
-"
+text = "Trocar Musica"
 
-[node name="FPS" type="Label" parent="."]
+[node name="FPS" type="Label" parent="UILayer"]
 offset_left = 726.0
 offset_top = 13.0
 offset_right = 766.0
 offset_bottom = 36.0
 
-[node name="MenuDebug" type="CanvasLayer" parent="."]
+[node name="MenuDebug" type="CanvasLayer" parent="UILayer"]
 
-[node name="DebugMenu" parent="MenuDebug" instance=ExtResource("8_kfvfk")]
+[node name="DebugMenu" parent="UILayer/MenuDebug" instance=ExtResource("8_kfvfk")]
 offset_top = 50.0
 offset_right = -7.0
 offset_bottom = -13.0
 
-[node name="Jogador" parent="." instance=ExtResource("7_uepp0")]
-nome = "Debug"
-
-[node name="BarraVida" type="CanvasLayer" parent="."]
-
-[node name="BarraVida" type="Control" parent="BarraVida" node_paths=PackedStringArray("player")]
+[node name="BarraVida" type="Control" parent="UILayer" groups=["barra_vida"] node_paths=PackedStringArray("player")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_kfvfk")
-player = NodePath("../../Jogador")
+player = NodePath("../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
 sprite_vida_cheia = ExtResource("4_7qkyi")
 sprite_vida_meio = ExtResource("5_eyvbi")
 sprite_vida_vazia = ExtResource("6_rk7pk")
 
-[node name="MenuDePausa" parent="." instance=ExtResource("2_uepp0")]
+[node name="MenuDePausa" parent="UILayer" instance=ExtResource("2_uepp0")]
 process_mode = 0
 visible = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer"]
 offset_left = 11.0
 offset_top = 356.0
 offset_right = 493.0
 offset_bottom = 603.0
 script = ExtResource("9_eyvbi")
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Panel" type="Panel" parent="UILayer/VBoxContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2jmgn")
 
-[node name="LimparButton" type="Button" parent="VBoxContainer/Panel"]
+[node name="LimparButton" type="Button" parent="UILayer/VBoxContainer/Panel"]
 layout_mode = 0
 offset_left = 354.0
 offset_top = 17.0
@@ -169,13 +208,13 @@ offset_bottom = 39.0
 theme_override_font_sizes/font_size = 10
 text = "Limpar Terminal"
 
-[node name="Console" type="RichTextLabel" parent="VBoxContainer/Panel"]
+[node name="Console" type="RichTextLabel" parent="UILayer/VBoxContainer/Panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 60.0
 offset_right = 443.0
 offset_bottom = 213.0
-theme_override_colors/default_color = Color(0.08751202, 0.037204195, 0.031003496, 0.8392157)
+theme_override_colors/default_color = Color(0.087512, 0.037204, 0.031003, 0.839216)
 theme_override_font_sizes/normal_font_size = 14
 theme_override_font_sizes/bold_font_size = 14
 theme_override_font_sizes/bold_italics_font_size = 14
@@ -184,7 +223,7 @@ theme_override_font_sizes/mono_font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_no1hh")
 script = ExtResource("10_rk7pk")
 
-[node name="IrParaFinalButton" type="Button" parent="VBoxContainer/Panel"]
+[node name="IrParaFinalButton" type="Button" parent="UILayer/VBoxContainer/Panel"]
 layout_mode = 0
 offset_left = 273.0
 offset_top = 17.0
@@ -193,4 +232,4 @@ offset_bottom = 39.0
 theme_override_font_sizes/font_size = 10
 text = "Ir para o final"
 
-[connection signal="pressed" from="TrocarMusica/BotaoTrocarMusica" to="." method="_on_botao_trocar_musica_pressed"]
+[connection signal="pressed" from="UILayer/TrocarMusica/BotaoTrocarMusica" to="." method="_on_botao_trocar_musica_pressed"]

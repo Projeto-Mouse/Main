@@ -1,17 +1,18 @@
 class_name Game
-extends Node3D
+extends Node
 
-@onready var world = $World
-@onready var menu_de_pausa = $MenuDePausa
+@onready var world = $WorldLayer/SubViewportContainer/SubViewport/World
+@onready var menu_de_pausa = $UILayer/MenuDePausa
 var cena_inicial = "res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.tscn"
 
-func _ready():
 
+func _ready():
 	ControladorCena.registrar_menu(menu_de_pausa)
 	ControladorCena.inicializar(world)
 	await ControladorCena.trocar_mapa(cena_inicial, true, "SpawnPadrao")
 	setup_iluminacao()
-	
+
+
 func setup_iluminacao() -> void:
 	var ScriptIluminacao = preload("res://Auxiliares/ControladorIluminacao.gd")
 	if not ScriptIluminacao:
@@ -28,7 +29,7 @@ func setup_iluminacao() -> void:
 
 	if jogador:
 		camera = get_tree().get_first_node_in_group("CameraJogador")
-		
+
 	if camera:
 		controlador.camera_alvo = camera
 	else:
@@ -59,6 +60,7 @@ func setup_iluminacao() -> void:
 		environment.background_mode = Environment.BG_COLOR
 		environment.background_color = Color("87ceeb")
 		environment.ambient_light_source = Environment.AMBIENT_SOURCE_BG
+		environment.tonemap_mode = 0
 
 		novo_env.environment = environment
 		add_child(novo_env)
