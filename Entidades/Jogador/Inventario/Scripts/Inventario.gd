@@ -93,3 +93,10 @@ func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
 
 	if mapa_itens.get(item.nome).is_empty():
 		mapa_itens.erase(item.nome)
+
+
+func pegar_item(indice: int) -> ItemData:
+	if indice < 0 or indice >= array_inventario.size():
+		return null
+
+	return array_inventario[indice].item
