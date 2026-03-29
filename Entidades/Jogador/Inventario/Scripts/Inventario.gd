@@ -1,6 +1,8 @@
 class_name Inventario
 extends Node
 
+const MAX_STACK: int = 128
+
 @export var tamanho: int = 12
 
 var array_inventario: Array[Slot] = []
@@ -32,3 +34,21 @@ func aumentar_tamanho_inventario(quantidade_extra: int) -> void:
 
 	DebugConsole.add_text_console_sem_cor("Inventario aumentado para tamanho " + str(novo_tamanho))
 	print("Inventario aumentado para tamanho " + str(novo_tamanho))
+
+
+func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
+	var indices = mapa_itens.get(item.nome, [])
+
+	for i in indices:
+		if array_inventario[i].quantidade < MAX_STACK:
+			var espaco_livre = MAX_STACK - array_inventario[i].quantidade
+			var quantidade_a_adicionar = min(array_inventario[i].quantidade, espaco_livre)
+
+			array_inventario[i].quantidade += quantidade_a_adicionar
+			quantidade_add -= quantidade_a_adicionar
+
+			if quantidade_add == 0:
+				return
+
+		while quantidade_add > 0:
+			pass
