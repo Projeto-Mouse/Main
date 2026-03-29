@@ -6,3 +6,7 @@ extends Resource
 @export var timestamp_coleta: int = 0
 
 var indice_ui: int
+
+
+func esta_vazio() -> bool:
+	return item == null or quantidade == 0

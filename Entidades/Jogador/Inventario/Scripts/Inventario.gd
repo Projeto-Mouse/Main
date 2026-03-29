@@ -115,3 +115,27 @@ func reconstruir_hashmap() -> void:
 				mapa_itens[nome_item] = []
 
 			mapa_itens[nome_item].append(i)
+
+
+func ordenar_por(tipo: String) -> void:
+	match tipo:
+		"recente":
+			array_inventario.sort_custom(ordenar_por_tempo)
+		"quantidade":
+			array_inventario.sort_custom(ordenar_por_quantidade)
+
+	reconstruir_hashmap()
+
+
+func ordenar_por_quantidade(slot1: Slot, slot2: Slot) -> bool:
+	if slot1.esta_vazio() or slot2.esta_vazio():
+		return not slot1.esta_vazio()
+
+	return slot1.quantidade > slot2.quantidade
+
+
+func ordenar_por_tempo(slot1: Slot, slot2: Slot) -> bool:
+	if slot1.esta_vazio() or slot2.esta_vazio():
+		return not slot1.esta_vazio()
+
+	return slot1.timestamp_coleta > slot2.timestamp_coleta
