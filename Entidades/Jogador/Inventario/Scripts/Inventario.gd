@@ -70,3 +70,26 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
 			mapa_itens[item.nome] = []
 
 		mapa_itens[item.nome].append(slot_vazio)
+
+
+func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
+	if array_inventario[indice].item == null:
+		return
+
+	if array_inventario[indice].item.nome != item.nome:
+		return
+
+	if array_inventario[indice].quantidade > quantidade_remover:
+		array_inventario[indice].quantidade -= quantidade_remover
+		return
+
+	array_inventario[indice].quantidade = 0
+	array_inventario[indice].item = null
+
+	slots_vazios.append(indice)
+
+	if mapa_itens[item.nome].is_empty():
+		mapa_itens.erase(item.nome)
+
+	if mapa_itens.get(item.nome).is_empty():
+		mapa_itens.erase(item.nome)
