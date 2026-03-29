@@ -20,8 +20,8 @@ func inicializar_inventario() -> void:
 	array_inventario.resize(tamanho)
 	for i in range(tamanho):
 		array_inventario[i] = Slot.new()
-		if not slots_vazios.has(i):
-			slots_vazios.append(i)
+
+		slots_vazios.append(i)
 
 	DebugConsole.add_text_console_sem_cor("Inventario inicializado com tamanho" + str(tamanho))
 	print("Inventario inicializado com tamanho" + str(tamanho))
@@ -165,7 +165,8 @@ func trocar_dois_itens_posicao(origem: int, destino: int) -> void:
 		if not slots_vazios.has(origem):
 			slots_vazios.append(origem)
 
-		slots_vazios.erase(destino)
+		if slots_vazios.has(destino):
+			slots_vazios.erase(destino)
 
 		if mapa_itens.has(item_origem.nome):
 			mapa_itens[item_origem.nome].erase(origem)
