@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://m_emissivo_123"]
+
+[resource]
+resource_local_to_scene = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 5.0
+normal_enabled = true
+uv1_scale = Vector3(1, 1, 1)

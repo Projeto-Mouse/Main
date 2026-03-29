@@ -22,7 +22,9 @@ func setup_iluminacao() -> void:
 	var controlador = Node3D.new()
 	controlador.name = "ControladorIluminacao"
 	controlador.set_script(ScriptIluminacao)
-	# add_child movido para o final da função setup_iluminacao para evitar warnings no _ready
+
+	# 1. Definir a referência correta do Viewport para o mundo 3D
+	var viewport_mundo = $WorldLayer/SubViewportContainer/SubViewport
 
 	var jogador = get_tree().get_first_node_in_group("Jogador")
 	var camera: Camera3D = null
@@ -35,37 +37,26 @@ func setup_iluminacao() -> void:
 	else:
 		push_warning("Camera do jogador não encontrada.")
 
-	var sol = get_node_or_null("DirectionalLight3D")
+	# 2. Buscar o sol DENTRO do viewport do mundo
+	var sol = viewport_mundo.get_node_or_null("DirectionalLight3D")
 	if sol:
 		controlador.luz_direcional = sol
 	else:
-		push_warning("DirectionalLight3D não encontrada na raiz da cena")
+		push_warning("DirectionalLight3D não encontrada no SubViewport")
 
 	var spot = SpotLight3D.new()
 	spot.name = "LuzSeguidoraCamera"
 	spot.light_energy = 2.0
 	spot.spot_range = 20.0
 	spot.spot_angle = 45.0
-	add_child(spot)
+
+	# 3. Adicionar a luz e o controlador DENTRO do SubViewport correto
+	viewport_mundo.add_child(spot)
+	viewport_mundo.add_child(controlador)
+
 	controlador.luz_spot = spot
 
-	var env = get_node_or_null("WorldEnvironment")
+	# O WorldEnvironment agora é fixo no .tscn como RootEnvironment na raiz para Glow
+	var env = get_node_or_null("RootEnvironment")
 	if env:
 		controlador.ambiente_mundial = env
-	else:
-		var novo_env = WorldEnvironment.new()
-		novo_env.name = "WorldEnvironment"
-
-		var environment = Environment.new()
-		environment.background_mode = Environment.BG_COLOR
-		environment.background_color = Color("87ceeb")
-		environment.ambient_light_source = Environment.AMBIENT_SOURCE_BG
-		environment.tonemap_mode = 0
-
-		novo_env.environment = environment
-		add_child(novo_env)
-
-		controlador.ambiente_mundial = novo_env
-		print("WorldEnvironment criado automaticamente.")
-
-	add_child(controlador)
