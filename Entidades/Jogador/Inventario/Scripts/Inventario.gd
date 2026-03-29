@@ -100,3 +100,18 @@ func pegar_item(indice: int) -> ItemData:
 		return null
 
 	return array_inventario[indice].item
+
+
+func reconstruir_hashmap() -> void:
+	mapa_itens.clear()
+
+	for i in range(array_inventario.size()):
+		var slot = array_inventario[i]
+
+		if not slot.is_empty():
+			var nome_item = slot.item.nome
+
+			if not mapa_itens.has(nome_item):
+				mapa_itens[nome_item] = []
+
+			mapa_itens[nome_item].append(i)
