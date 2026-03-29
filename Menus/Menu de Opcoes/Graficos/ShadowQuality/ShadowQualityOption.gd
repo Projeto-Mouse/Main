@@ -1,13 +1,13 @@
 class_name ShadowQualityOption
 extends OpcaoDeOpcoes
 
-@onready var option_button: OptionButton = $VBoxContainer/OptionButton
-
 var opcoes_sombras: Array[Dictionary] = [
 	{"label": "Baixa", "size": 1024},
 	{"label": "Média", "size": 2048},
 	{"label": "Alta", "size": 4096}
 ]
+
+@onready var option_button: OptionButton = $VBoxContainer/OptionButton
 
 
 func _ready():

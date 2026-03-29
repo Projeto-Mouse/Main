@@ -1,14 +1,14 @@
 class_name FpsLimiterOption
 extends OpcaoDeOpcoes
 
-@onready var option_button: OptionButton = $VBoxContainer/OptionButton
-
 var opcoes_fps: Array[Dictionary] = [
 	{"label": "30 FPS", "valor": 30},
 	{"label": "60 FPS", "valor": 60},
 	{"label": "120 FPS", "valor": 120},
 	{"label": "Ilimitado", "valor": 0}
 ]
+
+@onready var option_button: OptionButton = $VBoxContainer/OptionButton
 
 
 func _ready():
