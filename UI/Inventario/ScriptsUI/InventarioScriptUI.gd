@@ -1,9 +1,9 @@
 class_name InventarioScriptUI
 extends CanvasLayer
 
-@onready var grid_inventario = $InventarioUIControl/TextureRect/GridContainer
+@onready var grid_inventario = $InventarioUIControl/NinePatchRect/GridContainer
 @onready var root_control = $InventarioUIControl
-@onready var textura_inventario = $InventarioUIControl/TextureRect
+@onready var textura_inventario = $InventarioUIControl/NinePatchRect
 
 var quantidade_slots: int
 var array_slots: Array = []
@@ -33,13 +33,15 @@ func set_inventario(inv: Inventario):
 	inventario = inv
 	quantidade_slots = inventario.tamanho
 	iniciar_slots()
+
+func atualizar_tamanho_ui() -> void:
+	var tamanho = grid_inventario.get_minimum_size()
+	var margem = 32.0
 	
-func atualizar_tamanho_ui():
-	var tamanho = grid_inventario.get_combined_minimum_size()
+	var tamanho_final = Vector2(tamanho.x + (margem * 2), tamanho.y + (margem * 2))
 	
-	root_control.size = tamanho
-	textura_inventario.size = tamanho
-	
+	root_control.size = tamanho_final
+	textura_inventario.size = tamanho_final
 
 func pegar_irmoes_cada_slot() -> void:
 	slots_do_grid = grid_inventario.get_children()
