@@ -162,10 +162,19 @@ func _carregar_graficos_se_necessario() -> void:
 	if win_scene:
 		itens_menu_graficos.append(win_scene.instantiate())
 
-	# Placeholders futuros (Qualidade, VSync, Sombras)
-	var placeholders = ["Qualidade", "VSync", "Sombras"]
-	for p_name in placeholders:
-		itens_menu_graficos.append(_criar_btn_placeholder(p_name))
+	var fps_scene = load("res://Menus/Menu de Opcoes/Graficos/FPSLimiter/FpsLimiterOption.tscn")
+	if fps_scene:
+		itens_menu_graficos.append(fps_scene.instantiate())
+
+	var vsync_scene = load("res://Menus/Menu de Opcoes/Graficos/VSync/VSyncToggleButton.tscn")
+	if vsync_scene:
+		itens_menu_graficos.append(vsync_scene.instantiate())
+
+	var shadow_scene = load(
+		"res://Menus/Menu de Opcoes/Graficos/ShadowQuality/ShadowQualityOption.tscn"
+	)
+	if shadow_scene:
+		itens_menu_graficos.append(shadow_scene.instantiate())
 
 	itens_menu_graficos.append(_criar_botao_voltar())
 

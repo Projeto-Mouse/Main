@@ -32,7 +32,7 @@ var modo_god: bool = false
 var esta_morto: bool = false
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
+@onready var coracoes_vida: Control = get_tree().get_first_node_in_group("barra_vida")
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene

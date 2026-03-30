@@ -5,7 +5,7 @@ extends Control
 @onready var label_fase_dia = $Label2
 @onready var trocar_dia_noite = $TrocarDiaNoite
 
-var cena_debug: Node3D
+var cena_debug: Node
 var controlador_iluminacao_debug
 
 

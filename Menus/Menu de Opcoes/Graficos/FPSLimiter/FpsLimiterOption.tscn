@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3a6mc8mm3rb8"]
+
+[ext_resource type="Script" path="res://Menus/Menu de Opcoes/Graficos/FPSLimiter/FpsLimiterOption.gd" id="1_fps"]
+[ext_resource type="FontFile" uid="uid://bu6t1nk1x6817" path="res://Fontes/ArgentPixelCF-Italic.otf" id="2_font"]
+
+[node name="FpsLimiterOption" type="Control"]
+custom_minimum_size = Vector2(250, 60)
+layout_mode = 3
+script = ExtResource("1_fps")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = -9
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.49, 0.49, 0.49, 1)
+mouse_filter = 0
+text = "Limite de FPS"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 32
+flat = true

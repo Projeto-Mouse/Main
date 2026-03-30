@@ -13,7 +13,7 @@ const CENA_DEBUG = preload("res://Cenas/CenaDebug/Debug.tscn")
 @onready var menu_de_opcoes = $MenuDeOpcoes as MenuDeOpcoes
 @onready var sair_button = $MarginContainer/HBoxContainer/VBoxContainer/sair_Button as Button
 @onready var margin_container = $MarginContainer as MarginContainer
-@onready var video_player = $VideoMenu
+@onready var video_player = $VideoSubViewport/SubViewport/VideoMenu
 @onready var botoes_vbox = $MarginContainer/HBoxContainer/VBoxContainer
 @onready var pagar_button = $pagar_Button as Button
 

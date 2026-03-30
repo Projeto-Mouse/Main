@@ -1,15 +1,15 @@
 class_name Debug
-extends Node3D
+extends Node
 
 var controlador_iluminacao = Node3D.new()
 var menu_aberto: bool = false
 var playlist_script
 
-@onready var menu_de_pause: Control = $MenuDePausa
-@onready var botao_abrir_fechar_menu_debug = $AbrirMenuDebug/BotaoAbrirMenu
-@onready var debug_menu = $MenuDebug
-@onready var botao_trocar_musica = $TrocarMusica/BotaoTrocarMusica
-@onready var fps_text = $FPS
+@onready var menu_de_pause: Control = $UILayer/MenuDePausa
+@onready var botao_abrir_fechar_menu_debug = $UILayer/AbrirMenuDebug/BotaoAbrirMenu
+@onready var debug_menu = $UILayer/MenuDebug
+@onready var botao_trocar_musica = $UILayer/TrocarMusica/BotaoTrocarMusica
+@onready var fps_text = $UILayer/FPS
 
 
 func _ready() -> void:
@@ -19,7 +19,7 @@ func _ready() -> void:
 	botao_trocar_musica.focus_mode = Control.FOCUS_NONE
 
 	debug_menu.hide()
-	
+
 	botao_abrir_fechar_menu_debug.pressed.connect(_abrir_e_fechar_menu_debug)
 
 	ControladorCena.registrar_menu(menu_de_pause)
@@ -48,17 +48,19 @@ func setup_iluminacao() -> void:
 	controlador_iluminacao.set_script(ScriptIluminacao)
 	# add_child movido para o final da função setup_iluminacao para evitar warnings no _ready
 
-	var camera = $Jogador/pivo_Camera/Camera
+	var camera = $WorldLayer/SubViewportContainer/SubViewport/Jogador/pivo_Camera/Camera
 	if camera:
 		controlador_iluminacao.camera_alvo = camera
 	else:
-		push_warning("Camera não encontrada em Jogador/pivo_Camera/Camera")
+		push_warning(
+			"Camera não encontrada em WorldLayer/SubViewportContainer/SubViewport/Jogador/pivo_Camera/Camera"
+		)
 
-	var sol = get_node_or_null("DirectionalLight3D")
+	var sol = get_node_or_null("WorldLayer/SubViewportContainer/SubViewport/DirectionalLight3D")
 	if sol:
 		controlador_iluminacao.luz_direcional = sol
 	else:
-		push_warning("DirectionalLight3D não encontrada na raiz da cena")
+		push_warning("DirectionalLight3D não encontrada no SubViewport")
 
 	var spot = SpotLight3D.new()
 	spot.name = "LuzSeguidoraCamera"
@@ -68,7 +70,7 @@ func setup_iluminacao() -> void:
 	add_child(spot)
 	controlador_iluminacao.luz_spot = spot
 
-	var env = get_node_or_null("WorldEnvironment")
+	var env = get_node_or_null("WorldLayer/SubViewportContainer/SubViewport/WorldEnvironment")
 	if env:
 		controlador_iluminacao.ambiente_mundial = env
 	else:
@@ -79,9 +81,10 @@ func setup_iluminacao() -> void:
 		environment.background_mode = Environment.BG_COLOR
 		environment.background_color = Color("87ceeb")
 		environment.ambient_light_source = Environment.AMBIENT_SOURCE_BG
+		environment.tonemap_mode = 0  # Linear
 
 		novo_env.environment = environment
-		add_child(novo_env)
+		$WorldLayer/SubViewportContainer/SubViewport.add_child(novo_env)
 
 		controlador_iluminacao.ambiente_mundial = novo_env
 		print("WorldEnvironment criado automaticamente.")
