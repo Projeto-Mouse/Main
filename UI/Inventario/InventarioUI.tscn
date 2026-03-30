@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5x08nlils741"]
+
+[ext_resource type="Script" uid="uid://b1ol0cclq60h6" path="res://Entidades/Jogador/Inventario/Scripts/ScriptsUI/GridInventarioScript.gd" id="1_50t6c"]
+[ext_resource type="Texture2D" uid="uid://cmnbbl68spwt" path="res://Sprites/Menu Inventario 1/Sprite-inventario-1.png" id="2_3rj4q"]
+
+[node name="InventarioUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = -25.0
+offset_top = -24.0
+offset_right = 1177.0
+offset_bottom = 665.0
+texture = ExtResource("2_3rj4q")
+
+[node name="GridInventario" type="GridContainer" parent="TextureRect"]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 79.0
+offset_right = 1084.0
+offset_bottom = 610.0
+columns = 4
+script = ExtResource("1_50t6c")

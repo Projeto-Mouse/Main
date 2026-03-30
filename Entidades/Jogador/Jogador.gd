@@ -39,19 +39,22 @@ var esta_morto: bool = false
 @onready var mao: Node3D = $PivoPersonagem/Mao
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
 @onready var pivo_personagem = $PivoPersonagem
+@onready var inventario_cena = preload("res://UI/Inventario/InventarioUI.tscn")
 
 # ITENS / INVENTARIO
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
-var inventario_temp: InventarioTemp
 var escudo_equipado: EscudoData
+var inventario
 
 
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
 	criar_no_filho_shapecast_cima()
-	inventario_temp = InventarioTemp.new()
+	inventario = inventario_cena.instantiate()
+	inventario.visble = false
+	
 
 
 func _process(_delta: float) -> void:
@@ -63,6 +66,14 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("PegarItem"):
 		pegar_item()
+	
+	if Input.is_action_just_pressed("AbrirInventario"):
+		inventario.visible = !inventario.visible
+		
+	if inventario.visible:
+		var pos_3d_jogador = global_position
+		var pos_2d_jogador = camera.unproject_position(pos_3d_jogador)
+		inventario.position = pos_2d_jogador + Vector2(200, 0)
 
 
 func _physics_process(delta):
