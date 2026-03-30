@@ -39,21 +39,28 @@ var esta_morto: bool = false
 @onready var mao: Node3D = $PivoPersonagem/Mao
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
 @onready var pivo_personagem = $PivoPersonagem
-@onready var inventario_cena = preload("res://UI/Inventario/InventarioUI.tscn")
+@onready var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
+@onready var inventario_logico: Inventario
 
-# ITENS / INVENTARIO
+# ITENS
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var escudo_equipado: EscudoData
-var inventario
+var inventario_ui_instanciado 
 
 
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
 	criar_no_filho_shapecast_cima()
-	inventario = inventario_cena.instantiate()
-	inventario.visble = false
+	inventario_logico = Inventario.new()
+	inventario_logico.inicializar_inventario()
+	
+	inventario_ui_instanciado = inventario_ui.instantiate()
+	# roda ready 1
+	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico)
+	get_tree().root.add_child(inventario_ui_instanciado) 
+	inventario_ui_instanciado.visible = false
 	
 
 
@@ -68,13 +75,11 @@ func _process(_delta: float) -> void:
 		pegar_item()
 	
 	if Input.is_action_just_pressed("AbrirInventario"):
-		inventario.visible = !inventario.visible
+		inventario_ui_instanciado.visible = !inventario_ui_instanciado.visible
 		
-	if inventario.visible:
-		var pos_3d_jogador = global_position
-		var pos_2d_jogador = camera.unproject_position(pos_3d_jogador)
-		inventario.position = pos_2d_jogador + Vector2(200, 0)
-
+	if inventario_ui_instanciado.visible:
+		var pos_2d = camera.unproject_position(global_position)
+		inventario_ui_instanciado.root_control.position = pos_2d + Vector2(50, -100)
 
 func _physics_process(delta):
 	esconder_item_rastejando()
@@ -335,10 +340,10 @@ func pegar_item() -> void:
 		posicionar_item_na_mao(item_equipado_na_mao)  # mantenho o item da mao tbm posicionado
 		return
 
-	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
-		print("Inventario cheio")
-		DebugConsole.add_text_console_sem_cor("Inventario cheio")
-		return
+	##if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
+		##print("Inventario cheio")
+		##DebugConsole.add_text_console_sem_cor("Inventario cheio")
+		##return
 
 	item_equipado_na_mao = item_da_area_atual.item_data
 	limpar_item_na_area_atual()
@@ -392,18 +397,18 @@ func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 func esconder_item_rastejando() -> void:
 	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
 
-
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	if Input.is_action_pressed("TrocarHotBarControle"):
 		pos_hot_bar_controle += 1
 		if pos_hot_bar_controle > 11:
 			pos_hot_bar_controle = 1
 		else:
-			item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
+			pass
+			#item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
 
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
-			item_equipado_na_mao = inventario_temp.pegar_item(i)
+			#item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao(item_equipado_na_mao)
 			break
 

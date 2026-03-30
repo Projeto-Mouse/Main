@@ -4,4 +4,4 @@ extends Control
 var indice_slot: int
 
 func _ready() -> void:
-	pass
+	focus_mode = Control.FOCUS_ALL

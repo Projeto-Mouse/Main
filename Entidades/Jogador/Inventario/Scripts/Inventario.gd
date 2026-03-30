@@ -11,11 +11,6 @@ var mapa_itens: Dictionary = {}
 
 var slots_vazios: Array[int] = []
 
-
-func _ready() -> void:
-	inicializar_inventario()
-
-
 func inicializar_inventario() -> void:
 	array_inventario.resize(tamanho)
 	for i in range(tamanho):
