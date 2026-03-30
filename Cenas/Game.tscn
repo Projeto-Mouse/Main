@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dugdfkwdeydnr"]
+[gd_scene load_steps=20 format=3 uid="uid://dugdfkwdeydnr"]
 
 [ext_resource type="Script" uid="uid://sfur81jy458l" path="res://Cenas/Game.gd" id="1_7t40e"]
 [ext_resource type="Script" path="res://Cenas/Efeitos/ProporcaoDinamica.gd" id="2_prop"]
@@ -10,14 +10,37 @@
 [ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="6_cht1d"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="7_8i4ha"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="7_uspeq"]
+[ext_resource type="Script" path="res://Auxiliares/MoodManager.gd" id="8_mood"]
+[ext_resource type="Texture2D" uid="uid://8l4tx81ru43t" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="9_lut_c"]
+[ext_resource type="Texture2D" uid="uid://8l4tx81ru43u" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="10_lut_e"]
+
+[sub_resource type="Environment" id="Environment_glow"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.5
+glow_strength = 1.0
+glow_bloom = 0.2
+glow_blend_mode = 0
+adjustment_enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x"]
 shader = ExtResource("5_shader")
 shader_parameter/dither_size = 1.0
 shader_parameter/color_precision = 64.0
+shader_parameter/use_lut = true
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7t40e")
+
+[node name="RootEnvironment" type="WorldEnvironment" parent="." groups=["world_environment"]]
+environment = SubResource("Environment_glow")
+
+[node name="MoodManager" type="Node" parent="." node_paths=PackedStringArray("world_env", "post_process_rect")]
+script = ExtResource("8_mood")
+world_env = NodePath("../RootEnvironment")
+post_process_rect = NodePath("../PostProcessEffect/ColorRect")
+lut_combate = ExtResource("9_lut_c")
+lut_exploracao = ExtResource("10_lut_e")
 
 [node name="WorldLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -49,7 +72,7 @@ script = ExtResource("2_2uwyn")
 
 [node name="Jogador" parent="WorldLayer/SubViewportContainer/SubViewport" instance=ExtResource("2_d5ttk")]
 
-[node name="PostProcessEffect" type="CanvasLayer" parent="."]
+[node name="PostProcessEffect" type="CanvasLayer" parent="." groups=["post_process"]]
 
 [node name="ColorRect" type="ColorRect" parent="PostProcessEffect"]
 material = SubResource("ShaderMaterial_x")
@@ -58,6 +81,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 layer = 1
@@ -75,3 +99,4 @@ sprite_vida_vazia = ExtResource("7_uspeq")
 
 [node name="MenuDePausa" parent="UILayer" instance=ExtResource("7_8i4ha")]
 process_mode = 0
+visible = false
