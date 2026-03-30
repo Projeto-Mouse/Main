@@ -3,10 +3,15 @@ extends Button
 
 var jogador: Jogador
 var apertou_tp: bool = false
+var cena_debug: Node
 
 
 func _ready() -> void:
 	jogador = get_tree().get_first_node_in_group("Jogador")
+	var debug_root = get_tree().get_first_node_in_group("debug")
+	if debug_root:
+		cena_debug = debug_root.get_node("WorldLayer/SubViewportContainer/SubViewport")
+	
 	pressed.connect(apertou_botao_tp)
 	focus_mode = Control.FOCUS_NONE
 
@@ -20,13 +25,13 @@ func _input(event: InputEvent) -> void:
 
 func teletransportar_jogador() -> void:
 	DebugConsole.add_text_console_sem_cor("Entrou funcao tp")
-	var nova_posicao = normalizar_pos_3d(get_viewport().get_mouse_position())
+	var pos_mouse = cena_debug.get_mouse_position() if cena_debug else get_viewport().get_mouse_position()
+	var nova_posicao = normalizar_pos_3d(pos_mouse)
 	var texto_debug = "Deu tp para: " + str(nova_posicao)
 	DebugConsole.add_text_console_com_cor(texto_debug, Color.GREEN)
 	jogador.position = nova_posicao
 	jogador.position.z = 0.0
-	# SOLUCAO PROVISORIA PARA ELE NAO FICAR NA PAREDE
-	jogador.position.y += 1.0
+	# jogador.position.y += 1.0 (Removido para spawnar na posição real)
 
 
 func apertou_botao_tp() -> void:
@@ -34,7 +39,7 @@ func apertou_botao_tp() -> void:
 
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
-	var camera = get_viewport().get_camera_3d()
+	var camera = cena_debug.get_camera_3d() if cena_debug else get_viewport().get_camera_3d()
 	if !camera:
 		print("nao pegou camera")
 		DebugConsole.add_text_console_sem_cor("nao pegou camera")

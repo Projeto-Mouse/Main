@@ -3,7 +3,7 @@ extends Control
 
 const SCALE_INIMIGO = 0.15
 
-enum tipo_spawn { NENHUM, VOADOR, TERRESTRE, ALIADO, ITEM }
+enum tipo_spawn {NENHUM, VOADOR, TERRESTRE, ALIADO, ITEM}
 
 @onready var botao_spawnar_terrestre = $Terrestre
 @onready var botao_spawnar_voador = $Voador
@@ -36,16 +36,16 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		match spawn_atual:
 			tipo_spawn.TERRESTRE:
-				spawnar_inimigo(get_viewport().get_mouse_position(), tipo_spawn.TERRESTRE)
+				spawnar_inimigo(cena_debug.get_mouse_position(), tipo_spawn.TERRESTRE)
 				quantidade_entidades += 1
 			tipo_spawn.VOADOR:
-				spawnar_inimigo(get_viewport().get_mouse_position(), tipo_spawn.VOADOR)
+				spawnar_inimigo(cena_debug.get_mouse_position(), tipo_spawn.VOADOR)
 				quantidade_entidades += 1
 			tipo_spawn.ALIADO:
-				spawnar_aliado(get_viewport().get_mouse_position())
+				spawnar_aliado(cena_debug.get_mouse_position())
 				quantidade_entidades += 1
 			tipo_spawn.ITEM:
-				spawnar_item(get_viewport().get_mouse_position())
+				spawnar_item(cena_debug.get_mouse_position())
 
 		quantidade_entidades_texto.text = "Entidades spawnadas: " + str(quantidade_entidades)
 		spawn_atual = tipo_spawn.NENHUM
@@ -180,7 +180,7 @@ func spawnar_aliado(posicao_click: Vector2) -> void:
 	var aliado: Aliados = AliadoInterativo.new()
 	posicao_spawnar = normalizar_pos_3d(posicao_click)
 	posicao_spawnar.z = 0.0
-	posicao_spawnar.y += 1.0
+	posicao_spawnar.y += 0.3
 	aliado.name = "AliadoInterativoTeste"
 	aliado.lealdade = 10.0
 	aliado.position = posicao_spawnar
@@ -190,7 +190,7 @@ func spawnar_aliado(posicao_click: Vector2) -> void:
 
 
 func normalizar_pos_3d(pos_click: Vector2) -> Vector3:
-	var camera = get_viewport().get_camera_3d()
+	var camera = cena_debug.get_camera_3d()
 	if !camera:
 		print("nao pegou camera")
 		DebugConsole.add_text_console_sem_cor("nao pegou camera")
