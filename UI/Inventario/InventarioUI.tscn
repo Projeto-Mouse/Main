@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b5x08nlils741"]
 
-[ext_resource type="Script" uid="uid://b1ol0cclq60h6" path="res://Entidades/Jogador/Inventario/Scripts/ScriptsUI/InventarioScriptUI.gd" id="1_50t6c"]
+[ext_resource type="Script" uid="uid://b1ol0cclq60h6" path="res://UI/Inventario/ScriptsUI/InventarioScriptUI.gd" id="1_50t6c"]
 [ext_resource type="Texture2D" uid="uid://cmnbbl68spwt" path="res://Sprites/Menu Inventario 1/Sprite-inventario-1.png" id="2_3rj4q"]
 
 [node name="InventarioUi" type="CanvasLayer"]

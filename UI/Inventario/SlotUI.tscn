@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bl61y6t4plq8"]
 
-[ext_resource type="Script" uid="uid://bbuljdfpvtpxr" path="res://Entidades/Jogador/Inventario/Scripts/ScriptsUI/SlotScriptUI.gd" id="1_bdh47"]
+[ext_resource type="Script" uid="uid://bbuljdfpvtpxr" path="res://UI/Inventario/ScriptsUI/SlotScriptUI.gd" id="1_bdh47"]
 [ext_resource type="Texture2D" uid="uid://cbqagbksnhabg" path="res://Sprites/Menu Inventario 1/Sprite-inv-padrao.png" id="1_nd2bi"]
 
 [node name="Slot" type="Control"]

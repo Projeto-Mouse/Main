@@ -39,6 +39,7 @@ func atualizar_tamanho_ui():
 	
 	root_control.size = tamanho
 	textura_inventario.size = tamanho
+	
 
 func pegar_irmoes_cada_slot() -> void:
 	slots_do_grid = grid_inventario.get_children()
