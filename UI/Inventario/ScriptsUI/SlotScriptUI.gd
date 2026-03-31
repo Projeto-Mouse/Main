@@ -9,13 +9,15 @@ var sprite_pressionado = preload("res://Sprites/Menu Inventario 1/Sprite-inv-sel
 var sprite_selecionado_no_mover = preload("res://Sprites/Menu Inventario 1/Sprite-inv-to-move.png")
 
 func _ready() -> void:
+	await get_tree().process_frame
 	focus_mode = Control.FOCUS_ALL
 	
-	connect("focus_entered", _entrou_em_foco)
-	connect("focus_exited", _saiu_de_foco)
-	connect("mouse_entered", _entrou_em_foco)
-	connect("mouse_exited", _saiu_de_foco)
-
+	focus_entered.connect(_entrou_em_foco)
+	focus_exited.connect(_saiu_de_foco)
+	
+	mouse_entered.connect(_mouse_entrou)
+	mouse_exited.connect(_mouse_saiu)
+	
 func _entrou_em_foco():
 	textura.texture = sprite_selecionado
 
@@ -24,3 +26,6 @@ func _saiu_de_foco():
 
 func _mouse_entrou() -> void:
 	textura.texture = sprite_selecionado
+
+func _mouse_saiu() -> void:
+	textura.texture = sprite_normal

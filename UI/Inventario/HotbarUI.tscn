@@ -16,14 +16,15 @@ grow_vertical = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="HotbarUIControl"]
 layout_mode = 1
+texture_filter = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -50.0
+offset_top = -30.0
 offset_bottom = 50.0
 grow_vertical = 2
 texture = ExtResource("1_xr7wk")
-patch_margin_left = 16
+patch_margin_left = 60
 patch_margin_top = 24
 patch_margin_right = 16
 patch_margin_bottom = 24

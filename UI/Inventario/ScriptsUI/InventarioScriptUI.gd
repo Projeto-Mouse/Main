@@ -6,21 +6,20 @@ extends CanvasLayer
 @onready var textura_inventario = $InventarioUIControl/NinePatchRect
 
 var quantidade_slots: int
-var array_slots: Array = []
 var inventario: Inventario
 var slot_cena = preload("res://UI/Inventario/SlotUI.tscn")
 var slots_do_grid
 var indice_slot_selecionado
 
 
-func iniciar_slots() -> void:
-	array_slots.clear()
+func _ready() -> void:
+	add_to_group("inventario")
 	
+func iniciar_slots() -> void:
 	for i in range(quantidade_slots):
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
 		
-		array_slots.append(slot) 
 		slot.custom_minimum_size = Vector2(100, 100)
 		grid_inventario.add_child(slot)
 		print(slot.name, " Criado com sucesso")
@@ -28,8 +27,6 @@ func iniciar_slots() -> void:
 	
 	atualizar_tamanho_ui()
 	pegar_irmoes_cada_slot()
-	
-	slots_do_grid[0].call_deferred("grab_focus")
 
 func set_inventario(inv: Inventario):
 	inventario = inv
@@ -68,4 +65,3 @@ func pegar_irmoes_cada_slot() -> void:
 
 		if cima >= 0:
 			slot.focus_neighbor_top = slots_do_grid[cima].get_path()
-		

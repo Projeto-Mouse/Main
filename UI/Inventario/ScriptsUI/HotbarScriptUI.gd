@@ -6,22 +6,19 @@ extends CanvasLayer
 @onready var textura_hotbar = $HotbarUIControl/NinePatchRect
 
 var slot_cena = preload("res://UI/Inventario/SlotUI.tscn")
+
 var quantidade_slots: int = 2
-var hotbar: Hotbar
-var array_slots: Array = []
+var hotbar_logica: Hotbar
 
 func _ready() -> void:
 	pass
 
 func iniciar_slots() -> void:
-	array_slots.clear()
-	
 	for i in range(quantidade_slots):
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
 		
-		array_slots.append(slot)
-		slot.custom_minimum_size = Vector2(64, 64)
+		slot.custom_minimum_size = Vector2(100, 100)
 		grid_hotbar.add_child(slot)
 		
 		print(slot.name, " Criado com sucesso")
@@ -30,7 +27,7 @@ func iniciar_slots() -> void:
 	atualizar_tamanho_ui()
 
 func set_hotbar(hotbar_logico: Hotbar) -> void:
-	hotbar = hotbar_logico
+	hotbar_logica = hotbar_logico
 	iniciar_slots()
 	
 
@@ -47,5 +44,5 @@ func atualizar_tamanho_ui() -> void:
 	textura_hotbar.size = tamanho_final
 
 	var viewport_rect = get_viewport().get_visible_rect()
-	control.position.x = (viewport_rect.size.x / 4) - (tamanho_final.x / 2)
-	control.position.y = (viewport_rect.size.y / 2) - (tamanho_final.y / 2)
+	control.position.x = (viewport_rect.size.x / 2.56) - (tamanho_final.x / 2)
+	control.position.y = (viewport_rect.size.y / 2.5) - (tamanho_final.y / 2)
