@@ -46,6 +46,10 @@ var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var escudo_equipado: EscudoData
 
+# LEDGE GRAB
+
+var esta_em_area_escalavel: bool = false
+var esta_agarrado_na_borda: bool = false
 
 func _ready() -> void:
 	criar_luz_jogador()
@@ -72,8 +76,11 @@ func _physics_process(delta):
 	var direcao_y = Input.get_axis("Baixo", "Cima")
 	var apertou_pular = Input.is_action_just_pressed("Pular")
 
-	movimento_x = calcular_movimento_horizontal(direcao_x, esta_no_chao)
+	if esta_agarrado_na_borda:
+		processar_estado_borda(delta)
+		return
 
+	movimento_x = calcular_movimento_horizontal(direcao_x, esta_no_chao)
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
@@ -93,6 +100,7 @@ func _physics_process(delta):
 	position.z = 0
 	atualizar_posicao_luz_jogador()
 
+	verificar_ledge_grab()
 
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
@@ -371,16 +379,52 @@ func criar_cena_item(item: ItemData) -> void:
 	visual.transform = Transform3D.IDENTITY  #alinha com a mao
 
 
-func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
-	if esta_tocando_escalavel:
-		estado_atual = EstadosJogador.ESCALANDO
-	else:
-		estado_atual = EstadosJogador.PARADO
+func setar_esta_em_escalavel(entrou: bool) -> void:
+	esta_em_area_escalavel = entrou
 
+func aplicar_gravidade(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y -= 20.0 * delta
+
+func pode_agarrar() -> bool:
+	return (
+		esta_em_area_escalavel
+		and not esta_agarrado_na_borda
+		and not is_on_floor()
+		and velocity.y > 0
+	)
+
+func verificar_ledge_grab() -> void:
+	if pode_agarrar() and Input.is_action_just_pressed("Pular"):
+		iniciar_ledge_grab()
+
+func iniciar_ledge_grab() -> void:
+	esta_agarrado_na_borda = true
+	velocity = Vector3.ZERO
+
+	global_position.y += 0.4
+	global_position.x += ultimo_lado_olhado * 0.2
+
+func processar_estado_borda(delta: float) -> void:
+	velocity = Vector3.ZERO
+
+	if Input.is_action_just_pressed("Cima"):
+		subir_borda()
+	elif Input.is_action_just_pressed("Baixo"):
+		soltar_borda()
+
+func subir_borda() -> void:
+	global_position.y += 0.8
+	global_position.x += ultimo_lado_olhado * 0.35
+
+	esta_agarrado_na_borda = false
+	esta_em_area_escalavel = false
+
+func soltar_borda() -> void:
+	esta_agarrado_na_borda = false
 
 func esconder_item_rastejando() -> void:
 	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
-
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	if Input.is_action_pressed("TrocarHotBarControle"):
