@@ -1,7 +1,7 @@
 class_name HotbarScriptUI
 extends CanvasLayer
 
-@onready var grid_hotbar = $HotbarUIControl/NinePatchRect
+@onready var grid_hotbar = $HotbarUIControl/NinePatchRect/VBoxContainer
 @onready var control = $HotbarUIControl
 @onready var textura_hotbar = $HotbarUIControl/NinePatchRect
 
@@ -20,7 +20,8 @@ func iniciar_slots() -> void:
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
 		
-		array_slots.append(slot) 
+		array_slots.append(slot)
+		slot.custom_minimum_size = Vector2(64, 64)
 		grid_hotbar.add_child(slot)
 		
 		print(slot.name, " Criado com sucesso")
@@ -29,12 +30,13 @@ func iniciar_slots() -> void:
 	atualizar_tamanho_ui()
 
 func set_hotbar(hotbar_logico: Hotbar) -> void:
-	hotbar = hotbar
+	hotbar = hotbar_logico
 	iniciar_slots()
 	
 
 func atualizar_tamanho_ui() -> void:
-	var tamanho = grid_hotbar.get_minimum_size()
+	await get_tree().process_frame
+	var tamanho = grid_hotbar.get_combined_minimum_size()
 	var margem_h = 16.0
 	var margem_v = 24.0
 	
@@ -45,5 +47,5 @@ func atualizar_tamanho_ui() -> void:
 	textura_hotbar.size = tamanho_final
 
 	var viewport_rect = get_viewport().get_visible_rect()
-	control.position.x = (viewport_rect.size.x / 4) - ( tamanho_final.x / 2 )
-	control.position.y = (viewport_rect.size.y / 2) - ( tamanho_final.y / 2 )
+	control.position.x = (viewport_rect.size.x / 4) - (tamanho_final.x / 2)
+	control.position.y = (viewport_rect.size.y / 2) - (tamanho_final.y / 2)

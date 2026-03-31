@@ -21,6 +21,7 @@ func iniciar_slots() -> void:
 		slot.name = "slot" + str(i)
 		
 		array_slots.append(slot) 
+		slot.custom_minimum_size = Vector2(100, 100)
 		grid_inventario.add_child(slot)
 		print(slot.name, " Criado com sucesso")
 		DebugConsole.add_text_console_com_cor(slot.name + " Criado com sucesso", Color.CORAL)
@@ -36,10 +37,11 @@ func set_inventario(inv: Inventario):
 	iniciar_slots()
 
 func atualizar_tamanho_ui() -> void:
-	var tamanho = grid_inventario.get_minimum_size()
+	await get_tree().process_frame
+	var tamanho_grid = grid_inventario.get_combined_minimum_size()
 	var margem = 32.0
 	
-	var tamanho_final = Vector2(tamanho.x + (margem * 2), tamanho.y + (margem * 2))
+	var tamanho_final = Vector2(tamanho_grid.x + (margem * 2), tamanho_grid.y + (margem * 2))
 	
 	control.size = tamanho_final
 	textura_inventario.size = tamanho_final

@@ -4,16 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://cbqagbksnhabg" path="res://Sprites/Menu Inventario 1/Sprite-inv-padrao.png" id="1_nd2bi"]
 
 [node name="Slot" type="Control"]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 64.0
-offset_bottom = 64.0
+offset_right = 10.0
+offset_bottom = 10.0
 script = ExtResource("1_bdh47")
 
 [node name="Textura" type="TextureRect" parent="."]
 texture_filter = 1
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
