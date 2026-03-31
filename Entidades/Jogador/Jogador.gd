@@ -22,6 +22,11 @@ var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
 var cooldown_atual = 0
 
+# CONSUMO DE QUEIJO
+const TEMPO_CONSUMO: float = 1.5
+var timer_consumo: float = 0.0
+@onready var consumo_pb: ProgressBar = $ConsumoUI/ConsumoProgressBar
+
 # MOVIMENTACAO
 var movimento_x: float
 var movimento_y: float
@@ -63,6 +68,30 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("PegarItem"):
 		pegar_item()
+	
+	processar_consumo_queijo(_delta)
+
+
+func processar_consumo_queijo(delta: float) -> void:
+	if item_equipado_na_mao is QueijoResource:
+		if Input.is_action_pressed("PegarItem"):
+			timer_consumo += delta
+			consumo_pb.visible = true
+			consumo_pb.value = (timer_consumo / TEMPO_CONSUMO) * 100.0
+			
+			if timer_consumo >= TEMPO_CONSUMO:
+				efetivar_cura(item_equipado_na_mao)
+				resetar_consumo()
+		else:
+			resetar_consumo()
+	else:
+		resetar_consumo()
+
+
+func resetar_consumo() -> void:
+	timer_consumo = 0.0
+	if consumo_pb:
+		consumo_pb.visible = false
 
 
 func _physics_process(delta):
@@ -310,6 +339,24 @@ func atualizar_interacao(item: ItemMundo, ativo: bool):
 	)
 
 
+func efetivar_cura(queijo: QueijoResource) -> void:
+	if queijo.cura_total:
+		vida_atual = vida_max
+	else:
+		vida_atual = clamp(vida_atual + queijo.valor_cura, 0.0, vida_max)
+	
+	# Usar a posição atual da hotbar para remover o item correto
+	inventario_temp.remover_item_na_posicao(pos_hot_bar_controle if pos_hot_bar_controle > 0 else 1)
+	
+	# Atualizar o item na mão
+	item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle if pos_hot_bar_controle > 0 else 1)
+	posicionar_item_na_mao(item_equipado_na_mao)
+	
+	health_updated.emit(vida_atual)
+	print("Queijo consumido! Vida atual: ", vida_atual)
+	DebugConsole.add_text_console_com_cor("Queijo consumido! Vida: " + str(vida_atual), Color.GREEN)
+
+
 func pegar_item() -> void:
 	if item_da_area_atual == null:
 		return
@@ -355,6 +402,14 @@ func posicionar_item_na_mao(item) -> void:
 		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
 		criar_cena_item(item_equipado_na_mao)
 		return
+	
+	if item_equipado_na_mao is QueijoResource and item_equipado_na_mao.sprite:
+		var sprite_visual = Sprite3D.new()
+		sprite_visual.texture = item_equipado_na_mao.sprite
+		sprite_visual.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sprite_visual.scale = Vector3(0.5, 0.5, 0.5)
+		mao.add_child(sprite_visual)
+		sprite_visual.transform = Transform3D.IDENTITY
 
 
 func criar_cena_item(item: ItemData) -> void:
@@ -392,6 +447,7 @@ func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 
 	for i in range(1, 11):
 		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
+			pos_hot_bar_controle = i
 			item_equipado_na_mao = inventario_temp.pegar_item(i)
 			posicionar_item_na_mao(item_equipado_na_mao)
 			break

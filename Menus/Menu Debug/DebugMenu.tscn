@@ -112,6 +112,59 @@ text = "Spawnar Item"
 layout_mode = 2
 text = "Entidades: "
 
+[node name="QueijoLabel" type="Label" parent="Panel/DebugSpawn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.141176, 1)
+text = "Spawnar Queijos:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/DebugSpawn"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Panel/DebugSpawn/ScrollContainer"]
+layout_mode = 2
+columns = 1
+
+[node name="GorgonzolaMigalha" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Gorgonzola Migalha"
+
+[node name="GorgonzolaCubinho" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Gorgonzola Cubinho"
+
+[node name="GorgonzolaFatia" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Gorgonzola Fatia"
+
+[node name="ParmesaoMigalha" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Parmesao Migalha"
+
+[node name="ParmesaoCubinho" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Parmesao Cubinho"
+
+[node name="ParmesaoFatia" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Parmesao Fatia"
+
+[node name="MucarelaMigalha" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Mucarela Migalha"
+
+[node name="MucarelaCubinho" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Mucarela Cubinho"
+
+[node name="MucarelaFatia" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Mucarela Fatia"
+
+[node name="MinasFresco" type="Button" parent="Panel/DebugSpawn/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "Minas Fresco"
+
 [node name="Separador 3" type="HSeparator" parent="."]
 layout_mode = 0
 offset_left = 652.0

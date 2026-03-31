@@ -24,3 +24,15 @@ func pegar_item(posicao: int) -> ItemData:
 		return null
 	
 	return inventario[posicao]
+
+
+func remover_unidade(nome_item: String) -> void:
+	for i in range(1, TAMANHO):
+		if inventario[i] != null and inventario[i].nome == nome_item:
+			inventario[i] = null
+			return
+
+
+func remover_item_na_posicao(posicao: int) -> void:
+	if posicao >= 0 and posicao < TAMANHO:
+		inventario[posicao] = null

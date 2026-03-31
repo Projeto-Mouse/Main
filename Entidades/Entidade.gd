@@ -13,6 +13,8 @@ extends CharacterBody3D
 @export var vida_atual: float
 @export var dano: float
 
+signal health_updated(new_health: float)
+
 
 func _ready() -> void:
 	pass
