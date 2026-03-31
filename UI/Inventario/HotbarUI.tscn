@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://drbk5kqnavyq4"]
+
+[ext_resource type="Script" uid="uid://vb1n4mukn0kg" path="res://UI/Inventario/ScriptsUI/HotbarScriptUI.gd" id="1_1tamp"]
+[ext_resource type="Texture2D" uid="uid://dj0hdrohc871x" path="res://Sprites/Menu Inventario 1/Sprite-Hotbar-folhas.png" id="1_xr7wk"]
+
+[node name="HotbarUI" type="CanvasLayer"]
+script = ExtResource("1_1tamp")
+
+[node name="HotbarUIControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HotbarUIControl"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -50.0
+grow_vertical = 2
+texture = ExtResource("1_xr7wk")
+patch_margin_left = 16
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HotbarUIControl/NinePatchRect"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 24.0
+theme_override_constants/separation = 0

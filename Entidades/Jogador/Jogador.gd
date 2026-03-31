@@ -40,13 +40,16 @@ var esta_morto: bool = false
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
 @onready var pivo_personagem = $PivoPersonagem
 @onready var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
+@onready var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
 @onready var inventario_logico: Inventario
+@onready var hotbar_logico: Hotbar
 
 # ITENS
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var escudo_equipado: EscudoData
 var inventario_ui_instanciado 
+var hotbar_ui_instanciado
 
 
 func _ready() -> void:
@@ -62,6 +65,11 @@ func _ready() -> void:
 	get_tree().root.add_child(inventario_ui_instanciado) 
 	inventario_ui_instanciado.visible = false
 	
+	hotbar_ui_instanciado = hotbar_ui.instantiate()
+	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico)
+	get_tree().root.add_child(hotbar_ui_instanciado)
+	hotbar_ui_instanciado.visible = false
+	
 
 
 func _process(_delta: float) -> void:
@@ -75,11 +83,13 @@ func _process(_delta: float) -> void:
 		pegar_item()
 	
 	if Input.is_action_just_pressed("AbrirInventario"):
-		inventario_ui_instanciado.visible = !inventario_ui_instanciado.visible
+		var estado_novo_ui = !inventario_ui_instanciado.visible
+		inventario_ui_instanciado.visible = estado_novo_ui
+		hotbar_ui_instanciado.visible = estado_novo_ui
 		
 	if inventario_ui_instanciado.visible:
 		var pos_2d = camera.unproject_position(global_position)
-		inventario_ui_instanciado.root_control.position = pos_2d + Vector2(50, -100)
+		inventario_ui_instanciado.control.position = pos_2d + Vector2(50, -150)
 
 func _physics_process(delta):
 	esconder_item_rastejando()
