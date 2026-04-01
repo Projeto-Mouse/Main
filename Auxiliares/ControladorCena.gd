@@ -6,6 +6,7 @@ var jogador: CharacterBody3D
 var menu_de_pause : Control
 var cache_cenas: Dictionary = {}
 var pausado := false
+var pode_pausar := true
 
 
 func inicializar(world_node: Node3D):
@@ -99,11 +100,11 @@ func _ready():
 func _input(event):
 
 	if event.is_action_pressed("Pausar") and not event.is_echo():
-		if menu_de_pause != null:
+		if menu_de_pause != null and pode_pausar:
 			toggle_pause()
 
 func toggle_pause():
-	if menu_de_pause == null:
+	if menu_de_pause == null or not pode_pausar:
 		return
 
 	pausado = !pausado

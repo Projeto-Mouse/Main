@@ -1,7 +1,7 @@
 class_name MoodManager
 extends Node
 
-enum Mood { GERAL, COMBATE, EXPLORACAO }
+enum Mood {GERAL, COMBATE, EXPLORACAO}
 
 @export_group("Referências")
 @export var world_env: WorldEnvironment
@@ -16,6 +16,8 @@ var _tween: Tween
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("mood_manager")
 	if not world_env:
 		world_env = get_tree().get_first_node_in_group("world_environment")
 
@@ -80,11 +82,15 @@ func transition_to_mood(new_mood: Mood, duration: float = 2.0) -> void:
 
 
 func apply_mood_instantly(new_mood: Mood) -> void:
+	var mood_name = Mood.keys()[new_mood]
+	print("MoodManager: apply_mood_instantly called with mood: ", mood_name, " (", new_mood, ")")
 	if not world_env or not post_process_rect:
+		print("MoodManager: References missing! world_env: ", world_env, " rect: ", post_process_rect)
 		return
 
 	var env = world_env.environment
 	var mat = post_process_rect.material as ShaderMaterial
+	print("MoodManager: Environment: ", env, " Material: ", mat)
 
 	match new_mood:
 		Mood.GERAL:
@@ -104,8 +110,10 @@ func apply_mood_instantly(new_mood: Mood) -> void:
 
 
 func _aplicar_lut_shader(mat: ShaderMaterial, lut: Texture2D) -> void:
+	print("MoodManager: _aplicar_lut_shader called. Material: ", mat, " LUT: ", lut)
 	if mat:
 		if lut:
+			print("MoodManager Applying LUT: ", lut.get_path())
 			mat.set_shader_parameter("use_lut", true)
 			mat.set_shader_parameter("current_lut", lut)
 		else:
