@@ -18,6 +18,14 @@ var esta_selecionado: bool = false
 var esta_em_hover: bool = false
 var controller_inventario: ControllerInventario
 
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_ao_clicar_no_slot()
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			pass
+
+
 func _ready() -> void:
 	focus_mode = Control.FOCUS_ALL
 	
@@ -55,6 +63,10 @@ func _atualizar_textura() -> void:
 	
 	textura.texture = sprite_normal
 	
-
+func _ao_clicar_no_slot() -> void:
+	var string_tipo = TiposSlot.keys()[tipo_slot]
+	controller_inventario.salvar_click(indice_slot, string_tipo)
+	
+	
 func atualiar_para_amarelo_quando_ja_tem_clicado() -> void:
 	pass
