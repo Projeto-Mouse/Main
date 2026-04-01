@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://ykuee7nx2fiu"]
+[gd_scene load_steps=52 format=3 uid="uid://ykuee7nx2fiu"]
 
 [ext_resource type="Script" uid="uid://celhehge73i7q" path="res://Cenas/World/Prologo/CenaSalaDeSacrificio/SalaDeSacrificio.gd" id="1_jsoku"]
 [ext_resource type="PackedScene" uid="uid://jcbke0af5ohl" path="res://Itens/Cenas/CenasMundo/PauMundo.tscn" id="4_56ste"]
@@ -50,6 +50,9 @@ size = Vector3(3.105751, 0.8494873, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v8ify"]
 size = Vector3(1.0460205, 1.0801392, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_56ste"]
+size = Vector3(1.0631104, 1.0153656, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f36u2"]
 size = Vector3(0.2510376, 2.9589767, 1)
@@ -242,6 +245,14 @@ debug_color = Color(0.68235296, 0.29803923, 1, 0.41960785)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4370728, 1.8590813, 0)
 shape = SubResource("BoxShape3D_v8ify")
 debug_color = Color(0.9991264, 0.028875828, 0, 0.41960785)
+
+[node name="BordaEscalavelTeste" type="Area3D" parent="CenaMesa/ColisãoPotePrimeiroPiso01"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8114314, 0)
+script = ExtResource("6_3kemy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CenaMesa/ColisãoPotePrimeiroPiso01/BordaEscalavelTeste"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5269394, -0.740108, 0)
+shape = SubResource("BoxShape3D_56ste")
 
 [node name="ColisãoJarroQuebrado01" type="CollisionShape3D" parent="CenaMesa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.663044, 2.7256615, 0)
