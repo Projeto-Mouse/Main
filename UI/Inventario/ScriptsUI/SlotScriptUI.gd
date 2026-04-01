@@ -2,6 +2,8 @@ class_name SlotScriptUI
 extends Control
 
 @onready var textura = $Textura
+@onready var item_sprite = $ItemSprite
+@onready var quantidade = $Quantidade
 
 var sprite_selecionado = preload("res://Sprites/Menu Inventario 1/Sprite-inv-mouse-above.png")
 var sprite_normal = preload("res://Sprites/Menu Inventario 1/Sprite-inv-padrao.png")

@@ -18,7 +18,6 @@ func iniciar_slots() -> void:
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
 		
-		slot.custom_minimum_size = Vector2(100, 100)
 		grid_hotbar.add_child(slot)
 		
 		print(slot.name, " Criado com sucesso")

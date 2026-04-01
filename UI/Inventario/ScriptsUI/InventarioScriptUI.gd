@@ -20,7 +20,6 @@ func iniciar_slots() -> void:
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
 		
-		slot.custom_minimum_size = Vector2(100, 100)
 		grid_inventario.add_child(slot)
 		print(slot.name, " Criado com sucesso")
 		DebugConsole.add_text_console_com_cor(slot.name + " Criado com sucesso", Color.CORAL)
