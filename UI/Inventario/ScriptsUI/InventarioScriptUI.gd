@@ -30,16 +30,8 @@ func iniciar_slots() -> void:
 		print(slot.name, " Criado com sucesso")
 		DebugConsole.add_text_console_com_cor(slot.name + " Criado com sucesso", Color.CORAL)
 	
-	await get_tree().process_frame 
 	atualizar_tamanho_ui()
-	await get_tree().process_frame 
 	pegar_irmoes_cada_slot()
-	
-	await get_tree().process_frame 
-	control.visible = true
-	await get_tree().process_frame
-	var primeiro_slot = grid_inventario.get_child(0)
-	primeiro_slot.grab_focus()
 
 func set_inventario(inv: Inventario, controller_inv: ControllerInventario):
 	inventario = inv
@@ -58,27 +50,21 @@ func atualizar_tamanho_ui() -> void:
 	textura_inventario.size = tamanho_final
 
 func pegar_irmoes_cada_slot() -> void:
-	var colunas_do_grid: int = grid_inventario.columns
+	var colunas = grid_inventario.columns
+	var children_do_grid = grid_inventario.get_children()
+	var total = children_do_grid.size()
 	
-	for i in range(grid_inventario.get_child_count()):
-		var baixo = i + colunas_do_grid
-		var cima = i - colunas_do_grid
-		var esquerda_e_direita = i % colunas_do_grid
+	for i in range(total):
+		var slot = children_do_grid[i]
 		
-		var slot = grid_inventario.get_child(i)
-		
-		if esquerda_e_direita != colunas_do_grid - 1:
-			var right = grid_inventario.get_child(i + 1)
-			slot.focus_neighbor_right = slot.get_path_to(right)
+		# Horizontal
+		if i % colunas < colunas - 1 and i + 1 < total:
+			slot.focus_neighbor_right = slot.get_path_to(children_do_grid[i + 1])
+		if i % colunas > 0:
+			slot.focus_neighbor_left = slot.get_path_to(children_do_grid[i - 1])
 			
-		if esquerda_e_direita != 0:
-			var left = grid_inventario.get_child(i - 1)
-			slot.focus_neighbor_left = slot.get_path_to(left)
-
-		if baixo < grid_inventario.get_child_count():
-			var down = grid_inventario.get_child(baixo)
-			slot.focus_neighbor_bottom = slot.get_path_to(down)
-
-		if cima >= 0:
-			var up = grid_inventario.get_child(cima)
-			slot.focus_neighbor_top = slot.get_path_to(up)
+		# Vertical
+		if i + colunas < total:
+			slot.focus_neighbor_bottom = slot.get_path_to(children_do_grid[i + colunas])
+		if i - colunas >= 0:
+			slot.focus_neighbor_top = slot.get_path_to(children_do_grid[i - colunas])

@@ -19,7 +19,6 @@ var esta_em_hover: bool = false
 var controller_inventario: ControllerInventario
 
 func _ready() -> void:
-	await get_tree().process_frame
 	focus_mode = Control.FOCUS_ALL
 	
 	focus_entered.connect(_entrou_em_foco)
@@ -29,7 +28,6 @@ func _ready() -> void:
 	mouse_exited.connect(_mouse_saiu)
 	
 func _entrou_em_foco():
-	print("FOCO NO SLOT: ", indice_slot)
 	esta_selecionado = true
 	_atualizar_textura()
 
@@ -38,6 +36,7 @@ func _saiu_de_foco():
 	_atualizar_textura()
 
 func _mouse_entrou() -> void:
+	grab_focus()
 	esta_em_hover = true
 	_atualizar_textura()
 	
