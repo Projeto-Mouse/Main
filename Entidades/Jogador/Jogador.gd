@@ -36,37 +36,43 @@ var esta_morto: bool = false
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
+@onready var pivo_personagem = $PivoPersonagem
+
+# onready inventario / itens
 @onready var mao: Node3D = $PivoPersonagem/Mao
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
-@onready var pivo_personagem = $PivoPersonagem
 @onready var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
 @onready var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
 @onready var inventario_logico: Inventario
 @onready var hotbar_logico: Hotbar
 
-# ITENS
+# ITENS / inventario
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var escudo_equipado: EscudoData
 var inventario_ui_instanciado 
 var hotbar_ui_instanciado
-
+var controller_inventario: ControllerInventario
 
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
 	criar_no_filho_shapecast_cima()
+	
+	hotbar_logico = Hotbar.new()
+	hotbar_logico.inicializar_hotbar()
+	controller_inventario = ControllerInventario.new()
 	inventario_logico = Inventario.new()
 	inventario_logico.inicializar_inventario()
 	
 	inventario_ui_instanciado = inventario_ui.instantiate()
 	# roda ready 1
-	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico)
+	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico, controller_inventario)
 	get_tree().root.add_child(inventario_ui_instanciado) 
 	inventario_ui_instanciado.visible = false
 	
 	hotbar_ui_instanciado = hotbar_ui.instantiate()
-	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico)
+	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico, controller_inventario)
 	get_tree().root.add_child(hotbar_ui_instanciado)
 	hotbar_ui_instanciado.visible = false
 	

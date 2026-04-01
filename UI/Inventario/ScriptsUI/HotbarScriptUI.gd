@@ -9,6 +9,7 @@ var slot_cena = preload("res://UI/Inventario/SlotUI.tscn")
 
 var quantidade_slots: int = 2
 var hotbar_logica: Hotbar
+var controller: ControllerInventario
 
 func _ready() -> void:
 	pass
@@ -17,16 +18,21 @@ func iniciar_slots() -> void:
 	for i in range(quantidade_slots):
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
+		slot.indice_slot = i
+		slot.tipo_slot = slot.TiposSlot.HOTBAR
+		slot.controller_inventario = controller
 		
 		grid_hotbar.add_child(slot)
 		
 		print(slot.name, " Criado com sucesso")
 		DebugConsole.add_text_console_com_cor(slot.name + " Criado com sucesso", Color.CORAL)
 	
+	
 	atualizar_tamanho_ui()
 
-func set_hotbar(hotbar_logico: Hotbar) -> void:
+func set_hotbar(hotbar_logico: Hotbar, controller_inv: ControllerInventario) -> void:
 	hotbar_logica = hotbar_logico
+	controller = controller_inv
 	iniciar_slots()
 	
 

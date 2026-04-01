@@ -13,8 +13,9 @@ var sprite_pressionado = preload("res://Sprites/Menu Inventario 1/Sprite-inv-sel
 var sprite_selecionado_no_mover = preload("res://Sprites/Menu Inventario 1/Sprite-inv-to-move.png")
 
 var tipo_slot: TiposSlot
-var indice_slot: int
-var esta_selecionado: bool
+var indice_slot: int = 0
+var esta_selecionado: bool = false
+var esta_em_hover: bool = false
 var controller_inventario: ControllerInventario
 
 func _ready() -> void:
@@ -28,6 +29,7 @@ func _ready() -> void:
 	mouse_exited.connect(_mouse_saiu)
 	
 func _entrou_em_foco():
+	print("FOCO NO SLOT: ", indice_slot)
 	esta_selecionado = true
 	_atualizar_textura()
 
@@ -36,15 +38,24 @@ func _saiu_de_foco():
 	_atualizar_textura()
 
 func _mouse_entrou() -> void:
-	esta_selecionado = true
+	esta_em_hover = true
 	_atualizar_textura()
 	
 func _mouse_saiu() -> void:
-	esta_selecionado = false
+	esta_em_hover = false
 	_atualizar_textura()
 	
 func _atualizar_textura() -> void:
-	pass
+	if esta_selecionado:
+		textura.texture = sprite_selecionado
+		return
+	
+	if esta_em_hover:
+		textura.texture = sprite_selecionado
+		return
+	
+	textura.texture = sprite_normal
+	
 
 func atualiar_para_amarelo_quando_ja_tem_clicado() -> void:
 	pass
