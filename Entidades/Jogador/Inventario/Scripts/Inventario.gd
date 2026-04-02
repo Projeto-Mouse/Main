@@ -1,6 +1,8 @@
 class_name Inventario
 extends Node
 
+signal _item_mudado(item: ItemData, indice: int)
+
 const MAX_STACK: int = 128
 
 @export var tamanho: int = 12
@@ -68,8 +70,9 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
 
 		if not mapa_itens.has(item.nome):
 			mapa_itens[item.nome] = []
-
+			
 		mapa_itens[item.nome].append(slot_vazio)
+		_item_mudado.emit(item, slot_vazio)
 
 
 func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:

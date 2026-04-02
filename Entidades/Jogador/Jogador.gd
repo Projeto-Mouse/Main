@@ -62,9 +62,10 @@ func _ready() -> void:
 	hotbar_logico = Hotbar.new()
 	hotbar_logico.inicializar_hotbar()
 	controller_inventario = ControllerInventario.new()
-	controller_inventario.call_deferred("inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico)
 	inventario_logico = Inventario.new()
 	inventario_logico.inicializar_inventario()
+	controller_inventario.call_deferred("inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico)
+
 	
 	inventario_ui_instanciado = inventario_ui.instantiate()
 	# roda ready 1
@@ -357,12 +358,12 @@ func pegar_item() -> void:
 		posicionar_item_na_mao(item_equipado_na_mao)  # mantenho o item da mao tbm posicionado
 		return
 
-	##if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
-		##print("Inventario cheio")
+	##print("Inventario cheio")
 		##DebugConsole.add_text_console_sem_cor("Inventario cheio")
 		##return
 
 	item_equipado_na_mao = item_da_area_atual.item_data
+	inventario_logico.adicionar_item_inventario(item_equipado_na_mao, 1)
 	limpar_item_na_area_atual()
 	posicionar_item_na_mao(item_equipado_na_mao)
 

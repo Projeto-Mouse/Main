@@ -16,6 +16,7 @@ func _ready() -> void:
 	add_to_group("inventario")
 	grid_inventario.focus_mode = Control.FOCUS_ALL
 	control.focus_mode = Control.FOCUS_ALL
+
 	
 func iniciar_slots() -> void:
 	for i in range(quantidade_slots):
@@ -32,10 +33,16 @@ func iniciar_slots() -> void:
 	
 	atualizar_tamanho_ui()
 	pegar_irmoes_cada_slot()
+	# Atualizar com o que ja esta no inventario
+	for i in range(quantidade_slots):
+		var item = inventario.pegar_item(i)
+		if item != null:
+			trocar_sprite_item(item, i)
 
 func set_inventario(inv: Inventario, controller_inv: ControllerInventario):
 	inventario = inv
 	controller = controller_inv
+	controller._trocar_sprite_item_slot.connect(trocar_sprite_item)
 	quantidade_slots = inventario.tamanho
 	iniciar_slots()
 
@@ -68,3 +75,7 @@ func pegar_irmoes_cada_slot() -> void:
 			slot.focus_neighbor_bottom = slot.get_path_to(children_do_grid[i + colunas])
 		if i - colunas >= 0:
 			slot.focus_neighbor_top = slot.get_path_to(children_do_grid[i - colunas])
+
+func trocar_sprite_item(item: ItemData, indice: int) -> void:
+	var slot = grid_inventario.get_child(indice)
+	slot.get_node("ItemSprite").texture = item.textura
