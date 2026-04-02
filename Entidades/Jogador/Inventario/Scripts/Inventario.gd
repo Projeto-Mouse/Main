@@ -15,7 +15,7 @@ var slots_vazios: Array[int] = []
 
 func inicializar_inventario() -> void:
 	array_inventario.resize(tamanho)
-	for i in range(tamanho):
+	for i in range(tamanho - 1, -1, -1):
 		array_inventario[i] = Slot.new()
 
 		slots_vazios.append(i)
@@ -32,9 +32,10 @@ func aumentar_tamanho_inventario(quantidade_extra: int) -> void:
 
 	for i in range(tamanho_antigo, novo_tamanho):
 		array_inventario[i] = Slot.new()
-
-		if not slots_vazios.has(i):
-			slots_vazios.append(i)
+	
+	slots_vazios.clear()
+	for i in range(novo_tamanho - 1, -1, -1):
+		slots_vazios.append(i)
 
 	DebugConsole.add_text_console_sem_cor("Inventario aumentado para tamanho " + str(novo_tamanho))
 	print("Inventario aumentado para tamanho " + str(novo_tamanho))
@@ -76,7 +77,7 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
 
 
 func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
-	if array_inventario[indice].item == null:
+	if array_inventario[indice].esta_vazio():
 		return
 
 	if array_inventario[indice].item.nome != item.nome:
@@ -89,8 +90,7 @@ func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
 	array_inventario[indice].quantidade = 0
 	array_inventario[indice].item = null
 
-	if not slots_vazios.has(indice):
-		slots_vazios.append(indice)
+	slots_vazios.append(indice)
 
 	if mapa_itens.has(item.nome):
 		mapa_itens[item.nome].erase(indice)
@@ -108,17 +108,15 @@ func pegar_item(indice: int) -> ItemData:
 
 func reconstruir_hashmap() -> void:
 	mapa_itens.clear()
+	var nome_item
 
 	for i in range(array_inventario.size()):
 		var slot = array_inventario[i]
-
+		
 		if not slot.is_empty():
-			var nome_item = slot.item.nome
-
-			if not mapa_itens.has(nome_item):
-				mapa_itens[nome_item] = []
-
-			mapa_itens[nome_item].append(i)
+			nome_item = slot.item.nome
+		
+		mapa_itens.get_or_add(nome_item, []).append(i)
 
 
 func ordenar_por(tipo: String) -> void:
