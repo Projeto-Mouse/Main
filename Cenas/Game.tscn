@@ -1,24 +1,23 @@
-[gd_scene load_steps=20 format=3 uid="uid://dugdfkwdeydnr"]
+[gd_scene load_steps=16 format=3 uid="uid://dugdfkwdeydnr"]
 
 [ext_resource type="Script" uid="uid://sfur81jy458l" path="res://Cenas/Game.gd" id="1_7t40e"]
-[ext_resource type="Script" path="res://Cenas/Efeitos/ProporcaoDinamica.gd" id="2_prop"]
 [ext_resource type="Script" uid="uid://djp6rvm6oi55d" path="res://Cenas/World/World.gd" id="2_2uwyn"]
 [ext_resource type="PackedScene" uid="uid://b4vfiwl5jri1" path="res://Entidades/Jogador/Jogador.tscn" id="2_d5ttk"]
-[ext_resource type="Shader" path="res://Cenas/Efeitos/dithering.gdshader" id="5_shader"]
+[ext_resource type="Script" uid="uid://lhd5krafv0jy" path="res://Cenas/Efeitos/ProporcaoDinamica.gd" id="2_prop"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="4_8i4ha"]
-[ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="5_2uwyn"]
-[ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="6_cht1d"]
+[ext_resource type="Shader" uid="uid://bddx2evdlx2qs" path="res://Cenas/Efeitos/dithering.gdshader" id="5_shader"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="7_8i4ha"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="7_uspeq"]
-[ext_resource type="Script" path="res://Auxiliares/MoodManager.gd" id="8_mood"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43t" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="9_lut_c"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43u" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="10_lut_e"]
+[ext_resource type="Script" uid="uid://4whb3t5tnnvj" path="res://Auxiliares/MoodManager.gd" id="8_mood"]
+[ext_resource type="Texture2D" uid="uid://cmg1c5dxc5bjv" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="9_lut_c"]
+[ext_resource type="Texture2D" uid="uid://cymnhumm2p2r3" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="10_lut_e"]
+[ext_resource type="Texture2D" uid="uid://c21aq8388kb7f" path="res://Sprites/ImagensVida/Sprite-coração-vida-cheia.png" id="10_lx5o4"]
+[ext_resource type="Texture2D" uid="uid://dsg4b47qty4uh" path="res://Sprites/ImagensVida/Sprite-coração-vida-meia.png" id="11_lt22k"]
+[ext_resource type="Texture2D" uid="uid://ca8wp5m6xaqhq" path="res://Sprites/ImagensVida/Sprite-coração-vida-vazia.png" id="12_848rl"]
 
 [sub_resource type="Environment" id="Environment_glow"]
 background_mode = 3
 glow_enabled = true
 glow_intensity = 0.5
-glow_strength = 1.0
 glow_bloom = 0.2
 glow_blend_mode = 0
 adjustment_enabled = true
@@ -57,11 +56,8 @@ script = ExtResource("2_prop")
 
 [node name="SubViewport" type="SubViewport" parent="WorldLayer/SubViewportContainer"]
 handle_input_locally = false
-msaa_3d = 0
-screen_space_aa = 0
-use_taa = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(640, 360)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
@@ -84,18 +80,17 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="UILayer" type="CanvasLayer" parent="."]
-layer = 1
 
-[node name="BarraVida" type="Control" parent="UILayer" groups=["barra_vida"] node_paths=PackedStringArray("player")]
+[node name="BarraVida" type="Control" parent="UILayer" node_paths=PackedStringArray("player") groups=["barra_vida"]]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_8i4ha")
 player = NodePath("../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
-sprite_vida_cheia = ExtResource("5_2uwyn")
-sprite_vida_meio = ExtResource("6_cht1d")
-sprite_vida_vazia = ExtResource("7_uspeq")
+sprite_vida_cheia = ExtResource("10_lx5o4")
+sprite_vida_meio = ExtResource("11_lt22k")
+sprite_vida_vazia = ExtResource("12_848rl")
 
 [node name="MenuDePausa" parent="UILayer" instance=ExtResource("7_8i4ha")]
 process_mode = 0

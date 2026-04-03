@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oy2i3gawr2bq"
-path="res://.godot/imported/VidaCheia.png-2fc5de0376335c9d69b73874a5c53298.ctex"
+uid="uid://dsg4b47qty4uh"
+path="res://.godot/imported/Sprite-coração-vida-meia.png-b3b965d78f9f2dd6e7bdf6e7915f5b77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/ImagensVida/VidaCheia.png"
-dest_files=["res://.godot/imported/VidaCheia.png-2fc5de0376335c9d69b73874a5c53298.ctex"]
+source_file="res://Sprites/ImagensVida/Sprite-coração-vida-meia.png"
+dest_files=["res://.godot/imported/Sprite-coração-vida-meia.png-b3b965d78f9f2dd6e7bdf6e7915f5b77.ctex"]
 
 [params]
 

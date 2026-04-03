@@ -1,21 +1,28 @@
-[gd_scene load_steps=25 format=3 uid="uid://c30so6kdawvgx"]
+[gd_scene load_steps=26 format=3 uid="uid://c30so6kdawvgx"]
 
 [ext_resource type="Script" uid="uid://cxos2bw7p8jsh" path="res://Cenas/CenaDebug/Debug.gd" id="1_uepp0"]
-[ext_resource type="Script" path="res://Cenas/Efeitos/ProporcaoDinamica.gd" id="2_prop"]
-[ext_resource type="Shader" path="res://Cenas/Efeitos/dithering.gdshader" id="3_shader"]
+[ext_resource type="Script" uid="uid://lhd5krafv0jy" path="res://Cenas/Efeitos/ProporcaoDinamica.gd" id="2_prop"]
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="2_uepp0"]
 [ext_resource type="Script" uid="uid://breilg5861n1l" path="res://UI/BarraVida.gd" id="3_kfvfk"]
-[ext_resource type="Texture2D" uid="uid://oy2i3gawr2bq" path="res://Sprites/ImagensVida/VidaCheia.png" id="4_7qkyi"]
-[ext_resource type="Texture2D" uid="uid://bow1hk0v3rl3w" path="res://Sprites/ImagensVida/VidaMeia.png" id="5_eyvbi"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="6_rk7pk"]
+[ext_resource type="Shader" uid="uid://bddx2evdlx2qs" path="res://Cenas/Efeitos/dithering.gdshader" id="3_shader"]
 [ext_resource type="PackedScene" uid="uid://b4vfiwl5jri1" path="res://Entidades/Jogador/Jogador.tscn" id="7_uepp0"]
 [ext_resource type="PackedScene" uid="uid://2pxrxfap3mea" path="res://Menus/Menu Debug/DebugMenu.tscn" id="8_kfvfk"]
 [ext_resource type="Script" uid="uid://d3b0xhh0paxtq" path="res://Menus/Menu Debug/Debugs/DebugConsole.gd" id="9_eyvbi"]
+[ext_resource type="Texture2D" uid="uid://c21aq8388kb7f" path="res://Sprites/ImagensVida/Sprite-coração-vida-cheia.png" id="10_aj2no"]
 [ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/Scripts/Console.gd" id="10_rk7pk"]
-[ext_resource type="Script" path="res://Auxiliares/MoodManager.gd" id="11_mood"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43t" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="12_lut_c"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43u" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="13_lut_e"]
+[ext_resource type="Texture2D" uid="uid://dsg4b47qty4uh" path="res://Sprites/ImagensVida/Sprite-coração-vida-meia.png" id="11_1tdal"]
+[ext_resource type="Script" uid="uid://4whb3t5tnnvj" path="res://Auxiliares/MoodManager.gd" id="11_mood"]
+[ext_resource type="Texture2D" uid="uid://cmg1c5dxc5bjv" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="12_lut_c"]
+[ext_resource type="Texture2D" uid="uid://ca8wp5m6xaqhq" path="res://Sprites/ImagensVida/Sprite-coração-vida-vazia.png" id="12_q6u6f"]
+[ext_resource type="Texture2D" uid="uid://cymnhumm2p2r3" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="13_lut_e"]
 
+[sub_resource type="Environment" id="Environment_glow"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.5
+glow_bloom = 0.2
+glow_blend_mode = 0
+adjustment_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_mpjjm"]
 size = Vector3(100, 0.1, 0.5)
@@ -35,26 +42,17 @@ size = Vector3(2, 0.9, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_7qkyi"]
 size = Vector3(2, 0.9, 0.5)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2jmgn"]
-bg_color = Color(0.37118948, 0.37118948, 0.37118948, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_no1hh"]
-bg_color = Color(0, 0, 0, 0.47058824)
-
-[sub_resource type="Environment" id="Environment_glow"]
-background_mode = 3
-glow_enabled = true
-glow_intensity = 0.5
-glow_strength = 1.0
-glow_bloom = 0.2
-glow_blend_mode = 0
-adjustment_enabled = true
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x"]
 shader = ExtResource("3_shader")
 shader_parameter/dither_size = 1.0
 shader_parameter/color_precision = 64.0
 shader_parameter/use_lut = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2jmgn"]
+bg_color = Color(0.37118948, 0.37118948, 0.37118948, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_no1hh"]
+bg_color = Color(0, 0, 0, 0.47058824)
 
 [node name="Debug" type="Node" groups=["debug"]]
 script = ExtResource("1_uepp0")
@@ -84,11 +82,8 @@ script = ExtResource("2_prop")
 
 [node name="SubViewport" type="SubViewport" parent="WorldLayer/SubViewportContainer"]
 handle_input_locally = false
-msaa_3d = 0
-screen_space_aa = 0
-use_taa = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(640, 360)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="Chao" type="StaticBody3D" parent="WorldLayer/SubViewportContainer/SubViewport"]
@@ -149,7 +144,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="UILayer" type="CanvasLayer" parent="."]
-layer = 1
 
 [node name="AbrirMenuDebug" type="Control" parent="UILayer"]
 layout_mode = 3
@@ -197,16 +191,16 @@ offset_top = 50.0
 offset_right = -7.0
 offset_bottom = -13.0
 
-[node name="BarraVida" type="Control" parent="UILayer" groups=["barra_vida"] node_paths=PackedStringArray("player")]
+[node name="BarraVida" type="Control" parent="UILayer" node_paths=PackedStringArray("player") groups=["barra_vida"]]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_kfvfk")
 player = NodePath("../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
-sprite_vida_cheia = ExtResource("4_7qkyi")
-sprite_vida_meio = ExtResource("5_eyvbi")
-sprite_vida_vazia = ExtResource("6_rk7pk")
+sprite_vida_cheia = ExtResource("10_aj2no")
+sprite_vida_meio = ExtResource("11_1tdal")
+sprite_vida_vazia = ExtResource("12_q6u6f")
 
 [node name="MenuDePausa" parent="UILayer" instance=ExtResource("2_uepp0")]
 process_mode = 0
