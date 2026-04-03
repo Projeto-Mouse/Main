@@ -37,7 +37,7 @@ func iniciar_slots() -> void:
 	for i in range(quantidade_slots):
 		var item = inventario.pegar_item(i)
 		if item != null:
-			trocar_sprite_item(item, i)
+			trocar_sprite_item(item, i, "inventario")
 
 func set_inventario(inv: Inventario, controller_inv: ControllerInventario):
 	inventario = inv
@@ -76,6 +76,9 @@ func pegar_irmoes_cada_slot() -> void:
 		if i - colunas >= 0:
 			slot.focus_neighbor_top = slot.get_path_to(children_do_grid[i - colunas])
 
-func trocar_sprite_item(item: ItemData, indice: int) -> void:
+func trocar_sprite_item(item: ItemData, indice: int, tipo: String) -> void:
+	if tipo != "inventario":
+		return
+		
 	var slot = grid_inventario.get_child(indice)
 	slot.get_node("ItemSprite").texture = item.textura

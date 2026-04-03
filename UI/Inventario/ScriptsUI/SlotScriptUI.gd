@@ -35,6 +35,8 @@ func _ready() -> void:
 	mouse_entered.connect(_mouse_entrou)
 	mouse_exited.connect(_mouse_saiu)
 	
+	controller_inventario._atualizar_sprite_slot.connect(_atualizar_textura)
+	
 func _entrou_em_foco():
 	esta_selecionado = true
 	_atualizar_textura()
@@ -53,6 +55,11 @@ func _mouse_saiu() -> void:
 	_atualizar_textura()
 	
 func _atualizar_textura() -> void:
+	print(controller_inventario.origem, controller_inventario.origem.indice, indice_slot)
+	if controller_inventario.origem != null and controller_inventario.origem.indice == indice_slot:
+		textura.texture = sprite_pressionado
+		return
+		
 	if esta_selecionado:
 		textura.texture = sprite_selecionado
 		return
