@@ -62,6 +62,7 @@ func _ready() -> void:
 	hotbar_logico = Hotbar.new()
 	hotbar_logico.inicializar_hotbar()
 	controller_inventario = ControllerInventario.new()
+	add_child(controller_inventario)
 	inventario_logico = Inventario.new()
 	inventario_logico.inicializar_inventario()
 	controller_inventario.call_deferred("inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico)

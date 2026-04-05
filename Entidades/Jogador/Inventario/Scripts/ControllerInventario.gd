@@ -6,7 +6,7 @@ signal _atualizar_sprite_slot()
 
 class SlotClicado:
 	var indice: int = -1
-	var tipo: String = " "
+	var tipo: String = ""
 
 var tem_clicado: bool = false
 var inventario_logico: Inventario
@@ -15,20 +15,21 @@ var origem: SlotClicado
 var final: SlotClicado
 
 func _ready() -> void:
+	print("Ready rodpou")
 	origem = SlotClicado.new()
 	final = SlotClicado.new()
 	
 func salvar_click(indice: int, tipo_slot: String) -> void:
-	if origem == null or final == null:
-		return
-		
-	if origem.indice == -1 and origem.tipo == " ":
+	print("Entrou salvar click")
+	if origem.indice == -1 and origem.tipo == "":
 		origem.indice = indice
 		origem.tipo = tipo_slot
 		tem_clicado = true
 		_atualizar_sprite_slot.emit()
+		print("Print salvar_click: ", origem)
 		return
 
+	
 func trocar_item_pos() -> void:
 	pass
 	

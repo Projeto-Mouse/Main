@@ -55,9 +55,9 @@ func _mouse_saiu() -> void:
 	_atualizar_textura()
 	
 func _atualizar_textura() -> void:
-	print(controller_inventario.origem, controller_inventario.origem.indice, indice_slot)
-	if controller_inventario.origem != null and controller_inventario.origem.indice == indice_slot:
-		textura.texture = sprite_pressionado
+	var string_tipo = TiposSlot.keys()[tipo_slot]
+	if controller_inventario.origem.indice == indice_slot and controller_inventario.origem.tipo == string_tipo:
+		textura.texture = sprite_selecionado_no_mover
 		return
 		
 	if esta_selecionado:
@@ -71,6 +71,7 @@ func _atualizar_textura() -> void:
 	textura.texture = sprite_normal
 	
 func _ao_clicar_no_slot() -> void:
+	print("clicou no slot")
 	var string_tipo = TiposSlot.keys()[tipo_slot]
 	controller_inventario.salvar_click(indice_slot, string_tipo)
 	
