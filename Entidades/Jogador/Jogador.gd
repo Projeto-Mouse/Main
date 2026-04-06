@@ -71,19 +71,11 @@ func _process(_delta: float) -> void:
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
-
-	if Input.is_action_just_pressed("PegarItem"):
-		pegar_item()
-	
-	if Input.is_action_just_pressed("AbrirInventario"):
-		var estado_novo_ui = !inventario_ui_instanciado.visible
-		inventario_ui_instanciado.visible = estado_novo_ui
-		hotbar_ui_instanciado.visible = estado_novo_ui
 		
 	if inventario_ui_instanciado.visible:
 		var pos_2d = camera.unproject_position(global_position)
 		inventario_ui_instanciado.control.position = pos_2d + Vector2(50, -150)
-
+		
 func _physics_process(delta):
 	esconder_item_rastejando()
 	var esta_no_chao = is_on_floor()
@@ -115,7 +107,21 @@ func _physics_process(delta):
 
 func _input(event: InputEvent) -> void:
 	ler_input_hot_bar(event)
-
+	
+	if Input.is_action_just_pressed("PegarItem"):
+		pegar_item()
+		
+	if Input.is_action_just_pressed("Pausar"):
+		if inventario_ui_instanciado.visible == true and hotbar_ui_instanciado.visible == true:
+			inventario_ui_instanciado.visible = false
+			hotbar_ui_instanciado.visible = false
+	
+	if Input.is_action_just_pressed("AbrirInventario"):
+		var estado_novo_ui = !inventario_ui_instanciado.visible
+		inventario_ui_instanciado.visible = estado_novo_ui
+		hotbar_ui_instanciado.visible = estado_novo_ui
+		
+		
 	if Input.is_action_just_pressed("AplicarDano"):
 		fazer_ataque()
 
