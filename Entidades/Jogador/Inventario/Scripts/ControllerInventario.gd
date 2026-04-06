@@ -43,7 +43,8 @@ func trocar_item_pos() -> void:
 		return
 	
 	if origem.tipo == "INVENTARIO" and final.tipo == "HOTBAR":
-		trocar_inventario_hotbar(origem.indice, final.indice)
+		trocar_inventario_para_hotbar(origem.indice, final.indice)
+		return
 		
 func resetar_origem_e_final() -> void:
 	origem.indice = -1
@@ -57,30 +58,33 @@ func resetar_origem_e_final() -> void:
 func inicializar_inventario_e_hotbar(inventario: Inventario, hotbar: Hotbar) -> void:
 	inventario_logico = inventario
 	hotbar_logico = hotbar
+	hotbar_logico._item_mudado.connect(atualizar_slot)
 	inventario_logico._item_mudado.connect(atualizar_slot)
 
 func atualizar_slot(item: ItemData, indice_slot: int, quantidade: int, tipo: String) -> void:
 	_trocar_sprite_item_slot.emit(item, indice_slot, quantidade, tipo)
 
-func trocar_inventario_hotbar(indice_origem: int, indice_final: int) -> void:
-	var slot_inv = inventario_logico.pegar_slot(indice_origem)
-	var slot_hot = hotbar_logico.pegar_slot(indice_final)
+func trocar_inventario_para_hotbar(indice_origem: int, indice_final: int) -> void:
+	var slot_inventario = inventario_logico.pegar_slot(indice_origem)
+	var slot_hotbar = hotbar_logico.pegar_slot(indice_final)
 
-	# salva hotbar
-	var temp_item = slot_hot.item
-	var temp_qtd = slot_hot.quantidade
-	var temp_time = slot_hot.timestamp_coleta
+	if slot_inventario.esta_vazio():
+		return
+		
+	if slot_hotbar.esta_vazio():
+		hotbar_logico.adicionar_item(slot_inventario.item, indice_final, slot_inventario.quantidade, slot_inventario.timestamp_coleta)
+		
+		inventario_logico.remover_item(slot_inventario.item, slot_inventario.quantidade, indice_origem)
+		
+		return
+		
+	var temp_item = slot_hotbar.item
+	var temp_qtd = slot_hotbar.quantidade
+	var temp_time = slot_hotbar.timestamp_coleta
 
-	# limpa hotbar (IMPORTANTE)
-	slot_hot.item = null
-	slot_hot.quantidade = 0
+	hotbar_logico.adicionar_item(slot_inventario.item, indice_final, slot_inventario.quantidade, slot_inventario.timestamp_coleta)
 
-	# move inventario -> hotbar
-	hotbar_logico.adicionar_item(slot_inv.item, indice_final, slot_inv.quantidade, slot_inv.timestamp_coleta)
+	inventario_logico.remover_item(slot_inventario.item, slot_inventario.quantidade, indice_origem)
 
-	# remove inventario
-	inventario_logico.remover_item(slot_inv.item, slot_inv.quantidade, indice_origem)
-
-	# devolve antigo pro inventario
-	if temp_item != null:
-		inventario_logico.adicionar_item_inventario(temp_item, temp_qtd)
+	inventario_logico.adicionar_item_inventario(temp_item, temp_qtd, temp_time)
+	

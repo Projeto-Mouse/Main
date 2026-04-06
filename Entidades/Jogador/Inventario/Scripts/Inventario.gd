@@ -1,7 +1,7 @@
 class_name Inventario
 extends Node
 
-signal _item_mudado(item: ItemData, indice: int, tipo: String)
+signal _item_mudado(item: ItemData, indice: int, quantidade: int, tipo: String)
 
 const MAX_STACK: int = 128
 
@@ -41,7 +41,7 @@ func aumentar_tamanho_inventario(quantidade_extra: int) -> void:
 	print("Inventario aumentado para tamanho " + str(novo_tamanho))
 
 
-func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
+func adicionar_item_inventario(item: ItemData, quantidade_add: int, timestamp: float) -> void:
 	var indices = mapa_itens.get(item.nome, [])
 
 	for i in indices:
@@ -67,7 +67,7 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
 
 		var resto_para_adicionar = min(quantidade_add, MAX_STACK)
 		array_inventario[slot_vazio].quantidade = resto_para_adicionar
-		array_inventario[slot_vazio].timestamp_coleta = Time.get_unix_time_from_system()
+		array_inventario[slot_vazio].timestamp_coleta = timestamp
 		quantidade_add -= resto_para_adicionar
 
 		if not mapa_itens.has(item.nome):
@@ -87,6 +87,7 @@ func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
 
 	if array_inventario[indice].quantidade > quantidade_remover:
 		array_inventario[indice].quantidade -= quantidade_remover
+		_item_mudado.emit(item, indice, array_inventario[indice].quantidade, "inventario")
 		return
 
 	array_inventario[indice].quantidade = 0
@@ -99,7 +100,8 @@ func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
 
 		if mapa_itens[item.nome].is_empty():
 			mapa_itens.erase(item.nome)
-
+		
+	_item_mudado.emit(array_inventario[indice].item, indice, array_inventario[indice].quantidade, "inventario")
 
 func pegar_item(indice: int) -> ItemData:
 	if indice < 0 or indice >= array_inventario.size():
@@ -223,6 +225,7 @@ func reconstruir_slots_vazios() -> void:
 	for i in range(array_inventario.size()):
 		if array_inventario[i].esta_vazio():
 			slots_vazios.append(i)
+			
 
 func pegar_slot(indice: int) -> Slot:
 	return array_inventario[indice]

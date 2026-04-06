@@ -22,6 +22,7 @@ var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
 var cooldown_atual = 0
 
+
 # MOVIMENTACAO
 var movimento_x: float
 var movimento_y: float
@@ -53,6 +54,7 @@ var escudo_equipado: EscudoData
 var inventario_ui_instanciado 
 var hotbar_ui_instanciado
 var controller_inventario: ControllerInventario
+var tempo_coletou_item = Time.get_unix_time_from_system()
 
 func _ready() -> void:
 	criar_luz_jogador()
@@ -334,7 +336,7 @@ func pegar_item() -> void:
 	if not item_da_area_atual.is_in_group("ItensInterativos"):
 		return
 
-	inventario_logico.adicionar_item_inventario(item_da_area_atual.item_data, 1)
+	inventario_logico.adicionar_item_inventario(item_da_area_atual.item_data, 1, tempo_coletou_item)
 	limpar_item_na_area_atual()
 
 
@@ -343,18 +345,15 @@ func limpar_item_na_area_atual() -> void:
 	item_da_area_atual = null
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
-	var valor_indice_pegar_item = 0
 	if tecla_apertada.is_action_pressed("hotbar_1"):
-		valor_indice_pegar_item = 1
-	
-	if tecla_apertada.is_action_pressed("hotbar_2"):
-		valor_indice_pegar_item = 2
-	
-	if hotbar_logico.pegar_item(valor_indice_pegar_item) == null:
+		item_equipado_na_mao = hotbar_logico.pegar_item(0)
+		posicionar_item_na_mao(item_equipado_na_mao)
 		return
 	
-	item_equipado_na_mao = hotbar_logico.pegar_item(valor_indice_pegar_item)
-	posicionar_item_na_mao(item_equipado_na_mao)
+	if tecla_apertada.is_action_pressed("hotbar_2"):
+		item_equipado_na_mao = hotbar_logico.pegar_item(1)
+		posicionar_item_na_mao(item_equipado_na_mao)
+		return
 	
 func equipar_item_quando_posto_hotbar(item: ItemData) -> void:
 	item_equipado_na_mao = item
