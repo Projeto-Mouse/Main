@@ -51,7 +51,8 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
 
 			array_inventario[i].quantidade += quantidade_a_adicionar
 			quantidade_add -= quantidade_a_adicionar
-
+			_item_mudado.emit(array_inventario[i].item, i, array_inventario[i].quantidade, "inventario")
+			print("QUANTIDADE ITEM INV: ", array_inventario[i].quantidade)
 			if quantidade_add == 0:
 				return
 
@@ -73,7 +74,8 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int) -> void:
 			mapa_itens[item.nome] = []
 			
 		mapa_itens[item.nome].append(slot_vazio)
-		_item_mudado.emit(item, slot_vazio, "inventario")
+		print("QUANTIDADE ITEM INV: ", array_inventario[slot_vazio].quantidade)
+		_item_mudado.emit(item, slot_vazio, array_inventario[slot_vazio].quantidade, "inventario")
 
 
 func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
@@ -192,9 +194,9 @@ func trocar_dois_itens_posicao(origem: int, destino: int) -> void:
 		reconstruir_hashmap()
 		reconstruir_slots_vazios()
 
-	_item_mudado.emit(array_inventario[origem].item, origem, "inventario")
-	_item_mudado.emit(array_inventario[destino].item, destino, "inventario")
-	
+	_item_mudado.emit(array_inventario[origem].item, origem, array_inventario[origem].quantidade, "inventario")
+	_item_mudado.emit(array_inventario[destino].item, destino, array_inventario[destino].quantidade, "inventario")
+	print("ITEM NO DESTINO -> ", array_inventario[destino].item.nome)
 	
 # USAMOS ESSA FUNCAO DE SWAP POR QUE O NORMAL TROCAR A REFERENCIA EM MEMORIA
 # NESSE CASO UM SLOT CONTINUA SENDO ELE MESMO, MAS COM ITEM DIFERENTE

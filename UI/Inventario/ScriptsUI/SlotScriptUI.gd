@@ -7,16 +7,17 @@ enum TiposSlot{ HOTBAR, INVENTARIO }
 @onready var item_sprite = $ItemSprite
 @onready var quantidade = $Quantidade
 
-var sprite_selecionado = preload("res://Sprites/Menu Inventario 1/Sprite-inv-mouse-above.png")
+var sprite_branco = preload("res://Sprites/Menu Inventario 1/Sprite-inv-mouse-above.png")
 var sprite_normal = preload("res://Sprites/Menu Inventario 1/Sprite-inv-padrao.png")
-var sprite_pressionado = preload("res://Sprites/Menu Inventario 1/Sprite-inv-selected.png")
-var sprite_selecionado_no_mover = preload("res://Sprites/Menu Inventario 1/Sprite-inv-to-move.png")
+var sprite_amarelo = preload("res://Sprites/Menu Inventario 1/Sprite-inv-selected.png")
+var sprite_vermelho = preload("res://Sprites/Menu Inventario 1/Sprite-inv-to-move.png")
 
 var tipo_slot: TiposSlot
 var indice_slot: int = 0
 var esta_selecionado: bool = false
 var esta_em_hover: bool = false
 var controller_inventario: ControllerInventario
+var trava_flash: bool = false
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -36,6 +37,7 @@ func _ready() -> void:
 	mouse_exited.connect(_mouse_saiu)
 	
 	controller_inventario._atualizar_sprite_slot.connect(_atualizar_textura)
+	controller_inventario._piscar_amarelo.connect(_fazer_flesh_amarelo_troca)
 	
 func _entrou_em_foco():
 	esta_selecionado = true
@@ -56,25 +58,40 @@ func _mouse_saiu() -> void:
 	
 func _atualizar_textura() -> void:
 	var string_tipo = TiposSlot.keys()[tipo_slot]
-	if controller_inventario.origem.indice == indice_slot and controller_inventario.origem.tipo == string_tipo:
-		textura.texture = sprite_selecionado_no_mover
+	var origem_controller = controller_inventario.origem
+	
+	if trava_flash:
+		return
+		
+	if origem_controller.indice == indice_slot and origem_controller.tipo == string_tipo:
+		textura.texture = sprite_vermelho
 		return
 		
 	if esta_selecionado:
-		textura.texture = sprite_selecionado
+		textura.texture = sprite_branco
 		return
 	
 	if esta_em_hover:
-		textura.texture = sprite_selecionado
+		textura.texture = sprite_branco
 		return
 	
 	textura.texture = sprite_normal
 	
+func _fazer_flesh_amarelo_troca(indice: int, tipo: String) -> void:
+	var string_tipo = TiposSlot.keys()[tipo_slot]
+
+	if indice == indice_slot and tipo == string_tipo:
+		textura.texture = sprite_amarelo
+		trava_flash = true
+		
+		await get_tree().create_timer(0.3).timeout
+		
+		trava_flash = false
+		_atualizar_textura()
+	
+
 func _ao_clicar_no_slot() -> void:
 	print("clicou no slot")
 	var string_tipo = TiposSlot.keys()[tipo_slot]
 	controller_inventario.salvar_click(indice_slot, string_tipo)
 	
-	
-func atualiar_para_amarelo_quando_ja_tem_clicado() -> void:
-	pass
