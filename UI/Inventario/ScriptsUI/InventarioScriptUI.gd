@@ -81,4 +81,10 @@ func trocar_sprite_item(item: ItemData, indice: int, tipo: String) -> void:
 		return
 		
 	var slot = grid_inventario.get_child(indice)
-	slot.get_node("ItemSprite").texture = item.textura
+	var sprite = slot.get_node("ItemSprite")
+	
+	if item == null:
+		sprite.texture = null
+		return
+		
+	sprite.texture = item.textura

@@ -167,9 +167,8 @@ func trocar_dois_itens_posicao(origem: int, destino: int) -> void:
 		if mapa_itens.has(item_origem.nome):
 			mapa_itens[item_origem.nome].erase(origem)
 			mapa_itens[item_origem.nome].append(destino)
-			return
 
-	if item_destino != null and item_destino.nome == item_origem.nome:
+	elif item_destino.nome == item_origem.nome:
 		var espaco_livre = MAX_STACK - array_inventario[destino].quantidade
 		var quantidade_mover = min(array_inventario[origem].quantidade, espaco_livre)
 
@@ -178,6 +177,7 @@ func trocar_dois_itens_posicao(origem: int, destino: int) -> void:
 
 		if array_inventario[origem].quantidade == 0:
 			array_inventario[origem].item = null
+
 			if not slots_vazios.has(origem):
 				slots_vazios.append(origem)
 
@@ -187,13 +187,15 @@ func trocar_dois_itens_posicao(origem: int, destino: int) -> void:
 				if mapa_itens[item_destino.nome].is_empty():
 					mapa_itens.erase(item_destino.nome)
 
-			return
+	else:
+		swap_slot(array_inventario[origem], array_inventario[destino])
+		reconstruir_hashmap()
+		reconstruir_slots_vazios()
 
-	swap_slot(array_inventario[origem], array_inventario[destino])
-	reconstruir_hashmap()
-	reconstruir_slots_vazios()
-
-
+	_item_mudado.emit(array_inventario[origem].item, origem, "inventario")
+	_item_mudado.emit(array_inventario[destino].item, destino, "inventario")
+	
+	
 # USAMOS ESSA FUNCAO DE SWAP POR QUE O NORMAL TROCAR A REFERENCIA EM MEMORIA
 # NESSE CASO UM SLOT CONTINUA SENDO ELE MESMO, MAS COM ITEM DIFERENTE
 func swap_slot(slot1: Slot, slot2: Slot) -> void:
