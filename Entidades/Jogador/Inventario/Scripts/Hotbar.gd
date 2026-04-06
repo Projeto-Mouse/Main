@@ -28,3 +28,6 @@ func trocar_pos_item_hotbar() -> void:
 	
 func pegar_item(indice: int) -> ItemData:
 	return array_hotbar[indice].item
+
+func pegar_slot(indice: int) -> Slot:
+	return array_hotbar[indice]

@@ -43,13 +43,8 @@ func trocar_item_pos() -> void:
 		return
 	
 	if origem.tipo == "INVENTARIO" and final.tipo == "HOTBAR":
-		if hotbar_logico.array_hotbar[final.indice] != null:
-			# pega da hotbar e salva num meio termo
-			# pega do inventario e bota na hotbar
-			# pega o meio termo e bota no inventario
-			return 
+		trocar_inventario_hotbar(origem.indice, final.indice)
 		
-		# pega do inventario e bota na hotbar e tira do inventario
 func resetar_origem_e_final() -> void:
 	origem.indice = -1
 	origem.tipo = ""
@@ -66,3 +61,26 @@ func inicializar_inventario_e_hotbar(inventario: Inventario, hotbar: Hotbar) -> 
 
 func atualizar_slot(item: ItemData, indice_slot: int, quantidade: int, tipo: String) -> void:
 	_trocar_sprite_item_slot.emit(item, indice_slot, quantidade, tipo)
+
+func trocar_inventario_hotbar(indice_origem: int, indice_final: int) -> void:
+	var slot_inv = inventario_logico.pegar_slot(indice_origem)
+	var slot_hot = hotbar_logico.pegar_slot(indice_final)
+
+	# salva hotbar
+	var temp_item = slot_hot.item
+	var temp_qtd = slot_hot.quantidade
+	var temp_time = slot_hot.timestamp_coleta
+
+	# limpa hotbar (IMPORTANTE)
+	slot_hot.item = null
+	slot_hot.quantidade = 0
+
+	# move inventario -> hotbar
+	hotbar_logico.adicionar_item(slot_inv.item, indice_final, slot_inv.quantidade, slot_inv.timestamp_coleta)
+
+	# remove inventario
+	inventario_logico.remover_item(slot_inv.item, slot_inv.quantidade, indice_origem)
+
+	# devolve antigo pro inventario
+	if temp_item != null:
+		inventario_logico.adicionar_item_inventario(temp_item, temp_qtd)

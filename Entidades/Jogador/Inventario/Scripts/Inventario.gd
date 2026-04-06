@@ -223,3 +223,6 @@ func reconstruir_slots_vazios() -> void:
 	for i in range(array_inventario.size()):
 		if array_inventario[i].esta_vazio():
 			slots_vazios.append(i)
+
+func pegar_slot(indice: int) -> Slot:
+	return array_inventario[indice]
