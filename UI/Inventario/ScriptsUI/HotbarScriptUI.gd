@@ -35,6 +35,9 @@ func set_hotbar(hotbar_logico: Hotbar, controller_inv: ControllerInventario) -> 
 	controller = controller_inv
 	controller._trocar_sprite_item_slot.connect(trocar_sprite_item)
 	iniciar_slots()
+	for i in range(quantidade_slots):
+		var slot = hotbar_logica.pegar_slot(i)
+		trocar_sprite_item(slot.item, i, slot.quantidade, "hotbar")
 	
 
 func atualizar_tamanho_ui() -> void:

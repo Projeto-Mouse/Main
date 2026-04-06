@@ -75,7 +75,7 @@ func adicionar_item_inventario(item: ItemData, quantidade_add: int, timestamp: f
 			
 		mapa_itens[item.nome].append(slot_vazio)
 		print("QUANTIDADE ITEM INV: ", array_inventario[slot_vazio].quantidade)
-		_item_mudado.emit(item, slot_vazio, array_inventario[slot_vazio].quantidade, "inventario")
+		_item_mudado.emit(array_inventario[slot_vazio].item, slot_vazio, array_inventario[slot_vazio].quantidade, "inventario")
 
 
 func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
@@ -87,7 +87,7 @@ func remover_item(item: ItemData, quantidade_remover: int, indice: int) -> void:
 
 	if array_inventario[indice].quantidade > quantidade_remover:
 		array_inventario[indice].quantidade -= quantidade_remover
-		_item_mudado.emit(item, indice, array_inventario[indice].quantidade, "inventario")
+		_item_mudado.emit(array_inventario[indice].item, indice, array_inventario[indice].quantidade, "inventario")
 		return
 
 	array_inventario[indice].quantidade = 0
@@ -117,9 +117,10 @@ func reconstruir_hashmap() -> void:
 	for i in range(array_inventario.size()):
 		var slot = array_inventario[i]
 		
-		if not slot.is_empty():
-			nome_item = slot.item.nome
-		
+		if slot.esta_vazio():
+			continue
+			
+		nome_item = slot.item.nome
 		mapa_itens.get_or_add(nome_item, []).append(i)
 
 
@@ -229,3 +230,23 @@ func reconstruir_slots_vazios() -> void:
 
 func pegar_slot(indice: int) -> Slot:
 	return array_inventario[indice]
+
+func trocar_com_hotbar(indice_inv: int, hotbar: Hotbar, indice_hot: int):
+	var slot_inv = array_inventario[indice_inv]
+	var slot_hot = hotbar.pegar_slot(indice_hot)
+
+	if slot_inv.esta_vazio():
+		return
+
+	swap_slot(slot_inv, slot_hot)
+
+	reconstruir_hashmap()
+	reconstruir_slots_vazios()
+
+	_item_mudado.emit(slot_inv.item, indice_inv, slot_inv.quantidade, "inventario")
+	hotbar.atualizar_slot(indice_hot)
+
+func atualizar_slot(indice: int) -> void:
+	var slot = array_inventario[indice]
+	_item_mudado.emit(slot.item, indice, slot.quantidade, "inventario")
+	

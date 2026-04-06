@@ -24,11 +24,60 @@ func adicionar_item(item: ItemData, indice: int, quantidade: int, timestamp: flo
 func remover_item() -> void:
 	pass
 	
-func trocar_pos_item_hotbar() -> void:
-	pass
+func trocar_pos_item_hotbar(indice_a: int, indice_b: int) -> void:
+	var slot_a = array_hotbar[indice_a]
+	var slot_b = array_hotbar[indice_b]
+
+	var temp_item = slot_a.item
+	var temp_qtd = slot_a.quantidade
+	var temp_time = slot_a.timestamp_coleta
+
+	slot_a.item = slot_b.item
+	slot_a.quantidade = slot_b.quantidade
+	slot_a.timestamp_coleta = slot_b.timestamp_coleta
+
+	slot_b.item = temp_item
+	slot_b.quantidade = temp_qtd
+	slot_b.timestamp_coleta = temp_time
+
+	_item_mudado.emit(slot_a.item, indice_a, slot_a.quantidade, "hotbar")
+	_item_mudado.emit(slot_b.item, indice_b, slot_b.quantidade, "hotbar")
 	
 func pegar_item(indice: int) -> ItemData:
 	return array_hotbar[indice].item
 
 func pegar_slot(indice: int) -> Slot:
 	return array_hotbar[indice]
+
+func atualizar_slot(indice: int) -> void:
+	var slot = array_hotbar[indice]
+	_item_mudado.emit(slot.item, indice, slot.quantidade, "hotbar")
+	
+func trocar_com_inv(indice_hotbar: int, inventario: Inventario, indice_inv: int):
+	var slot_hot = array_hotbar[indice_hotbar]
+	var slot_inv = inventario.pegar_slot(indice_inv)
+
+	if slot_hot.esta_vazio():
+		return
+
+	swap_slot(slot_hot, slot_inv)
+
+
+	_item_mudado.emit(slot_hot.item, indice_hotbar, slot_hot.quantidade, "hotbar")
+	inventario.atualizar_slot(indice_inv)
+
+func swap_slot(slot1: Slot, slot2: Slot) -> void:
+	# salva A
+	var temp_item = slot1.item
+	var temp_qtd = slot1.quantidade
+	var temp_time = slot1.timestamp_coleta
+
+	# A recebe B
+	slot1.item = slot2.item
+	slot1.quantidade = slot2.quantidade
+	slot1.timestamp_coleta = slot2.timestamp_coleta
+
+	# B recebe A
+	slot2.item = temp_item
+	slot2.quantidade = temp_qtd
+	slot2.timestamp_coleta = temp_time

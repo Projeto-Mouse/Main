@@ -35,9 +35,8 @@ func iniciar_slots() -> void:
 	pegar_irmoes_cada_slot()
 	# Atualizar com o que ja esta no inventario
 	for i in range(quantidade_slots):
-		var item = inventario.pegar_item(i)
-		if item != null:
-			trocar_sprite_item(item, i, 0, "inventario")
+		var slot = inventario.pegar_slot(i)
+		trocar_sprite_item(slot.item, i,slot.quantidade , "inventario")
 
 func set_inventario(inv: Inventario, controller_inv: ControllerInventario):
 	inventario = inv
