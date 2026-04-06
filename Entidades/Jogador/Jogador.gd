@@ -42,8 +42,6 @@ var esta_morto: bool = false
 # onready inventario / itens
 @onready var mao: Node3D = $PivoPersonagem/Mao
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
-@onready var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
-@onready var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
 @onready var inventario_logico: Inventario
 @onready var hotbar_logico: Hotbar
 
@@ -353,17 +351,20 @@ func limpar_item_na_area_atual() -> void:
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	if tecla_apertada.is_action_pressed("hotbar_1"):
 		item_equipado_na_mao = hotbar_logico.pegar_item(0)
+		hotbar_logico.setar_ultimo_indice(0)
 		posicionar_item_na_mao(item_equipado_na_mao)
 		return
 	
 	if tecla_apertada.is_action_pressed("hotbar_2"):
 		item_equipado_na_mao = hotbar_logico.pegar_item(1)
+		hotbar_logico.setar_ultimo_indice(1)
 		posicionar_item_na_mao(item_equipado_na_mao)
 		return
 	
 func equipar_item_quando_posto_hotbar(item: ItemData) -> void:
+	print("Print dentro pegar item mao quando adiciono barra: ", item.nome)
 	item_equipado_na_mao = item
-	posicionar_item_na_mao(item)
+	posicionar_item_na_mao(item_equipado_na_mao)
 	
 func posicionar_item_na_mao(item: ItemData) -> void:
 	for filhos in mao.get_children():
@@ -420,18 +421,21 @@ func fazer_rolagem() -> void:
 
 
 func inicializar_hotbar_inventario_logicos() -> void:
+	controller_inventario = ControllerInventario.new()
+	add_child(controller_inventario)
+	
 	hotbar_logico = Hotbar.new()
 	hotbar_logico.inicializar_hotbar()
 	hotbar_logico._equipar_item_add_hotbar.connect(equipar_item_quando_posto_hotbar)
-	
-	controller_inventario = ControllerInventario.new()
-	add_child(controller_inventario)
 	
 	inventario_logico = Inventario.new()
 	inventario_logico.inicializar_inventario()
 	controller_inventario.call_deferred("inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico)
 
 func inicializar_hotbar_inventario_ui() -> void:
+	var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
+	var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
+	
 	inventario_ui_instanciado = inventario_ui.instantiate()
 	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico, controller_inventario)
 	get_tree().root.add_child(inventario_ui_instanciado) 
