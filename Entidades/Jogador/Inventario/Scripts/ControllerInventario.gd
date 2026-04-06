@@ -40,7 +40,16 @@ func salvar_click(indice: int, tipo_slot: String) -> void:
 func trocar_item_pos() -> void:
 	if origem.tipo == "INVENTARIO" and final.tipo == "INVENTARIO":
 		inventario_logico.trocar_dois_itens_posicao(origem.indice, final.indice)
+		return
 	
+	if origem.tipo == "INVENTARIO" and final.tipo == "HOTBAR":
+		if hotbar_logico.array_hotbar[final.indice] != null:
+			# pega da hotbar e salva num meio termo
+			# pega do inventario e bota na hotbar
+			# pega o meio termo e bota no inventario
+			return 
+		
+		# pega do inventario e bota na hotbar e tira do inventario
 func resetar_origem_e_final() -> void:
 	origem.indice = -1
 	origem.tipo = ""

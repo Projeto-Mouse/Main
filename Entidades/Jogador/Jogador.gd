@@ -58,26 +58,8 @@ func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
 	criar_no_filho_shapecast_cima()
-	
-	hotbar_logico = Hotbar.new()
-	hotbar_logico.inicializar_hotbar()
-	controller_inventario = ControllerInventario.new()
-	add_child(controller_inventario)
-	inventario_logico = Inventario.new()
-	inventario_logico.inicializar_inventario()
-	controller_inventario.call_deferred("inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico)
-
-	
-	inventario_ui_instanciado = inventario_ui.instantiate()
-	# roda ready 1
-	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico, controller_inventario)
-	get_tree().root.add_child(inventario_ui_instanciado) 
-	inventario_ui_instanciado.visible = false
-	
-	hotbar_ui_instanciado = hotbar_ui.instantiate()
-	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico, controller_inventario)
-	get_tree().root.add_child(hotbar_ui_instanciado)
-	hotbar_ui_instanciado.visible = false
+	inicializar_hotbar_inventario_logicos()
+	inicializar_hotbar_inventario_ui()
 	
 
 
@@ -352,29 +334,33 @@ func pegar_item() -> void:
 	if not item_da_area_atual.is_in_group("ItensInterativos"):
 		return
 
-	if item_da_area_atual.is_in_group("Escudo"):
-		escudo_equipado = item_da_area_atual.item_data
-		limpar_item_na_area_atual()
-		posicionar_item_na_mao(escudo_equipado)
-		posicionar_item_na_mao(item_equipado_na_mao)  # mantenho o item da mao tbm posicionado
-		return
-
-	##print("Inventario cheio")
-		##DebugConsole.add_text_console_sem_cor("Inventario cheio")
-		##return
-
-	item_equipado_na_mao = item_da_area_atual.item_data
-	inventario_logico.adicionar_item_inventario(item_equipado_na_mao, 1)
+	inventario_logico.adicionar_item_inventario(item_da_area_atual.item_data, 1)
 	limpar_item_na_area_atual()
-	posicionar_item_na_mao(item_equipado_na_mao)
 
 
 func limpar_item_na_area_atual() -> void:
 	item_da_area_atual.queue_free()
 	item_da_area_atual = null
 
-
-func posicionar_item_na_mao(item) -> void:
+func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
+	var valor_indice_pegar_item = 0
+	if tecla_apertada.is_action_pressed("hotbar_1"):
+		valor_indice_pegar_item = 1
+	
+	if tecla_apertada.is_action_pressed("hotbar_2"):
+		valor_indice_pegar_item = 2
+	
+	if hotbar_logico.pegar_item(valor_indice_pegar_item) == null:
+		return
+	
+	item_equipado_na_mao = hotbar_logico.pegar_item(valor_indice_pegar_item)
+	posicionar_item_na_mao(item_equipado_na_mao)
+	
+func equipar_item_quando_posto_hotbar(item: ItemData) -> void:
+	item_equipado_na_mao = item
+	posicionar_item_na_mao(item)
+	
+func posicionar_item_na_mao(item: ItemData) -> void:
 	for filhos in mao.get_children():
 		filhos.queue_free()
 
@@ -398,12 +384,12 @@ func criar_cena_item(item: ItemData) -> void:
 	if item is EscudoData:
 		visual = escudo_equipado.cena_3d.instantiate()
 		posicao_escudo.add_child(visual)
-		visual.transform = Transform3D.IDENTITY  #alinha com a mao
+		visual.transform = Transform3D.IDENTITY
 		return
 
 	visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
-	visual.transform = Transform3D.IDENTITY  #alinha com a mao
+	visual.transform = Transform3D.IDENTITY
 
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
@@ -416,22 +402,6 @@ func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
 func esconder_item_rastejando() -> void:
 	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
 
-func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
-	if Input.is_action_pressed("TrocarHotBarControle"):
-		pos_hot_bar_controle += 1
-		if pos_hot_bar_controle > 11:
-			pos_hot_bar_controle = 1
-		else:
-			pass
-			#item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
-
-	for i in range(1, 11):
-		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
-			#item_equipado_na_mao = inventario_temp.pegar_item(i)
-			posicionar_item_na_mao(item_equipado_na_mao)
-			break
-
-
 func fazer_rolagem() -> void:
 	var x_para_rolada = forca_rolada * ultimo_lado_olhado
 
@@ -442,3 +412,27 @@ func fazer_rolagem() -> void:
 	if verificador_colisao:
 		var texto_print = "Você foi para " + str(verificador_colisao.get_position())
 		DebugConsole.add_text_console_sem_cor(texto_print)
+
+
+func inicializar_hotbar_inventario_logicos() -> void:
+	hotbar_logico = Hotbar.new()
+	hotbar_logico.inicializar_hotbar()
+	hotbar_logico._equipar_item_add_hotbar.connect(equipar_item_quando_posto_hotbar)
+	
+	controller_inventario = ControllerInventario.new()
+	add_child(controller_inventario)
+	
+	inventario_logico = Inventario.new()
+	inventario_logico.inicializar_inventario()
+	controller_inventario.call_deferred("inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico)
+
+func inicializar_hotbar_inventario_ui() -> void:
+	inventario_ui_instanciado = inventario_ui.instantiate()
+	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico, controller_inventario)
+	get_tree().root.add_child(inventario_ui_instanciado) 
+	inventario_ui_instanciado.visible = false
+	
+	hotbar_ui_instanciado = hotbar_ui.instantiate()
+	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico, controller_inventario)
+	get_tree().root.add_child(hotbar_ui_instanciado)
+	hotbar_ui_instanciado.visible = false
