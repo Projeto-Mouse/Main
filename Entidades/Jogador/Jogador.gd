@@ -1,7 +1,7 @@
 class_name Jogador
 extends Entidade
 
-enum EstadosJogador { PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO }
+enum EstadosJogador {PARADO, ANDANDO, DEVAGAR, RASTEJANDO, PULANDO, ESCALANDO, CAINDO}
 
 const INTERVALO_PASSOS: float = 0.4
 const ENERGIA_LUZ_JOGADOR: float = 0.05
@@ -35,7 +35,7 @@ var esta_morto: bool = false
 @onready var coracoes_vida: Control = get_tree().get_first_node_in_group("barra_vida")
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var cena_morte = preload("res://UI/Cenas/CenasProvisoriaMorte.tscn") as PackedScene
+@onready var cena_morte = preload("res://UI/Morte.tscn") as PackedScene
 @onready var mao: Node3D = $PivoPersonagem/Mao
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
 @onready var pivo_personagem = $PivoPersonagem
@@ -55,17 +55,23 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if esta_morto:
+		return
+		
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
 	if Input.is_key_pressed(KEY_P):
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self )
 
 	if Input.is_action_just_pressed("PegarItem"):
 		pegar_item()
 
 
 func _physics_process(delta):
+	if esta_morto:
+		return
+		
 	esconder_item_rastejando()
 	var esta_no_chao = is_on_floor()
 	var direcao_x = Input.get_axis("Esquerda", "Direita")
@@ -95,6 +101,9 @@ func _physics_process(delta):
 
 
 func _input(event: InputEvent) -> void:
+	if esta_morto:
+		return
+		
 	ler_input_hot_bar(event)
 
 	if Input.is_action_just_pressed("AplicarDano"):
@@ -220,7 +229,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 			tempo_proximo_passo = INTERVALO_PASSOS
 			# Eleva o ponto de emissão
 			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self)
+			ControladorRuido.emitir_ruido(ponto_emissao, 3.0, false, self )
 
 	elif estado_atual == EstadosJogador.DEVAGAR:
 		som_passos.pitch_scale = ESCALA_PITCH_SOM_PASSO_DEVAGAR
@@ -230,7 +239,7 @@ func tocar_som_passos(esta_no_chao: bool) -> void:
 	# Passos silenciosos: não emitem ruído
 	else:
 		som_passos.stop()
-		tempo_proximo_passo = 0  # Reseta timer ao parar
+		tempo_proximo_passo = 0 # Reseta timer ao parar
 
 
 func atualizar_posicao_luz_jogador() -> void:
@@ -262,9 +271,24 @@ func computar_dano(dano_recebido: float) -> void:
 
 	if vida_atual <= 0:
 		vida_atual = 0
-		print("Jogador Morreu")
 		if not em_teste:
-			get_tree().call_deferred("change_scene_to_packed", cena_morte)
+			morrer()
+
+func morrer() -> void:
+	# Trocar para a LUT de combate IMEDIATAMENTE (primeira coisa)
+	var mood_manager = get_tree().get_first_node_in_group("mood_manager")
+	if mood_manager:
+		mood_manager.apply_mood_instantly(MoodManager.Mood.COMBATE)
+		
+	print("Jogador Morreu")
+	esta_morto = true
+	
+	# Desativar pause IMEDIATAMENTE
+	ControladorCena.pode_pausar = false
+	
+	# Instanciar a tela de morte como overlay IMEDIATAMENTE
+	var morte_ui = cena_morte.instantiate()
+	get_tree().root.add_child(morte_ui)
 
 
 func arredondar_dano(dano_recebido: float) -> float:
@@ -287,7 +311,7 @@ func fazer_ataque() -> void:
 	var arma = mao.get_child(0)
 	var dano_arma = item_equipado_na_mao.dano
 
-	arma.ativar_hitbox(dano_arma, self)
+	arma.ativar_hitbox(dano_arma, self )
 	await get_tree().create_timer(0.2).timeout
 	arma.desativar_hitbox()
 
@@ -321,7 +345,7 @@ func pegar_item() -> void:
 		escudo_equipado = item_da_area_atual.item_data
 		limpar_item_na_area_atual()
 		posicionar_item_na_mao(escudo_equipado)
-		posicionar_item_na_mao(item_equipado_na_mao)  # mantenho o item da mao tbm posicionado
+		posicionar_item_na_mao(item_equipado_na_mao) # mantenho o item da mao tbm posicionado
 		return
 
 	if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
@@ -363,12 +387,12 @@ func criar_cena_item(item: ItemData) -> void:
 	if item is EscudoData:
 		visual = escudo_equipado.cena_3d.instantiate()
 		posicao_escudo.add_child(visual)
-		visual.transform = Transform3D.IDENTITY  #alinha com a mao
+		visual.transform = Transform3D.IDENTITY # alinha com a mao
 		return
 
 	visual = item_equipado_na_mao.cena_3d.instantiate()
 	mao.add_child(visual)
-	visual.transform = Transform3D.IDENTITY  #alinha com a mao
+	visual.transform = Transform3D.IDENTITY # alinha com a mao
 
 
 func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:

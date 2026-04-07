@@ -35,7 +35,7 @@ script = ExtResource("1_7t40e")
 [node name="RootEnvironment" type="WorldEnvironment" parent="." groups=["world_environment"]]
 environment = SubResource("Environment_glow")
 
-[node name="MoodManager" type="Node" parent="." node_paths=PackedStringArray("world_env", "post_process_rect")]
+[node name="MoodManager" type="Node" parent="." groups=["mood_manager"] node_paths=PackedStringArray("world_env", "post_process_rect")]
 script = ExtResource("8_mood")
 world_env = NodePath("../RootEnvironment")
 post_process_rect = NodePath("../PostProcessEffect/ColorRect")

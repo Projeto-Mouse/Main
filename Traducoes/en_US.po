@@ -330,3 +330,81 @@ msgstr "Settings reset to default."
 
 msgid "ACTION_RESETAR_PADRAO"
 msgstr "Reset Defaults"
+
+msgid "DEATH_PHRASE_1"
+msgstr "What is a mouse to a god? Rise."
+
+msgid "DEATH_PHRASE_2"
+msgstr "Determination fills you... but so does fatigue."
+
+msgid "DEATH_PHRASE_3"
+msgstr "Prepare for the next iteration."
+
+msgid "DEATH_PHRASE_4"
+msgstr "This is but a setback in your abstraction."
+
+msgid "DEATH_PHRASE_5"
+msgstr "Death is a patient master."
+
+msgid "DEATH_PHRASE_6"
+msgstr "I'm sorry, but you will return."
+
+msgid "DEATH_PHRASE_7"
+msgstr "You died. But what is one life less for those who are thirsty?"
+
+msgid "DEATH_PHRASE_8"
+msgstr "The cycle is not broken so easily."
+
+msgid "DEATH_PHRASE_9"
+msgstr "Try again. Fail again. Fail better."
+
+msgid "DEATH_PHRASE_10"
+msgstr "You've met with a terrible fate, haven't you?"
+
+msgid "DEATH_PHRASE_11"
+msgstr "A new scar for the collection. Shall we?"
+
+msgid "DEATH_PHRASE_12"
+msgstr "What doesn't kill you makes you... uglier."
+
+msgid "DEATH_PHRASE_13"
+msgstr "Awaken. There is still cheese at the end of the tunnel."
+
+msgid "DEATH_PHRASE_14"
+msgstr "You cannot give up now, your destiny is not yet finished."
+
+msgid "DEATH_PHRASE_15"
+msgstr "Darkness is but a blink between two rebirths."
+
+msgid "DEATH_PHRASE_16"
+msgstr "What? What's left of her?"
+
+msgid "DEATH_PHRASE_17"
+msgstr "Rise, Little Mouse. The show must go on."
+
+msgid "DEATH_PHRASE_18"
+msgstr "You're running out of pieces, but you still have breath."
+
+msgid "DEATH_PHRASE_19"
+msgstr "Nobody said evolution would be pretty."
+
+msgid "DEATH_PHRASE_20"
+msgstr "A struck match, a new chance to burn."
+
+msgid "DEATH_PHRASE_21"
+msgstr "Hesitation is defeat. Go back there."
+
+msgid "DEATH_PHRASE_22"
+msgstr "Death is an old friend, but you're not going to live with her just yet."
+
+msgid "DEATH_PHRASE_23"
+msgstr "It's not the end yet. It's just the beginning of regression."
+
+msgid "DEATH_PHRASE_24"
+msgstr "Rest waits. It always waits."
+
+msgid "DEATH_PHRASE_25"
+msgstr "Strike the match. Illuminate your failure and try again."
+
+msgid "PRESS_ANY_BUTTON"
+msgstr "press any button"

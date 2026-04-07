@@ -323,3 +323,81 @@ msgstr "Configurações resetadas para o padrão."
 
 msgid "ACTION_RESETAR_PADRAO"
 msgstr "Resetar Padrões"
+
+msgid "DEATH_PHRASE_1"
+msgstr "O que é um rato para um deus? Levante-se."
+
+msgid "DEATH_PHRASE_2"
+msgstr "A determinação te preenche... mas o cansaço também."
+
+msgid "DEATH_PHRASE_3"
+msgstr "Prepare-se para a próxima iteração."
+
+msgid "DEATH_PHRASE_4"
+msgstr "Isso é apenas um contratempo na sua abstração."
+
+msgid "DEATH_PHRASE_5"
+msgstr "A morte é um mestre paciente."
+
+msgid "DEATH_PHRASE_6"
+msgstr "Sinto muito, mas você irá voltar."
+
+msgid "DEATH_PHRASE_7"
+msgstr "Você morreu. Mas o que é uma vida a menos para quem tem sede?"
+
+msgid "DEATH_PHRASE_8"
+msgstr "O ciclo não se quebra tão facilmente."
+
+msgid "DEATH_PHRASE_9"
+msgstr "Tente novamente. Falhe novamente. Falhe melhor."
+
+msgid "DEATH_PHRASE_10"
+msgstr "Parece que você encontrou um destino terrível, não é?"
+
+msgid "DEATH_PHRASE_11"
+msgstr "Uma cicatriz nova para a coleção. Vamos?"
+
+msgid "DEATH_PHRASE_12"
+msgstr "O que não te mata, te deixa... mais feio."
+
+msgid "DEATH_PHRASE_13"
+msgstr "Desperte. Ainda há queijo no fim do túnel."
+
+msgid "DEATH_PHRASE_14"
+msgstr "Você não pode desistir agora, o seu destino ainda não terminou."
+
+msgid "DEATH_PHRASE_15"
+msgstr "A escuridão é apenas um piscar entre dois renascimentos."
+
+msgid "DEATH_PHRASE_16"
+msgstr "O que o que sobrou dela?"
+
+msgid "DEATH_PHRASE_17"
+msgstr "Levante-se, Pequeno Rato. O show deve continuar."
+
+msgid "DEATH_PHRASE_18"
+msgstr "Você está ficando sem pedaços, mas ainda tem fôlego."
+
+msgid "DEATH_PHRASE_19"
+msgstr "Ninguém disse que a evolução seria bonita."
+
+msgid "DEATH_PHRASE_20"
+msgstr "Um fósforo riscado, uma nova chance de queimar."
+
+msgid "DEATH_PHRASE_21"
+msgstr "Hesitação é derrota. Volte lá."
+
+msgid "DEATH_PHRASE_22"
+msgstr "A morte é uma velha amiga, mas você ainda não vai morar com ela."
+
+msgid "DEATH_PHRASE_23"
+msgstr "Ainda não é o fim. É apenas o início da regressão."
+
+msgid "DEATH_PHRASE_24"
+msgstr "O descanso espera. Ele sempre espera."
+
+msgid "DEATH_PHRASE_25"
+msgstr "Risque o fósforo. Ilumine o seu fracasso e tente de novo."
+
+msgid "PRESS_ANY_BUTTON"
+msgstr "aperte qualquer botao"
