@@ -245,6 +245,7 @@ func trocar_com_hotbar(indice_inv: int, hotbar: Hotbar, indice_hot: int):
 
 	_item_mudado.emit(slot_inv.item, indice_inv, slot_inv.quantidade, "inventario")
 	hotbar.atualizar_slot(indice_hot)
+	hotbar.equipar_item_add_hotbar(indice_hot)
 
 func atualizar_slot(indice: int) -> void:
 	var slot = array_inventario[indice]

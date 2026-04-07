@@ -67,7 +67,14 @@ func trocar_com_inv(indice_hotbar: int, inventario: Inventario, indice_inv: int)
 
 	_item_mudado.emit(slot_hot.item, indice_hotbar, slot_hot.quantidade, "hotbar")
 	inventario.atualizar_slot(indice_inv)
-	_equipar_item_add_hotbar.emit(array_hotbar[ultimo_indice_estava].item)
+	
+	var item_final = slot_hot.item
+
+	if item_final == null:
+		_equipar_item_add_hotbar.emit(null)
+		return
+		
+	_equipar_item_add_hotbar.emit(item_final)
 
 
 func swap_slot(slot1: Slot, slot2: Slot) -> void:
@@ -88,3 +95,6 @@ func swap_slot(slot1: Slot, slot2: Slot) -> void:
 
 func setar_ultimo_indice(indice: int) -> void:
 	ultimo_indice_estava = indice
+
+func equipar_item_add_hotbar(indice: int) -> void:
+	_equipar_item_add_hotbar.emit(array_hotbar[indice].item)

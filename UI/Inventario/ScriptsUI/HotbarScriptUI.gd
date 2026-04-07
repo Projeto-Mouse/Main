@@ -71,7 +71,7 @@ func trocar_sprite_item(item: ItemData, indice: int, quantidade: int, tipo: Stri
 		
 	sprite.texture = item.textura
 	
-	if quantidade >= 1:
+	if quantidade > 1:
 		label_quantidade.text = str(quantidade)
 		return
 		

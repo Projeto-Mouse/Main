@@ -54,6 +54,10 @@ var hotbar_ui_instanciado
 var controller_inventario: ControllerInventario
 var tempo_coletou_item = Time.get_unix_time_from_system()
 
+# ALGUNS ESTADOS TESTE
+var atacando: bool
+var troca_pendente: bool
+
 func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
@@ -64,6 +68,11 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("AbrirInventario"):
+		var estado_novo_ui = !inventario_ui_instanciado.visible
+		inventario_ui_instanciado.visible = estado_novo_ui
+		hotbar_ui_instanciado.visible = estado_novo_ui
+		
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
 	if Input.is_key_pressed(KEY_P):
 		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
@@ -113,15 +122,10 @@ func _input(event: InputEvent) -> void:
 		if inventario_ui_instanciado.visible == true and hotbar_ui_instanciado.visible == true:
 			inventario_ui_instanciado.visible = false
 			hotbar_ui_instanciado.visible = false
-	
-	if Input.is_action_just_pressed("AbrirInventario"):
-		var estado_novo_ui = !inventario_ui_instanciado.visible
-		inventario_ui_instanciado.visible = estado_novo_ui
-		hotbar_ui_instanciado.visible = estado_novo_ui
-		
 		
 	if Input.is_action_just_pressed("AplicarDano"):
 		fazer_ataque()
+
 
 	if Input.is_action_just_pressed("Rolar"):
 		fazer_rolagem()
@@ -304,6 +308,8 @@ func arredondar_dano(dano_recebido: float) -> float:
 
 
 func fazer_ataque() -> void:
+	atacando = true
+	
 	if mao.get_child_count() == 0 or not (item_equipado_na_mao is ArmasData):
 		return
 
@@ -312,10 +318,13 @@ func fazer_ataque() -> void:
 
 	arma.ativar_hitbox(dano_arma, self)
 	await get_tree().create_timer(0.2).timeout
-	arma.desativar_hitbox()
+
+	if is_instance_valid(arma):
+		arma.desativar_hitbox()
 
 	await get_tree().create_timer(COOLDOWN).timeout
-
+	atacando = false
+		
 
 func printar_vida_e_dano(dano_tomado: float) -> void:
 	var vida_atual_texto = "Vida atual = " + str(vida_atual)
@@ -350,40 +359,74 @@ func limpar_item_na_area_atual() -> void:
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	if tecla_apertada.is_action_pressed("hotbar_1"):
-		item_equipado_na_mao = hotbar_logico.pegar_item(0)
-		hotbar_logico.setar_ultimo_indice(0)
-		posicionar_item_na_mao(item_equipado_na_mao)
+		pegar_item_slot(0)
 		return
 	
 	if tecla_apertada.is_action_pressed("hotbar_2"):
-		item_equipado_na_mao = hotbar_logico.pegar_item(1)
-		hotbar_logico.setar_ultimo_indice(1)
-		posicionar_item_na_mao(item_equipado_na_mao)
+		pegar_item_slot(1)
 		return
+		
+		
+func pegar_item_slot(indice: int) -> void:
+	var item = hotbar_logico.pegar_item(indice)
 	
-func equipar_item_quando_posto_hotbar(item: ItemData) -> void:
-	print("Print dentro pegar item mao quando adiciono barra: ", item.nome)
-	item_equipado_na_mao = item
-	posicionar_item_na_mao(item_equipado_na_mao)
-	
-func posicionar_item_na_mao(item: ItemData) -> void:
-	for filhos in mao.get_children():
-		filhos.queue_free()
-
 	if item == null:
 		return
-
-	if item is EscudoData and item.cena_3d:
-		DebugConsole.add_text_console_sem_cor("Criando Cena Escudo")
-		criar_cena_item(escudo_equipado)
+		
+	print("pego item: ", indice, "com nome: ", item.nome)
+	hotbar_logico.setar_ultimo_indice(indice)
+	
+	if item is EscudoData:
+		escudo_equipado = item
+		print("ESCUDO: ", escudo_equipado.nome)
+		posicionar_item_na_mao()
+		return
+			
+	item_equipado_na_mao = item
+	print("Item: ", item_equipado_na_mao.nome)
+	posicionar_item_na_mao()
+	
+func equipar_item_quando_posto_hotbar(item: ItemData) -> void:
+	if item == null:
+		escudo_equipado = null
+		item_equipado_na_mao = null
+		posicionar_item_na_mao()
 		return
 
-	if item_equipado_na_mao.cena_3d:
-		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
+	if item is EscudoData:
+		escudo_equipado = item
+		item_equipado_na_mao = null
+		posicionar_item_na_mao()
+		return 
+		
+	item_equipado_na_mao = item
+	escudo_equipado = null
+	posicionar_item_na_mao()
+	
+	
+func posicionar_item_na_mao() -> void:
+	if atacando:
+		return
+	
+	limpar_mao() 
+
+	limpar_escudo_equipado()
+	
+	if item_equipado_na_mao and item_equipado_na_mao.cena_3d:
 		criar_cena_item(item_equipado_na_mao)
-		return
 
+	if escudo_equipado and escudo_equipado.cena_3d:
+		criar_cena_item(escudo_equipado)
 
+func limpar_mao() -> void:
+	for filho in mao.get_children():
+		filho.free()
+		
+func limpar_escudo_equipado() -> void:
+	for filhos in posicao_escudo.get_children():
+		filhos.queue_free()
+		
+		
 func criar_cena_item(item: ItemData) -> void:
 	var visual
 

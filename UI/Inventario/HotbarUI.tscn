@@ -15,8 +15,8 @@ offset_top = -20.0
 grow_vertical = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="HotbarUIControl"]
-layout_mode = 1
 texture_filter = 1
+layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
