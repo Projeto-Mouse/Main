@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 
 
 func criar_coracoes() -> void:
-	# NUMEROS NA SORTE TEM QUE AJEITAR ISSO AI
+	# NUMEROS NA SORTE TEM QUE AJEITAR ISSO  AI
 	var tamanho_sprite = sprite_vida_cheia.get_width()
 	for i in range(vida_max):
 		var sprite = Sprite2D.new()
