@@ -8,9 +8,9 @@ func _ready() -> void:
 func _ao_entrar_na_area(corpo: Node3D) -> void:
 	if corpo.is_in_group("Jogador"):
 		print("O jogador entrou na area escalavel")
-		corpo.setar_esta_em_escalavel(true)
+		corpo.atualizar_status_area_escalavel(true)
 
 func _ao_sair_da_area(corpo: Node3D) -> void:
 	if corpo.is_in_group("Jogador"):
 		print("O jogador saiu da area escalavel")
-		corpo.setar_esta_em_escalavel(false)
+		corpo.atualizar_status_area_escalavel(false)
