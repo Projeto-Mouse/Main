@@ -1,13 +1,15 @@
 class_name ControllerInventario
 extends Node
 
+enum TipoContainer { INVENTARIO, HOTBAR, NENHUM }
+
 signal _trocar_sprite_item_slot(item: ItemData, indice: int, quantidade: int, tipo: String)
 signal _atualizar_sprite_slot()
-signal _piscar_amarelo(indice: int, tipo: String)
+signal _interacao_destino_confirmada_ou_cancelada(indice: int, tipo: String)
 
 class SlotClicado:
 	var indice: int = -1
-	var tipo: String = ""
+	var tipo: TipoContainer = TipoContainer.NENHUM
 
 var tem_clicado: bool = false
 var inventario_logico: Inventario
@@ -19,8 +21,10 @@ func _ready() -> void:
 	origem = SlotClicado.new()
 	final = SlotClicado.new()
 	
-func salvar_click(indice: int, tipo_slot: String) -> void:
+func salvar_click(indice: int, tipo_slot: TipoContainer) -> void:
 	if indice == origem.indice and tipo_slot == origem.tipo:
+		resetar_origem_e_final()
+		_interacao_destino_confirmada_ou_cancelada.emit()
 		return
 
 	if origem.indice == -1:
@@ -32,34 +36,34 @@ func salvar_click(indice: int, tipo_slot: String) -> void:
 		
 	final.indice = indice
 	final.tipo = tipo_slot
-	_piscar_amarelo.emit(final.indice, final.tipo)
+	_interacao_destino_confirmada_ou_cancelada.emit(final.indice, final.tipo)
 	trocar_item_pos()
 	resetar_origem_e_final()
 	_atualizar_sprite_slot.emit()
 	
 func trocar_item_pos() -> void:
-	if origem.tipo == "INVENTARIO" and final.tipo == "INVENTARIO":
+	if origem.tipo == TipoContainer.INVENTARIO and final.tipo == TipoContainer.INVENTARIO:
 		inventario_logico.trocar_dois_itens_posicao(origem.indice, final.indice)
 		return
 	
-	if origem.tipo == "INVENTARIO" and final.tipo == "HOTBAR":
+	if origem.tipo == TipoContainer.INVENTARIO and final.tipo == TipoContainer.HOTBAR:
 		inventario_logico.trocar_com_hotbar(origem.indice,hotbar_logico, final.indice)
 		return
 	
-	if origem.tipo == "HOTBAR" and final.tipo == "INVENTARIO":
+	if origem.tipo == TipoContainer.HOTBAR and final.tipo == TipoContainer.INVENTARIO:
 		hotbar_logico.trocar_com_inv(origem.indice, inventario_logico, final.indice)
 		return
 		
-	if origem.tipo == "HOTBAR" and final.tipo == "HOTBAR":
+	if origem.tipo == TipoContainer.HOTBAR and final.tipo == TipoContainer.HOTBAR:
 		hotbar_logico.trocar_pos_item_hotbar(origem.indice, final.indice)
 		return
 		
 		
 func resetar_origem_e_final() -> void:
 	origem.indice = -1
-	origem.tipo = ""
+	origem.tipo = TipoContainer.NENHUM
 	final.indice = -1
-	final.tipo = ""
+	final.tipo = TipoContainer.NENHUM
 	
 	tem_clicado = false
 	
@@ -70,5 +74,5 @@ func atualizar_slot(item: ItemData, indice: int, quantidade: int, tipo: String) 
 func inicializar_inventario_e_hotbar(inventario: Inventario, hotbar: Hotbar) -> void:
 	inventario_logico = inventario
 	hotbar_logico = hotbar
-	hotbar_logico._item_mudado.connect(atualizar_slot)
-	inventario_logico._item_mudado.connect(atualizar_slot)
+	hotbar_logico._slot_atualizado.connect(atualizar_slot)
+	inventario_logico._slot_atualizado.connect(atualizar_slot)

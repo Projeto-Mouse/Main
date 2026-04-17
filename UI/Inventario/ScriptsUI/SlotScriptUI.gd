@@ -37,7 +37,7 @@ func _ready() -> void:
 	mouse_exited.connect(_mouse_saiu)
 	
 	controller_inventario._atualizar_sprite_slot.connect(_atualizar_textura)
-	controller_inventario._piscar_amarelo.connect(_fazer_flesh_amarelo_troca)
+	controller_inventario._interacao_destino_confirmada_ou_cancelada.connect(_fazer_flesh_amarelo_troca)
 	
 func _entrou_em_foco():
 	esta_selecionado = true
@@ -92,6 +92,10 @@ func _fazer_flesh_amarelo_troca(indice: int, tipo: String) -> void:
 
 func _ao_clicar_no_slot() -> void:
 	print("clicou no slot")
-	var string_tipo = TiposSlot.keys()[tipo_slot]
-	controller_inventario.salvar_click(indice_slot, string_tipo)
+	var tipo_container_enum = controller_inventario.TipoContainer
 	
+	if tipo_slot == TiposSlot.HOTBAR:
+		controller_inventario.salvar_click(indice_slot, tipo_container_enum.HOTBAR)
+		return
+	
+	controller_inventario.salvar_click(indice_slot, tipo_container_enum.INVENTARIO)

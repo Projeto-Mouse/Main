@@ -15,6 +15,9 @@ func _ready() -> void:
 	pass
 
 func iniciar_slots() -> void:
+	for filho in grid_hotbar.get_children():
+		filho.queue_free()
+		
 	for i in range(quantidade_slots):
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)

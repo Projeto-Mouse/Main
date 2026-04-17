@@ -469,7 +469,7 @@ func inicializar_hotbar_inventario_logicos() -> void:
 	
 	hotbar_logico = Hotbar.new()
 	hotbar_logico.inicializar_hotbar()
-	hotbar_logico._equipar_item_add_hotbar.connect(equipar_item_quando_posto_hotbar)
+	hotbar_logico._solicitou_mudanca_equipamento.connect(equipar_item_quando_posto_hotbar)
 	
 	inventario_logico = Inventario.new()
 	inventario_logico.inicializar_inventario()
