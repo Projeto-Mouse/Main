@@ -44,11 +44,6 @@ func _on_body_exited(body: Node3D) -> void:
 
 func _input(event: InputEvent) -> void:
 	pass
-	## TIRADO POIS O E FOI PARA PEGAR ITEM E NAO TEMOS INTERAGIR AINDA
-	##if pode_interagir and event.is_action_pressed("Interagir"):
-	# Sem InputMap configurado, check da tecla 'E' diretamente visto que n setamos um InputMap ainda
-	# Precisamos discutir funcionalidades e um InputMap
-	##interagir()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:  # Sera removido futuramente

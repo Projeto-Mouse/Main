@@ -65,20 +65,22 @@ func _ready() -> void:
 	inicializar_hotbar_inventario_logicos()
 	inicializar_hotbar_inventario_ui()
 	
-
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("AbrirInventario"):
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("AbrirInventario"):
 		var estado_novo_ui = !inventario_ui_instanciado.visible
 		inventario_ui_instanciado.visible = estado_novo_ui
 		hotbar_ui_instanciado.visible = estado_novo_ui
-		
+	
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
-	if Input.is_key_pressed(KEY_P):
-		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
-		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_P:
+			# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
+			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+			ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
 		
+		
+
+func _process(_delta: float) -> void:
 	if inventario_ui_instanciado.visible:
 		var pos_2d = camera.unproject_position(global_position)
 		inventario_ui_instanciado.control.position = pos_2d + Vector2(50, -150)
@@ -359,50 +361,32 @@ func limpar_item_na_area_atual() -> void:
 
 func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
 	if tecla_apertada.is_action_pressed("hotbar_1"):
-		pegar_item_slot(0)
+		sincronizar_equipamentos_com_hotbar(0)
 		return
 	
 	if tecla_apertada.is_action_pressed("hotbar_2"):
-		pegar_item_slot(1)
+		sincronizar_equipamentos_com_hotbar(1)
 		return
 		
 		
-func pegar_item_slot(indice: int) -> void:
-	var item = hotbar_logico.pegar_item(indice)
-	
-	if item == null:
+func sincronizar_equipamentos_com_hotbar(_parametro_ignorado = null) -> void:
+	if atacando:
+		troca_pendente = true
 		return
 		
-	print("pego item: ", indice, "com nome: ", item.nome)
-	hotbar_logico.setar_ultimo_indice(indice)
-	
-	if item is EscudoData:
-		escudo_equipado = item
-		print("ESCUDO: ", escudo_equipado.nome)
-		posicionar_item_na_mao()
-		return
-			
-	item_equipado_na_mao = item
-	print("Item: ", item_equipado_na_mao.nome)
-	posicionar_item_na_mao()
-	
-func equipar_item_quando_posto_hotbar(item: ItemData) -> void:
-	if item == null:
-		escudo_equipado = null
-		item_equipado_na_mao = null
-		posicionar_item_na_mao()
-		return
-
-	if item is EscudoData:
-		escudo_equipado = item
-		item_equipado_na_mao = null
-		posicionar_item_na_mao()
-		return 
-		
-	item_equipado_na_mao = item
+	item_equipado_na_mao = null
 	escudo_equipado = null
-	posicionar_item_na_mao()
 	
+	for i in range(hotbar_logico.array_hotbar.size()):
+		var item = hotbar_logico.pegar_item(i)
+		
+		if item != null:
+			if item is EscudoData:
+				escudo_equipado = item
+			else:
+				item_equipado_na_mao = item
+				
+	posicionar_item_na_mao()
 	
 func posicionar_item_na_mao() -> void:
 	if atacando:
@@ -469,7 +453,7 @@ func inicializar_hotbar_inventario_logicos() -> void:
 	
 	hotbar_logico = Hotbar.new()
 	hotbar_logico.inicializar_hotbar()
-	hotbar_logico._solicitou_mudanca_equipamento.connect(equipar_item_quando_posto_hotbar)
+	hotbar_logico._solicitou_mudanca_equipamento.connect(sincronizar_equipamentos_com_hotbar)
 	
 	inventario_logico = Inventario.new()
 	inventario_logico.inicializar_inventario()

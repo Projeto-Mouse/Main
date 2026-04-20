@@ -75,4 +75,4 @@ func inicializar_inventario_e_hotbar(inventario: Inventario, hotbar: Hotbar) -> 
 	inventario_logico = inventario
 	hotbar_logico = hotbar
 	hotbar_logico._slot_atualizado.connect(atualizar_slot)
-	inventario_logico._slot_atualizado.connect(atualizar_slot)
+	inventario_logico._item_mudado.connect(atualizar_slot)

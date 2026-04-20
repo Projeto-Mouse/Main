@@ -133,6 +133,10 @@ func ordenar_por(tipo: String) -> void:
 
 	reconstruir_hashmap()
 	reconstruir_slots_vazios()
+	
+	for i in range(array_inventario.size()):
+		var slot = array_inventario[i]
+		_item_mudado.emit(slot.item, i, slot.quantidade, "inventario")
 
 
 func ordenar_por_quantidade(slot1: Slot, slot2: Slot) -> bool:
@@ -148,58 +152,40 @@ func ordenar_por_tempo(slot1: Slot, slot2: Slot) -> bool:
 
 	return slot1.timestamp_coleta > slot2.timestamp_coleta
 
-
-func trocar_dois_itens_posicao(origem: int, destino: int) -> void:
-	if array_inventario[origem].esta_vazio():
-		return
-
-	var item_origem = array_inventario[origem].item
-	var item_destino = array_inventario[destino].item
-
-	if item_destino == null:
-		array_inventario[destino].quantidade = array_inventario[origem].quantidade
-		array_inventario[destino].item = item_origem
-
-		array_inventario[origem].item = null
-		array_inventario[origem].quantidade = 0
-
-		if not slots_vazios.has(origem):
-			slots_vazios.append(origem)
-
-		if slots_vazios.has(destino):
-			slots_vazios.erase(destino)
-
-		if mapa_itens.has(item_origem.nome):
-			mapa_itens[item_origem.nome].erase(origem)
-			mapa_itens[item_origem.nome].append(destino)
-
+func trocar_dois_itens_posicao(origem: int, destino: int) -> void: 
+	if array_inventario[origem].esta_vazio(): 
+		return 
+		
+	var item_origem = array_inventario[origem].item 
+	var item_destino = array_inventario[destino].item 
+	
+	if item_destino == null: 
+		array_inventario[destino].quantidade = array_inventario[origem].quantidade 
+		array_inventario[destino].item = item_origem 
+			
+		array_inventario[origem].item = null 
+		array_inventario[origem].quantidade = 0 
+			
 	elif item_destino.nome == item_origem.nome:
 		var espaco_livre = MAX_STACK - array_inventario[destino].quantidade
-		var quantidade_mover = min(array_inventario[origem].quantidade, espaco_livre)
-
-		array_inventario[destino].quantidade += quantidade_mover
+		var quantidade_mover = min(array_inventario[origem].quantidade, espaco_livre) 
+			
+		array_inventario[destino].quantidade += quantidade_mover 
 		array_inventario[origem].quantidade -= quantidade_mover
-
-		if array_inventario[origem].quantidade == 0:
-			array_inventario[origem].item = null
-
-			if not slots_vazios.has(origem):
-				slots_vazios.append(origem)
-
-			if mapa_itens.has(item_destino.nome):
-				mapa_itens[item_destino.nome].erase(origem)
-
-				if mapa_itens[item_destino.nome].is_empty():
-					mapa_itens.erase(item_destino.nome)
-
-	else:
+		if array_inventario[origem].quantidade <= 0: 
+			array_inventario[origem].item = null 
+			array_inventario[origem].quantidade = 0 
+				
+		
+	else: 
 		swap_slot(array_inventario[origem], array_inventario[destino])
-		reconstruir_hashmap()
-		reconstruir_slots_vazios()
-
+			 
+	reconstruir_hashmap() 
+	reconstruir_slots_vazios() 
+			
+			
 	_item_mudado.emit(array_inventario[origem].item, origem, array_inventario[origem].quantidade, "inventario")
 	_item_mudado.emit(array_inventario[destino].item, destino, array_inventario[destino].quantidade, "inventario")
-	print("ITEM NO DESTINO -> ", array_inventario[destino].item.nome)
 	
 # USAMOS ESSA FUNCAO DE SWAP POR QUE O NORMAL TROCAR A REFERENCIA EM MEMORIA
 # NESSE CASO UM SLOT CONTINUA SENDO ELE MESMO, MAS COM ITEM DIFERENTE
@@ -243,9 +229,11 @@ func trocar_com_hotbar(indice_inv: int, hotbar: Hotbar, indice_hot: int):
 	reconstruir_hashmap()
 	reconstruir_slots_vazios()
 
-	_item_mudado.emit(slot_inv.item, indice_inv, slot_inv.quantidade, "inventario")
-	hotbar.atualizar_slot(indice_hot)
 	hotbar.equipar_item_add_hotbar(indice_hot)
+	
+	_item_mudado.emit(slot_inv.item, indice_inv, slot_inv.quantidade, "inventario")
+	
+	hotbar.atualizar_slot(indice_hot)
 
 func atualizar_slot(indice: int) -> void:
 	var slot = array_inventario[indice]
