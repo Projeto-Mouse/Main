@@ -66,18 +66,41 @@ func _ready() -> void:
 	inicializar_hotbar_inventario_ui()
 
 
+# USAR UNHANDLED PARA ACOES DO MUNDO E INPUT PARA ACOES DE SISTEMA COMO PAUSAR
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("AbrirInventario"):
-		var estado_novo_ui = !inventario_ui_instanciado.visible
-		inventario_ui_instanciado.visible = estado_novo_ui
-		hotbar_ui_instanciado.visible = estado_novo_ui
-
 	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_P:
 			# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
 			ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+
+	if event.is_action_pressed("AbrirInventario") and not event.is_echo():
+		var estado_novo_ui = !inventario_ui_instanciado.visible
+		inventario_ui_instanciado.visible = estado_novo_ui
+		hotbar_ui_instanciado.visible = estado_novo_ui
+
+	if event.is_action_pressed("hotbar_1") and not event.is_echo():
+		trocar_item_na_mao(0)
+
+	if event.is_action_pressed("hotbar_2") and not event.is_echo():
+		trocar_item_na_mao(1)
+
+	if event.is_action_pressed("PegarItem") and not event.is_echo():
+		pegar_item()
+
+	if event.is_action_pressed("AplicarDano") and not event.is_echo():
+		fazer_ataque()
+
+	if event.is_action_pressed("Rolar") and not event.is_echo():
+		fazer_rolagem()
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Pausar") and not event.is_echo():
+		if inventario_ui_instanciado.visible == true and hotbar_ui_instanciado.visible == true:
+			inventario_ui_instanciado.visible = false
+			hotbar_ui_instanciado.visible = false
 
 
 func _process(_delta: float) -> void:
@@ -113,24 +136,6 @@ func _physics_process(delta):
 	movimentacao()
 	position.z = 0
 	atualizar_posicao_luz_jogador()
-
-
-func _input(event: InputEvent) -> void:
-	ler_input_hot_bar(event)
-
-	if Input.is_action_just_pressed("PegarItem"):
-		pegar_item()
-
-	if Input.is_action_just_pressed("Pausar"):
-		if inventario_ui_instanciado.visible == true and hotbar_ui_instanciado.visible == true:
-			inventario_ui_instanciado.visible = false
-			hotbar_ui_instanciado.visible = false
-
-	if Input.is_action_just_pressed("AplicarDano"):
-		fazer_ataque()
-
-	if Input.is_action_just_pressed("Rolar"):
-		fazer_rolagem()
 
 
 func criar_no_filho_shapecast_cima() -> void:
@@ -365,14 +370,16 @@ func limpar_item_na_area_atual() -> void:
 	item_da_area_atual = null
 
 
-func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
-	if tecla_apertada.is_action_pressed("hotbar_1"):
-		sincronizar_equipamentos_com_hotbar(0)
+# Ele so troca se nao tiver escudo ( significa que temos dois itens que vao na mesma mao )
+# E que nao temos um item que vai na mao do escudo, ai nao tem por que trocar com 1 ou 2
+func trocar_item_na_mao(indice_pego: int) -> void:
+	if escudo_equipado != null:
 		return
 
-	if tecla_apertada.is_action_pressed("hotbar_2"):
-		sincronizar_equipamentos_com_hotbar(1)
-		return
+	limpar_mao()
+
+	item_equipado_na_mao = hotbar_logico.pegar_item(indice_pego)
+	posicionar_item_na_mao()
 
 
 func sincronizar_equipamentos_com_hotbar(_parametro_ignorado = null) -> void:
