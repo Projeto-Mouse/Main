@@ -405,8 +405,15 @@ func iniciar_ledge_grab() -> void:
 	estado_atual = EstadosJogador.ESCALANDO
 	velocity = Vector3.ZERO
 
-	global_position.y += 0.4
-	global_position.x += ultimo_lado_olhado * 0.2
+	var pos_inicial = global_position
+	var pos_final = pos_inicial
+	pos_final.y += 0.4
+	pos_final.x += ultimo_lado_olhado * 0.2
+
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", pos_final, 0.2)
+
+	await tween.finished
 
 
 func processar_estado_borda(delta: float) -> void:
@@ -419,8 +426,16 @@ func processar_estado_borda(delta: float) -> void:
 
 
 func subir_borda() -> void:
-	global_position.y += 0.8
-	global_position.x += ultimo_lado_olhado * 0.35
+	var pos_final = global_position
+	pos_final.y += 0.8
+	pos_final.x += ultimo_lado_olhado * 0.35
+
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", pos_final, 0.25)\
+		.set_trans(Tween.TRANS_CUBIC)\
+		.set_ease(Tween.EASE_OUT)
+
+	await tween.finished
 
 	esta_em_area_escalavel = false
 	estado_atual = EstadosJogador.PARADO
