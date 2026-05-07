@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Itens/ItemMundo.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Sprites/Queijos/Sprite-Parmesao-Cubinho.png" id="2_texture"]
+[ext_resource type="Resource" path="res://Itens/Queijos/Resources/Parmesao_Cubinho.tres" id="3_resource"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_queijo"]
+size = Vector3(0.5, 0.5, 0.2)
+
+[node name="ParmesaoCubinhoMundo" type="Node3D" groups=["ItensInterativos"]]
+script = ExtResource("1_script")
+item_data = ExtResource("3_resource")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("2_texture")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_queijo")

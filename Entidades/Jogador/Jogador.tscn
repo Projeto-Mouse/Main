@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://lu25vpjpwy7d" path="res://Entidades/Jogador/Jogador.gd" id="1_o2fes"]
 [ext_resource type="Script" uid="uid://cobqo3bydgu14" path="res://Entidades/ScriptsGerais/Hurtbox.gd" id="2_o2fes"]
+[ext_resource type="PackedScene" uid="uid://bv9u4n5v5p8v6" path="res://UI/ConsumoProgressBar.tscn" id="3_consumo"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_spau7"]
 
@@ -52,3 +53,8 @@ dono = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="hurbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0014648288, 0, 0)
 shape = SubResource("BoxShape3D_l5bei")
+
+[node name="ConsumoUI" type="CanvasLayer" parent="."]
+
+[node name="ConsumoProgressBar" parent="ConsumoUI" instance=ExtResource("3_consumo")]
+visible = false

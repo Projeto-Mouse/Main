@@ -22,6 +22,11 @@ var tempo_proximo_passo: float = 0.0
 var pos_hot_bar_controle = 1
 var cooldown_atual = 0
 
+# CONSUMO DE QUEIJO
+const TEMPO_CONSUMO: float = 1.5
+var timer_consumo: float = 0.0
+@onready var consumo_pb: ProgressBar = $ConsumoUI/ConsumoProgressBar
+
 # MOVIMENTACAO
 var movimento_x: float
 var movimento_y: float
@@ -116,6 +121,30 @@ func _process(_delta: float) -> void:
 	if inventario_ui_instanciado and inventario_ui_instanciado.visible:
 		var pos_2d = camera.unproject_position(global_position)
 		inventario_ui_instanciado.control.position = pos_2d + Vector2(50, -150)
+	
+	processar_consumo_queijo(_delta)
+
+
+func processar_consumo_queijo(delta: float) -> void:
+	if item_equipado_na_mao is QueijoResource:
+		if Input.is_action_pressed("PegarItem"):
+			timer_consumo += delta
+			consumo_pb.visible = true
+			consumo_pb.value = (timer_consumo / TEMPO_CONSUMO) * 100.0
+			
+			if timer_consumo >= TEMPO_CONSUMO:
+				efetivar_cura(item_equipado_na_mao)
+				resetar_consumo()
+		else:
+			resetar_consumo()
+	else:
+		resetar_consumo()
+
+
+func resetar_consumo() -> void:
+	timer_consumo = 0.0
+	if consumo_pb:
+		consumo_pb.visible = false
 
 
 func _physics_process(delta):
@@ -387,6 +416,39 @@ func atualizar_interacao(item: ItemMundo, ativo: bool):
 	)
 
 
+func efetivar_cura(queijo: QueijoResource) -> void:
+	if queijo.cura_total:
+		vida_atual = vida_max
+	else:
+		vida_atual = clamp(vida_atual + queijo.valor_cura, 0.0, vida_max)
+	
+	# Encontrar o queijo na hotbar para remover
+	var removido = false
+	for i in range(hotbar_logico.array_hotbar.size()):
+		var slot = hotbar_logico.array_hotbar[i]
+		if slot.item == queijo:
+			slot.quantidade -= 1
+			if slot.quantidade <= 0:
+				slot.item = null
+				slot.quantidade = 0
+			hotbar_logico.atualizar_slot(i)
+			hotbar_logico.equipar_item_add_hotbar(i) # Sincroniza equipamentos
+			removido = true
+			break
+	
+	# Se não estava na hotbar (improvável se equipado), remove do inventário
+	if not removido:
+		for i in range(inventario_logico.array_inventario.size()):
+			var slot = inventario_logico.array_inventario[i]
+			if slot.item == queijo:
+				inventario_logico.remover_item(queijo, 1, i)
+				break
+
+	health_updated.emit(vida_atual)
+	print("Queijo consumido! Vida atual: ", vida_atual)
+	DebugConsole.add_text_console_com_cor("Queijo consumido! Vida: " + str(vida_atual), Color.GREEN)
+
+
 func pegar_item() -> void:
 	if item_da_area_atual == null:
 		return
@@ -440,8 +502,16 @@ func posicionar_item_na_mao() -> void:
 
 	limpar_escudo_equipado()
 
-	if item_equipado_na_mao and item_equipado_na_mao.cena_3d:
-		criar_cena_item(item_equipado_na_mao)
+	if item_equipado_na_mao:
+		if item_equipado_na_mao.cena_3d:
+			criar_cena_item(item_equipado_na_mao)
+		elif item_equipado_na_mao is QueijoResource and item_equipado_na_mao.sprite:
+			var sprite_visual = Sprite3D.new()
+			sprite_visual.texture = item_equipado_na_mao.sprite
+			sprite_visual.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+			sprite_visual.scale = Vector3(0.5, 0.5, 0.5)
+			mao.add_child(sprite_visual)
+			sprite_visual.transform = Transform3D.IDENTITY
 
 	if escudo_equipado and escudo_equipado.cena_3d:
 		criar_cena_item(escudo_equipado)
@@ -539,6 +609,7 @@ func soltar_borda() -> void:
 
 func esconder_item_rastejando() -> void:
 	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
+
 
 
 func fazer_rolagem() -> void:

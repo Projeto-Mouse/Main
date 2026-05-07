@@ -213,6 +213,10 @@ func bloquear_foco_botao() -> void:
 	botao_spawnar_voador.focus_mode = Control.FOCUS_NONE
 	botao_spawnar_aliado.focus_mode = Control.FOCUS_NONE
 	botao_spawn_item.focus_mode = Control.FOCUS_NONE
+	
+	for b in $ScrollContainer/GridContainer.get_children():
+		if b is Button:
+			b.focus_mode = Control.FOCUS_NONE
 
 
 func conectar_sinais() -> void:
@@ -223,3 +227,13 @@ func conectar_sinais() -> void:
 	botao_spawn_item.pressed.connect(_ao_apertar_botao_spawnar_item)
 
 	explorer.cena_selecionada.connect(trocar_estado_para_spawnar_item)
+	
+	for b in $ScrollContainer/GridContainer.get_children():
+		if b is Button:
+			b.pressed.connect(_ao_clicar_botao_queijo.bind(b.name))
+
+
+func _ao_clicar_botao_queijo(nome_botao: String) -> void:
+	var path = "res://Itens/Cenas/CenasMundo/Queijos/" + nome_botao + "Mundo.tscn"
+	var cena = load(path)
+	trocar_estado_para_spawnar_item(cena)
