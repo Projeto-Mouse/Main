@@ -32,7 +32,7 @@ var modo_god: bool = false
 var esta_morto: bool = false
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = get_tree().get_first_node_in_group("barra_vida")
+@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Morte.tscn") as PackedScene
@@ -45,6 +45,9 @@ var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var inventario_temp: InventarioTemp
 var escudo_equipado: EscudoData
+
+# LEDGE GRAB
+var esta_em_area_escalavel: bool = false
 
 
 func _ready() -> void:
@@ -78,8 +81,11 @@ func _physics_process(delta):
 	var direcao_y = Input.get_axis("Baixo", "Cima")
 	var apertou_pular = Input.is_action_just_pressed("Pular")
 
-	movimento_x = calcular_movimento_horizontal(direcao_x, esta_no_chao)
+	if estado_atual == EstadosJogador.ESCALANDO:
+		processar_estado_borda(delta)
+		return
 
+	movimento_x = calcular_movimento_horizontal(direcao_x, esta_no_chao)
 	movimento_y = calcular_movimento_vertical(esta_no_chao, direcao_y, apertou_pular, delta)
 
 	tocar_som_passos(esta_no_chao)
@@ -98,6 +104,8 @@ func _physics_process(delta):
 	movimentacao()
 	position.z = 0
 	atualizar_posicao_luz_jogador()
+
+	verificar_ledge_grab()
 
 
 func _input(event: InputEvent) -> void:
@@ -395,11 +403,70 @@ func criar_cena_item(item: ItemData) -> void:
 	visual.transform = Transform3D.IDENTITY # alinha com a mao
 
 
-func setar_esta_em_escalavel(esta_tocando_escalavel: bool) -> void:
-	if esta_tocando_escalavel:
-		estado_atual = EstadosJogador.ESCALANDO
-	else:
-		estado_atual = EstadosJogador.PARADO
+func atualizar_status_area_escalavel(jogador_entrou_na_area: bool) -> void:
+	esta_em_area_escalavel = jogador_entrou_na_area
+
+
+func aplicar_gravidade(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y -= 20.0 * delta
+
+
+func pode_agarrar() -> bool:
+	return (
+		esta_em_area_escalavel
+		and estado_atual != EstadosJogador.ESCALANDO
+		and not is_on_floor()
+	)
+
+
+func verificar_ledge_grab() -> void:
+	if pode_agarrar() and Input.is_action_just_pressed("Pular"):
+		iniciar_ledge_grab()
+
+
+func iniciar_ledge_grab() -> void:
+	estado_atual = EstadosJogador.ESCALANDO
+	velocity = Vector3.ZERO
+
+	var pos_inicial = global_position
+	var pos_final = pos_inicial
+	pos_final.y += 0.4
+	pos_final.x += ultimo_lado_olhado * 0.2
+
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", pos_final, 0.2)
+
+	await tween.finished
+
+
+func processar_estado_borda(delta: float) -> void:
+	velocity = Vector3.ZERO
+
+	if Input.is_action_just_pressed("Cima"):
+		subir_borda()
+	elif Input.is_action_just_pressed("Baixo"):
+		soltar_borda()
+
+
+func subir_borda() -> void:
+	var pos_final = global_position
+	pos_final.y += 0.8
+	pos_final.x += ultimo_lado_olhado * 0.35
+
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", pos_final, 0.25)\
+		.set_trans(Tween.TRANS_CUBIC)\
+		.set_ease(Tween.EASE_OUT)
+
+	await tween.finished
+
+	esta_em_area_escalavel = false
+	estado_atual = EstadosJogador.PARADO
+
+
+func soltar_borda() -> void:
+	estado_atual = EstadosJogador.CAINDO
 
 
 func esconder_item_rastejando() -> void:
