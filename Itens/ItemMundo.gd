@@ -2,6 +2,7 @@ class_name ItemMundo
 extends Node
 
 @export var item_data: ItemData
+@export var sprite_item: Sprite3D
 
 func _ready() -> void:
 	add_to_group("ItensInterativos")

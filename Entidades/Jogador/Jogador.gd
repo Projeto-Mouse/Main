@@ -36,20 +36,26 @@ var esta_morto: bool = false
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Morte.tscn") as PackedScene
+@onready var pivo_personagem = $PivoPersonagem
+
+# onready inventario / itens
 @onready var mao: Node3D = $PivoPersonagem/Mao
 @onready var posicao_escudo = $PivoPersonagem/PosicaoEscudo
-@onready var pivo_personagem = $PivoPersonagem
-@onready var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
-@onready var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
 @onready var inventario_logico: Inventario
 @onready var hotbar_logico: Hotbar
 
-# ITENS
+# ITENS / inventario
 var item_da_area_atual: ItemMundo = null
 var item_equipado_na_mao: ItemData = null
 var escudo_equipado: EscudoData
-var inventario_ui_instanciado 
+var inventario_ui_instanciado
 var hotbar_ui_instanciado
+var controller_inventario: ControllerInventario
+var tempo_coletou_item = Time.get_unix_time_from_system()
+
+# ALGUNS ESTADOS TESTE
+var atacando: bool
+var troca_pendente: bool
 
 # LEDGE GRAB
 var esta_em_area_escalavel: bool = false
@@ -59,43 +65,58 @@ func _ready() -> void:
 	criar_luz_jogador()
 	criar_som_passos()
 	criar_no_filho_shapecast_cima()
-	inventario_logico = Inventario.new()
-	inventario_logico.inicializar_inventario()
-	
-	inventario_ui_instanciado = inventario_ui.instantiate()
-	# roda ready 1
-	inventario_ui_instanciado.call_deferred("set_inventario", inventario_logico)
-	get_tree().root.add_child(inventario_ui_instanciado) 
-	inventario_ui_instanciado.visible = false
-	
-	hotbar_ui_instanciado = hotbar_ui.instantiate()
-	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico)
-	get_tree().root.add_child(hotbar_ui_instanciado)
-	hotbar_ui_instanciado.visible = false
-	
+	inicializar_hotbar_inventario_logicos()
+	inicializar_hotbar_inventario_ui()
+
+
+# USAR UNHANDLED PARA ACOES DO MUNDO E INPUT PARA ACOES DE SISTEMA COMO PAUSAR
+func _unhandled_input(event: InputEvent) -> void:
+	if esta_morto:
+		return
+
+	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_P:
+			# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
+			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
+			ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+
+	if event.is_action_pressed("AbrirInventario") and not event.is_echo():
+		var estado_novo_ui = !inventario_ui_instanciado.visible
+		inventario_ui_instanciado.visible = estado_novo_ui
+		hotbar_ui_instanciado.visible = estado_novo_ui
+
+	if event.is_action_pressed("hotbar_1") and not event.is_echo():
+		trocar_item_na_mao(0)
+
+	if event.is_action_pressed("hotbar_2") and not event.is_echo():
+		trocar_item_na_mao(1)
+
+	if event.is_action_pressed("PegarItem") and not event.is_echo():
+		pegar_item()
+
+	if event.is_action_pressed("AplicarDano") and not event.is_echo():
+		fazer_ataque()
+
+	if event.is_action_pressed("Rolar") and not event.is_echo():
+		fazer_rolagem()
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Pausar") and not event.is_echo():
+		if inventario_ui_instanciado.visible == true and hotbar_ui_instanciado.visible == true:
+			inventario_ui_instanciado.visible = false
+			hotbar_ui_instanciado.visible = false
 
 
 func _process(_delta: float) -> void:
 	if esta_morto:
 		return
-		
-	# Debug: Emitir ruído ao pressionar 'P' para testar sistema de som
-	if Input.is_key_pressed(KEY_P):
-		# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
-		var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-		ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self )
 
-	if Input.is_action_just_pressed("PegarItem"):
-		pegar_item()
-	
-	if Input.is_action_just_pressed("AbrirInventario"):
-		var estado_novo_ui = !inventario_ui_instanciado.visible
-		inventario_ui_instanciado.visible = estado_novo_ui
-		hotbar_ui_instanciado.visible = estado_novo_ui
-		
-	if inventario_ui_instanciado.visible:
+	if inventario_ui_instanciado and inventario_ui_instanciado.visible:
 		var pos_2d = camera.unproject_position(global_position)
 		inventario_ui_instanciado.control.position = pos_2d + Vector2(50, -150)
+
 
 func _physics_process(delta):
 	if esta_morto:
@@ -133,18 +154,6 @@ func _physics_process(delta):
 
 	verificar_ledge_grab()
 
-
-func _input(event: InputEvent) -> void:
-	if esta_morto:
-		return
-		
-	ler_input_hot_bar(event)
-
-	if Input.is_action_just_pressed("AplicarDano"):
-		fazer_ataque()
-
-	if Input.is_action_just_pressed("Rolar"):
-		fazer_rolagem()
 
 
 func criar_no_filho_shapecast_cima() -> void:
@@ -339,6 +348,8 @@ func arredondar_dano(dano_recebido: float) -> float:
 
 
 func fazer_ataque() -> void:
+	atacando = true
+
 	if mao.get_child_count() == 0 or not (item_equipado_na_mao is ArmasData):
 		return
 
@@ -347,9 +358,17 @@ func fazer_ataque() -> void:
 
 	arma.ativar_hitbox(dano_arma, self )
 	await get_tree().create_timer(0.2).timeout
-	arma.desativar_hitbox()
+
+	if is_instance_valid(arma):
+		arma.desativar_hitbox()
 
 	await get_tree().create_timer(COOLDOWN).timeout
+
+	atacando = false
+
+	if troca_pendente:
+		troca_pendente = false
+		sincronizar_equipamentos_com_hotbar()
 
 
 func printar_vida_e_dano(dano_tomado: float) -> void:
@@ -375,21 +394,8 @@ func pegar_item() -> void:
 	if not item_da_area_atual.is_in_group("ItensInterativos"):
 		return
 
-	if item_da_area_atual.is_in_group("Escudo"):
-		escudo_equipado = item_da_area_atual.item_data
-		limpar_item_na_area_atual()
-		posicionar_item_na_mao(escudo_equipado)
-		posicionar_item_na_mao(item_equipado_na_mao) # mantenho o item da mao tbm posicionado
-		return
-
-	##if not inventario_temp.adicionar_item(item_da_area_atual.item_data):
-		##print("Inventario cheio")
-		##DebugConsole.add_text_console_sem_cor("Inventario cheio")
-		##return
-
-	item_equipado_na_mao = item_da_area_atual.item_data
+	inventario_logico.adicionar_item_inventario(item_da_area_atual.item_data, 1, tempo_coletou_item)
 	limpar_item_na_area_atual()
-	posicionar_item_na_mao(item_equipado_na_mao)
 
 
 func limpar_item_na_area_atual() -> void:
@@ -397,22 +403,58 @@ func limpar_item_na_area_atual() -> void:
 	item_da_area_atual = null
 
 
-func posicionar_item_na_mao(item) -> void:
-	for filhos in mao.get_children():
-		filhos.queue_free()
-
-	if item == null:
+# Ele so troca se nao tiver escudo ( significa que temos dois itens que vao na mesma mao )
+# E que nao temos um item que vai na mao do escudo, ai nao tem por que trocar com 1 ou 2
+func trocar_item_na_mao(indice_pego: int) -> void:
+	if escudo_equipado != null:
 		return
 
-	if item is EscudoData and item.cena_3d:
-		DebugConsole.add_text_console_sem_cor("Criando Cena Escudo")
-		criar_cena_item(escudo_equipado)
+	limpar_mao()
+
+	item_equipado_na_mao = hotbar_logico.pegar_item(indice_pego)
+	posicionar_item_na_mao()
+
+
+func sincronizar_equipamentos_com_hotbar(_parametro_ignorado = null) -> void:
+	if atacando:
+		troca_pendente = true
 		return
 
-	if item_equipado_na_mao.cena_3d:
-		DebugConsole.add_text_console_sem_cor("Criando Cena Item")
+	item_equipado_na_mao = null
+	escudo_equipado = null
+
+	for i in range(hotbar_logico.array_hotbar.size()):
+		var item = hotbar_logico.pegar_item(i)
+
+		if item != null:
+			if item is EscudoData:
+				escudo_equipado = item
+			else:
+				item_equipado_na_mao = item
+
+	posicionar_item_na_mao()
+
+
+func posicionar_item_na_mao() -> void:
+	limpar_mao()
+
+	limpar_escudo_equipado()
+
+	if item_equipado_na_mao and item_equipado_na_mao.cena_3d:
 		criar_cena_item(item_equipado_na_mao)
-		return
+
+	if escudo_equipado and escudo_equipado.cena_3d:
+		criar_cena_item(escudo_equipado)
+
+
+func limpar_mao() -> void:
+	for filho in mao.get_children():
+		filho.queue_free()
+
+
+func limpar_escudo_equipado() -> void:
+	for filhos in posicao_escudo.get_children():
+		filhos.queue_free()
 
 
 func criar_cena_item(item: ItemData) -> void:
@@ -498,21 +540,6 @@ func soltar_borda() -> void:
 func esconder_item_rastejando() -> void:
 	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
 
-func ler_input_hot_bar(tecla_apertada: InputEvent) -> void:
-	if Input.is_action_pressed("TrocarHotBarControle"):
-		pos_hot_bar_controle += 1
-		if pos_hot_bar_controle > 11:
-			pos_hot_bar_controle = 1
-		else:
-			pass
-			#item_equipado_na_mao = inventario_temp.pegar_item(pos_hot_bar_controle)
-
-	for i in range(1, 11):
-		if tecla_apertada.is_action_pressed("hotbar_" + str(i % 10)):
-			#item_equipado_na_mao = inventario_temp.pegar_item(i)
-			posicionar_item_na_mao(item_equipado_na_mao)
-			break
-
 
 func fazer_rolagem() -> void:
 	var x_para_rolada = forca_rolada * ultimo_lado_olhado
@@ -524,3 +551,35 @@ func fazer_rolagem() -> void:
 	if verificador_colisao:
 		var texto_print = "Você foi para " + str(verificador_colisao.get_position())
 		DebugConsole.add_text_console_sem_cor(texto_print)
+
+
+func inicializar_hotbar_inventario_logicos() -> void:
+	controller_inventario = ControllerInventario.new()
+	add_child(controller_inventario)
+
+	hotbar_logico = Hotbar.new()
+	hotbar_logico.inicializar_hotbar()
+	hotbar_logico._solicitou_mudanca_equipamento.connect(sincronizar_equipamentos_com_hotbar)
+
+	inventario_logico = Inventario.new()
+	inventario_logico.inicializar_inventario()
+	controller_inventario.call_deferred(
+		"inicializar_inventario_e_hotbar", inventario_logico, hotbar_logico
+	)
+
+
+func inicializar_hotbar_inventario_ui() -> void:
+	var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
+	var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
+
+	inventario_ui_instanciado = inventario_ui.instantiate()
+	inventario_ui_instanciado.call_deferred(
+		"set_inventario", inventario_logico, controller_inventario
+	)
+	get_tree().root.add_child(inventario_ui_instanciado)
+	inventario_ui_instanciado.visible = false
+
+	hotbar_ui_instanciado = hotbar_ui.instantiate()
+	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico, controller_inventario)
+	get_tree().root.add_child(hotbar_ui_instanciado)
+	hotbar_ui_instanciado.visible = false

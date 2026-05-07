@@ -9,26 +9,38 @@ var slot_cena = preload("res://UI/Inventario/SlotUI.tscn")
 
 var quantidade_slots: int = 2
 var hotbar_logica: Hotbar
+var controller: ControllerInventario
 
 func _ready() -> void:
 	pass
 
 func iniciar_slots() -> void:
+	for filho in grid_hotbar.get_children():
+		filho.queue_free()
+		
 	for i in range(quantidade_slots):
 		var slot = slot_cena.instantiate()
 		slot.name = "slot" + str(i)
+		slot.indice_slot = i
+		slot.tipo_slot = slot.TiposSlot.HOTBAR
+		slot.controller_inventario = controller
 		
-		slot.custom_minimum_size = Vector2(100, 100)
 		grid_hotbar.add_child(slot)
 		
 		print(slot.name, " Criado com sucesso")
 		DebugConsole.add_text_console_com_cor(slot.name + " Criado com sucesso", Color.CORAL)
 	
+	
 	atualizar_tamanho_ui()
 
-func set_hotbar(hotbar_logico: Hotbar) -> void:
+func set_hotbar(hotbar_logico: Hotbar, controller_inv: ControllerInventario) -> void:
 	hotbar_logica = hotbar_logico
+	controller = controller_inv
+	controller._trocar_sprite_item_slot.connect(trocar_sprite_item)
 	iniciar_slots()
+	for i in range(quantidade_slots):
+		var slot = hotbar_logica.pegar_slot(i)
+		trocar_sprite_item(slot.item, i, slot.quantidade, "hotbar")
 	
 
 func atualizar_tamanho_ui() -> void:
@@ -46,3 +58,24 @@ func atualizar_tamanho_ui() -> void:
 	var viewport_rect = get_viewport().get_visible_rect()
 	control.position.x = (viewport_rect.size.x / 2.56) - (tamanho_final.x / 2)
 	control.position.y = (viewport_rect.size.y / 2.5) - (tamanho_final.y / 2)
+
+func trocar_sprite_item(item: ItemData, indice: int, quantidade: int, tipo: String) -> void:
+	if tipo != "hotbar":
+		return
+		
+	var slot = grid_hotbar.get_child(indice)
+	var sprite = slot.get_node("ItemSprite")
+	var label_quantidade = slot.get_node("Quantidade")
+	
+	if item == null:
+		sprite.texture = null
+		label_quantidade.text = ""
+		return
+		
+	sprite.texture = item.textura
+	
+	if quantidade > 1:
+		label_quantidade.text = str(quantidade)
+		return
+		
+	label_quantidade.text = ""
