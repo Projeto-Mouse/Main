@@ -37,7 +37,6 @@ var modo_god: bool = false
 var esta_morto: bool = false
 
 @onready var camera: Camera3D = $pivo_Camera/Camera
-@onready var coracoes_vida: Control = $"../BarraVida/BarraVida"
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var cena_morte = preload("res://UI/Morte.tscn") as PackedScene
@@ -61,6 +60,7 @@ var tempo_coletou_item = Time.get_unix_time_from_system()
 # ALGUNS ESTADOS TESTE
 var atacando: bool
 var troca_pendente: bool
+var tween_camera: Tween
 
 # LEDGE GRAB
 var esta_em_area_escalavel: bool = false
@@ -84,12 +84,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.pressed and event.keycode == KEY_P:
 			# Eleva o ponto de emissão em 1.0m para evitar colisão imediata com o chão
 			var ponto_emissao = global_position + Vector3(0, 1.0, 0)
-			ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self)
+			ControladorRuido.emitir_ruido(ponto_emissao, 2.0, true, self )
 
 	if event.is_action_pressed("AbrirInventario") and not event.is_echo():
 		var estado_novo_ui = !inventario_ui_instanciado.visible
 		inventario_ui_instanciado.visible = estado_novo_ui
 		hotbar_ui_instanciado.visible = estado_novo_ui
+		animar_camera_inventario(estado_novo_ui)
 
 	if event.is_action_pressed("hotbar_1") and not event.is_echo():
 		trocar_item_na_mao(0)
@@ -112,6 +113,17 @@ func _input(event: InputEvent) -> void:
 		if inventario_ui_instanciado.visible == true and hotbar_ui_instanciado.visible == true:
 			inventario_ui_instanciado.visible = false
 			hotbar_ui_instanciado.visible = false
+		animar_camera_inventario(false)
+
+
+func animar_camera_inventario(aberto: bool) -> void:
+	if tween_camera and tween_camera.is_running():
+		tween_camera.kill()
+	tween_camera = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	if aberto:
+		tween_camera.tween_property(camera, "h_offset", 1.5, 0.3)
+	else:
+		tween_camera.tween_property(camera, "h_offset", 0.0, 0.3)
 
 
 func _process(_delta: float) -> void:
@@ -119,8 +131,10 @@ func _process(_delta: float) -> void:
 		return
 
 	if inventario_ui_instanciado and inventario_ui_instanciado.visible:
-		var pos_2d = camera.unproject_position(global_position)
-		inventario_ui_instanciado.control.position = pos_2d + Vector2(50, -150)
+		# Ambos SubViewports são 640x360 — coords batem direto, sem conversão
+		var pos_jogador = camera.unproject_position(global_position)
+		inventario_ui_instanciado.posicionar_na_tela(pos_jogador)
+		hotbar_ui_instanciado.posicionar_na_tela(pos_jogador)
 	
 	processar_consumo_queijo(_delta)
 
@@ -182,7 +196,6 @@ func _physics_process(delta):
 	atualizar_posicao_luz_jogador()
 
 	verificar_ledge_grab()
-
 
 
 func criar_no_filho_shapecast_cima() -> void:
@@ -471,10 +484,11 @@ func trocar_item_na_mao(indice_pego: int) -> void:
 	if escudo_equipado != null:
 		return
 
+	pos_hot_bar_controle = indice_pego
 	limpar_mao()
 
 	item_equipado_na_mao = hotbar_logico.pegar_item(indice_pego)
-	posicionar_item_na_mao()
+	call_deferred("posicionar_item_na_mao")
 
 
 func sincronizar_equipamentos_com_hotbar(_parametro_ignorado = null) -> void:
@@ -485,14 +499,16 @@ func sincronizar_equipamentos_com_hotbar(_parametro_ignorado = null) -> void:
 	item_equipado_na_mao = null
 	escudo_equipado = null
 
+	# Buscar escudo em qualquer slot da hotbar
 	for i in range(hotbar_logico.array_hotbar.size()):
 		var item = hotbar_logico.pegar_item(i)
+		if item is EscudoData:
+			escudo_equipado = item
+			break
 
-		if item != null:
-			if item is EscudoData:
-				escudo_equipado = item
-			else:
-				item_equipado_na_mao = item
+	# Item da mão vem do slot ativo — sem escudo equipado
+	if escudo_equipado == null:
+		item_equipado_na_mao = hotbar_logico.pegar_item(pos_hot_bar_controle)
 
 	posicionar_item_na_mao()
 
@@ -573,7 +589,7 @@ func iniciar_ledge_grab() -> void:
 	pos_final.x += ultimo_lado_olhado * 0.2
 
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", pos_final, 0.2)
+	tween.tween_property(self , "global_position", pos_final, 0.2)
 
 	await tween.finished
 
@@ -593,8 +609,8 @@ func subir_borda() -> void:
 	pos_final.x += ultimo_lado_olhado * 0.35
 
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", pos_final, 0.25)\
-		.set_trans(Tween.TRANS_CUBIC)\
+	tween.tween_property(self , "global_position", pos_final, 0.25) \
+		.set_trans(Tween.TRANS_CUBIC) \
 		.set_ease(Tween.EASE_OUT)
 
 	await tween.finished
@@ -609,7 +625,6 @@ func soltar_borda() -> void:
 
 func esconder_item_rastejando() -> void:
 	mao.visible = !Input.is_action_pressed("Rastejar") and !shapecast_cima.is_colliding()
-
 
 
 func fazer_rolagem() -> void:
@@ -643,14 +658,17 @@ func inicializar_hotbar_inventario_ui() -> void:
 	var inventario_ui = preload("res://UI/Inventario/InventarioUI.tscn")
 	var hotbar_ui = preload("res://UI/Inventario/HotbarUI.tscn")
 
+	# Busca o SubViewport de UI (640x360, sem dithering) via grupo
+	var ui_viewport = get_tree().get_first_node_in_group("ui_viewport")
+
 	inventario_ui_instanciado = inventario_ui.instantiate()
 	inventario_ui_instanciado.call_deferred(
 		"set_inventario", inventario_logico, controller_inventario
 	)
-	get_tree().root.add_child(inventario_ui_instanciado)
+	ui_viewport.add_child(inventario_ui_instanciado)
 	inventario_ui_instanciado.visible = false
 
 	hotbar_ui_instanciado = hotbar_ui.instantiate()
 	hotbar_ui_instanciado.call_deferred("set_hotbar", hotbar_logico, controller_inventario)
-	get_tree().root.add_child(hotbar_ui_instanciado)
+	ui_viewport.add_child(hotbar_ui_instanciado)
 	hotbar_ui_instanciado.visible = false

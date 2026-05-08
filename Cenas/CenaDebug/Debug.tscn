@@ -13,8 +13,8 @@
 [ext_resource type="Script" uid="uid://d3b0xhh0paxtq" path="res://Menus/Menu Debug/Debugs/DebugConsole.gd" id="9_eyvbi"]
 [ext_resource type="Script" uid="uid://cxjat77vavr7m" path="res://Menus/Menu Debug/Scripts/Console.gd" id="10_rk7pk"]
 [ext_resource type="Script" path="res://Auxiliares/MoodManager.gd" id="11_mood"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43t" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="12_lut_c"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43u" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="13_lut_e"]
+[ext_resource type="Texture2D" uid="uid://cmg1c5dxc5bjv" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="12_lut_c"]
+[ext_resource type="Texture2D" uid="uid://cymnhumm2p2r3" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="13_lut_e"]
 
 
 [sub_resource type="BoxMesh" id="BoxMesh_mpjjm"]
@@ -148,8 +148,40 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UIViewportLayer" type="CanvasLayer" parent="."]
 layer = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UIViewportLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+stretch = true
+script = ExtResource("2_prop")
+
+[node name="SubViewport" type="SubViewport" parent="UIViewportLayer/SubViewportContainer" groups=["ui_viewport"]]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="BarraVida" type="Control" parent="UIViewportLayer/SubViewportContainer/SubViewport" groups=["barra_vida"] node_paths=PackedStringArray("player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_kfvfk")
+player = NodePath("../../../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
+sprite_vida_cheia = ExtResource("4_7qkyi")
+sprite_vida_meio = ExtResource("5_eyvbi")
+sprite_vida_vazia = ExtResource("6_rk7pk")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="AbrirMenuDebug" type="Control" parent="UILayer"]
 layout_mode = 3
@@ -196,17 +228,6 @@ offset_bottom = 36.0
 offset_top = 50.0
 offset_right = -7.0
 offset_bottom = -13.0
-
-[node name="BarraVida" type="Control" parent="UILayer" groups=["barra_vida"] node_paths=PackedStringArray("player")]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_kfvfk")
-player = NodePath("../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
-sprite_vida_cheia = ExtResource("4_7qkyi")
-sprite_vida_meio = ExtResource("5_eyvbi")
-sprite_vida_vazia = ExtResource("6_rk7pk")
 
 [node name="MenuDePausa" parent="UILayer" instance=ExtResource("2_uepp0")]
 process_mode = 0

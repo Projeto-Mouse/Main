@@ -19,12 +19,13 @@ func _process(_delta: float) -> void:
 	atualizar_vida_gui()
 
 func criar_coracoes() -> void:
-	# NUMEROS NA SORTE TEM QUE AJEITAR ISSO AI
 	var tamanho_sprite = sprite_vida_cheia.get_width()
+	var escala = 0.1
 	for i in range(vida_max):
 		var sprite = Sprite2D.new()
-		sprite.scale = Vector2(0.3, 0.3)
-		sprite.position = Vector2((i + 0.6)  * tamanho_sprite * 0.3, 30)
+		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		sprite.scale = Vector2(escala, escala)
+		sprite.position = Vector2((i + 0.6) * tamanho_sprite * escala, 10)
 		add_child(sprite)
 		array_vida.append(sprite)
 

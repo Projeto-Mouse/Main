@@ -49,11 +49,9 @@ func set_inventario(inv: Inventario, controller_inv: ControllerInventario):
 
 func atualizar_tamanho_ui() -> void:
 	await get_tree().process_frame
-	var tamanho_grid = grid_inventario.get_combined_minimum_size()
-	var margem = 32.0
-
-	var tamanho_final = Vector2(tamanho_grid.x + (margem * 2), tamanho_grid.y + (margem * 2))
-
+	# Tamanho fixo: metade da textura 320×256, mantendo aspect ratio
+	var tamanho_final = Vector2(160, 128)
+	
 	control.size = tamanho_final
 	textura_inventario.size = tamanho_final
 
@@ -64,3 +62,9 @@ func trocar_sprite_item(item: ItemData, indice: int, quantidade: int, tipo: Stri
 
 	var slot = grid_inventario.get_child(indice)
 	slot.atualizar_visual(item, quantidade)
+
+
+func posicionar_na_tela(jogador_tela: Vector2) -> void:
+	# Inventário: borda esquerda 21px à direita do jogador, centralizado verticalmente
+	control.position.x = jogador_tela.x + 21.0
+	control.position.y = jogador_tela.y - control.size.y / 2.0

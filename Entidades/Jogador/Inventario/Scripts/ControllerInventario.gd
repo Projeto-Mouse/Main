@@ -28,7 +28,7 @@ func _ready() -> void:
 func salvar_click(indice: int, tipo_slot: TipoContainer) -> void:
 	if indice == origem.indice and tipo_slot == origem.tipo:
 		resetar_origem_e_final()
-		_interacao_destino_confirmada_ou_cancelada.emit()
+		_interacao_destino_confirmada_ou_cancelada.emit(-1, "")
 		return
 
 	if origem.indice == -1:

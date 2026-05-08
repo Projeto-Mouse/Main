@@ -45,19 +45,18 @@ func set_hotbar(hotbar_logico: Hotbar, controller_inv: ControllerInventario) -> 
 
 func atualizar_tamanho_ui() -> void:
 	await get_tree().process_frame
-	var tamanho = grid_hotbar.get_combined_minimum_size()
-	var margem_h = 16.0
-	var margem_v = 24.0
-	
-	var tamanho_final = Vector2(tamanho.x + (margem_h * 2), tamanho.y + (margem_v * 2))
+	# Tamanho fixo: metade da textura 96×192, mantendo aspect ratio
+	var tamanho_final = Vector2(48, 96)
 	
 	control.size = tamanho_final
 	textura_hotbar.custom_minimum_size = tamanho_final
 	textura_hotbar.size = tamanho_final
 
-	var viewport_rect = get_viewport().get_visible_rect()
-	control.position.x = (viewport_rect.size.x / 2.56) - (tamanho_final.x / 2)
-	control.position.y = (viewport_rect.size.y / 2.5) - (tamanho_final.y / 2)
+
+func posicionar_na_tela(jogador_tela: Vector2) -> void:
+	# Hotbar: borda direita 21px à esquerda do jogador, centralizada verticalmente
+	control.position.x = jogador_tela.x - 21.0 - control.size.x
+	control.position.y = jogador_tela.y - control.size.y / 2.0
 
 func trocar_sprite_item(item: ItemData, indice: int, quantidade: int, tipo: String) -> void:
 	if tipo != "hotbar":

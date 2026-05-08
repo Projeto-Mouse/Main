@@ -11,8 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://cgf0ufiabknqv" path="res://Menus/Menu de Pausa/MenuDePausa.tscn" id="7_8i4ha"]
 [ext_resource type="Texture2D" uid="uid://8l4tx81ru43s" path="res://Sprites/ImagensVida/VidaVazia.png" id="7_uspeq"]
 [ext_resource type="Script" path="res://Auxiliares/MoodManager.gd" id="8_mood"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43t" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="9_lut_c"]
-[ext_resource type="Texture2D" uid="uid://8l4tx81ru43u" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="10_lut_e"]
+[ext_resource type="Texture2D" uid="uid://cmg1c5dxc5bjv" path="res://Sprites/Tabela Lut/lut_combate_8bit.png" id="9_lut_c"]
+[ext_resource type="Texture2D" uid="uid://cymnhumm2p2r3" path="res://Sprites/Tabela Lut/lut_exploracao_16bit.png" id="10_lut_e"]
 
 [sub_resource type="Environment" id="Environment_glow"]
 background_mode = 3
@@ -83,19 +83,40 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UIViewportLayer" type="CanvasLayer" parent="."]
 layer = 1
 
-[node name="BarraVida" type="Control" parent="UILayer" groups=["barra_vida"] node_paths=PackedStringArray("player")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="UIViewportLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+stretch = true
+script = ExtResource("2_prop")
+
+[node name="SubViewport" type="SubViewport" parent="UIViewportLayer/SubViewportContainer" groups=["ui_viewport"]]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+
+[node name="BarraVida" type="Control" parent="UIViewportLayer/SubViewportContainer/SubViewport" groups=["barra_vida"] node_paths=PackedStringArray("player")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_8i4ha")
-player = NodePath("../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
+player = NodePath("../../../../WorldLayer/SubViewportContainer/SubViewport/Jogador")
 sprite_vida_cheia = ExtResource("5_2uwyn")
 sprite_vida_meio = ExtResource("6_cht1d")
 sprite_vida_vazia = ExtResource("7_uspeq")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="MenuDePausa" parent="UILayer" instance=ExtResource("7_8i4ha")]
 process_mode = 0
